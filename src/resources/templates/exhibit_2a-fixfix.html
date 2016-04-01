@@ -1,0 +1,138 @@
+<!-- Start Swap FIX/FIX -->
+
+<p class='header2'>Fixed Amounts I:</p>
+
+<p>|PAYLEG_NOTIONAL|</p>
+
+<p>
+<table>
+<tr>
+	<td width="30%">Fixed Rate Payer:</td>
+	<td>|PAYLEG_PAYER_CODE|</td>
+</tr>
+<!--calypso>
+if ( |PAYLEG_CPN_OFFSET| like "0%" )
+    inline "
+    <tr>
+        <td>Fixed Rate Payer Payment Dates:</td>
+        <td>|PAYLEG_CPN_FREQ| on the |PAYLEG_ROLL_DAY|, starting |PAYLEG_FIRST_PAYMENT_DATE| subject to adjustment in accordance with the |PAYLEG_CPN_DATE_ROLL| Business Day convention.</td>
+    </tr>";
+else
+    inline "
+    <tr>
+        <td>Fixed Rate Period End Dates:</td>
+        <td>|PAYLEG_CPN_FREQ| on the |PAYLEG_ROLL_DAY|, starting |PAYLEG_FIRST_PAYMENT_DATE| subject to adjustment in accordance with the |PAYLEG_CPN_DATE_ROLL| Business Day convention.</td>
+    </tr>
+    <tr>
+        <td>Payment Lag:</td>
+        <td>|PAYLEG_CPN_OFFSET|.</td>
+    </tr>";
+</calypso-->
+<tr>
+	<td>Fixed Rate:</td>
+	<td>|PAYLEG_FIXED_RATE| %</td>
+</tr>
+<tr>
+	<td>Fixed Rate Day Count Fraction:</td>
+	<td>|PAYLEG_DAY_COUNT|</td>
+</tr>
+</table>
+
+
+<p class='header2'>Fixed Amounts II:</p>
+
+<p>|RECEIVELEG_NOTIONAL|</p>
+
+<!---Fixed Swap Leg Table-->
+<table>
+<tr>
+	<td width="30%">Fixed Rate Payer:</td>
+	<td>|RECEIVELEG_PAYER_CODE|</td>
+</tr>
+<!--calypso>
+if ( |RECEIVELEG_CPN_OFFSET| like "0%" )
+    inline "
+    <tr>
+        <td>Fixed Rate Payer Payment Dates:</td>
+        <td>|RECEIVELEG_CPN_FREQ| on the |RECEIVELEG_ROLL_DAY|, starting |RECEIVELEG_FIRST_PAYMENT_DATE| subject to adjustment in accordance with the |RECEIVELEG_CPN_DATE_ROLL| Business Day convention.</td>
+    </tr>";
+else
+    inline "
+    <tr>
+        <td>Fixed Rate Period End Dates:</td>
+        <td>|RECEIVELEG_CPN_FREQ| on the |RECEIVELEG_ROLL_DAY|, starting |RECEIVELEG_FIRST_PAYMENT_DATE| subject to adjustment in accordance with the |RECEIVELEG_CPN_DATE_ROLL| Business Day convention.</td>
+    </tr>
+    <tr>
+        <td>Payment Lag:</td>
+        <td>|RECEIVELEG_CPN_OFFSET|.</td>
+    </tr>";
+</calypso-->
+<tr>
+	<td>Fixed Rate:</td>
+	<td>|RECEIVELEG_FIXED_RATE| %</td>
+</tr>
+<tr>
+	<td>Fixed Rate Day Count Fraction:</td>
+	<td>|RECEIVELEG_DAY_COUNT|</td>
+</tr>
+</table>
+<!---End Floating Swap Leg Table-->
+
+
+<p>|ADDITIONAL_FIXED_AMOUNT|</p>
+
+
+<!---BizDays Table-->
+<p>
+<table>
+<tr>
+	<td width="30%">Business Days:</td>
+	<td>|PAYLEG_CPN_HOL|</td>
+</tr>
+<tr>
+	<td>Calculation Agent:</td>
+	<td>|SENDER_CODE|</td>
+</tr>
+</table>
+<!---End BizDays Table-->
+
+<!--calypso>
+if(|HAS_PRINCIPAL_EXCHANGE| != "No") {
+inline "<p class='header2'>Principal Exchange Schedule</p>
+<table>
+<tr>
+	<th>Date</th>
+	<th>Currency</th>
+	<th>Amount</th>
+	<th>Payer</th>
+</tr>";
+iterator("SwapPrincipalCashFlows")
+	inline "<tr><td>|PRINCIPAL_EXCHANGE_DATE|</td>
+	<td>|PRINCIPAL_EXCHANGE_CURRENCY|</td>
+	<td>|PRINCIPAL_EXCHANGE_AMOUNT|</td>
+	<td>|PRINCIPAL_EXCHANGE_PAYER|</td></tr>";
+inline "</table>";
+}
+</calypso-->
+
+<br><br>
+
+<!--calypso>
+if(|HAS_TERMINATION_DATES| != "No") {
+inline "<p class='header2'>Termination Date Schedule</p>
+<table>
+<tr>
+	<th width='30%'>Termination Date</th>
+	<th>Notification Date</th>
+</tr>";
+iterator("TerminationDates")
+	inline "<tr><td>|TERMINATION_DATES|</td>
+	<td>|NOTIFICATION_DATES|</td></tr>";
+}
+inline "</table>";
+</calypso-->
+
+
+<!-- End Swap FIX/FIX -->
+
+

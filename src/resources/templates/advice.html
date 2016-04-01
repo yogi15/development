@@ -1,0 +1,111 @@
+<!--calypso>
+if (Trade.getId() > 0)
+    include "confirm_header.html";
+</calypso-->
+
+<!--calypso>
+if(|HAS_RATE_RESET_DETAILS| == "Yes") {
+inline "<p>I am pleased to |MESSAGE_ACTION| the rate reset for the |PRODUCT_TYPE| trade, reference |TRADE_ID| (|PRODUCT_DESCRIPTION|), traded |TRADE_DATE|. The details of the rate reset and associated payments are the following:</p>";
+
+}
+else {
+inline "<p>I am pleased to confirm the following Payment Advice. For value date, |TRANSFER_VALUEDATE|, we will |TRANSFER_PAYRECEIVE|
+|TRANSFER_SETTLEMENTCCY| |TRANSFER_SETTLEMENTAMOUNT|.</p>";
+}
+</calypso-->
+
+<!--calypso>
+if(|HAS_RATE_RESET_DETAILS| == "Yes") {
+inline "<p class = 'header2'> Rate Reset Details:</p>";
+inline "<table>
+    <tr><th>Ccy</th>
+        <th>Name</th>
+        <th>Tenor</th>
+        <th>Source</th>
+        <th>Date</th>
+        <th>Rate</th></tr>";
+	iterator("RateReset")
+	    inline "<tr><td>|RATE_RESET_DETAILS_CURRENCY|</td>
+	    <td>|RATE_RESET_DETAILS_NAME|</td>
+	    <td>|RATE_RESET_DETAILS_TENOR|</td>
+	    <td>|RATE_RESET_DETAILS_SOURCE|</td>
+	    <td>|RATE_RESET_DETAILS_DATE|</td>
+	    <td>|RATE_RESET_DETAILS_RATE|</td></tr>";
+inline "</table>";
+} 
+else if (|HAS_RATE_RESET_DETAILS| == "Trade") {
+inline "<p class = 'header2'> Rate Reset Details:</p>";
+inline "Reset Rate has been initial agreed on Trade";
+}
+</calypso-->
+
+<!--calypso>
+if(|HAS_RATE_RESET_DETAILS| == "Yes") {
+inline "<p>For value date, |TRANSFER_VALUEDATE|, we will |TRANSFER_PAYRECEIVE|
+|TRANSFER_SETTLEMENTCCY| |TRANSFER_SETTLEMENTAMOUNT| </p>";
+}
+
+
+</calypso-->
+<p class='header2'>Cash Flows Details</p>
+
+<br><br>
+
+<table>
+<tr>
+    <th class="smallfont">Type</th>
+    <th class="smallfont">Start Date</th>
+    <th class="smallfont">End Date</th>
+    <th class="smallfont">Days</th>
+    <th class="smallfont">Day Count</th>
+    <th class="smallfont">Rate</th>
+    <th class="smallfont">Spread</th>
+    <th class="smallfont">Rate Index</th>
+    <th class="smallfont">Payment Date</th>
+    <th class="smallfont">Notional</th>
+    <th class="smallfont">Currency</th>
+    <th class="smallfont">Amount</th>
+    <th class="smallfont">Interm. Amount</th>
+</tr>
+<!--calypso>
+iterator ( "TransferDetails" )
+    inline "
+<tr>
+    <td class='smallfont'>|CASHFLOW_TYPE|</td>
+    <td class='smallfont'>|CASHFLOW_START_DATE|</td>
+    <td class='smallfont'>|CASHFLOW_END_DATE|</td>
+    <td class='smallfont'>|CASHFLOW_DAYS|</td>
+    <td class='smallfont'>|CASHFLOW_DAY_COUNT|</td>
+    <td class='smallfont'>|CASHFLOW_RATE|</td>
+    <td class='smallfont'>|CASHFLOW_SPREAD|</td>
+    <td class='smallfont'>|CASHFLOW_RATE_INDEX|</td>
+    <td class='smallfont'>|CASHFLOW_PAYMENT_DATE|</td>
+    <td class='smallfont'>|CASHFLOW_NOTIONAL|</td>
+    <td class='smallfont'>|CASHFLOW_CURRENCY|</td>
+    <td class='smallfont'>|CASHFLOW_AMOUNT|</td>
+    <td class='smallfont'>|CASHFLOW_INT_AMOUNT|</td>
+</tr>
+    ";
+</calypso-->
+</table>
+
+<p class=header2>Settlement Instructions are as follows:</p>
+<!--calypso>
+iterator("AdviceTransferRules")
+    inline "<table>
+    <tr><th colspan='2'>|SETTLEMENT_ACTION|</th></tr>
+    <tr><td width='30%'>To:</td><td>|SETTLEMENT_TO|</td></tr>
+    <tr><td>|SETTLEMENT_ROUTING|</td><td>|SETTLEMENT_METHOD|</td></tr>
+    <tr><td>Favor of:</td><td>|SETTLEMENT_FAVOR_OF|</td></tr>
+    <tr><td>Account Number:</td><td>|SETTLEMENT_ACCOUNT_NUMBER|</td></tr>
+</table>";
+</calypso-->
+
+<p>Please refer to our reference number |TRANSFER_ID| in your correspondence concerning this
+payment.</p>
+
+
+<!--calypso>
+if (Trade.getId() > 0)
+    include "confirm_footer.html";
+</calypso-->

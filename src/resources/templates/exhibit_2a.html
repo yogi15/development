@@ -1,0 +1,79 @@
+<!-- ############################ -->
+<!-- #### Start Exhibit II-A #### -->
+<!-- ############################ -->
+
+<!--calypso>
+if ( |PRODUCT_FAMILY| == "Swap" )
+    inline "<p>The terms of the particular Transaction to which this Confirmation relates are as follows:</p>";
+</calypso-->
+
+<table>
+<tr>
+	<td width="30%">Notional Amount:</td>
+	<td>|SWAP_NOTIONAL|</td>
+</tr>
+<tr>
+	<td>Trade Date:</td>
+	<td>|TRADE_DATE|</td>
+</tr>
+<tr>
+	<td>Effective Date:</td>
+	<td>
+<!--calypso>
+if ( |PRODUCT_FAMILY| == "Swap" )
+    inline "|SETTLE_DATE|";
+else if ( |PRODUCT_FAMILY| like "%Swaption%" )
+    inline "|UNDERLYING_SETTLE_DATE|";
+</calypso-->
+	</td>
+</tr>
+<tr>
+	<td>Termination Date:</td>
+	<td>
+<!--calypso>
+if ( |PRODUCT_FAMILY| == "Swap" )
+    inline "|PRODUCT_MATURITYDATE|, subject to adjustment in accordance with the Modified Following Business Day Convention.";
+else if ( |PRODUCT_FAMILY| like "%Swaption%" )
+    inline "|UNDERLYING_MATURITYDATE|, subject to adjustment in accordance with the Modified Following Business Day Convention.";
+</calypso-->
+	</td>
+</tr>
+</table>
+
+<p>|LA_SPECIAL_CLAUSE|</p>
+
+<!--calypso>
+if(|HAS_AMORTIZING| == "Yes") {
+	inline "
+<table>
+<tr>
+	<th>Calculation Period(s) Beginning</th>
+	<th>Notional Amount</th>
+	<th>Notional Reduction from Previous Calculation Period(s)</th>
+</tr>
+";
+	iterator("PayLegFlowInterest")
+		inline "	<tr>
+	<td>|CASHFLOW_CALCULATION_PERIOD_BEGINNING|</td><td>|CASHFLOW_NOTIONAL|</td><td>|CASHFLOW_NOTIONAL_REDUCTION|</td>
+	</tr>";
+	inline "</table>";
+}
+</calypso-->
+
+<!--calypso>
+if ( |HAS_FIXED_LEG| == "true" && |HAS_FLOAT_LEG| == "false")
+    include "exhibit_2a-fixfix.html";
+else if ( |HAS_FIXED_LEG| == "true" && |HAS_FLOAT_LEG| == "true")
+    include "exhibit_2a-fixfloat.html";
+else
+    include "exhibit_2a-floatfloat.html";    
+</calypso-->
+
+<!-- ########################## -->
+<!-- #### End Exhibit II-A #### -->
+<!-- ########################## -->
+
+
+
+
+

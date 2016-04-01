@@ -1,0 +1,8 @@
+javax.swing.plaf.InternalFrameUI ifu = jInternalFrame0.getUI();
+			((javax.swing.plaf.basic.BasicInternalFrameUI)ifu).setNorthPane(null);
+			
+			
+reference check of the object in delete and update.
+connection pooling
+counterpary window and data
+statups window issue. 

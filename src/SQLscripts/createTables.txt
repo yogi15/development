@@ -1,0 +1,1349 @@
+Drop table trade;
+Drop table product;
+Drop table LE;
+Drop table book;
+Drop table posting;
+Drop table transfer;
+Drop table sdi;
+drop table users;
+drop table wfconfig;
+drop table job;
+drop table attribute;
+drop table monitor;
+drop table coupon;
+drop table openPos;
+drop table position;
+drop table liquidPos;
+drop table country;
+drop table currencyDefault;
+drop table holiday;
+drop table fees;
+drop table transfer;
+drop table folder;
+drop table Account;
+drop table AccevtTrigger;
+drop table AccEventConfig;
+drop table AccConfigRule;
+drop table ACCEVENTLINK;
+drop table LINKFOLDER;
+drop table task;
+drop table startupdata;
+drop table currencypair;
+drop table Favourities;
+drop table NETTINGConfig;
+drop table SearchCriteria;
+drop table columnNameSearch;
+drop table jobDetails;
+drop table userjob;
+drop table QuoteData;
+drop table CurrencySplitConfig;
+drop table messageConfig;
+drop table message;
+drop table LECONTACTS;
+drop table limit;
+drop table limitConfig;
+drop table limitusage;
+
+
+drop sequence TRADE_SEQ;
+drop sequence PRODUCT_SEQ;
+drop sequence TRANSFER_SEQ;
+drop sequence POSTING_SEQ;
+drop sequence COUPON_SQL;
+drop sequence MESSAGE_SEQ
+drop sequence MESSAGECONFIG_SEQ
+drop sequence LIMITCONFIG_SEQ
+
+CREATE  SEQUENCE LIMITCONFIG_SEQ
+ MINVALUE 1
+  START WITH 5460
+  INCREMENT BY 2
+  CACHE 20;
+
+CREATE SEQUENCE TRADE_SEQ
+  MINVALUE 1
+  START WITH 5460
+  INCREMENT BY 2
+  CACHE 20;
+
+CREATE SEQUENCE LIMIT_SEQ
+  MINVALUE 1
+  START WITH 5460
+  INCREMENT BY 2
+  CACHE 20;
+
+CREATE SEQUENCE PRODUCT_SEQ
+  MINVALUE 1
+  START WITH 4530
+  INCREMENT BY 2
+  CACHE 20;
+
+
+
+CREATE SEQUENCE TRANSFER_SEQ
+  MINVALUE 1
+  START WITH 3540
+  INCREMENT BY 2
+  CACHE 20;
+
+CREATE SEQUENCE POSTING_SEQ
+  MINVALUE 1
+  START WITH 7690
+  INCREMENT BY 2
+  CACHE 20;
+
+CREATE SEQUENCE COUPON_SEQ
+  MINVALUE 1
+  START WITH 4350
+  INCREMENT BY 1
+  CACHE 20;
+
+
+CREATE SEQUENCE MESSAGE_SEQ
+  MINVALUE 1
+  START WITH 3400
+  INCREMENT BY 2
+  CACHE 20;
+
+CREATE SEQUENCE MESSAGECONFIG_SEQ
+  MINVALUE 1
+  START WITH 2300
+  INCREMENT BY 1
+  CACHE 20;
+  
+CREATE SEQUENCE TASK_SEQ
+  MINVALUE 1
+  START WITH 1300
+  INCREMENT BY 1
+  CACHE 20;
+  
+  
+create table limit (
+id  number(20),
+limitConfigid number(20),
+limitName varchar2(100),
+limitType varchar2(100),
+limitDate date,
+limitAvaliableDate date,
+limitexpirydate date,
+LIMITMAX number(30,20),
+LIMITMIN number(30,20),
+LIMITWARNING number(30,20),
+LIMITTOLARANCE number(30,20)
+)
+
+create table limitusage 
+(
+limitid number(20),
+limitConfigid number(20),
+startdate varchar2(100),
+enddate varchar2(100),
+amount_used number(30,20),
+comments varchar2 (100),
+Tenor varchar2(100),
+tradeid number(20)
+)
+
+
+create table limitConfig 
+(
+
+id  number(20),
+config_name varchar2(100),
+limittype varchar2(100),
+Filtertype varchar2(100),
+filterValue varchar2(100),
+Createtime varchar2(100),
+modifiedtime varchar2(100),
+parentID number(20)
+)
+
+CREATE TABLE LIQUIDATIONCONFIG
+(
+   ID number(30),
+   BOOKID number(30),
+   LIQMETHOD varchar2(15),
+   DATETYPE varchar2(15),
+   PRODUCTTYPE varchar2(15),
+   PRODUCTSUBTYPE varchar2(15),
+   ISAVALIABLELIQUIDATION char(2)
+)
+
+CREATE TABLE  BICDATA 
+(
+   BICCode  varchar2(8) NOT NULL,
+   BICBRANCH varchar2(3) NOT NULL,
+   company varchar2(105) NOT NULL,
+   BRANCH varchar2(70),
+   CITY varchar2(128) NOT NULL,
+   SUB_TYPE varchar2(4) NOT NULL,
+   ADDRESS varchar2(140),
+   COUNTRY varchar2(70),
+   CONSTRAINT PK_SWIFTBICDATA1 PRIMARY KEY (BICCode,BICBRANCH)
+)
+;
+
+CREATE TABLE  MESSAGECONFIG
+(
+   ID decimal(30),
+   POID decimal(30),
+   EVENTTYPE varchar2(100),
+   PRODUCTTYPE varchar2(100),
+   PRODUCTSUBTYPE varchar2(100),
+   RECEIVERROLE varchar2(20),
+   FORMATTYPE varchar2(20),
+   RECEIVERID decimal(30),
+   TEMPLATENAME varchar2(30),
+   POCONTACTTYPE varchar2(20),
+   MESSAGETYPE varchar2(20),
+   GATEWAY varchar2(20),
+   addressType  varchar2(20)
+)
+;
+create table LECONTACTS
+ (
+ ID number not null,
+ LE_ID number,
+ LE_ROLE varchar2(32),
+ PO_ID number,
+ CONTACT_CATEGORY varchar2(32),
+ LE_FIRSTNAME VARCHAR2(64),
+ LE_LAST_NAME VARCHAR2(70),
+ LE_TITLE VARCHAR2(128),
+ CITY VARCHAR2(32),
+ ZIPCODE VARCHAR2(32),
+ STATE VARCHAR2(32),
+ COUNTRY VARCHAR2(64),
+ MAILING_ADDRESS VARCHAR2(300),
+ EAMIL_ADDRESS VARCHAR2(128),
+ PHONE VARCHAR2(32),
+ FAX VARCHAR2(32),
+ TELEX VARCHAR2(32),
+ SWIFT VARCHAR2(32),
+ COMMENTS VARCHAR2(300),
+ EFFECTIVE_FROM TIMESTAMP(6),
+ EFFECTIVE_TO TIMESTAMP(6),
+ EXTERNAL_REF VARCHAR2(256),
+ producttype varchar2(40),
+ constraint lecontacts_pk PRIMARY KEY (ID)
+ )
+
+
+
+create table  messsageConfig
+(
+id number(30),
+poid number(30),
+eventType varchar2(100),
+productType varchar2(100),
+productsubtype varchar2(100),
+receiverrole varchar2(20),
+formatType varchar2(20),
+receiverID number(30),
+templateName varchar2(30),
+pocontacttype varchar2(20),
+messageType varchar2(20),
+gateway varchar2(20)
+)
+create table message
+(
+ id number(30),
+ tradeid number(30),
+ transferid number(30),
+ messageType varchar2(30),
+ producttype varchar2(30),
+ sendername varchar2(30),
+ senderRole varchar2(30),
+ receiverRole varchar2(30),
+ receiverName varchar2(30),
+ tradeversion number(10),
+ transferversion number(10),
+ action varchar2(15),
+ status varchar2(15),
+ addresstype varchar2(15),
+ templateName varchar2(15),
+ linkid number(30),
+ messagedate timestamp,
+ tradedate timestamp,
+ messagegateway varchar2(20),
+ productsubtype varchar2(20),
+ eventtype varchar2(20),
+ triggerON varchar2(20),
+ productid number(30),
+ attributes varchar2(500),
+ format varchar2(50),
+ senderContactType varchar2(20),
+ receiverContactType varchar2(20),
+ senderID number(20),
+ receiverID number(20)
+)
+create table CurrencySplitConfig (
+ currencyPair varchar2(40),
+	 currencyToSplit varchar2(40),
+	  bookid number(20),
+	 firstSpotBook number(20),
+	 secondSpotBook number(20),
+	 firstCurrencySplit varchar2(40),
+	 secondCurrencySPlit varchar2(40),
+	id number(20)
+)
+create table B2bConfig (
+ currencyPair varchar2(40),
+	 currencyHolding varchar2(40),
+	  bookid number(20),
+	TransferTOBook number(20),
+	 id number(20)
+)
+create table quoteData (
+envName varchar2(40),
+quoteName varchar2(100),
+bid varchar2(20),
+ask varchar2(20),
+open varchar2(20),
+close varchar2(20),
+high varchar2(20),
+low varchar2(20),
+last varchar2(20),
+datetime varchar2(40)
+)
+
+
+
+
+create table userjob (
+id number(20),
+userid number(20),
+treeid number(20),
+treenodename varchar2(50),
+tabid number(20),
+type varchar2(20)
+);
+
+
+create table jobdetails (
+jobid number(20),
+recordid number(20),
+columnName varchar2(50),
+criteria varchar2(50),
+colvalues varchar2(200),
+filterValues varchar2(50),
+andor varchar2(10)
+);
+
+create table SearchCriteria (
+name varchar2(20)
+);
+
+create table columnNameSearch (
+name varchar2(30),
+type varchar2(20)
+);
+
+
+
+create table NETTINGConfig (
+id  number(10),
+leID  number(20),
+productType varchar2(50),
+currency varchar2(50) ,
+effectivedate varchar2(100),
+enddate varchar2(100)
+);
+create table Favourities 
+(
+userid number(10),
+type varchar2(50),
+typename varchar2(50),
+typevalue varchar2(50)
+);
+
+
+create table LINKFOLDER
+(
+id number(30),
+ruleid number(30),
+productType varchar2(20),
+folderId number(30),
+sdifilterid number(30)
+);
+
+
+create table accEventConfig(
+iD number(30),
+productType varchar2(20),
+accEventType varchar2(20),
+reversalType varchar2(20),
+eventType varchar2(20)
+);
+	
+create table AccevtTrigger(
+acceventConfigID number(30),
+accEventType varchar2(30),
+triggerEventname varchar2(30));
+
+
+
+
+
+create table ACCEVENTLINK (
+id number(20),
+ruleID number(20),
+debitAccount number(20),
+creaditAccount number(20),
+plusmius number(20),
+accEvent varchar2(40),
+debitaccType   varchar2(40),
+creaditaccType   varchar2(40)
+);
+
+
+create table AccConfigRule (
+id number(20),
+ruleName varchar2(20),
+currency varchar2(20),
+attributes varchar2(200),
+ruleType varchar2(20),
+calDate varchar2(20),
+dayAdj number(20),
+poid number(20),
+dailyClosing char(2)
+);
+
+
+
+create table Account (
+id number(20),
+accountName varchar2(100),
+currency varchar2(20),
+accountdesc varchar2(100),
+attributes varchar2(200),
+type varchar2(20), 
+closingdate varchar2(20),
+createdate varchar2(20),
+parentID number(20),
+poid number(20),
+leid number(20)
+);
+
+
+create table folder(
+  Folderno number(20),
+  Folder_name varchar2(30)
+  );
+
+create table fees(
+id number(20),
+tradeid number(20),
+leid number(20),
+feeDate varchar2(100),
+feeType varchar2(30),
+startDate varchar2(100),
+endDate varchar2(100),
+payrec varchar2(20),
+currency varchar2(20),
+amount number(30,20),
+lerole varhcar2(20)
+);
+
+create table Favourites (
+userID number(20),
+type varchar2(32),
+typeName varchar2(32),
+typeValue varchar2(32)
+);
+
+
+create table holiday (
+currency varchar2(32),
+country varchar2(32),
+hdate varchar2(32),
+fweekday varchar2(200),
+sweekday varchar2(200)
+);
+
+create table currencydefault (
+CURRENCY_CODE                             VARCHAR2(3),
+ROUNDING                                           FLOAT(126),
+ROUNDING_METHOD                                    VARCHAR2(8),
+ISO_CODE                                           VARCHAR2(32),
+COUNTRY                                            VARCHAR2(64),
+DEFAULT_HOLIDAYS                                   VARCHAR2(128),
+RATE_INDEX_CODE                                    VARCHAR2(32),
+DEFAULT_DAY_COUNT                                  VARCHAR2(32),
+GROUP_LIST                                         VARCHAR2(255),
+SPOT_DAYS                                          NUMBER(38),
+DEFAULT_TENOR                                      NUMBER(38),
+DESCRIPTION                                        VARCHAR2(64),
+TIME_ZONE                                          VARCHAR2(128),
+VERSION_NUM                               NUMBER(38),
+EXTERNAL_REFERENCE                                 VARCHAR2(255),
+RATE_DECIMALS                                      NUMBER(38),
+WARNING_THRESHOLD                                  FLOAT(126),
+SETTLEMENT_CUTOFF_TIME                             VARCHAR2(32),
+SETTLEMENT_CUTOFF_TIMEZONE                         VARCHAR2(128),
+IS_PRECIOUS_METAL_B                        NUMBER(38),
+NON_DELIVERABLE_B                                  NUMBER(38)
+);
+
+
+create table country (
+country_id number(38),
+iso_code varchar2(5),
+name varchar2(64),
+default_holidays varchar2(128),
+timezone varchar2(128),
+currency_list varchar2(255)
+);
+
+create table currencypair 
+(
+PRIMARY_CURRENCY                           VARCHAR2(3),
+QUOTING_CURRENCY                           VARCHAR2(3),
+ACTIVE_FROM                                        TIMESTAMP(6),
+ACTIVE_TO                                          TIMESTAMP(6),
+CCY_FAMILY                                         VARCHAR2(3),
+FIXED_B                                            NUMBER(38),
+FIXED_RATE                                         FLOAT(126),
+FAMILY_ROUNDING                                    NUMBER(38),
+QUOTE_FACTOR                                       NUMBER(38),
+BP_FACTOR                                          NUMBER(38),
+BP_FWD_ROUNDING                            NUMBER(38),
+DIRECT_B                                   NUMBER(38),
+BASE_B                                     NUMBER(38),
+ROUNDING                                           NUMBER(38),
+BIG_FIG_ROUNDING                            NUMBER(38),
+SPOT_DAYS                                          NUMBER(38),
+PAIR_POS_REF_B                                     NUMBER(38),
+THIRD_CALENDAR                                     VARCHAR2(128),
+PRIMARY_DELTA_TERM_B                      NUMBER(38),
+DELTA_DISPLAY_CCY                                  VARCHAR2(10),
+PL_DISPLAY_CCY                                     VARCHAR2(10),
+VERSION_NUM                                NUMBER(38)
+);
+
+
+
+create table openpos (
+tradeid number(30),
+productid number(30),
+settledate timestamp,
+tradedate timestamp,
+quantity number(30,20),
+openquantity number(30),
+bookid number(30),
+price number(30,20),
+sign number(10),
+positionid number(30),
+openposition timestamp,
+producttype varchar2(200),
+productsubtype varchar2(200),
+openpositionDate varchar2(200),
+openNominal number(30,20),
+quotingAmt number(30,20)
+);
+
+
+
+create table position (
+sell_amount number(30,20),
+buy_amount number(30,20),
+sell_quantity number(30,20),
+buy_quantity number(30,20),
+avg_price float(22),
+unrealized float(22),
+realized float(22),
+bookno number(30),
+productid number(30),
+positionid number(30),
+productsubtype varchar2(100),
+productType varchar2(50),
+primCurrency varchar2(20),
+amount number(30,20),
+nominal number(30,20)
+);
+
+create table liquidPos (
+LIQUID number(30),
+bookid number(30),
+productid number(30),
+ftradeid number(30),
+stradeid number(30),
+LIDDATE timestamp,
+quantity number(30,20),
+fprice number(30,20),
+sprice number(30,20),
+positionid number(30),
+tradetype varchar2(30),
+currency varchar2(20)
+);
+
+
+
+
+create table book(
+bookno number(30),
+le_id number(30),
+book_name varchar2(200),
+attributes varchar2(200),
+folderID number(30)
+);
+
+
+create table LE(
+id number(30),
+name varchar2(200),
+role varchar2(200),
+status varchar2(200),
+attributes varchar2(300),
+alias varchar2(100)
+);
+
+
+create table SDI(
+id number(30),
+agentId number(30),
+cpId number(30),
+poid number(30),
+accountID number(30),
+messageType varchar2(200),
+sdiformat varchar2(200),
+attributes varchar2(200),
+leContacts varchar2(200),
+agentContacts varchar2(200),
+payrec varchar2(200),
+cash varchar2(200),
+method varchar2(200),
+products varchar2(200),
+currency varchar2(200),
+key varchar2(200),
+role varchar2(100)
+);
+
+create table product (
+id number(30),
+productType  varchar2(200),
+productname  varchar2(200),
+productShortName varchar2(200),
+quantity number(30,20),
+issueDate varchar2(200),
+marturityDate varchar2(200),
+IssuerId number(30),
+Country Varchar2(100),
+IssuePrice number(30),
+IssueCurrency varchar2(200),
+RedemptionPrice number(30,20),
+RedemptionCurrency varchar2(200),
+FaceValue number(30,20),
+code varchar2(200),
+dateddate varchar2(200),
+tenor varchar2(20),
+attributes varchar2(500),
+isPositionBased number(10),
+collateralId number(20),
+callableType varchar2(50),
+repotype varchar2(50)
+);
+
+
+
+create table coupon (
+id number(30),
+productId number(30),
+couponType varchar2(20),
+FixedRate number(30,20),
+CCY varchar2(20),
+DayCount varchar2(20),
+CouponAdjustMentMethod varchar2(20),
+CouponFrequency varchar2(50),
+BusinessDayConvention varchar2(50),
+CouponDate varchar2(200),
+Rating varchar2(40),
+Ex_dividend number(30,20),
+recordDays number(20),
+shutDays number(20),
+AccrualDigits number(30,20),
+PriceDecimals number(30,20),
+YieldDecimals number(30,20),
+NominalDecimals number(30,20),
+AnnounceDate varchar2(100),
+AuctionDate varchar2(100),
+WithholdingTax varchar2(20),
+ApplyWithholdingTax varchar2(20),
+WhenIssueBond varchar2(20),
+TickSize varchar2(20),
+YieldMethod varchar2(20),
+QuoteType varchar2(20), 
+Activefrom varchar2(100),
+tenor varchar2(20)
+);
+
+
+create table posting (
+id number(30),
+tradeID number(30),
+transferId  number(30),
+sdiId number(9),
+creditAmount number(30,6),
+debitAmount number(30,6),
+accEventType varchar2(20),
+linkId number(30),
+eventType varchar2(60),
+debitAccId number(30),
+creditAccId number(30),
+ruleName varchar2(20),
+currency varchar2(20),
+type varchar2(20),
+status varchar2(20),
+BookingDate varchar2(20),
+CreationDate varchar2(20),
+EffectiveDate varchar2(20),
+accEventConfigID number(10),
+tradeversionid number(20),
+userID number(20),
+bookid number(20),
+linkTo number(30)
+);
+
+
+create table transfer (
+id number(30),
+tradeID number(30),
+productId  number(30),
+amount number(30,20),
+eventType varchar2(100),
+transerType  varchar2(100),
+transferStatus  varchar2(100),
+settlecurrency  varchar2(100),
+payerCode  varchar2(100),
+payerRole  varchar2(100),
+receiverCode  varchar2(100),
+receiverRole  varchar2(100),
+paymentStatus  varchar2(100),
+deliveryDate  varchar2(100),
+valueDate  varchar2(100),
+method  varchar2(100),
+receiverInst  varchar2(100),
+action varchar2(30),
+STATUS varchar2(30),
+payerInst  varchar2(100),
+linkid number(20),
+attributes varchar2(300),
+TRADEVERSIONID number(20),
+nettedTransferID number(20),
+nettedConfigID number(20),
+version number(20),
+settleAmount number(30,10),
+cpID number(20),
+producttype varchar2(20),
+userID number(20),
+bookid number(20),
+quantity number(30,20)
+);
+
+
+create table trade (
+id number(30),
+currency varchar2(200),
+productId  number(30),
+cpID number(30),
+status varchar2(200),
+type varchar2(200),
+tradeDate timestamp,
+brokerID number(30),
+TradeAmount float,
+effectiveDate varchar2(40),
+deliverydate timestamp,
+bookId number(30),
+nominal float,
+quantity float,
+userid number(30),
+price number(38,20),
+version number(30),
+attributes varchar2(500),
+yield float,
+tradedesc varchar2(100), 
+tradedesc1 varchar2(100), 
+traderID number(30),
+action varchar2(30),
+productType varchar2(100),
+AMORTIZATION varchar2(200),
+parentid number(30),
+autotype varchar2(30),
+mirrorid number(30),
+secondeTradeprice number(30,20),
+rollOverto number(30),
+rollOverfrom number(30),
+rollBackto number(30),
+rollBackfrom number(30),
+outstanding number(30,20),
+isparitial number(30),
+offsetid number(20),
+xccySPlitid number(20),
+mirrorBookid number(20),
+B2BID number(20)
+);
+
+create table startupData (
+name varchar2(200),
+value varchar2(200),
+comments varchar2(250)
+);
+
+create table monitor (
+changeDate varchar2(200),
+type varchar2(200),
+id number(30),
+fieldname varchar2(200),
+userid number(30),
+version number(30),
+tvalue varchar2(1000),
+tattribue varchar2(1000)
+);
+
+
+create table WFConfig (
+id number(30),
+productType varchar2(200),
+productSubType varchar2(200),
+Action varchar2(200),
+orgStatus varchar2(200),
+currentStatus varchar2(200),
+Auto number(10),
+rule Varchar2(200),
+le number(30),
+type varchar2(20),
+users varchar2(200),
+task number(20)
+);
+
+
+create table attribute (
+type varchar2(30),
+attributeName varchar2(60),
+attributeValue varchar2(120),
+id number(30)
+);
+
+create table job (
+id number(30),
+users varchar2(200),
+tradeID number(30),
+jobDate varchar2(200),
+jobType varchar2(200),
+productType number(30),
+jobStatus varchar2(200)
+);
+
+
+
+create table  users(
+id number(30),
+user_groups varchar2(200),
+user_name varchar2(200),
+password varchar2(200),
+salt BLOB,
+attributes varchar2(200)
+);
+create table accessFunctionWise(
+groupname varchar2(200), windowName varchar2(200), functionName varchar2(200), isAccessable number(10)
+);
+
+create table  accessWindowWise(
+groupname varchar2(200), windowName varchar2(200),  isAccessable number(10)
+);
+
+create table task(
+id number(30),
+tradeId number(30),
+productid number(30),
+tasktype varchar2(200),
+action varchar2(200),
+taskDate varchar2(200),
+status varchar2(200),
+statusDone varchar2(200),
+currency varchar2(20),
+bookno number(20),
+eventtype varchar2(30),
+user_name varchar2(20),
+user_id number(20),
+task_status number(20),
+productType varchar2(20),
+WFType varchar2(20),
+transferID number(30),
+transferVersion number(10),
+tradeVersion number(10),
+cpid number(30),
+nettedConfigid number(30)
+);
+
+
+insert into startupdata(name,value) values ('InitialData','Tenor');
+
+
+insert into startupdata(name,value) values ('Tenor','1D');
+insert into startupdata(name,value) values ('Tenor','1M');
+insert into startupdata(name,value) values ('Tenor','1W');
+insert into startupdata(name,value) values ('Tenor','10Y');
+insert into startupdata(name,value) values ('Tenor','6W');
+insert into startupdata(name,value) values ('Tenor','12Y');
+insert into startupdata(name,value) values ('Tenor','15Y');
+insert into startupdata(name,value) values ('Tenor','20Y');
+insert into startupdata(name,value) values ('Tenor','18Y');
+insert into startupdata(name,value) values ('Tenor','25Y');
+insert into startupdata(name,value) values ('Tenor','3M');
+insert into startupdata(name,value) values ('Tenor','6M');
+insert into startupdata(name,value) values ('Tenor','9M');
+insert into startupdata(name,value) values ('Tenor','12M');
+insert into startupdata(name,value) values ('Tenor','15W');
+insert into startupdata(name,value) values ('Tenor','52W');
+insert into startupdata(name,value) values ('Tenor','26W');
+insert into startupdata(name,value) values ('Tenor','12M');
+insert into startupdata(name,value) values ('Tenor','1Y');
+insert into startupdata(name,value) values ('Tenor','2W');
+insert into startupdata(name,value) values ('Tenor','5Y');
+insert into startupdata(name,value) values ('Tenor','2Y');
+insert into startupdata(name,value) values ('Tenor','3Y');
+insert into startupdata(name,value) values ('Tenor','4Y');
+insert into startupdata(name,value) values ('Tenor','6Y');
+insert into startupdata(name,value) values ('Tenor','7Y');
+insert into startupdata(name,value) values ('Tenor','16Y');
+insert into startupdata(name,value) values ('Tenor','18Y');
+insert into startupdata(name,value) values ('InitialData','ProductType');
+
+
+insert into startupdata(name,value) values ('ProductType','BOND');
+insert into startupdata(name,value) values ('ProductType','MM');
+insert into startupdata(name,value) values ('ProductType','FX');
+insert into startupdata(name,value) values ('InitialData','UserGroup');
+
+
+insert into startupdata(name,value) values ('UserGroup','Group1');
+insert into startupdata(name,value) values ('UserGroup','Group2');
+insert into startupdata(name,value) values ('UserGroup','Group3');
+insert into startupdata(name,value) values ('InitialData','Attributes');
+
+
+insert into startupdata(name,value) values ('InitialData','Keywords');
+
+
+insert into startupdata(name,value) values ('InitialData','Attributes');
+
+
+insert into startupdata(name,value) values ('InitialData','DayCount');
+
+
+insert into startupdata(name,value) values ('DayCount','1/1');
+insert into startupdata(name,value) values ('DayCount','30/360');
+insert into startupdata(name,value) values ('DayCount','30/365');
+insert into startupdata(name,value) values ('DayCount','30E*/360');
+insert into startupdata(name,value) values ('DayCount','30E+/360');
+insert into startupdata(name,value) values ('DayCount','30E/360');
+insert into startupdata(name,value) values ('DayCount','30E/360 Final');
+insert into startupdata(name,value) values ('DayCount','30E/365');
+insert into startupdata(name,value) values ('DayCount','ACT+1/360');
+insert into startupdata(name,value) values ('DayCount','ACT+1/365');
+insert into startupdata(name,value) values ('DayCount','ACT+1/365JPY');
+insert into startupdata(name,value) values ('DayCount','ACT/360');
+insert into startupdata(name,value) values ('DayCount','ACT/365');
+insert into startupdata(name,value) values ('DayCount','ACT/365.25');
+insert into startupdata(name,value) values ('DayCount','ACT/365I');
+insert into startupdata(name,value) values ('DayCount','ACT/365JPY');
+insert into startupdata(name,value) values ('DayCount','ACT/366');
+insert into startupdata(name,value) values ('DayCount','ACT/ACT');
+insert into startupdata(name,value) values ('DayCount','ACT/ACT29');
+insert into startupdata(name,value) values ('DayCount','ACTB/ACTB');
+insert into startupdata(name,value) values ('DayCount','ACT_365CM');
+insert into startupdata(name,value) values ('DayCount','BU/252');
+insert into startupdata(name,value) values ('DayCount','NL/365');
+insert into startupdata(name,value) values ('InitialData','Date Roll');
+
+
+insert into startupdata(name,value) values ('InitialData','Currency');
+
+
+insert into startupdata(name,value) values ('Currency','ARS');
+insert into startupdata(name,value) values ('Currency','ATS');
+insert into startupdata(name,value) values ('Currency','AUD');
+insert into startupdata(name,value) values ('Currency','BEF');
+insert into startupdata(name,value) values ('Currency','CAD');
+insert into startupdata(name,value) values ('Currency','CHF');
+insert into startupdata(name,value) values ('Currency','CSK');
+insert into startupdata(name,value) values ('Currency','DEM');
+insert into startupdata(name,value) values ('Currency','DKK');
+insert into startupdata(name,value) values ('Currency','ESP');
+insert into startupdata(name,value) values ('Currency','EUR');
+insert into startupdata(name,value) values ('Currency','FIM');
+insert into startupdata(name,value) values ('Currency','FRF');
+insert into startupdata(name,value) values ('Currency','GBP');
+insert into startupdata(name,value) values ('Currency','GRD');
+insert into startupdata(name,value) values ('Currency','HKD');
+insert into startupdata(name,value) values ('Currency','HRK');
+insert into startupdata(name,value) values ('Currency','HUF');
+insert into startupdata(name,value) values ('Currency','IDR');
+insert into startupdata(name,value) values ('Currency','IEP');
+insert into startupdata(name,value) values ('Currency','ILS');
+insert into startupdata(name,value) values ('Currency','ITL');
+insert into startupdata(name,value) values ('Currency','JPY');
+insert into startupdata(name,value) values ('Currency','KRW');
+insert into startupdata(name,value) values ('Currency','MXN');
+insert into startupdata(name,value) values ('Currency','MYR');
+insert into startupdata(name,value) values ('Currency','NLG');
+insert into startupdata(name,value) values ('Currency','NOK');
+insert into startupdata(name,value) values ('Currency','NZD');
+insert into startupdata(name,value) values ('Currency','PHP');
+insert into startupdata(name,value) values ('Currency','PLN');
+insert into startupdata(name,value) values ('Currency','PTE');
+insert into startupdata(name,value) values ('Currency','RUB');
+insert into startupdata(name,value) values ('Currency','SEK');
+insert into startupdata(name,value) values ('Currency','SGD');
+insert into startupdata(name,value) values ('Currency','SKK');
+insert into startupdata(name,value) values ('Currency','THB');
+insert into startupdata(name,value) values ('Currency','TRL');
+insert into startupdata(name,value) values ('Currency','TWD');
+insert into startupdata(name,value) values ('Currency','USD');
+insert into startupdata(name,value) values ('Currency','ZAR');
+insert into startupdata(name,value) values ('Currency','INR');
+insert into startupdata(name,value) values ('InitialData','Action');
+
+
+insert into startupdata(name,value) values ('Action','EXECUTE');
+insert into startupdata(name,value) values ('Action','NEW');
+insert into startupdata(name,value) values ('Action','AMEND');
+insert into startupdata(name,value) values ('Action','PENDING');
+insert into startupdata(name,value) values ('Action','APPROVE');
+insert into startupdata(name,value) values ('Action','NONE');
+insert into startupdata(name,value) values ('Action','CANCEL');
+insert into startupdata(name,value) values ('Action','SENT');
+insert into startupdata(name,value) values ('InitialData','Status');
+
+
+insert into startupdata(name,value) values ('Status','PENDING');
+insert into startupdata(name,value) values ('Status','AMEND');
+insert into startupdata(name,value) values ('Status','NONE');
+insert into startupdata(name,value) values ('Status','NEW');
+insert into startupdata(name,value) values ('Status','PENDING');
+insert into startupdata(name,value) values ('Status','SENT_APPROVE');
+insert into startupdata(name,value) values ('Status','SENT_PENDING');
+insert into startupdata(name,value) values ('Status','APPROVED');
+insert into startupdata(name,value) values ('Status','CANCELLED');
+insert into startupdata(name,value) values ('Status','APPROVED');
+insert into startupdata(name,value) values ('InitialData','BOND.subType');
+
+
+insert into startupdata(name,value) values ('BOND.subType','GSEC');
+insert into startupdata(name,value) values ('BOND.subType','GOVT.STOCK.BOND');
+insert into startupdata(name,value) values ('BOND.subType','CorporateBond');
+insert into startupdata(name,value) values ('BOND.subType','ZCBond');
+insert into startupdata(name,value) values ('InitialData','MM.subType');
+
+
+insert into startupdata(name,value) values ('MM.subType','MM2');
+insert into startupdata(name,value) values ('MM.subType','MM3');
+insert into startupdata(name,value) values ('MM.subType','MM1');
+insert into startupdata(name,value) values ('MM.subType','CASH.LOAN');
+insert into startupdata(name,value) values ('MM.subType','CASH.DEPOSIT');
+insert into startupdata(name,value) values ('InitialData','Roles');
+
+
+insert into startupdata(name,value) values ('Roles','Issuer');
+insert into startupdata(name,value) values ('Roles','CounterParty');
+insert into startupdata(name,value) values ('Roles','PO');
+insert into startupdata(name,value) values ('Roles','Agent');
+insert into startupdata(name,value) values ('Roles','Trader');
+insert into startupdata(name,value) values ('InitialData','TradeAttribute');
+
+
+insert into startupdata(name,value) values ('TradeAttribute','Internal ID');
+insert into startupdata(name,value) values ('TradeAttribute','External ID');
+insert into startupdata(name,value) values ('TradeAttribute','Trade Date');
+insert into startupdata(name,value) values ('InitialData','TRANSFERTriggerEvent');
+
+
+insert into startupdata(name,value) values ('TRANSFERTriggerEvent','TRADE_APPROVED');
+insert into startupdata(name,value) values ('TRANSFERTriggerEvent','TRADE_CANCELLED');
+insert into startupdata(name,value) values ('TRANSFERTriggerEvent','TRADE_TERMINATED');
+insert into startupdata(name,value) values ('InitialData','Country');
+
+
+insert into startupdata(name,value) values ('Country','India');
+insert into startupdata(name,value) values ('Country','USA');
+insert into startupdata(name,value) values ('Country','UK');
+insert into startupdata(name,value) values ('Country','FRANCE');
+insert into startupdata(name,value) values ('Country','PAKISTAN');
+insert into startupdata(name,value) values ('Country','GERMANY');
+insert into startupdata(name,value) values ('InitialData','securityCode');
+
+
+insert into startupdata(name,value) values ('securityCode','CUSIP');
+insert into startupdata(name,value) values ('securityCode','Common');
+insert into startupdata(name,value) values ('securityCode','DMB Serie');
+insert into startupdata(name,value) values ('securityCode','DebtSeniority');
+insert into startupdata(name,value) values ('securityCode','DesignatedPriority');
+insert into startupdata(name,value) values ('securityCode','FromBondProduct');
+insert into startupdata(name,value) values ('securityCode','GCFCusip');
+insert into startupdata(name,value) values ('securityCode','ISIN');
+insert into startupdata(name,value) values ('securityCode','LoanXID');
+insert into startupdata(name,value) values ('securityCode','Local');
+insert into startupdata(name,value) values ('securityCode','RGA');
+insert into startupdata(name,value) values ('securityCode','SettlementType');
+insert into startupdata(name,value) values ('InitialData','TradePrice');
+
+
+insert into startupdata(name,value) values ('TradePrice','DirtyPrice');
+insert into startupdata(name,value) values ('TradePrice','CleanPrice');
+insert into startupdata(name,value) values ('TradePrice','Price');
+insert into startupdata(name,value) values ('InitialData','PaymentFRQ');
+
+
+insert into startupdata(name,value) values ('PaymentFRQ','PA');
+insert into startupdata(name,value) values ('PaymentFRQ','QTR');
+insert into startupdata(name,value) values ('PaymentFRQ','SA');
+insert into startupdata(name,value) values ('PaymentFRQ','ZC');
+insert into startupdata(name,value) values ('PaymentFRQ','NON');
+insert into startupdata(name,value) values ('PaymentFRQ','DLY');
+insert into startupdata(name,value) values ('PaymentFRQ','WLY');
+insert into startupdata(name,value) values ('PaymentFRQ','MON');
+insert into startupdata(name,value) values ('InitialData','YieldMethod');
+
+
+insert into startupdata(name,value) values ('YieldMethod','BankOfCanada');
+insert into startupdata(name,value) values ('YieldMethod','CPR');
+insert into startupdata(name,value) values ('YieldMethod','ISMA');
+insert into startupdata(name,value) values ('YieldMethod','MM_ACT360');
+insert into startupdata(name,value) values ('YieldMethod','MM_ACT365');
+insert into startupdata(name,value) values ('YieldMethod','PSA');
+insert into startupdata(name,value) values ('YieldMethod','USSTREET');
+insert into startupdata(name,value) values ('InitialData','DateRoll');
+
+
+insert into startupdata(name,value) values ('DateRoll','END_MONTH');
+insert into startupdata(name,value) values ('DateRoll','FOLLOWING');
+insert into startupdata(name,value) values ('DateRoll','IMM_MON');
+insert into startupdata(name,value) values ('DateRoll','IMM_WED');
+insert into startupdata(name,value) values ('DateRoll','MOD_FOLLOW');
+insert into startupdata(name,value) values ('DateRoll','MOD_PRECED');
+insert into startupdata(name,value) values ('DateRoll','MOD_SUCC');
+insert into startupdata(name,value) values ('DateRoll','PRECEDING');
+insert into startupdata(name,value) values ('DateRoll','SFE');
+insert into startupdata(name,value) values ('InitialData','QuoteType');
+
+
+insert into startupdata(name,value) values ('QuoteType','BpVol');
+insert into startupdata(name,value) values ('QuoteType','CleanPrice');
+insert into startupdata(name,value) values ('QuoteType','DirtyPrice');
+insert into startupdata(name,value) values ('QuoteType','Discount');
+insert into startupdata(name,value) values ('QuoteType','Factor');
+insert into startupdata(name,value) values ('QuoteType','Future');
+insert into startupdata(name,value) values ('QuoteType','Future32');
+insert into startupdata(name,value) values ('QuoteType','Future64');
+insert into startupdata(name,value) values ('QuoteType','GrossPrice');
+insert into startupdata(name,value) values ('QuoteType','ImpliedCorrelation');
+insert into startupdata(name,value) values ('QuoteType','NONE');
+insert into startupdata(name,value) values ('QuoteType','Price');
+insert into startupdata(name,value) values ('QuoteType','Price32');
+insert into startupdata(name,value) values ('QuoteType','Price64');
+insert into startupdata(name,value) values ('QuoteType','PriceC');
+insert into startupdata(name,value) values ('QuoteType','PriceVol');
+insert into startupdata(name,value) values ('QuoteType','Spread');
+insert into startupdata(name,value) values ('QuoteType','Yield');
+insert into startupdata(name,value) values ('InitialData','FX.subType');
+
+
+insert into startupdata(name,value) values ('FX.subType','FX');
+insert into startupdata(name,value) values ('FX.subType','FXSWAP');
+insert into startupdata(name,value) values ('FX.subType','FXFORWARD');
+insert into startupdata(name,value) values ('InitialData','SDIPAYREC');
+
+
+insert into startupdata(name,value) values ('InitialData','Period');
+
+
+insert into startupdata(name,value) values ('Period','ADJUSTED');
+insert into startupdata(name,value) values ('Period','UNADJUSTED');
+insert into startupdata(name,value) values ('Period','MAT_UNADJUSTED');
+insert into startupdata(name,value) values ('InitialData','Amortizing');
+
+
+insert into startupdata(name,value) values ('Amortizing','Equal');
+insert into startupdata(name,value) values ('Amortizing','Annuity');
+insert into startupdata(name,value) values ('Amortizing','Mortgage');
+insert into startupdata(name,value) values ('Amortizing','Schedule');
+insert into startupdata(name,value) values ('InitialData','INDEX');
+
+
+insert into startupdata(name,value) values ('INDEX','LIBOR');
+insert into startupdata(name,value) values ('INDEX','TIBOR');
+insert into startupdata(name,value) values ('InitialData','SDIMethod');
+
+
+insert into startupdata(name,value) values ('SDIMethod','SWIFT');
+insert into startupdata(name,value) values ('SDIMethod','RGA');
+insert into startupdata(name,value) values ('InitialData','SDIAttributes');
+
+
+insert into startupdata(name,value) values ('SDIAttributes','PartyA');
+insert into startupdata(name,value) values ('SDIAttributes','PartyB');
+insert into startupdata(name,value) values ('SDIAttributes','PartyB');
+insert into startupdata(name,value) values ('InitialData','LEContacts');
+
+
+insert into startupdata(name,value) values ('LEContacts','FRENDOFFICE');
+insert into startupdata(name,value) values ('LEContacts','BACKOFFICE');
+insert into startupdata(name,value) values ('InitialData','FEETYPE');
+
+
+insert into startupdata(name,value) values ('FEETYPE','COMMISSION');
+insert into startupdata(name,value) values ('FEETYPE','BOKERAGE');
+insert into startupdata(name,value) values ('FEETYPE','INTEREST');
+insert into startupdata(name,value) values ('FEETYPE','PREMIUM');
+insert into startupdata(name,value) values ('InitialData','LEAttributes');
+
+
+insert into startupdata(name,value) values ('InitialData','BookAttributes');
+
+
+insert into startupdata(name,value) values ('BookAttributes','Location');
+insert into startupdata(name,value) values ('BookAttributes','Currency');
+insert into startupdata(name,value) values ('InitialData','AccType');
+
+
+insert into startupdata(name,value) values ('AccType','SETTLE');
+insert into startupdata(name,value) values ('AccType','NORMAL');
+insert into startupdata(name,value) values ('InitialData','accEvent');
+
+
+insert into startupdata(name,value) values ('accEvent','COT');
+insert into startupdata(name,value) values ('accEvent','COT_REV');
+insert into startupdata(name,value) values ('accEvent','ACCURAL');
+insert into startupdata(name,value) values ('accEvent','FEES');
+insert into startupdata(name,value) values ('accEvent','CON_SEC_VERIFIED');
+insert into startupdata(name,value) values ('accEvent','MTM_FULL');
+insert into startupdata(name,value) values ('accEvent','PREMIUM_REC');
+insert into startupdata(name,value) values ('accEvent','PREMIUM_DISC_REC');
+insert into startupdata(name,value) values ('accEvent','COMMISSION');
+insert into startupdata(name,value) values ('accEvent','INTEREST');
+insert into startupdata(name,value) values ('accEvent','SEC_SETTLED');
+insert into startupdata(name,value) values ('accEvent','SEC_REV_SETTLED');
+insert into startupdata(name,value) values ('accEvent','POSITION_VALUATION');
+insert into startupdata(name,value) values ('accEvent','REALISED_CLEAN_PL');
+insert into startupdata(name,value) values ('accEvent','CST');
+insert into startupdata(name,value) values ('InitialData','TriggerEvent');
+
+
+insert into startupdata(name,value) values ('TriggerEvent','TRADE_VERIFIED');
+insert into startupdata(name,value) values ('TriggerEvent','PAYMENT_VERIFIED');
+insert into startupdata(name,value) values ('TriggerEvent','RECEIPT_VERIFIED');
+insert into startupdata(name,value) values ('TriggerEvent','RECEIPT_SENT');
+insert into startupdata(name,value) values ('TriggerEvent','PAYMENT_SENT');
+insert into startupdata(name,value) values ('TriggerEvent','TICKET_SENT');
+insert into startupdata(name,value) values ('TriggerEvent','PAYMENT_SETTLED');
+insert into startupdata(name,value) values ('TriggerEvent','SEC_DEVLIERY_SETTLED');
+insert into startupdata(name,value) values ('TriggerEvent','SEC_RECEIPT_SETTLED');
+insert into startupdata(name,value) values ('TriggerEvent','TRADE_APPROVED');
+insert into startupdata(name,value) values ('TriggerEvent','TRADE_PENDING');
+insert into startupdata(name,value) values ('InitialData','accReversalType');
+
+
+insert into startupdata(name,value) values ('accReversalType','CONTRA');
+insert into startupdata(name,value) values ('accReversalType','NONE');
+insert into startupdata(name,value) values ('accReversalType','INCREMENTAL');
+insert into startupdata(name,value) values ('InitialData','accPaymentType');
+
+
+insert into startupdata(name,value) values ('accPaymentType','BOOKING');
+insert into startupdata(name,value) values ('accPaymentType','AccountDate');
+insert into startupdata(name,value) values ('accPaymentType','ClosingDate');
+insert into startupdata(name,value) values ('accPaymentType','CurrentDate');
+insert into startupdata(name,value) values ('accPaymentType','EffectiveDate');
+insert into startupdata(name,value) values ('InitialData','AccConfigType');
+
+
+insert into startupdata(name,value) values ('AccConfigType','ENRICH');
+insert into startupdata(name,value) values ('AccConfigType','NORMAL');
+insert into startupdata(name,value) values ('AccConfigType','CONVERSATION');
+insert into startupdata(name,value) values ('InitialData','WFType');
+
+
+insert into startupdata(name,value) values ('WFType','TRADE');
+insert into startupdata(name,value) values ('WFType','TRANSFER');
+insert into startupdata(name,value) values ('WFType','MESSAGE');
+ insert into product(id,producttype,productname,productshortname) values(1971,'FX','FX','FX');
+insert into product(id,producttype,productname,productshortname) values(1972,'FX','FXSWAP','FXSWAP');
+insert into product(id,producttype,productname,productshortname) values(1973,'FX','FXFORWARD','FXFORWARD');
+
+
+insert into users values(1,'Group1','user1','user1');
+ insert into  users values(2,'Group2','user2','user2');
+ insert into  users values(3,'Group3','user3','user3');
+ insert into  users values(4,'Group2','g1','g1');
+ insert into  users values(5,'Group2','g2','g21');
+ insert into startupdata(name,value) values ('InitialData','WindowName');
+ 
+ insert into startupdata(name,value) values ('InitialData','WindowFunctionName');
+ 
+insert into startupdata(name,value) values ('WindowName','AccessPermission');
+insert into startupdata(name,value) values ('WindowName','StartUPData');
+insert into startupdata(name,value) values ('WindowName','CurrencyDefault');
+insert into startupdata(name,value) values ('WindowName','WorkFlowSetup');
+insert into startupdata(name,value) values ('WindowName','CounterParty');
+ 
+ 
+ CREATE OR REPLACE Function getQuoteData
+   ( name_in IN varchar2 , quotedate in varchar2)
+   RETURN number
+IS
+   cnumber varchar2(20);
+ 
+   CURSOR c1
+   IS
+     SELECT to_number(close)
+     FROM quotedata
+     WHERE quotename  = name_in and to_char(to_date(DATETIME, 'dd/MON/yyyy HH24:MI:SS'), 'dd/mm/yyyy') = quotedate;
+ 
+BEGIN
+ 
+   OPEN c1;
+   FETCH c1 INTO cnumber;
+ 
+   if c1%notfound then
+      cnumber := 9999;
+   end if;
+ 
+   CLOSE c1;
+ 
+RETURN cnumber;
+ 
+END;
+
+
+create or replace function getSPOTTtypeDeals(tradedate in timestamp,deliverdate in timestamp) return number
+is
+cnumber number(10);
+begin
+cnumber := trunc(deliverdate) - trunc(tradedate);
+ if(cnumber >= 2) Then
+     cnumber := 2;
+   else
+      cnumber := 1;
+end if;
+  RETURN cnumber;
+ 
+ 
+EXCEPTION
+WHEN OTHERS THEN
+   raise_application_error(-20001,'An error was encountered - '||SQLCODE||' -ERROR- '||SQLERRM);
+END;
+ 
+ 
+ select decode( t.currency,'INR','FCY/INR','FCY/FCY'), t.currency,decode(substr(t.type,0,3),'BUY','PURCHASE','SALE') as BUYSELL ,
+  (SUM(DECODE(t.tradedesc1, 'FXFORWARDOPTION', decode(a.ATTRIBUTENAME,'InstrumentType',decode(a.ATTRIBUTEVALUE,'MerchantReady',t.quantity , 0))))  *  getQuoteData(t.tradedesc,'01/01/2015')) AS MerchantReady  ,
+( SUM(DECODE(t.tradedesc1, 'FXFORWARDOPTION', decode(a.ATTRIBUTENAME,'InstrumentType',decode(a.ATTRIBUTEVALUE,'MerchantForward',t.quantity , 0))))  *  getQuoteData(t.tradedesc,'01/01/2015')) AS MerchantForward   ,
+ (SUM(DECODE(t.tradedesc1, 'FXFORWARDOPTION', decode(a.ATTRIBUTENAME,'InstrumentType',decode(a.ATTRIBUTEVALUE,'MerchantCancellationA',t.quantity , 0))))  *  getQuoteData(t.tradedesc,'01/01/2015')) AS MerchantCancellationA,
+ (SUM(DECODE(t.tradedesc1, 'FXSWAP', quantity/2  ))  *  getQuoteData(t.tradedesc,'01/01/2015')) AS  FXSWAP ,
+(SUM(DECODE(t.tradedesc1, 'FXFORWARD', decode(getSPOTTtypeDeals(TRADEDATE,deliverydate ),  1,quantity/2 ) ))  *  getQuoteData(t.tradedesc,'01/01/2015')) AS  SPOT,
+             (SUM(DECODE(t.tradedesc1, 'FXFORWARD', decode(getSPOTTtypeDeals(TRADEDATE,deliverydate ),  2,quantity/2 ) ))  *  getQuoteData(t.tradedesc,'01/01/2015')) AS  FORWARD
+ from trade t,attribute  a where t.id = a.ID
+and trunc(t.tradedate) = to_date('01/01/2015','dd/mm/yyyy') and a.type = 'Trade'
+and a.type = 'Trade'
+group by t.currency,substr(t.type,0,3),t.tradedesc
+order by t.currency

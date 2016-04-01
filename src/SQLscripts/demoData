@@ -1,0 +1,710 @@
+insert into startupdata(name,value) values ('WFType','MESSAGE');
+ insert into product(id,producttype,productname,productshortname) values(1971,'FX','FX','FX');
+insert into product(id,producttype,productname,productshortname) values(1972,'FX','FXSWAP','FXSWAP');
+insert into product(id,producttype,productname,productshortname) values(1973,'FX','FXFORWARD','FXFORWARD');
+insert into product(id,producttype,productname,productshortname,ISPOSITIONBASED) values(2010,'FX','FXFORWARDOPTION','FXFORWARDOPTION',1);
+insert into product(id,producttype,productname,productshortname) values(1975,'FX','FXTAKEUP','FXTAKEUP');
+
+
+insert into SearchCriteria values('is');
+insert into SearchCriteria values('is not');
+insert into SearchCriteria values('is');
+insert into SearchCriteria values('in');
+insert into SearchCriteria values('not in');
+insert into SearchCriteria values('like');
+insert into SearchCriteria values('or');
+
+insert into columnNameSearch values('Task','eventType');
+insert into columnNameSearch values('Task','productType');
+
+
+
+insert into users values(1,'Group1','user1','user1');
+ insert into  users values(2,'Group2','user2','user2');
+ insert into  users values(3,'Group3','user3','user3');
+ insert into  users values(4,'Group2','g1','g1');
+ insert into  users values(5,'Group2','g2','g21');
+
+insert into startupdata(name,value) values ('InitialData','Tenor');
+
+
+insert into startupdata(name,value) values ('Tenor','1D');
+insert into startupdata(name,value) values ('Tenor','1M');
+insert into startupdata(name,value) values ('Tenor','1W');
+insert into startupdata(name,value) values ('Tenor','10Y');
+insert into startupdata(name,value) values ('Tenor','6W');
+insert into startupdata(name,value) values ('Tenor','12Y');
+insert into startupdata(name,value) values ('Tenor','15Y');
+insert into startupdata(name,value) values ('Tenor','20Y');
+insert into startupdata(name,value) values ('Tenor','18Y');
+insert into startupdata(name,value) values ('Tenor','25Y');
+insert into startupdata(name,value) values ('Tenor','3M');
+insert into startupdata(name,value) values ('Tenor','6M');
+insert into startupdata(name,value) values ('Tenor','9M');
+insert into startupdata(name,value) values ('Tenor','12M');
+insert into startupdata(name,value) values ('Tenor','15W');
+insert into startupdata(name,value) values ('Tenor','52W');
+insert into startupdata(name,value) values ('Tenor','26W');
+insert into startupdata(name,value) values ('Tenor','12M');
+insert into startupdata(name,value) values ('Tenor','1Y');
+insert into startupdata(name,value) values ('Tenor','2W');
+insert into startupdata(name,value) values ('Tenor','5Y');
+insert into startupdata(name,value) values ('Tenor','2Y');
+insert into startupdata(name,value) values ('Tenor','3Y');
+insert into startupdata(name,value) values ('Tenor','4Y');
+insert into startupdata(name,value) values ('Tenor','6Y');
+insert into startupdata(name,value) values ('Tenor','7Y');
+insert into startupdata(name,value) values ('Tenor','16Y');
+insert into startupdata(name,value) values ('Tenor','18Y');
+insert into startupdata(name,value) values ('InitialData','ProductType');
+
+
+insert into startupdata(name,value) values ('ProductType','BOND');
+insert into startupdata(name,value) values ('ProductType','MM');
+insert into startupdata(name,value) values ('ProductType','FX');
+insert into startupdata(name,value) values ('InitialData','UserGroup');
+
+
+insert into startupdata(name,value) values ('UserGroup','Group1');
+insert into startupdata(name,value) values ('UserGroup','Group2');
+insert into startupdata(name,value) values ('UserGroup','Group3');
+insert into startupdata(name,value) values ('InitialData','Attributes');
+
+
+insert into startupdata(name,value) values ('InitialData','Keywords');
+
+
+insert into startupdata(name,value) values ('InitialData','Attributes');
+
+
+insert into startupdata(name,value) values ('InitialData','DayCount');
+
+
+insert into startupdata(name,value) values ('DayCount','1/1');
+insert into startupdata(name,value) values ('DayCount','30/360');
+insert into startupdata(name,value) values ('DayCount','30/365');
+insert into startupdata(name,value) values ('DayCount','30E*/360');
+insert into startupdata(name,value) values ('DayCount','30E+/360');
+insert into startupdata(name,value) values ('DayCount','30E/360');
+insert into startupdata(name,value) values ('DayCount','30E/360 Final');
+insert into startupdata(name,value) values ('DayCount','30E/365');
+insert into startupdata(name,value) values ('DayCount','ACT+1/360');
+insert into startupdata(name,value) values ('DayCount','ACT+1/365');
+insert into startupdata(name,value) values ('DayCount','ACT+1/365JPY');
+insert into startupdata(name,value) values ('DayCount','ACT/360');
+insert into startupdata(name,value) values ('DayCount','ACT/365');
+insert into startupdata(name,value) values ('DayCount','ACT/365.25');
+insert into startupdata(name,value) values ('DayCount','ACT/365I');
+insert into startupdata(name,value) values ('DayCount','ACT/365JPY');
+insert into startupdata(name,value) values ('DayCount','ACT/366');
+insert into startupdata(name,value) values ('DayCount','ACT/ACT');
+insert into startupdata(name,value) values ('DayCount','ACT/ACT29');
+insert into startupdata(name,value) values ('DayCount','ACTB/ACTB');
+insert into startupdata(name,value) values ('DayCount','ACT_365CM');
+insert into startupdata(name,value) values ('DayCount','BU/252');
+insert into startupdata(name,value) values ('DayCount','NL/365');
+insert into startupdata(name,value) values ('InitialData','Date Roll');
+
+
+insert into startupdata(name,value) values ('InitialData','Currency');
+
+
+insert into startupdata(name,value) values ('Currency','ARS');
+insert into startupdata(name,value) values ('Currency','ATS');
+insert into startupdata(name,value) values ('Currency','AUD');
+insert into startupdata(name,value) values ('Currency','BEF');
+insert into startupdata(name,value) values ('Currency','CAD');
+insert into startupdata(name,value) values ('Currency','CHF');
+insert into startupdata(name,value) values ('Currency','CSK');
+insert into startupdata(name,value) values ('Currency','DEM');
+insert into startupdata(name,value) values ('Currency','DKK');
+insert into startupdata(name,value) values ('Currency','ESP');
+insert into startupdata(name,value) values ('Currency','EUR');
+insert into startupdata(name,value) values ('Currency','FIM');
+insert into startupdata(name,value) values ('Currency','FRF');
+insert into startupdata(name,value) values ('Currency','GBP');
+insert into startupdata(name,value) values ('Currency','GRD');
+insert into startupdata(name,value) values ('Currency','HKD');
+insert into startupdata(name,value) values ('Currency','HRK');
+insert into startupdata(name,value) values ('Currency','HUF');
+insert into startupdata(name,value) values ('Currency','IDR');
+insert into startupdata(name,value) values ('Currency','IEP');
+insert into startupdata(name,value) values ('Currency','ILS');
+insert into startupdata(name,value) values ('Currency','ITL');
+insert into startupdata(name,value) values ('Currency','JPY');
+insert into startupdata(name,value) values ('Currency','KRW');
+insert into startupdata(name,value) values ('Currency','MXN');
+insert into startupdata(name,value) values ('Currency','MYR');
+insert into startupdata(name,value) values ('Currency','NLG');
+insert into startupdata(name,value) values ('Currency','NOK');
+insert into startupdata(name,value) values ('Currency','NZD');
+insert into startupdata(name,value) values ('Currency','PHP');
+insert into startupdata(name,value) values ('Currency','PLN');
+insert into startupdata(name,value) values ('Currency','PTE');
+insert into startupdata(name,value) values ('Currency','RUB');
+insert into startupdata(name,value) values ('Currency','SEK');
+insert into startupdata(name,value) values ('Currency','SGD');
+insert into startupdata(name,value) values ('Currency','SKK');
+insert into startupdata(name,value) values ('Currency','THB');
+insert into startupdata(name,value) values ('Currency','TRL');
+insert into startupdata(name,value) values ('Currency','TWD');
+insert into startupdata(name,value) values ('Currency','USD');
+insert into startupdata(name,value) values ('Currency','ZAR');
+insert into startupdata(name,value) values ('Currency','INR');
+insert into startupdata(name,value) values ('InitialData','Action');
+
+
+insert into startupdata(name,value) values ('Action','EXECUTE');
+insert into startupdata(name,value) values ('Action','NEW');
+insert into startupdata(name,value) values ('Action','AMEND');
+insert into startupdata(name,value) values ('Action','PENDING');
+insert into startupdata(name,value) values ('Action','APPROVE');
+insert into startupdata(name,value) values ('Action','NONE');
+insert into startupdata(name,value) values ('Action','CANCEL');
+insert into startupdata(name,value) values ('Action','SENT');
+insert into startupdata(name,value) values ('Action','SETTLE');
+insert into startupdata(name,value) values ('Action','WAIVE');
+insert into startupdata(name,value) values ('Action','AUTHORIZE');
+insert into startupdata(name,value) values ('InitialData','Status');
+
+
+insert into startupdata(name,value) values ('Status','PENDING');
+insert into startupdata(name,value) values ('Status','AMEND');
+insert into startupdata(name,value) values ('Status','NONE');
+insert into startupdata(name,value) values ('Status','NEW');
+insert into startupdata(name,value) values ('Status','PENDING');
+insert into startupdata(name,value) values ('Status','SENT_APPROVE');
+insert into startupdata(name,value) values ('Status','SENT_PENDING');
+insert into startupdata(name,value) values ('Status','APPROVED');
+insert into startupdata(name,value) values ('Status','CANCELLED');
+insert into startupdata(name,value) values ('Status','APPROVED');
+insert into startupdata(name,value) values ('Status','SETTLED');
+insert into startupdata(name,value) values ('Status','WAIVED');
+insert into startupdata(name,value) values ('InitialData','BOND.subType');
+
+
+insert into startupdata(name,value) values ('BOND.subType','GSEC');
+insert into startupdata(name,value) values ('BOND.subType','GOVT.STOCK.BOND');
+insert into startupdata(name,value) values ('BOND.subType','CorporateBond');
+insert into startupdata(name,value) values ('BOND.subType','ZCBond');
+insert into startupdata(name,value) values ('InitialData','MM.subType');
+
+
+insert into startupdata(name,value) values ('MM.subType','MM2');
+insert into startupdata(name,value) values ('MM.subType','MM3');
+insert into startupdata(name,value) values ('MM.subType','MM1');
+insert into startupdata(name,value) values ('MM.subType','CASH.LOAN');
+insert into startupdata(name,value) values ('MM.subType','CASH.DEPOSIT');
+insert into startupdata(name,value) values ('InitialData','Roles');
+
+
+insert into startupdata(name,value) values ('Roles','Issuer');
+insert into startupdata(name,value) values ('Roles','CounterParty');
+insert into startupdata(name,value) values ('Roles','PO');
+insert into startupdata(name,value) values ('Roles','Agent');
+insert into startupdata(name,value) values ('Roles','Trader');
+insert into startupdata(name,value) values ('InitialData','TradeAttribute');
+
+
+insert into startupdata(name,value) values ('TradeAttribute','Internal ID');
+insert into startupdata(name,value) values ('TradeAttribute','External ID');
+insert into startupdata(name,value) values ('TradeAttribute','Trade Date');
+insert into startupdata(name,value) values ('InitialData','TRANSFERTriggerEvent');
+
+
+insert into startupdata(name,value) values ('TRANSFERTriggerEvent','TRADE_APPROVED');
+insert into startupdata(name,value) values ('TRANSFERTriggerEvent','TRADE_CANCELLED');
+insert into startupdata(name,value) values ('TRANSFERTriggerEvent','TRADE_TERMINATED');
+insert into startupdata(name,value) values ('InitialData','Country');
+
+
+insert into startupdata(name,value) values ('Country','India');
+insert into startupdata(name,value) values ('Country','USA');
+insert into startupdata(name,value) values ('Country','UK');
+insert into startupdata(name,value) values ('Country','FRANCE');
+insert into startupdata(name,value) values ('Country','PAKISTAN');
+insert into startupdata(name,value) values ('Country','GERMANY');
+insert into startupdata(name,value) values ('InitialData','securityCode');
+
+
+insert into startupdata(name,value) values ('securityCode','CUSIP');
+insert into startupdata(name,value) values ('securityCode','Common');
+insert into startupdata(name,value) values ('securityCode','DMB Serie');
+insert into startupdata(name,value) values ('securityCode','DebtSeniority');
+insert into startupdata(name,value) values ('securityCode','DesignatedPriority');
+insert into startupdata(name,value) values ('securityCode','FromBondProduct');
+insert into startupdata(name,value) values ('securityCode','GCFCusip');
+insert into startupdata(name,value) values ('securityCode','ISIN');
+insert into startupdata(name,value) values ('securityCode','LoanXID');
+insert into startupdata(name,value) values ('securityCode','Local');
+insert into startupdata(name,value) values ('securityCode','RGA');
+insert into startupdata(name,value) values ('securityCode','SettlementType');
+insert into startupdata(name,value) values ('InitialData','TradePrice');
+
+
+insert into startupdata(name,value) values ('TradePrice','DirtyPrice');
+insert into startupdata(name,value) values ('TradePrice','CleanPrice');
+insert into startupdata(name,value) values ('TradePrice','Price');
+insert into startupdata(name,value) values ('InitialData','PaymentFRQ');
+
+
+insert into startupdata(name,value) values ('PaymentFRQ','PA');
+insert into startupdata(name,value) values ('PaymentFRQ','QTR');
+insert into startupdata(name,value) values ('PaymentFRQ','SA');
+insert into startupdata(name,value) values ('PaymentFRQ','ZC');
+insert into startupdata(name,value) values ('PaymentFRQ','NON');
+insert into startupdata(name,value) values ('PaymentFRQ','DLY');
+insert into startupdata(name,value) values ('PaymentFRQ','WLY');
+insert into startupdata(name,value) values ('PaymentFRQ','MON');
+insert into startupdata(name,value) values ('InitialData','YieldMethod');
+
+
+insert into startupdata(name,value) values ('YieldMethod','BankOfCanada');
+insert into startupdata(name,value) values ('YieldMethod','CPR');
+insert into startupdata(name,value) values ('YieldMethod','ISMA');
+insert into startupdata(name,value) values ('YieldMethod','MM_ACT360');
+insert into startupdata(name,value) values ('YieldMethod','MM_ACT365');
+insert into startupdata(name,value) values ('YieldMethod','PSA');
+insert into startupdata(name,value) values ('YieldMethod','USSTREET');
+insert into startupdata(name,value) values ('InitialData','DateRoll');
+
+
+insert into startupdata(name,value) values ('DateRoll','END_MONTH');
+insert into startupdata(name,value) values ('DateRoll','FOLLOWING');
+insert into startupdata(name,value) values ('DateRoll','IMM_MON');
+insert into startupdata(name,value) values ('DateRoll','IMM_WED');
+insert into startupdata(name,value) values ('DateRoll','MOD_FOLLOW');
+insert into startupdata(name,value) values ('DateRoll','MOD_PRECED');
+insert into startupdata(name,value) values ('DateRoll','MOD_SUCC');
+insert into startupdata(name,value) values ('DateRoll','PRECEDING');
+insert into startupdata(name,value) values ('DateRoll','SFE');
+insert into startupdata(name,value) values ('InitialData','QuoteType');
+
+
+insert into startupdata(name,value) values ('QuoteType','BpVol');
+insert into startupdata(name,value) values ('QuoteType','CleanPrice');
+insert into startupdata(name,value) values ('QuoteType','DirtyPrice');
+insert into startupdata(name,value) values ('QuoteType','Discount');
+insert into startupdata(name,value) values ('QuoteType','Factor');
+insert into startupdata(name,value) values ('QuoteType','Future');
+insert into startupdata(name,value) values ('QuoteType','Future32');
+insert into startupdata(name,value) values ('QuoteType','Future64');
+insert into startupdata(name,value) values ('QuoteType','GrossPrice');
+insert into startupdata(name,value) values ('QuoteType','ImpliedCorrelation');
+insert into startupdata(name,value) values ('QuoteType','NONE');
+insert into startupdata(name,value) values ('QuoteType','Price');
+insert into startupdata(name,value) values ('QuoteType','Price32');
+insert into startupdata(name,value) values ('QuoteType','Price64');
+insert into startupdata(name,value) values ('QuoteType','PriceC');
+insert into startupdata(name,value) values ('QuoteType','PriceVol');
+insert into startupdata(name,value) values ('QuoteType','Spread');
+insert into startupdata(name,value) values ('QuoteType','Yield');
+insert into startupdata(name,value) values ('InitialData','FX.subType');
+
+
+insert into startupdata(name,value) values ('FX.subType','FX');
+insert into startupdata(name,value) values ('FX.subType','FXSWAP');
+insert into startupdata(name,value) values ('FX.subType','FXFORWARD');
+insert into startupdata(name,value) values ('InitialData','SDIPAYREC');
+
+
+insert into startupdata(name,value) values ('InitialData','Period');
+
+
+insert into startupdata(name,value) values ('Period','ADJUSTED');
+insert into startupdata(name,value) values ('Period','UNADJUSTED');
+insert into startupdata(name,value) values ('Period','MAT_UNADJUSTED');
+insert into startupdata(name,value) values ('InitialData','Amortizing');
+
+
+insert into startupdata(name,value) values ('Amortizing','Equal');
+insert into startupdata(name,value) values ('Amortizing','Annuity');
+insert into startupdata(name,value) values ('Amortizing','Mortgage');
+insert into startupdata(name,value) values ('Amortizing','Schedule');
+insert into startupdata(name,value) values ('InitialData','INDEX');
+
+
+insert into startupdata(name,value) values ('INDEX','LIBOR');
+insert into startupdata(name,value) values ('INDEX','TIBOR');
+insert into startupdata(name,value) values ('InitialData','SDIMethod');
+
+
+insert into startupdata(name,value) values ('SDIMethod','SWIFT');
+insert into startupdata(name,value) values ('SDIMethod','RGA');
+insert into startupdata(name,value) values ('InitialData','SDIAttributes');
+
+
+insert into startupdata(name,value) values ('SDIAttributes','PartyA');
+insert into startupdata(name,value) values ('SDIAttributes','PartyB');
+insert into startupdata(name,value) values ('SDIAttributes','PartyB');
+insert into startupdata(name,value) values ('InitialData','LEContacts');
+
+
+insert into startupdata(name,value) values ('LEContacts','FRENDOFFICE');
+insert into startupdata(name,value) values ('LEContacts','BACKOFFICE');
+insert into startupdata(name,value) values ('InitialData','FEETYPE');
+
+
+insert into startupdata(name,value) values ('FEETYPE','COMMISSION');
+insert into startupdata(name,value) values ('FEETYPE','BOKERAGE');
+insert into startupdata(name,value) values ('FEETYPE','INTEREST');
+insert into startupdata(name,value) values ('FEETYPE','PREMIUM');
+insert into startupdata(name,value) values ('InitialData','LEAttributes');
+
+
+insert into startupdata(name,value) values ('InitialData','BookAttributes');
+
+
+insert into startupdata(name,value) values ('BookAttributes','Location');
+insert into startupdata(name,value) values ('BookAttributes','Currency');
+insert into startupdata(name,value) values ('InitialData','AccType');
+
+
+insert into startupdata(name,value) values ('AccType','SETTLE');
+insert into startupdata(name,value) values ('AccType','NORMAL');
+insert into startupdata(name,value) values ('InitialData','accEvent');
+
+
+insert into startupdata(name,value) values ('accEvent','COT');
+insert into startupdata(name,value) values ('accEvent','COT_REV');
+insert into startupdata(name,value) values ('accEvent','ACCURAL');
+insert into startupdata(name,value) values ('accEvent','FEES');
+insert into startupdata(name,value) values ('accEvent','CON_SEC_VERIFIED');
+insert into startupdata(name,value) values ('accEvent','MTM_FULL');
+insert into startupdata(name,value) values ('accEvent','PREMIUM_REC');
+insert into startupdata(name,value) values ('accEvent','PREMIUM_DISC_REC');
+insert into startupdata(name,value) values ('accEvent','COMMISSION');
+insert into startupdata(name,value) values ('accEvent','INTEREST');
+insert into startupdata(name,value) values ('accEvent','SEC_SETTLED');
+insert into startupdata(name,value) values ('accEvent','SEC_REV_SETTLED');
+insert into startupdata(name,value) values ('accEvent','POSITION_VALUATION');
+insert into startupdata(name,value) values ('accEvent','REALISED_CLEAN_PL');
+insert into startupdata(name,value) values ('accEvent','CST');
+insert into startupdata(name,value) values ('InitialData','TriggerEvent');
+
+
+insert into startupdata(name,value) values ('TriggerEvent','TRADE_VERIFIED');
+insert into startupdata(name,value) values ('TriggerEvent','PAYMENT_VERIFIED');
+insert into startupdata(name,value) values ('TriggerEvent','RECEIPT_VERIFIED');
+insert into startupdata(name,value) values ('TriggerEvent','RECEIPT_SENT');
+insert into startupdata(name,value) values ('TriggerEvent','PAYMENT_SENT');
+insert into startupdata(name,value) values ('TriggerEvent','TICKET_SENT');
+insert into startupdata(name,value) values ('TriggerEvent','PAYMENT_SETTLED');
+insert into startupdata(name,value) values ('TriggerEvent','SEC_DEVLIERY_SETTLED');
+insert into startupdata(name,value) values ('TriggerEvent','SEC_RECEIPT_SETTLED');
+insert into startupdata(name,value) values ('TriggerEvent','TRADE_APPROVED');
+insert into startupdata(name,value) values ('TriggerEvent','TRADE_PENDING');
+insert into startupdata(name,value) values ('TriggerEvent','TRADE_APPROVED');
+insert into startupdata(name,value) values ('TriggerEvent','TRADE_CANCELLED');
+insert into startupdata(name,value) values ('TriggerEvent','APPROVED_SEC_DELIVERY');
+insert into startupdata(name,value) values ('TriggerEvent','APPROVED_SEC_RECEIPT');
+insert into startupdata(name,value) values ('TriggerEvent','APPROVED_PAYMENT');
+insert into startupdata(name,value) values ('TriggerEvent','APPROVED_RECEIPT');
+insert into startupdata(name,value) values ('TriggerEvent','CANCELLED_PAYMENT');
+insert into startupdata(name,value) values ('TriggerEvent','CANCELLED_RECEIPT');
+insert into startupdata(name,value) values ('TriggerEvent','CANCELLED_SEC_DELIVERY');
+insert into startupdata(name,value) values ('TriggerEvent','CANCELLED_SEC_RECEIPT');
+insert into startupdata(name,value) values ('TriggerEvent','SETTLED_SEC_RECEIPT');
+insert into startupdata(name,value) values ('TriggerEvent','SETTLED_SEC_DELIVERY');
+insert into startupdata(name,value) values ('TriggerEvent','WAIVED_PAYMENT');
+insert into startupdata(name,value) values ('TriggerEvent','SETTLED_PAYMENT');
+insert into startupdata(name,value) values ('TriggerEvent','SETTLED_RECEIPT');
+insert into startupdata(name,value) values ('TriggerEvent','WAIVED_RECEIPT');
+insert into startupdata(name,value) values ('InitialData','accReversalType');
+
+
+insert into startupdata(name,value) values ('accReversalType','CONTRA');
+insert into startupdata(name,value) values ('accReversalType','NONE');
+insert into startupdata(name,value) values ('accReversalType','INCREMENTAL');
+insert into startupdata(name,value) values ('InitialData','accPaymentType');
+
+
+insert into startupdata(name,value) values ('accPaymentType','BOOKING');
+insert into startupdata(name,value) values ('accPaymentType','AccountDate');
+insert into startupdata(name,value) values ('accPaymentType','ClosingDate');
+insert into startupdata(name,value) values ('accPaymentType','CurrentDate');
+insert into startupdata(name,value) values ('accPaymentType','EffectiveDate');
+insert into startupdata(name,value) values ('InitialData','AccConfigType');
+
+
+insert into startupdata(name,value) values ('AccConfigType','ENRICH');
+insert into startupdata(name,value) values ('AccConfigType','NORMAL');
+insert into startupdata(name,value) values ('AccConfigType','CONVERSATION');
+insert into startupdata(name,value) values ('InitialData','WFType');
+
+
+insert into startupdata(name,value) values ('WFType','TRADE');
+insert into startupdata(name,value) values ('WFType','TRANSFER');
+insert into startupdata(name,value) values ('WFType','Message');
+insert into startupdata(name,value) values ('InitialData','SearchCriteria');
+
+
+insert into startupdata(name,value) values ('SearchCriteria','is not');
+insert into startupdata(name,value) values ('SearchCriteria','is');
+insert into startupdata(name,value) values ('SearchCriteria','in');
+insert into startupdata(name,value) values ('SearchCriteria','not in');
+insert into startupdata(name,value) values ('SearchCriteria','=');
+insert into startupdata(name,value) values ('SearchCriteria','!=');
+insert into startupdata(name,value) values ('SearchCriteria','or');
+insert into startupdata(name,value) values ('SearchCriteria','like');
+insert into startupdata(name,value) values ('SearchCriteria','not like');
+insert into startupdata(name,value) values ('InitialData','TaskColumn');
+
+
+insert into startupdata(name,value) values ('TaskColumn','Book');
+insert into startupdata(name,value) values ('TaskColumn','EventType');
+insert into startupdata(name,value) values ('TaskColumn','ProductType');
+insert into startupdata(name,value) values ('TaskColumn','Status');
+insert into startupdata(name,value) values ('TaskColumn','Currency');
+insert into startupdata(name,value) values ('TaskColumn','Type');
+insert into startupdata(name,value) values ('TaskColumn','WFType');
+insert into startupdata(name,value) values ('InitialData','EventType');
+
+
+insert into startupdata(name,value) values ('EventType','RECEIPT');
+insert into startupdata(name,value) values ('EventType','PAYMENT');
+insert into startupdata(name,value) values ('EventType','APPROVED_RECEIPT');
+insert into startupdata(name,value) values ('EventType','SETTLED_RECEIPT');
+insert into startupdata(name,value) values ('EventType','TRADE_APPROVED');
+insert into startupdata(name,value) values ('EventType','SETTLED_PAYMENT');
+insert into startupdata(name,value) values ('EventType','APPROVED_PAYMENT');
+insert into startupdata(name,value) values ('EventType','Trade');
+insert into startupdata(name,value) values ('EventType','Transfer');
+insert into startupdata(name,value) values ('EventType','Exception');
+insert into startupdata(name,value) values ('InitialData','TradeColumn');
+
+
+insert into startupdata(name,value) values ('TradeColumn','ProductSubType');
+insert into startupdata(name,value) values ('TradeColumn','BUY/SELL');
+insert into startupdata(name,value) values ('TradeColumn','ProductType');
+insert into startupdata(name,value) values ('TradeColumn','Status');
+insert into startupdata(name,value) values ('TradeColumn','Action');
+insert into startupdata(name,value) values ('TradeColumn','Book');
+insert into startupdata(name,value) values ('TradeColumn','CounterPary');
+insert into startupdata(name,value) values ('TradeColumn','Currency');
+insert into startupdata(name,value) values ('InitialData','BUY/SELL');
+
+
+insert into startupdata(name,value) values ('BUY/SELL','SELL');
+insert into startupdata(name,value) values ('BUY/SELL','BUY');
+insert into startupdata(name,value) values ('InitialData','TransferType');
+
+
+insert into startupdata(name,value) values ('TransferType','PRINCIPAL');
+insert into startupdata(name,value) values ('TransferType','INTEREST');
+insert into startupdata(name,value) values ('TransferType','COMMISSION');
+insert into startupdata(name,value) values ('TransferType','INTEREST');
+insert into startupdata(name,value) values ('TransferType','PREMIUM');
+insert into startupdata(name,value) values ('TransferType','BOKERAGE');
+insert into startupdata(name,value) values ('InitialData','TransferColumn');
+
+
+insert into startupdata(name,value) values ('TransferColumn','Status');
+insert into startupdata(name,value) values ('TransferColumn','Action');
+insert into startupdata(name,value) values ('TransferColumn','EventType');
+insert into startupdata(name,value) values ('TransferColumn','TransferType');
+insert into startupdata(name,value) values ('TransferColumn','ProductType');
+insert into startupdata(name,value) values ('TransferColumn','RuleName');
+insert into startupdata(name,value) values ('TransferColumn','ProductID');
+insert into startupdata(name,value) values ('TransferColumn','Amount');
+insert into startupdata(name,value) values ('TransferColumn','TradeID');
+insert into startupdata(name,value) values ('TransferColumn','SettleCurrency');
+insert into startupdata(name,value) values ('TransferColumn','DeliveryDate');
+insert into startupdata(name,value) values ('TransferColumn','ValueDate');
+insert into startupdata(name,value) values ('TransferColumn','PayerCode');
+insert into startupdata(name,value) values ('TransferColumn','ReceiverCode');
+insert into startupdata(name,value) values ('TransferColumn','CounterPary');
+insert into startupdata(name,value) values ('TransferColumn','Book');
+ insert into folder(folderno,folder_name) values(1,'SunTrustAcc');
+ insert into folder(folderno,folder_name) values(2,'HTM');
+ insert into HOLIDAY(currency,country) values('ATS','AUSTRIA');
+ insert into HOLIDAY(currency,country) values('AUD','AUSTRALIA');
+ insert into HOLIDAY(currency,country) values('BEF','BELGIUM');
+ insert into HOLIDAY(currency,country) values('CAD','CANADA');
+ insert into HOLIDAY(currency,country) values('CHF','SWITZERLAND');
+ insert into HOLIDAY(currency,country) values('CZK','CZECH REPUBLIC');
+ insert into HOLIDAY(currency,country) values('DEM','GERMANY');
+ insert into HOLIDAY(currency,country) values('DKK','DENMARK');
+ insert into HOLIDAY(currency,country) values('EEK','ESTONIA');
+ insert into HOLIDAY(currency,country) values('ESP','SPAIN');
+ insert into HOLIDAY(currency,country) values('EUR','EURO');
+ insert into HOLIDAY(currency,country) values('FIM','FINLAND');
+ insert into HOLIDAY(currency,country) values('FRF','FRANCE');
+ insert into HOLIDAY(currency,country) values('GBP','UNITED KINGDOM');
+ insert into HOLIDAY(currency,country) values('GRD','GREECE');
+ insert into HOLIDAY(currency,country) values('HKD','HONG KONG');
+ insert into HOLIDAY(currency,country) values('HUF','HUNGARY');
+ insert into HOLIDAY(currency,country) values('IEP','IRELAND');
+ insert into HOLIDAY(currency,country) values('ITL','ITALY');
+ insert into HOLIDAY(currency,country) values('JPY','JAPAN');
+ insert into HOLIDAY(currency,country) values('KRW','KOREA, REPUBLIC OF');
+ insert into HOLIDAY(currency,country) values('NLG','NETHERLANDS');
+ insert into HOLIDAY(currency,country) values('NOK','NORWAY');
+ insert into HOLIDAY(currency,country) values('NZD','NEW ZEALAND');
+ insert into HOLIDAY(currency,country) values('PLN','POLAND');
+ insert into HOLIDAY(currency,country) values('PTE','PORTUGAL');
+ insert into HOLIDAY(currency,country) values('RUB','RUSSIAN FEDERATION');
+ insert into HOLIDAY(currency,country) values('SEK','SWEDEN');
+ insert into HOLIDAY(currency,country) values('SGD','SINGAPORE');
+ insert into HOLIDAY(currency,country) values('SIT','SLOVENIA');
+ insert into HOLIDAY(currency,country) values('SKK','SLOVAKIA');
+ insert into HOLIDAY(currency,country) values('USD','UNITED STATES');
+ insert into HOLIDAY(currency,country) values('ZAR','SOUTH AFRICA');
+ insert into le(id,name,role) values(24,'Trader3','Trader');
+ insert into le(id,name,role) values(23,'Trader2','Trader');
+ insert into le(id,name,role) values(22,'Trader1','Trader');
+ insert into le(id,name,role) values(21,'BNP Paribas ','Agent');
+ insert into le(id,name,role) values(20,'BNP Paribas Sec','CounterParty');
+ insert into le(id,name,role) values(19,'POJO bank','Agent');
+ insert into le(id,name,role) values(18,'Man Invement','CounterParty');
+ insert into le(id,name,role) values(17,'HSBC Sec.','Agent');
+ insert into le(id,name,role) values(16,'L&T Infrastructure','Issuer');
+ insert into le(id,name,role) values(15,'SBI Bonds','Issuer');
+ insert into le(id,name,role) values(14,'Alliance Funds','CounterParty');
+ insert into le(id,name,role) values(13,'Kotak Bank ','PO');
+ insert into le(id,name,role) values(12,'Kotak Secuirty','CounterParty');
+ insert into le(id,name,role) values(11,'DBI  Security','CounterParty');
+ insert into le(id,name,role) values(10,'ICICI Security','CounterParty');
+ insert into le(id,name,role) values(9,'ICICI Bank','Agent');
+ insert into le(id,name,role) values(8,'SunTrust Sec','CounterParty');
+ insert into le(id,name,role) values(7,'HDFC MF Funds','CounterParty');
+ insert into le(id,name,role) values(6,'HDFC Bank','PO');
+ insert into le(id,name,role) values(5,'HSBC','PO');
+ insert into le(id,name,role) values(4,'SBI Security ','CounterParty');
+ insert into le(id,name,role) values(3,'SBI BANK','PO');
+ insert into le(id,name,role) values(2,'L&T Treasury Ltd','CounterParty');
+ insert into le(id,name,role) values(1,'L&T Ltd','Issuer');
+ insert into book(bookno,le_id,book_name,folderid) values(1,3,' SBI Book',1 );
+ insert into book(bookno,le_id,book_name,folderid) values(2,5,'HSBC Bank',1 );
+ insert into book(bookno,le_id,book_name,folderid) values(3,6,'HDFC Bank',1 );
+ insert into book(bookno,le_id,book_name,folderid) values(4,13,'Kotak Bank123',1 );
+ insert into book(bookno,le_id,book_name,folderid) values(5,13,'IDBI',2 );
+ insert into CURRENCYDEFAULT(currency_code,iso_code,country,default_holidays) values('ATS','ATS','AUSTRIA','EUR' );
+ insert into CURRENCYDEFAULT(currency_code,iso_code,country,default_holidays) values('AUD','AUD','AUSTRALIA','SYD' );
+ insert into CURRENCYDEFAULT(currency_code,iso_code,country,default_holidays) values('BEF','BEF','BELGIUM','EUR' );
+ insert into CURRENCYDEFAULT(currency_code,iso_code,country,default_holidays) values('CAD','CAD','CANADA','null' );
+ insert into CURRENCYDEFAULT(currency_code,iso_code,country,default_holidays) values('CHF','CHF','SWITZERLAND','EUR,ZUR' );
+ insert into CURRENCYDEFAULT(currency_code,iso_code,country,default_holidays) values('CZK','CZK','CZECH REPUBLIC','null' );
+ insert into CURRENCYDEFAULT(currency_code,iso_code,country,default_holidays) values('DEM','DEM','GERMANY','EUR' );
+ insert into CURRENCYDEFAULT(currency_code,iso_code,country,default_holidays) values('DKK','DKK','DENMARK','EUR' );
+ insert into CURRENCYDEFAULT(currency_code,iso_code,country,default_holidays) values('EEK','EEK','ESTONIA','null' );
+ insert into CURRENCYDEFAULT(currency_code,iso_code,country,default_holidays) values('ESP','ESP','SPAIN','EUR' );
+ insert into CURRENCYDEFAULT(currency_code,iso_code,country,default_holidays) values('EUR','EUR','EURO','EUR' );
+ insert into CURRENCYDEFAULT(currency_code,iso_code,country,default_holidays) values('FIM','FIM','FINLAND','EUR' );
+ insert into CURRENCYDEFAULT(currency_code,iso_code,country,default_holidays) values('FRF','FRF','FRANCE','EUR' );
+ insert into CURRENCYDEFAULT(currency_code,iso_code,country,default_holidays) values('GBP','GBP','UNITED KINGDOM','LON' );
+ insert into CURRENCYDEFAULT(currency_code,iso_code,country,default_holidays) values('GRD','GRD','GREECE','EUR' );
+ insert into CURRENCYDEFAULT(currency_code,iso_code,country,default_holidays) values('HKD','HKD','HONG KONG','null' );
+ insert into CURRENCYDEFAULT(currency_code,iso_code,country,default_holidays) values('HUF','HUF','HUNGARY','null' );
+ insert into CURRENCYDEFAULT(currency_code,iso_code,country,default_holidays) values('IEP','IEP','IRELAND','EUR' );
+ insert into CURRENCYDEFAULT(currency_code,iso_code,country,default_holidays) values('INR','INR','INDIA','null' );
+ insert into CURRENCYDEFAULT(currency_code,iso_code,country,default_holidays) values('ITL','ITL','ITALY','EUR' );
+ insert into CURRENCYDEFAULT(currency_code,iso_code,country,default_holidays) values('JPY','JPY','JAPAN','TOK' );
+ insert into CURRENCYDEFAULT(currency_code,iso_code,country,default_holidays) values('KRW','KRW','KOREA, REPUBLIC OF','null' );
+ insert into CURRENCYDEFAULT(currency_code,iso_code,country,default_holidays) values('NLG','NLG','NETHERLANDS','EUR' );
+ insert into CURRENCYDEFAULT(currency_code,iso_code,country,default_holidays) values('NOK','NOK','NORWAY','EUR' );
+ insert into CURRENCYDEFAULT(currency_code,iso_code,country,default_holidays) values('NZD','NZD','NEW ZEALAND','null' );
+ insert into CURRENCYDEFAULT(currency_code,iso_code,country,default_holidays) values('PLN','PLN','POLAND','null' );
+ insert into CURRENCYDEFAULT(currency_code,iso_code,country,default_holidays) values('PTE','PTE','PORTUGAL','EUR' );
+ insert into CURRENCYDEFAULT(currency_code,iso_code,country,default_holidays) values('RUB','RUB','RUSSIAN FEDERATION','null' );
+ insert into CURRENCYDEFAULT(currency_code,iso_code,country,default_holidays) values('SEK','SEK','SWEDEN','EUR' );
+ insert into CURRENCYDEFAULT(currency_code,iso_code,country,default_holidays) values('SGD','SGD','SINGAPORE','SIN' );
+ insert into CURRENCYDEFAULT(currency_code,iso_code,country,default_holidays) values('SIT','SIT','SLOVENIA','null' );
+ insert into CURRENCYDEFAULT(currency_code,iso_code,country,default_holidays) values('SKK','SKK','SLOVAKIA','null' );
+ insert into CURRENCYDEFAULT(currency_code,iso_code,country,default_holidays) values('USD','USD','UNITED STATES','NYC' );
+ insert into CURRENCYDEFAULT(currency_code,iso_code,country,default_holidays) values('ZAR','ZAR','SOUTH AFRICA','null' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule, type) values(3,'BOND','GSEC','NEW','SENT_PENDING','NONE',0,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(4,'BOND','GSEC','PENDING','SENT_PENDING','SENT_PENDING',0,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(5,'BOND','GSEC','EXECUTE','SENT_APPROVE','SENT_PENDING',1,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(6,'BOND','GSEC','APPROVE','APPROVED','SENT_APPROVE',1,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(7,'BOND','GSEC','AMEND','APPROVED','APPROVED',0,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(8,'BOND','GSEC','CANCEL','CANCELLED','APPROVED',0,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(9,'BOND','GSEC','CANCEL','CANCELLED','SENT_PENDING',0,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(10,'BOND','GSEC','AUTHORIZE','SENT_APPROVE','SENT_PENDING',0,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(11,'BOND','GSEC','EXECUTE','APPROVED','SENT_APPROVE',0,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(12,'BOND','GSEC','CANCEL','CANCELLED','SENT_APPROVE',0,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(13,'BOND','GSEC','NEW','SENT_PENDING','NONE',0,'jTextField1','TRANSFER' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(14,'BOND','GSEC','EXECUTE','APPROVED','SENT_PENDING',1,'jTextField1','TRANSFER' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(16,'BOND','GSEC','AMEND','APPROVED','APPROVED',0,'jTextField1','TRANSFER' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(17,'BOND','GSEC','SETTLE','SETTLED','APPROVED',0,'jTextField1','TRANSFER' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(18,'BOND','GSEC','WAIVE','WAIVED','APPROVED',0,'jTextField1','TRANSFER' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(19,'BOND','GSEC','AUTHORIZE','APPROVED','SENT_PENDING',0,'jTextField1','TRANSFER' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(29,'MM','CASH.DEPOSIT','NEW','SENT_PENDING','NONE',0,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(30,'MM','CASH.DEPOSIT','EXECUTE','SENT_APPROVE','SENT_PENDING',1,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(31,'MM','CASH.DEPOSIT','APPROVE','APPROVED','SENT_APPROVE',1,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(32,'MM','CASH.DEPOSIT','PENDING','SENT_PENDING','SENT_PENDING',0,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(33,'MM','CASH.DEPOSIT','AUTHORIZE','SENT_APPROVE','SENT_PENDING',0,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(34,'MM','CASH.DEPOSIT','EXECUTE','APPROVED','SENT_APPROVE',0,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(35,'MM','CASH.DEPOSIT','AMEND','APPROVED','APPROVED',0,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(36,'MM','CASH.DEPOSIT','CANCEL','CANCELLED','APPROVED',0,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(37,'MM','CASH.DEPOSIT','CANCEL','CANCELLED','SENT_APPROVE',0,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(38,'MM','CASH.DEPOSIT','CANCEL','CANCELLED','SENT_PENDING',0,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(39,'MM','CASH.LOAN','NEW','SENT_PENDING','NONE',0,'jTextField1','TRANSFER' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(40,'MM','CASH.LOAN','APPROVE','APPROVED','SENT_PENDING',1,'jTextField1','TRANSFER' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(41,'MM','CASH.LOAN','AMEND','APPROVED','APPROVED',0,'jTextField1','TRANSFER' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(42,'MM','CASH.LOAN','CANCEL','CANCELLED','APPROVED',0,'jTextField1','TRANSFER' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(43,'MM','CASH.LOAN','WAIVE','WAIVED','APPROVED',0,'jTextField1','TRANSFER' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(44,'MM','CASH.LOAN','SETTLE','SETTLED','APPROVED',0,'jTextField1','TRANSFER' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(45,'MM','CASH.DEPOSIT','NEW','SENT_PENDING','NONE',0,'jTextField1','TRANSFER' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(46,'MM','CASH.DEPOSIT','APPROVE','APPROVED','SENT_PENDING',1,'jTextField1','TRANSFER' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(47,'MM','CASH.DEPOSIT','CANCEL','CANCELLED','APPROVED',0,'jTextField1','TRANSFER' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(48,'MM','CASH.DEPOSIT','AMEND','APPROVED','APPROVED',0,'jTextField1','TRANSFER' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(49,'MM','CASH.DEPOSIT','WAIVE','WAIVED','APPROVED',0,'jTextField1','TRANSFER' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(50,'MM','CASH.DEPOSIT','SETTLE','SETTLED','APPROVED',0,'jTextField1','TRANSFER' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(51,'MM','CASH.LOAN','NEW','SENT_PENDING','NONE',0,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(52,'MM','CASH.LOAN','EXECUTE','SENT_APPROVE','SENT_PENDING',1,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(53,'MM','CASH.LOAN','APPROVE','APPROVED','SENT_APPROVE',1,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(54,'MM','CASH.LOAN','AMEND','APPROVED','APPROVED',0,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(55,'MM','CASH.LOAN','CANCEL','CANCELLED','APPROVED',0,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(56,'MM','CASH.LOAN','AUTHORIZE','SENT_APPROVE','SENT_PENDING',0,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(57,'MM','CASH.LOAN','EXECUTE','APPROVED','SENT_APPROVE',0,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(58,'MM','CASH.LOAN','CANCEL','CANCELLED','SENT_PENDING',0,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(59,'FX','FX','CANCEL','CANCELLED','SENT_APPROVE',0,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(60,'FX','FX','EXECUTE','APPROVED','SENT_APPROVE',0,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(61,'FX','FX','AUTHORIZE','SENT_APPROVE','SENT_PENDING',0,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(64,'FX','FX','AMEND','APPROVED','APPROVED',0,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(65,'FX','FX','APPROVE','APPROVED','SENT_APPROVE',1,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(66,'FX','FX','EXECUTE','SENT_APPROVE','SENT_PENDING',1,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(67,'FX','FX','PENDING','SENT_PENDING','SENT_PENDING',0,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(68,'FX','FX','NEW','SENT_PENDING','NONE',0,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(69,'FX','FXSWAP','CANCEL','CANCELLED','SENT_APPROVE',0,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(70,'FX','FXSWAP','EXECUTE','APPROVED','SENT_APPROVE',0,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(71,'FX','FXSWAP','AUTHORIZE','SENT_APPROVE','SENT_PENDING',0,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(72,'FX','FXSWAP','CANCEL','CANCELLED','SENT_PENDING',0,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(73,'FX','FXSWAP','CANCEL','CANCELLED','APPROVED',0,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(74,'FX','FXSWAP','AMEND','APPROVED','APPROVED',0,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(75,'FX','FXSWAP','APPROVE','APPROVED','SENT_APPROVE',1,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(76,'FX','FXSWAP','EXECUTE','SENT_APPROVE','SENT_PENDING',1,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(77,'FX','FXSWAP','PENDING','SENT_PENDING','SENT_PENDING',0,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(78,'FX','FXSWAP','NEW','SENT_PENDING','NONE',0,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(79,'FX','FXFORWARD','CANCEL','CANCELLED','SENT_APPROVE',0,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(80,'FX','FXFORWARD','EXECUTE','APPROVED','SENT_APPROVE',0,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(81,'FX','FXFORWARD','AUTHORIZE','SENT_APPROVE','SENT_PENDING',0,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(84,'FX','FXFORWARD','AMEND','APPROVED','APPROVED',0,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(85,'FX','FXFORWARD','APPROVE','APPROVED','SENT_APPROVE',1,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(86,'FX','FXFORWARD','EXECUTE','SENT_APPROVE','SENT_PENDING',1,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(87,'FX','FXFORWARD','PENDING','SENT_PENDING','SENT_PENDING',0,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(88,'FX','FXFORWARD','NEW','SENT_PENDING','NONE',0,'jTextField1','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(89,'FX','FX','AUTHORIZE','APPROVED','SENT_PENDING',0,'jTextField1','TRANSFER' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(90,'FX','FX','WAIVE','WAIVED','APPROVED',0,'jTextField1','TRANSFER' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(91,'FX','FX','SETTLE','SETTLED','APPROVED',0,'jTextField1','TRANSFER' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(92,'FX','FX','AMEND','APPROVED','APPROVED',0,'jTextField1','TRANSFER' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(93,'FX','FX','CANCEL','CANCELLED','APPROVED',0,'jTextField1','TRANSFER' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(94,'FX','FX','EXECUTE','APPROVED','SENT_PENDING',1,'jTextField1','TRANSFER' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(95,'FX','FX','NEW','SENT_PENDING','NONE',0,'jTextField1','TRANSFER' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(96,'FX','FXSWAP','AUTHORIZE','APPROVED','SENT_PENDING',0,'jTextField1','TRANSFER' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(97,'FX','FXSWAP','WAIVE','WAIVED','APPROVED',0,'jTextField1','TRANSFER' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(98,'FX','FXSWAP','SETTLE','SETTLED','APPROVED',0,'jTextField1','TRANSFER' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(99,'FX','FXSWAP','AMEND','APPROVED','APPROVED',0,'jTextField1','TRANSFER' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(100,'FX','FXSWAP','CANCEL','CANCELLED','APPROVED',0,'jTextField1','TRANSFER' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(101,'FX','FXSWAP','EXECUTE','APPROVED','SENT_PENDING',1,'jTextField1','TRANSFER' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(102,'FX','FXSWAP','NEW','SENT_PENDING','NONE',0,'jTextField1','TRANSFER' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(103,'FX','FXFORWARD','AUTHORIZE','APPROVED','SENT_PENDING',0,'jTextField1','TRANSFER' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(104,'FX','FXFORWARD','WAIVE','WAIVED','APPROVED',0,'jTextField1','TRANSFER' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(105,'FX','FXFORWARD','SETTLE','SETTLED','APPROVED',0,'jTextField1','TRANSFER' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(106,'FX','FXFORWARD','AMEND','APPROVED','APPROVED',0,'jTextField1','TRANSFER' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(107,'FX','FXFORWARD','CANCEL','CANCELLED','APPROVED',0,'jTextField1','TRANSFER' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(108,'FX','FXFORWARD','EXECUTE','APPROVED','SENT_PENDING',1,'jTextField1','TRANSFER' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(109,'FX','FXFORWARD','NEW','SENT_PENDING','NONE',0,'jTextField1','TRANSFER' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(110,'FX','FXFORWARD','CANCEL','CANCELLED','APPROVED',0,'null','TRADE' );
+ insert into WFCONFIG(id,productType,productSubType,Action,orgStatus,currentStatus,Auto,rule,type) values(111,'BOND','GSEC','CANCEL','CANCELLED','APPROVED',0,'null','TRANSFER' );

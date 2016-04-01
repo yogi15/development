@@ -1,0 +1,107 @@
+<!-- ############################ -->
+<!-- #### Start Exhibit II-F #### -->
+<!-- ############################ -->
+
+
+<p class="header2">Early Termination:</p>
+
+<table>
+<tr>
+	<td width="30%">Optional Early Termination:</td>
+	<td>Applicable</td>
+</tr>
+<tr>
+	<td>Option Style:</td>
+	<td>|CASH_SETTLE_OPTION_STYLE|</td>
+</tr>
+<tr>
+	<td>Business Days for Payments:</td>
+	<td>|CASH_SETTLE_PAYMENT_BUS_DAYS|</td>
+</tr>
+<tr>
+	<td>Exercise Business Days:</td>
+	<td>|CASH_SETTLE_EXERCISE_HOLIDAYS|</td>
+</tr>
+<tr>
+	<td>Calculation Agent:</td>
+	<td>|SENDER_CODE|</td>
+</tr>
+</table>
+
+
+<p class="header2">Procedure for Exercise:</p>
+
+<table>
+<!--calypso>
+if ( |CASH_SETTLE_OPTION_STYLE| == "Bermudan" )
+    inline "
+    <tr>
+        <td width='30%'>Bermuda Option Exercise Dates:</td>
+        <td>|CASH_SETTLE_BERMUDA_EXERCISE_DATES|</td>
+    </tr>
+    ";
+</calypso-->
+<tr>
+	<td>Expiration Date:</td>
+	<td>The date that is |CASH_SETTLE_VALUATION_BUSINESS_DAYS| days preceding the Cash Settlement Payment Date</td>
+</tr>
+<tr>
+	<td>Earliest Exercise Time:</td>
+	<td>|CASH_SETTLE_EARLIEST_EXERCISE_TIME|</td>
+</tr>
+<tr>
+	<td>Expiration Time:</td>
+	<td>|CASH_SETTLE_EXPIRATION_TIME|</td>
+</tr>
+</table>
+
+<br><br>
+
+<p class="header">Settlement Terms:</p>
+
+<table>
+<tr>
+	<td width="30%">Cash Settlement:</td>
+	<td>Applicable</td>
+</tr>
+<tr>
+	<td>Cash Settlement Valuation Date:</td>
+	<td>|CASH_SETTLE_VALUATION_DATE|</td>
+</tr>
+<tr>
+	<td>Valuation Business Days:</td>
+	<td>|CASH_SETTLE_VALUATION_HOLIDAYS|</td>
+</tr>
+<tr>
+	<td>Cash Settlement Payment Date:</td>
+	<td>|CASH_SETTLE_PAYMENT_DATE|</td>
+</tr>
+<tr>
+	<td>Business Day Convention for Cash Settlement Payment Date:</td>
+	<td>|CASH_SETTLE_PAYMENT_DATE_CONVENTION|</td>
+</tr>
+<tr>
+	<td>Cash Settlement Method:</td>
+	<td>|CASH_SETTLE_METHOD|</td>
+</tr>
+<!--calypso>
+if ( |CASH_SETTLE_METHOD| like "%Yield%" )
+    inline "
+    <tr>
+        <td>Settlement Rate:</td>
+        <td>|CASH_SETTLE_RATE|</td>
+    </tr>
+    ";
+</calypso-->
+<tr>
+	<td>Quotation Rate:</td>
+	<td>|CASH_SETTLE_QUOTE_TYPE|</td>
+</tr>
+</table>
+
+
+<!-- ########################## -->
+<!-- #### End Exhibit II-F #### -->
+<!-- ########################## -->
+
+

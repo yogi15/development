@@ -1,0 +1,35 @@
+<!--cosmos>
+if (Trade.getId() > 0)
+    include "confirm_header.html";
+</cosmos-->
+
+
+<!--cosmos>
+if (|MESSAGE_ACTION| == "confirm") {
+  inline "I am pleased to confirm the details of the following |PRODUCT_TYPE| trade:";
+}
+if (|MESSAGE_ACTION| == "amend") {
+  inline "I am pleased to confirm the amended details of the following |PRODUCT_TYPE| trade:";
+}
+if (|MESSAGE_ACTION| == "cancel") {
+  inline "Please be advised that the following |PRODUCT_TYPE| trade has been canceled:";
+}
+</cosmos-->
+
+
+<b><u><p>Trade details:</u> <br />
+&nbsp; </p></b></FONT>
+<TABLE CELLSPACING=1 WIDTH=623>
+
+
+<TR><TD WIDTH="39%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>Our Trade Id</FONT></TD>
+<TD WIDTH="59%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>|TRADE_ID|</FONT></TD>
+</TR>
+
+
+<!--calypso>
+if (Trade.getId() > 0)
+    include "confirm_footer.html";
+</calypso-->

@@ -1,0 +1,165 @@
+<!--calypso>
+if (Trade.getId() > 0)
+    include "confirm_header.html";
+</calypso-->
+
+
+
+<p>I am pleased to confirm our |PRODUCT_TYPE| trade, traded |TRADE_DATE|.</p>
+<p>This trade carries our trade id number |TRADE_ID|. The details of the trade are as follows:</p>
+<p><b><u>Trade details:</u> <br />
+&nbsp; </b></p></FONT>
+<TABLE BORDER CELLSPACING=1 WIDTH=622>
+<TR><TD WIDTH="39%" VALIGN="MIDDLE">
+<p><FONT SIZE=2>Our Trade Number</FONT></TD>
+<TD WIDTH="2%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>:</FONT></TD>
+<TD WIDTH="59%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>|TRADE_ID|</FONT></TD>
+</TR>
+<TR><TD WIDTH="39%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>Operation Type</FONT></TD>
+<TD WIDTH="2%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>:</FONT></TD>
+<TD WIDTH="59%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>|PRODUCT_TYPE|</FONT></TD>
+</TR>
+<TR><TD WIDTH="39%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>Instrument Description</FONT></TD>
+<TD WIDTH="2%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>:</FONT></TD>
+<TD WIDTH="59%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>|PRODUCT_DESCRIPTION|</FONT></TD>
+</TR>
+<TR><TD WIDTH="39%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>Buyer</FONT></TD>
+<TD WIDTH="2%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>:</FONT></TD>
+<TD WIDTH="59%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>|TRADE_BUYER_NAME|</FONT></TD>
+</TR>
+<TR><TD WIDTH="39%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>Seller</FONT></TD>
+<TD WIDTH="2%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>:</FONT></TD>
+<TD WIDTH="59%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>|TRADE_SELLER_NAME|</FONT></TD>
+</TR>
+<TR><TD WIDTH="39%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>Trade Date</FONT></TD>
+<TD WIDTH="2%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>:</FONT></TD>
+<TD WIDTH="59%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>|TRADE_DATE|</FONT></TD>
+</TR>
+</TABLE>
+
+<p>&nbsp;</p>
+<b><u><FONT SIZE=2><p>First Leg Details</p></u></b></FONT>
+<TABLE BORDER CELLSPACING=1 WIDTH=622>
+<TR><TD WIDTH="39%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>Settlement Date</FONT></TD>
+<TD WIDTH="2%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>:</FONT></TD>
+<TD WIDTH="59%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>|FX_SETTLE_DATE|</FONT></TD>
+</TR>
+<TR><TD WIDTH="39%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>Split Spot Settlement Date</FONT></TD>
+<TD WIDTH="2%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>:</FONT></TD>
+<TD WIDTH="59%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>|FX_SPLIT_DATE|</FONT></TD>
+</TR>
+<TR><TD WIDTH="39%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>Bought Amount</FONT></TD>
+<TD WIDTH="2%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>:</FONT></TD>
+<TD WIDTH="59%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>|FX_BUY_CURRENCY| |FX_BUY_AMOUNT|</FONT></TD>
+</TR>
+<TR><TD WIDTH="39%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>Sold Amount</FONT></TD>
+<TD WIDTH="2%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>:</FONT></TD>
+<TD WIDTH="59%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>|FX_SELL_CURRENCY| |FX_SELL_AMOUNT|</FONT></TD>
+</TR>
+<TR><TD WIDTH="39%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>FX Rate</FONT></TD>
+<TD WIDTH="2%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>:</FONT></TD>
+<TD WIDTH="59%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>|FX_NEGOCIATEDPRICE| (|FX_NEGOCIATEDPRICETYPE|)</FONT></TD>
+</TR>
+</TABLE>
+
+<p>&nbsp; </p>
+<b><u><FONT SIZE=2><p>Second Leg Details</p></u></b></FONT>
+<TABLE BORDER CELLSPACING=1 WIDTH=622>
+<TR><TD WIDTH="39%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>Settlement Date</FONT></TD>
+<TD WIDTH="2%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>:</FONT></TD>
+<TD WIDTH="59%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>|FWD_SETTLE_DATE|</FONT></TD>
+
+<TR><TD WIDTH="39%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>Bought Amount</FONT></TD>
+<TD WIDTH="2%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>:</FONT></TD>
+<TD WIDTH="59%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>|FX_SELL_CURRENCY| |FXFWD_BUY_AMOUNT|</FONT></TD>
+</TR>
+</TR>
+<TR><TD WIDTH="39%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>Split Forward Settlement Date</FONT></TD>
+<TD WIDTH="2%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>:</FONT></TD>
+<TD WIDTH="59%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>|FX_SPLIT_FWDDATE|</FONT></TD>
+</TR>
+<TR><TD WIDTH="39%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>Sold Amount</FONT></TD>
+<TD WIDTH="2%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>:</FONT></TD>
+<TD WIDTH="59%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>|FX_BUY_CURRENCY| |FXFWD_SELL_AMOUNT|</FONT></TD>
+</TR>
+<TR><TD WIDTH="39%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>FX Rate</FONT></TD>
+<TD WIDTH="2%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>:</FONT></TD>
+<TD WIDTH="59%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>|FXFWD_NEGOCIATEDPRICE| (|FX_NEGOCIATEDPRICETYPE|)</FONT></TD>
+</TR>
+</TABLE>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<FONT SIZE=2><p>|ADDITIONAL_FIXED_AMOUNT|</p>
+<p><!---End BizDays Table--><b><u>Payment Instructions</u></b></p></FONT>
+<TABLE CELLSPACING=0 BORDER=0 WIDTH=624>
+<TR><TD WIDTH="38%" VALIGN="MIDDLE">
+<p><FONT SIZE=2>Payment to |SENDER_CODE| :</FONT></TD>
+<TD WIDTH="62%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>|PO_INSTRUCTIONS|</FONT></TD>
+</TR>
+<TR><TD WIDTH="38%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>Payment to |RECEIVER_CODE| :</FONT></TD>
+<TD WIDTH="62%" VALIGN="MIDDLE">
+<FONT SIZE=2><p>|COUNTERPARTY_INSTRUCTIONS|</FONT></TD>
+</TR>
+</TABLE>
+
+<p>&nbsp; </p>
+<p><!---End Account Details Table--><FONT SIZE=2>Please sign and return this Confirmation at your earliest convenience. Because of the importance of confirming transactions promptly and accurately, we regret that any Confirmations which are not signed and returned as soon as possible may result in a delay in payments. </p>
+</FONT>
+
+
+
+
+<!--calypso>
+if (Trade.getId() > 0)
+    include "confirm_footer.html";
+</calypso-->

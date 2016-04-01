@@ -1,0 +1,820 @@
+package util;
+
+import java.awt.Component;
+import java.awt.Font;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Date;
+import java.sql.Timestamp;
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.List;
+import java.util.Vector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.zip.GZIPInputStream;
+
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+
+import apps.newDealInvoker;
+import beans.TransferRule;
+import util.common.DateU;
+
+
+
+
+
+import org.joda.time.DateTime;
+import org.joda.time.Days;
+
+//import oracle.sql.DATE;
+
+
+
+public class commonUTIL {
+	   public final static String ENCODING="UTF-8";
+	   
+	static public void displayError(String name,String methodName, Exception e) {
+      System.out.println("Classname : " + name + " : MethodName : " +methodName + " :: "+ e);
+       
+    }
+	
+	 /**
+	   * return the contents of this file as a byte[]
+	   *
+	   * @param is
+	   * @return
+	   * @throws IOException
+	   */
+	  public static byte[] readBinaryFile(InputStream is) throws IOException {
+
+		  if( is == null ) {
+			  throw new IllegalArgumentException("InputStream is null");
+		  }
+
+		  byte[] buf = new byte[2048];
+		  ByteArrayOutputStream tmp = new ByteArrayOutputStream();
+
+
+		  for(int read; (read = is.read(buf, 0, buf.length)) != -1; ) {
+			  tmp.write(buf, 0, read);
+		  }
+
+		  return tmp.toByteArray();
+	  }
+
+
+	
+	 static public String replaceString(String str, String oldString, String newString) {
+		  if (str == null || oldString == null) return str;
+		  int index = str.indexOf(oldString);
+		  if (index < 0) return str;
+		  String newStr = "";
+		  String currentStr = str;
+		  while (index >= 0) {
+			  String before = "";
+			  if (index > 0) {
+				  before = currentStr.substring(0, index);
+			  }
+			  String after = currentStr.substring(index + oldString.length());
+			  newStr += before + newString;
+			  currentStr = after;
+			  index = currentStr.indexOf(oldString);
+			  if (index < 0)
+				  newStr += currentStr;
+		  }
+		  return newStr;
+	  }
+	
+	static public double converStringToDouble(String doubleValue) {
+		Double doub = new Double(doubleValue);
+		return doub.doubleValue();
+	}
+	static public String converDoubleToString(double doubleValue) {
+		Double doub = new Double(doubleValue);
+		return doub.toString();
+		
+	}
+	
+	static public boolean validatePhoneNumberField(String value) {
+		 String sPhoneNumber = "605-8889999";
+		 boolean flag = false;
+		 Pattern pattern = Pattern.compile("\\d{3}-\\d{7}");
+	      Matcher matcher = pattern.matcher(sPhoneNumber);
+	 
+	      if (matcher.matches()) {
+	    	  flag = true;
+	      } 
+	      return flag;
+ }
+	
+	
+	static public Timestamp getTimeStamp (String date) {
+	 String NEW_FORMAT = "dd/MM/YYYY HH:mm:ss";
+	
+	SimpleDateFormat formats = new SimpleDateFormat(NEW_FORMAT);
+	
+
+	return Timestamp.valueOf( formats.format(stringToDate(date, true)));
+}
+	static public String getTimeStampToString (Timestamp date) {
+	if(date == null) {
+		commonUTIL.display("CommonUtil", "getTimeStampToString  timestamp getting null <<<<<<<<<<<<<<<<<<<<<<");
+		return null;
+	}
+		 String NEW_FORMAT = "dd/MM/YYYY hh:mm:ss";
+		SimpleDateFormat formats = new SimpleDateFormat(NEW_FORMAT);
+		String dateF = formats.format(date.getTime());
+		return dateF.toString();
+	} 
+	
+	
+
+	static public void setLabelFont(JComponent label) {
+		label.setFont(new Font("Arial", Font.BOLD, 13));
+	
+		
+	}
+	static public DateU getDate(Date date) {
+		
+		return DateU.valueOf(date);
+	}
+	
+	public static String doubleFormat(double value) {
+		DecimalFormat df = new DecimalFormat("############.##");
+		return df.format(value);
+
+	}
+	public static double roundToZero(double value) {
+    	if(Math.abs(value) < 1E-100) {
+    		return 0.0;
+    	}
+
+    	return value;
+    }
+	
+	 static public StringBuffer unzipBytes(byte bytes[])
+	  throws IOException,InterruptedException {
+		  try {
+			  ByteArrayInputStream is= new ByteArrayInputStream(bytes);
+			  GZIPInputStream gzin= new GZIPInputStream(is);
+			  InputStreamReader reader= new  InputStreamReader(gzin);
+			  BufferedReader buf=new BufferedReader(reader);
+			  String line=null;
+			  StringBuffer log = new StringBuffer(1024);
+			  while((line=buf.readLine()) != null) {
+               log.append(line).append(System.getProperty("line.separator"));
+			  }
+			  return log;
+		  } catch (Exception e) {
+			 commonUTIL.displayError("CommonUtil", "unzipBytes", e);
+			  return null;
+		  }
+	  }
+	 static public int parseInt(String s) {
+	        try{
+	            return isEmpty(s) ? Integer.MIN_VALUE : Integer.parseInt(s.replaceAll("\\+|,|\\s", ""));
+	        } catch (NumberFormatException e) {
+	            return Integer.MAX_VALUE;
+	        }
+	    }
+	 static public boolean isEmpty(String s) {
+		  return ((s == null) || (s.trim().length() == 0));
+	  }
+
+	 static public java.sql.Date convertStringtoSQLDate(String date) {
+		return convertSQLDate(stringToDate(date,true));
+		 
+	 }
+	 
+	 static public void showAlertMessage(String msg) {
+		 JOptionPane.showMessageDialog(null,msg,null,
+	      				JOptionPane.INFORMATION_MESSAGE);
+	 }
+	 
+	 
+	 static public void showPopuUP(Component comp, String msg) {
+		 
+		 JOptionPane.showInternalInputDialog(comp,new JTextField());
+	 }
+	 
+	 public static boolean isNumeric(String str)  
+	 {  
+	   try  
+	   {  
+	     double d = Double.parseDouble(str);  
+	   }  
+	   catch(NumberFormatException nfe)  
+	   {  
+	     return false;  
+	   }  
+	   return true;  
+	 }
+	 
+	 static public boolean isStringDate(String date) {
+		 boolean  isdate = true;
+		 if(!isEmpty(date)) {
+			 java.util.Date date1 =  stringToDate(date,false);
+			 if(date1 == null)
+				 isdate =  false;
+		 } else {
+			 isdate = false;
+		 }
+		 return isdate;
+		
+	 }
+	 static public java.sql.Timestamp getSQLTimeStamp() {
+		 Calendar currentDate = Calendar.getInstance();
+			return new java.sql.Timestamp(currentDate.getTimeInMillis());
+			 
+		 }
+	 static public java.sql.Timestamp convertStringtoSQLTimeStamp(String date) {
+			return new java.sql.Timestamp( stringToDate(date,true).getTime());
+			 
+		 }
+	/* static public String convertSQLDatetoString(java.sql.Timestamp ts) {
+		 long timeValue = ts.getTime();
+	        long fractionSeconds = timeValue % 1000; // The millisecond component
+	        if (fractionSeconds == 0) {
+	          
+	            timeValue += ts.getNanos() / 1000000; // convert to milliseconds
+	        }
+	        Date d = new Date(timeValue);
+	        return dateToString(d);
+	 } */
+	 static public String convertSQLDatetoString(java.sql.Timestamp ts) {
+		return getTimeStampToString(ts);
+	       
+	 } 
+	static public java.sql.Date convertSQLDate(java.util.Date date) {
+		return new java.sql.Date(date.getTime());
+	}
+	 static public String getCurrentDate(java.util.Date date) {
+		 Calendar currentDate = Calendar.getInstance();
+		  SimpleDateFormat formatter= 
+		  new SimpleDateFormat("dd/MM/yyyy");
+		  String dateNow = formatter.format(currentDate.getTime());
+		  
+	        return dateNow;
+	    }
+	 
+	 static public String getDateDefaultFormat(java.util.Date date) {
+		
+		  SimpleDateFormat formatter= 
+		  new SimpleDateFormat("dd/MM/yyyy");
+		  String dateNow = formatter.format(date);
+		  
+	        return dateNow;
+	    }
+	 static public java.util.Date getCurrentDate() {
+		 Calendar currentDate = Calendar.getInstance();
+		 SimpleDateFormat formatter= getDateFormat();
+				  new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+		 return (java.util.Date) currentDate.getTime();
+	    }
+	 
+	 static public String getCurrentDateTime() {
+		 Calendar currentDate = Calendar.getInstance();
+		  SimpleDateFormat formatter= 
+		  new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+		  String dateNow = formatter.format(currentDate.getTime());
+		  
+	        return dateNow;
+	    }
+	 static public java.sql.Timestamp getStringToTimestamp(String dateTime) {
+		 SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+		  Timestamp timestamp = null;
+		    Date parsedDate;
+			try {
+				parsedDate = dateFormat.parse(dateTime);
+				timestamp = new java.sql.Timestamp(parsedDate.getTime());
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		
+
+		  
+	        return timestamp;
+	    }
+	 static public String getAddDays(int days) {
+		 Calendar currentDate = Calendar.getInstance();
+		 currentDate.add(Calendar.DATE, days);
+		 SimpleDateFormat formatter= 
+		 new SimpleDateFormat("dd/MM/yyyy");
+		  String dateNow = formatter.format(currentDate.getTime());
+		  
+	        return dateNow;
+	    }
+	 static public java.util.Date stringToDate(String dateStr,boolean isLenient) {
+		   if(dateStr.contains("-")) 
+			   dateStr = dateStr.replace("-", "/");
+	        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+	        if(dateStr.contains("-")) {
+	        	format = new SimpleDateFormat("dd/MM/yyyy");
+	        }
+	        format.setLenient(isLenient);
+	        java.util.Date date = null;
+	        boolean flag = false;
+	        try {
+	           date = format.parse(dateStr);
+	            if (date != null)
+	               return date;
+	            else
+	                return null;
+	        } catch (Exception e) {
+	        	displayError("CommonUTIL","stringTOdate",e);
+	            return date;
+	        }
+	      
+	    }
+	 static public void display(String name,String message) {
+	      System.out.println("Classname : " + name + " : MethodName : " +message + " :: ");
+	       
+	    }
+	 static public String  dateToString(java.util.Date date) {
+	        SimpleDateFormat formator = new SimpleDateFormat("dd/MM/yyyy");
+	        formator.setLenient(true);
+	        String datetostring = "";
+	        String nowYYYYMMDD = new String(formator.format(date));
+	        datetostring = formator.format(date).toString();
+	      return nowYYYYMMDD.toString();
+	    }
+	 
+	 /**
+	   * Returns the IP address of the host we're running on.
+	   */
+	  public static String getLocalHost() {
+		  InetAddress addr = null;
+		  String strAddr=null;
+		  try {
+			  addr = InetAddress.getLocalHost();
+			  strAddr = addr.getHostAddress();
+		  }catch (Exception e) {
+			  commonUTIL.displayError("CommonUTIL", "getLocalHost() ", e); }
+		  return strAddr;
+	  }
+
+	  public static String getLocalHostName() {
+		  InetAddress addr = null;
+		  String strAddr=null;
+		  try {
+			  addr = InetAddress.getLocalHost();
+			  
+		  }catch (Exception e) {
+			  commonUTIL.displayError("CommonUTIL", "getLocalHost() ", e); }
+		  return addr.getHostName();
+	  }
+	  
+	  
+	  public static String getServerIP() {
+		  return getLocalHost();
+	  }
+	  /**
+	   * Answer true if the specified host names the one we're running on.
+	   * @param hostNameOrIPAddr The host to test:  either it's string name, or
+	   *                 the string form of its IP address (e.g. "166.24.219.1").
+	   */
+	  
+	  
+	  public static boolean isLocalHost(String hostNameOrIPAddr)
+	  {
+		  InetAddress localAddr, argAddr;
+		  // Following InetAddress calls may throw UnknownHostException
+		  try {
+			  localAddr = InetAddress.getLocalHost();
+			  argAddr = InetAddress.getByName(hostNameOrIPAddr);
+		  } catch (UnknownHostException ex) {
+			  commonUTIL.displayError("CommonUTIL", "isLocalHost() ", ex);
+			  // Either we can't even this this host's IP address (!!), or
+			  // we can't get the IP address for the given host
+			  return false;        // Either way, best guess is that this host is not the given host
+		  }
+		  return localAddr.equals(argAddr);
+	  }
+	  
+	  public boolean checkDateValidation(Date startDate,Date endDate) {
+	    	if(startDate.after(endDate)) 
+	    		return false;
+	    	else
+	    		return true;
+	    	
+	    }
+	  
+	  public static String getDateFormat(Date date) {
+	    	//System.out.println(date.getDay() + " " + date.getYear() + " " + date.getMonth());
+	    //	System.out.println(date.get);
+		  String dd = "";
+		  if(date == null)
+			  return dd;
+	    	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy"); 
+	    	 dd = sdf.format(date); 
+	    	return dd;
+
+
+	    }
+	  
+	  public static SimpleDateFormat getDateFormat() {
+	    	//System.out.println(date.getDay() + " " + date.getYear() + " " + date.getMonth());
+	    //	System.out.println(date.get);
+		  String dd = "";
+		
+	    	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy"); 
+	    	return sdf;
+
+
+	    }
+	  public static SimpleDateFormat getDateTimeFormat() {
+	    	//System.out.println(date.getDay() + " " + date.getYear() + " " + date.getMonth());
+	    //	System.out.println(date.get);
+		  String dd = "";
+		
+	    	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"); 
+	    	return sdf;
+
+
+	    }
+	  
+	  public static boolean between2dates(Date fromDate1,Date toDate2,Date valueDate) {
+	  if(valueDate.after(fromDate1) && valueDate.before(toDate2))
+		  return true;
+	  else 
+		  return false;
+	  }
+
+  
+
+	public static void setPath(String path) {
+	//	this.path = path;
+		// TODO Auto-generated method stub
+		
+	}
+	//String path = "";
+	/**
+	 * 
+	 * @author yogesh
+	 * @return current date in string format
+	 */
+	static public String getCurrentDateInString() {
+		Calendar currentDate = Calendar.getInstance();
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		return formatter.format(currentDate.getTime());
+	}
+	
+	
+	/**
+	 * Returns true if date1 is greater than date2
+	 * 
+	 * @author yogesh
+	 * @param date1
+	 * @param date2
+	 * @return
+	 */
+	static public boolean checkGreaterDate(Date date1, Date date2) {
+		
+		if(date1.after(date2)) {
+			
+			return true;
+			
+		} else {
+			
+			return false;
+		}
+		
+		
+	}
+	
+	/**
+	 * Returns a date object for a day, month and year provided
+	 * 
+	 * @author yogesh
+	 * @param day
+	 * @param month
+	 * @param year
+	 * @return Date
+	 */
+
+	static public Date setDate(int day, int month, int year) {
+
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.DAY_OF_MONTH, day);
+		cal.set(Calendar.MONTH, month);
+		cal.set(Calendar.YEAR, year);
+
+		return cal.getTime();
+
+	}
+
+	/**
+	 * Returns true if the year is a leap year
+	 * 
+	 * @author yogesh
+	 * @param year
+	 * @return boolean
+	 */
+	static public boolean isLeapYear(int year) {
+
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.YEAR, year);
+		return cal.getActualMaximum(Calendar.DAY_OF_YEAR) > 365;
+
+	}
+
+	/**
+	 * Returns number of months between two dates
+	 * 
+	 * @author yogesh
+	 * @param startDate
+	 * @param endDate
+	 * @return integer
+	 */
+	static public int diffInMonths(Date startDate, Date endDate) {
+
+		Calendar startCalendar = Calendar.getInstance();
+		startCalendar.setTime(startDate);
+		Calendar endCalendar = Calendar.getInstance();
+		endCalendar.setTime(endDate);
+
+		int diffYear = endCalendar.get(Calendar.YEAR)
+				- startCalendar.get(Calendar.YEAR);
+		return (diffYear * 12 + endCalendar.get(Calendar.MONTH) - startCalendar
+				.get(Calendar.MONTH));
+
+	}
+
+	/**
+	 * Returns number of days between two dates
+	 * 
+	 * @author yogesh
+	 * @param startDate
+	 * @param endDate
+	 * @return long
+	 */
+	static public long diffInDays(Date startDate, Date endDate) {
+
+		Calendar startCalendar = Calendar.getInstance();
+		startCalendar.setTime(startDate);
+		Calendar endCalendar = Calendar.getInstance();
+		endCalendar.setTime(endDate);
+
+		long miliSecondForStartCalendar = startCalendar.getTimeInMillis();
+		long miliSecondEndCalendar = endCalendar.getTimeInMillis();
+
+		long diffInMilis = miliSecondEndCalendar - miliSecondForStartCalendar;
+		
+		
+		return diffInMilis / (24 * 60 * 60 * 1000);
+
+	}
+	
+	/**
+	 *  Returns number of days between two dates using Joda DateTime Library
+	 * 
+	 * @author yogesh
+	 * @param startDate
+	 * @param endDate
+	 * @return long
+	 */
+	
+	static public long jodaDiffInDays(Date startDate, Date endDate) {
+
+		DateTime startTime = null;
+		DateTime endTime= null;
+		
+		startTime = new DateTime(startDate);
+		
+		endTime = new DateTime(endDate);
+				
+		long diffInDays = Days.daysBetween(startTime, endTime).getDays();
+		
+		return diffInDays;
+
+	}
+	
+	
+	/**
+	 * Adds/Substract the no. of days to a date
+	 * 
+	 * @author yogesh
+	 * @param updateDate
+	 * @param noOfDays
+	 * @return Date
+	 */
+
+	static public Date addSubtractDate(Date updateDate, int noOfDays) {
+
+		Calendar newDate = Calendar.getInstance();
+		newDate.setTime(updateDate);
+		newDate.add(Calendar.DATE, noOfDays);
+
+		return newDate.getTime();
+
+	}
+	
+	/**
+	 * Adds/Substract the no. of days to a date which is in string format
+	 * 
+	 * @author yogesh
+	 * @param dateInString
+	 * @param noOfDays
+	 * @return date in string format
+	 */
+	static public String addSubtractDate(String dateInString, int noOfDays) {
+
+		Calendar newDate = Calendar.getInstance();
+		newDate.setTime(stringToDate(dateInString, true));
+		newDate.add(Calendar.DATE, noOfDays);
+
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		String dateNow = formatter.format(newDate.getTime());
+
+		return dateNow;
+
+	}
+	
+	/**
+	 * Returns a date after subtracting any one of the following: Day, Month,
+	 * Quarter, SemiAnnual or a Year
+	 * 
+	 * @author yogesh
+	 * @param updateDate
+	 * @param deductionNo
+	 * @param criteria
+	 * @return Date
+	 */
+	static public Date addSubtractDate(Date updateDate, int addSubtratcNo,
+			String criteria) {
+
+		Calendar newDate = Calendar.getInstance();
+		newDate.setTime(updateDate);
+		int lastDayOfMonth = newDate.getActualMaximum(Calendar.DAY_OF_MONTH);
+		int year = newDate.get(Calendar.YEAR);
+		int month = newDate.get(Calendar.MONTH);
+		int day = newDate.get(Calendar.DAY_OF_MONTH);
+
+		/*
+		 * if ( ( month == 1 && ( lastDayOfMonth == 29 && isLeapYear(year) ) ||
+		 * ( lastDayOfMonth == 28 && !isLeapYear(year) ) ) ) {
+		 * 
+		 * criteria = "skip"; newDate.set(Calendar.MONTH, 0); int lastDay =
+		 * newDate.getActualMaximum(Calendar.DAY_OF_MONTH);
+		 * newDate.set(Calendar.DAY_OF_MONTH, lastDay);
+		 * 
+		 * 
+		 * }
+		 */
+
+		if (criteria.equals("day")) {
+
+			newDate.add(Calendar.DATE, addSubtratcNo);
+
+		} else if (criteria.equals("month")) {
+
+			if (lastDayOfMonth == day) {
+
+				newDate.add(Calendar.DATE,
+						-newDate.getActualMaximum(Calendar.DAY_OF_MONTH));
+
+			} else {
+
+				newDate.add(Calendar.MONTH, addSubtratcNo);
+
+			}
+
+		} else if (criteria.equals("quarter")) {
+
+			if (lastDayOfMonth == day) {
+
+				newDate.add(Calendar.MONTH, addSubtratcNo);
+				newDate.set(Calendar.DATE,
+						newDate.getActualMaximum(Calendar.DAY_OF_MONTH));
+
+			} else {
+
+				newDate.add(Calendar.MONTH, addSubtratcNo);
+
+			}
+
+		} else if (criteria.equals("semiAnnual")) {
+
+			if (lastDayOfMonth == day) {
+
+				newDate.add(Calendar.MONTH, addSubtratcNo);
+				newDate.set(Calendar.DATE,
+						newDate.getActualMaximum(Calendar.DAY_OF_MONTH));
+
+			} else {
+
+				newDate.add(Calendar.MONTH, addSubtratcNo);
+
+			}
+
+		} else if (criteria.equals("year")) {
+
+			if (lastDayOfMonth == day) {
+
+				newDate.add(Calendar.MONTH, addSubtratcNo);
+				newDate.set(Calendar.DATE,
+						newDate.getActualMaximum(Calendar.DAY_OF_MONTH));
+
+			} else {
+
+				newDate.add(Calendar.MONTH, addSubtratcNo);
+
+			}
+
+		}
+
+		return newDate.getTime();
+
+	}
+
+	/**
+	 * Returns an integer indicating day in a week. Sunday is 1 whereas Saturday
+	 * has integer value of 7
+	 * 
+	 * @param dateInString
+	 * @param dateFormat
+	 * @return int
+	 */
+	static int getWeekDay(String dateInString, String dateFormat) {
+
+		Calendar c = Calendar.getInstance();
+		c.setTime(stringToDate(dateInString, true));
+
+		int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+
+		return dayOfWeek;
+	}
+	
+	
+	/**
+	 * Returns the last day of a month for a given date of String format
+	 * 
+	 * @author yogesh
+	 * @param dateInString
+	 * @return int
+	 */
+
+	static public int getLastDayofMonth(String dateInString) {
+
+		Calendar c = Calendar.getInstance();
+		c.setTime(stringToDate(dateInString, true));
+		int lastDayofMonth = c.getActualMaximum(c.DAY_OF_MONTH);
+
+		return lastDayofMonth;
+
+	}
+
+	/**
+	 * Returns the last day of a month for a given date of Date format
+	 * 
+	 * @author yogesh
+	 * @param checkDate
+	 * @return
+	 */
+
+	static public int getLastDayofMonth(Date checkDate) {
+
+		Calendar c = Calendar.getInstance();
+		c.setTime(checkDate);
+		int lastDayofMonth = c.getActualMaximum(c.DAY_OF_MONTH);
+
+		return lastDayofMonth;
+
+	}
+	
+	/*
+	 * Replaces a common from a string format number
+	 * 
+	 * @author yogesh
+	 * @param replaceCommaInNumber
+	 * @return double
+	 */
+	
+	static public double replaceCommaInNumber( String stringNumber ) {
+		
+		//stringNumber.replaceAll("^\"|\"$", "");
+		//stringNumber.replaceAll(",","");
+		stringNumber.replaceAll(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)","");
+		stringNumber.replaceAll("[^0-9.]", "");
+		stringNumber.replaceAll(",","");
+		System.out.println(stringNumber);
+		return Double.parseDouble(stringNumber.trim());
+	}
+	
+}
