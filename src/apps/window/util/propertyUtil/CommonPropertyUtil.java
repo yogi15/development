@@ -33,10 +33,11 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableCellEditor;
 import javax.swing.text.JTextComponent;
 
-import util.ReferenceDataCache; 
 import util.commonUTIL; 
+import util.cacheUtil.ReferenceDataCache;
 
 import beans.AttributeContainer; 
+import beans.WindowSheet;
  
 import com.jidesoft.combobox.ListComboBox;
 import com.jidesoft.grid.CellEditorFactory;
@@ -47,6 +48,7 @@ import com.jidesoft.grid.PropertyTable;
 import com.jidesoft.grid.PropertyTableModel;
 
 import constants.CommonConstants;
+import constants.WindowSheetConstants;
  
  
  
@@ -178,7 +180,7 @@ public class CommonPropertyUtil {
      * @return an instance of an ExtendedMultipleSelectionListProperty
      */
     public static <T>  PropertyListMultipleSelection createMultipleSelectionListProperty(String name, String displayName, String category, List<T> domain) {
-        return new  PropertyListMultipleSelection(name, displayName, category, domain);
+        return new  PropertyListMultipleSelection(displayName, displayName, category, domain);
     }
 
     /**
@@ -244,7 +246,24 @@ public class CommonPropertyUtil {
     	PropertyBoolean booleanProperty = new PropertyBoolean(name, displayName, category, style);
         booleanProperty.setDisplayName(displayName);
         return booleanProperty;
-    }    
+    }
+    
+    public static Property createFieldListProperty(String propertyName,String displayName,String categoryName ) {
+		Vector<WindowSheet> data = ReferenceDataCache.selectWindowSheets(WindowSheetConstants.WINDOW_NAME,WindowSheetConstants.WINDOW);
+		Vector<String> fieldNames = new Vector<String>();
+		PropertyEnum<String> newParentProp  = null;
+		if(!commonUTIL.isEmpty(data)) {
+		 
+			for(int i=0;i<data.size();i++) {
+				 
+				fieldNames.add(((WindowSheet)data.get(i)).getFieldName());
+				
+			}
+		  newParentProp = PropertyGenerator.createPropertyFromStartUp(propertyName, propertyName, categoryName,   fieldNames);
+			
+		}
+		return newParentProp;
+	}
     /**
      * Creates an integer property that uses a default spinner model
      * 
