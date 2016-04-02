@@ -1,4 +1,5 @@
 package beans;
+ 
 
 import util.commonUTIL;
 import constants.WindowSheetConstants;
@@ -10,7 +11,6 @@ public class WindowSheet implements BaseBean {
 	String ChildWindowName;
 	boolean mapJavaObject;
 	boolean isEditable;
-
 	/**
 	 * @return the isEditable
 	 */
@@ -19,8 +19,7 @@ public class WindowSheet implements BaseBean {
 	}
 
 	/**
-	 * @param isEditable
-	 *            the isEditable to set
+	 * @param isEditable the isEditable to set
 	 */
 	public void setEditable(boolean isEditable) {
 		this.isEditable = isEditable;
@@ -34,15 +33,13 @@ public class WindowSheet implements BaseBean {
 	}
 
 	/**
-	 * @param isHidden
-	 *            the isHidden to set
+	 * @param isHidden the isHidden to set
 	 */
 	public void setHidden(boolean isHidden) {
 		this.isHidden = isHidden;
 	}
 
 	boolean isHidden;
-
 	/**
 	 * @return the mapJavaObject
 	 */
@@ -51,8 +48,7 @@ public class WindowSheet implements BaseBean {
 	}
 
 	/**
-	 * @param mapJavaObject
-	 *            the mapJavaObject to set
+	 * @param mapJavaObject the mapJavaObject to set
 	 */
 	public void setMapJavaObject(boolean mapJavaObject) {
 		this.mapJavaObject = mapJavaObject;
@@ -66,15 +62,13 @@ public class WindowSheet implements BaseBean {
 	}
 
 	/**
-	 * @param javaObjectName
-	 *            the javaObjectName to set
+	 * @param javaObjectName the javaObjectName to set
 	 */
 	public void setJavaObjectName(String javaObjectName) {
 		JavaObjectName = javaObjectName;
 	}
 
 	String JavaObjectName;
-
 	/**
 	 * @return the parentWindowName
 	 */
@@ -83,8 +77,7 @@ public class WindowSheet implements BaseBean {
 	}
 
 	/**
-	 * @param parentWindowName
-	 *            the parentWindowName to set
+	 * @param parentWindowName the parentWindowName to set
 	 */
 	public void setChildWindowName(String childWindowName) {
 		ChildWindowName = childWindowName;
@@ -98,14 +91,13 @@ public class WindowSheet implements BaseBean {
 	}
 
 	/**
-	 * @param isHierarachicalWindow
-	 *            the isHierarachicalWindow to set
+	 * @param isHierarachicalWindow the isHierarachicalWindow to set
 	 */
 	public void setIsHierarachicalWindow(boolean isHierarachicalWindow) {
 		IsHierarachicalWindow = isHierarachicalWindow;
 	}
 
-	boolean IsHierarachicalWindow;
+	boolean IsHierarachicalWindow; 
 
 	/**
 	 * @return the isChild
@@ -373,31 +365,31 @@ public class WindowSheet implements BaseBean {
 
 		if (propertyPaneColumnName
 				.equalsIgnoreCase(WindowSheetConstants.DATATYPE)) {
-			return obj = getDataType();
+			return	obj = getDataType();
 		}
 		if (propertyPaneColumnName
 				.equalsIgnoreCase(WindowSheetConstants.DEFAULTVALUE)) {
-			return obj = getDefaultValue();
+			return	obj = getDefaultValue();
 		}
 		if (propertyPaneColumnName
 				.equalsIgnoreCase(WindowSheetConstants.DESIGNTYPE)) {
-			return obj = getDesignType();
+			return	obj = getDesignType();
 		}
 		if (propertyPaneColumnName
 				.equalsIgnoreCase(WindowSheetConstants.FIELDNAME)) {
-			return obj = getFieldName();
+			return	 obj = getFieldName();
 		}
 		if (propertyPaneColumnName
 				.equalsIgnoreCase(WindowSheetConstants.ISSTARTUPDATA)) {
-			if (getIsStartupdata() == 1) {
+			 if( getIsStartupdata() == 1) {
 				return true;
-			} else {
-				return false;
-			}
+			 } else {
+				 return false;
+			 }
 		}
 		if (propertyPaneColumnName
 				.equalsIgnoreCase(WindowSheetConstants.STARTUPDATANAME)) {
-			return obj = getStartUpDataName();
+			return	 obj = getStartUpDataName();
 		}
 		if (propertyPaneColumnName
 				.equalsIgnoreCase(WindowSheetConstants.PARENTFIELDNAME)) {
@@ -405,51 +397,50 @@ public class WindowSheet implements BaseBean {
 		}
 		if (propertyPaneColumnName
 				.equalsIgnoreCase(WindowSheetConstants.ISCHILDFIELD)) {
-			return obj = isChildField();
+			return		obj = isChildField();
 		}
 		if (propertyPaneColumnName
-				.equalsIgnoreCase(WindowSheetConstants.WINDOWNAME)
-				|| propertyPaneColumnName
-						.equalsIgnoreCase(WindowSheetConstants.ATTRIBUTENAME)) {
-			if (propertyPaneColumnName
+				.equalsIgnoreCase(WindowSheetConstants.WINDOWNAME) || propertyPaneColumnName
+				.equalsIgnoreCase(WindowSheetConstants.ATTRIBUTENAME)) {
+			if(propertyPaneColumnName
 					.equalsIgnoreCase(WindowSheetConstants.ATTRIBUTENAME)) {
-				String ss = (String) getWindowName();
-				if (!commonUTIL.isEmpty(ss) && ss.contains("Attributes")) {
+				String ss = (String)getWindowName();
+				if(!commonUTIL.isEmpty(ss) && ss.contains("Attributes")) {
 					ss = ss.substring(0, ss.indexOf("Attributes"));
-					return ss;
+					return	 ss;
 				}
-
-			} else {
-				return obj = getWindowName();
-			}
+				
+					} else {
+			return	obj = getWindowName();
+					}
 		}
 		if (propertyPaneColumnName
 				.equalsIgnoreCase(WindowSheetConstants.NULLCHECKED)) {
-			return obj = isNullChecked();
+			return		obj = isNullChecked();
 		}
 		if (propertyPaneColumnName
 				.equalsIgnoreCase(WindowSheetConstants.ISHIERARACHICALWINDOW)) {
-			return obj = IsHierarachicalWindow();
+			return		obj = IsHierarachicalWindow();
 		}
 		if (propertyPaneColumnName
 				.equalsIgnoreCase(WindowSheetConstants.MAPJAVAOBJECT)) {
-			return obj = isMapJavaObject();
+			return		obj = isMapJavaObject();
 		}
 		if (propertyPaneColumnName
 				.equalsIgnoreCase(WindowSheetConstants.JAVAOBJECTNAME)) {
-			return obj = getJavaObjectName();
+			return		obj = getJavaObjectName();
 		}
 		if (propertyPaneColumnName
 				.equalsIgnoreCase(WindowSheetConstants.CHILDWINDOWNAME)) {
-			return obj = getChildWindowName();
+			return		obj = getChildWindowName();
 		}
 		if (propertyPaneColumnName
 				.equalsIgnoreCase(WindowSheetConstants.ISEDITABLE)) {
-			return obj = isEditable();
+			return		obj = isEditable();
 		}
 		if (propertyPaneColumnName
 				.equalsIgnoreCase(WindowSheetConstants.ISHIDDEN)) {
-			return obj = isHidden();
+			return		obj = isHidden();
 		}
 		return obj;
 	}
@@ -467,7 +458,7 @@ public class WindowSheet implements BaseBean {
 		if (propertyPaneColumnName
 				.equalsIgnoreCase(WindowSheetConstants.CUSTOMPANELNAME)) {
 			setCustomPanelName((String) object);
-		}
+		} 
 		if (propertyPaneColumnName
 				.equalsIgnoreCase(WindowSheetConstants.DATATYPE)) {
 			setDataType((String) object);
@@ -486,9 +477,9 @@ public class WindowSheet implements BaseBean {
 		}
 		if (propertyPaneColumnName
 				.equalsIgnoreCase(WindowSheetConstants.ISSTARTUPDATA)) {
-			if (((Boolean) object).booleanValue() == true)
-				setIsStartupdata(1);
-			else
+			if(((Boolean) object).booleanValue() == true)
+			setIsStartupdata(1);
+			else 
 				setIsStartupdata(0);
 		}
 		if (propertyPaneColumnName
@@ -499,17 +490,15 @@ public class WindowSheet implements BaseBean {
 				.equalsIgnoreCase(WindowSheetConstants.PARENTFIELDNAME)) {
 			setParentFieldName((String) object);
 		}
-		if (propertyPaneColumnName
-				.equalsIgnoreCase(WindowSheetConstants.ISCHILDFIELD)) {
+		if (propertyPaneColumnName.equalsIgnoreCase(WindowSheetConstants.ISCHILDFIELD)) {
 			setChildField(((Boolean) object).booleanValue());
 		}
 		if (propertyPaneColumnName
-				.equalsIgnoreCase(WindowSheetConstants.WINDOWNAME)
-				|| propertyPaneColumnName
-						.equalsIgnoreCase(WindowSheetConstants.ATTRIBUTENAME)) {
-			if (propertyPaneColumnName
-					.equalsIgnoreCase(WindowSheetConstants.ATTRIBUTENAME)) {
-				setWindowName((String) object + "Attributes");
+				.equalsIgnoreCase(WindowSheetConstants.WINDOWNAME) || propertyPaneColumnName
+				.equalsIgnoreCase(WindowSheetConstants.ATTRIBUTENAME)) {
+			if(propertyPaneColumnName
+			.equalsIgnoreCase(WindowSheetConstants.ATTRIBUTENAME)) {
+			setWindowName((String) object + "Attributes");
 			} else {
 				setWindowName((String) object);
 			}
@@ -524,7 +513,7 @@ public class WindowSheet implements BaseBean {
 		}
 		if (propertyPaneColumnName
 				.equalsIgnoreCase(WindowSheetConstants.CHILDWINDOWNAME)) {
-			setChildWindowName(((String) object));
+			setChildWindowName(((String) object) );
 		}
 		if (propertyPaneColumnName
 				.equalsIgnoreCase(WindowSheetConstants.MAPJAVAOBJECT)) {
@@ -532,11 +521,11 @@ public class WindowSheet implements BaseBean {
 		}
 		if (propertyPaneColumnName
 				.equalsIgnoreCase(WindowSheetConstants.JAVAOBJECTNAME)) {
-			setJavaObjectName(((String) object));
+			setJavaObjectName(((String) object) );
 		}
 		if (propertyPaneColumnName
 				.equalsIgnoreCase(WindowSheetConstants.ISEDITABLE)) {
-			setEditable(((Boolean) object).booleanValue());
+			setEditable(  ((Boolean) object).booleanValue());
 		}
 		if (propertyPaneColumnName
 				.equalsIgnoreCase(WindowSheetConstants.ISHIDDEN)) {
