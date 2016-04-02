@@ -18,8 +18,8 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import util.ReferenceDataCache;
 import util.commonUTIL;
+import util.cacheUtil.ReferenceDataCache;
 import beans.AttributeContainer;
 import beans.WindowSheet;
 import com.jidesoft.combobox.AbstractComboBox;
@@ -331,7 +331,8 @@ public class AttributeProperty extends PropertyExtended<AttributeContainer>
 		AttributeContainer attributeC = getValue();
 
 		String attributeName = attributeC.getAttributeName();
-
+       // if(!commonUTIL.isEmpty(attributeName)) 
+        	//attributeName = attributeName.substring(0, attributeName.indexOf("Attributes"));
 		Vector<WindowSheet> windowSheets = ReferenceDataCache
 				.selectWindowSheets(attributeName,WindowSheetConstants.ATTRIBUTE);
 		List<Property> properties = PropertyGenerator

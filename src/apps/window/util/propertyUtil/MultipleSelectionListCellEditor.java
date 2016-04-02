@@ -10,6 +10,8 @@ import javax.swing.AbstractCellEditor;
 import javax.swing.JCheckBox;
 import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
+
+import util.commonUTIL;
  
 import apps.window.util.windowUtil.MultiSelectionComboxBox; 
 import com.jidesoft.swing.NullPanel;
@@ -29,7 +31,15 @@ public class MultipleSelectionListCellEditor extends AbstractCellEditor implemen
     }
 
     public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
-        panel = new PanelEditor((Selection) value);
+    	Selection<String> selection = new Selection<String>();
+    	if(value instanceof String) {
+    		List<String> values =new ArrayList<String>();
+    		commonUTIL.convertStringToCollection((String) value,values);
+    	 
+    		selection.setIncludeExclude(true);
+    		selection.setItems(values);
+    	}
+        panel = new PanelEditor((Selection) selection);
         return panel;
     }
     

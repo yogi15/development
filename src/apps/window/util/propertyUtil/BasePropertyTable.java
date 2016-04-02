@@ -74,6 +74,8 @@ public class BasePropertyTable extends PropertyTable {
 	        propertyTable.setColumnSelectionAllowed(true);
 
 	        final PropertyTableModel model = new PropertyTableModel(props);
+	        
+	        
 	      
 	       if (showCategories) // to disable Catergorizes
 	            model.setOrder(PropertyTableModel.CATEGORIZED);
