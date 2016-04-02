@@ -20,10 +20,10 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer; 
 
-import util.ReferenceDataCache;
 import util.commonUTIL;
 
 import util.ComparatorFactory; 
+import util.cacheUtil.ReferenceDataCache;
 import apps.window.util.propertyPane.combox.AutoCompletionComboBox;
 import apps.window.util.propertyPane.editor.celleditor.intellihints.SmartListIntellihints;
    
