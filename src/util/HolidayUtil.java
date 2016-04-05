@@ -1,4 +1,4 @@
-package util;
+package src.util;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import java.util.List;
 
 import util.common.CountDay;
 
-import beans.Holiday;
+import beans.HolidayCode;
 
 public class HolidayUtil {
 

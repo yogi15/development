@@ -1,4 +1,4 @@
-package util;
+package src.util;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -12,6 +12,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
@@ -27,6 +29,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -51,23 +54,17 @@ import beans.Attribute;
 import beans.CurrencyDefault;
 import beans.StartUPData;
 import beans.TransferRule;
+import util.common.CDateTime;
 import util.common.DateU;
+
+import util.common.CDate;
 import util.common.NumberFormatUtil;
-import util.common.NumberRoundingMethod;
-
-
-
-
-
-
+import util.common.NumberRoundingMethod; 
 import org.joda.time.DateTime;
-import org.joda.time.Days;
+import org.joda.time.Days;  
  
 
-
-
-import constants.CommonConstants;
-import dsEventProcessor.DebugEventProcessor;
+import constants.CommonConstants; 
 import dsEventProcessor.EventProcessor;
 
 //import oracle.sql.DATE;
@@ -84,6 +81,20 @@ public class commonUTIL {
 	static Map<String, DecimalFormat> _decimalFormat           = new HashMap<String, DecimalFormat>();
 	static Map<String, DecimalFormat> _decimalFormatNoGrouping = new HashMap<String, DecimalFormat>();
 	static Map<String, DecimalFormat> _patternDecimalFormat    = new HashMap<String, DecimalFormat>();
+
+	static final int MAX_YEAR_ALLOWED_IN_DATES = 9999;
+	static final Map<Object, DateFormat> _dateFormat            = new HashMap<Object, DateFormat>();
+	static final Map<Object, DateFormat> _dateFormatPattern     = new HashMap<Object, DateFormat>();
+	static final Map<Object, DateFormat> _dateFormatSepPattern  = new HashMap<Object, DateFormat>();
+	static final Map<Object, DateFormat> _datetimeFormatFull    = new HashMap<Object, DateFormat>();
+	static final Map<Object, DateFormat> _datetimeFormatMedium  = new HashMap<Object, DateFormat>();
+	static final Map<Object, DateFormat> _datetimeFormatMediumShort  = new HashMap<Object, DateFormat>();
+    static final Map<Object, DateFormat> _datetimeFormatShortMedium  = new HashMap<Object, DateFormat>();
+	static final Map<Object, DateFormat> _twoDigDateFormat = new HashMap<Object, DateFormat>();
+	static private Locale _fxLocale = new Locale("en", "US", "FIN_FX");
+
+	static final Map<Object, DateFormat> _dateFormatCustom      = new HashMap<Object, DateFormat>();
+	static final Map<Object, DateFormat> _datetimeFormatCustom  = new HashMap<Object, DateFormat>();
 
 	static public void displayError(String name,String methodName, Exception e) {
       System.err.println("Classname : " + name + " : MethodName : " +methodName + " :: "+ e.getClass());
@@ -276,7 +287,162 @@ public class commonUTIL {
 		return doub.toString();
 		
 	}
-	
+	 static public String numberToString(double amt, int numberOfDec) {
+		 return numberToString(amt, numberOfDec, null);
+	 }
+
+	 static public String numberToString(double amt, int numberOfdec, Locale locale) {
+		 return numberToString(amt, numberOfdec, locale, true);
+	 }
+		/**
+		 * Returns the String representation (with 10 decimals) of a given double.
+		 *
+		 * @param rate a double to convert
+		 */
+		 static public String numberToString(double rate) {
+			 return numberToString(rate, Locale.getDefault());
+		 }
+		 static public String numberToString(double rate, Locale locale) {
+			 return numberToString(rate, locale, true);
+		 }
+		 static public String numberToString(double rate,
+				 Locale locale,
+				 boolean useGrouping) {
+
+			 if( Double.isNaN(rate) ) {
+				 return NULL_NUMBER_STRING;
+			 }
+			 NumberFormat f=getNumberFormat(locale, useGrouping);
+			 synchronized(f) {
+				 f.setMaximumFractionDigits(getMaxDecimals(rate));
+				 return f.format(rate);
+			 }
+		 }
+		 
+		 
+		 /**
+		  * The maximum number of digits JVM can handle is limited to 15 (MAX_DEC_PLACES).
+		  * The following code examines the total number of digits in
+		  * the number and returns the appropriate number of decimals that
+		  * JVM can reliably handle for this number.
+		  *
+		  * @param number
+		  * @return the maximum number of decimals the JVM can handle for the given number.
+		  */
+		 static public int getMaxDecimals(double number) {
+			 double absValue = Math.abs(number);
+			 int decimals = 0;
+			 if (absValue < 1 ) {
+				 decimals = NumberRoundingMethod.MAX_DEC_PLACES;
+			 } else if (absValue < 10 ) {
+				 decimals = NumberRoundingMethod.MAX_DEC_PLACES - 1;
+			 } else if (absValue < 100 ) {
+				 decimals = NumberRoundingMethod.MAX_DEC_PLACES - 2;
+			 } else if (absValue < 1000 ) {
+				 decimals = NumberRoundingMethod.MAX_DEC_PLACES - 3;
+			 } else if (absValue < 10000 ) {
+				 decimals = NumberRoundingMethod.MAX_DEC_PLACES - 4;
+			 } else if (absValue < 100000 ) {
+				 decimals = NumberRoundingMethod.MAX_DEC_PLACES - 5;
+			 } else if (absValue < 1000000 ) {
+				 decimals = NumberRoundingMethod.MAX_DEC_PLACES - 6;
+			 } else if (absValue < 10000000 ) {
+				 decimals = NumberRoundingMethod.MAX_DEC_PLACES - 7;
+			 } else if (absValue < 100000000 ) {
+				 decimals = NumberRoundingMethod.MAX_DEC_PLACES - 8;
+			 } else if (absValue < 1000000000 ) {
+				 decimals = NumberRoundingMethod.MAX_DEC_PLACES - 9;
+			 } else if (absValue < 10000000000.0 ) {
+				 decimals = NumberRoundingMethod.MAX_DEC_PLACES - 10;
+			 } else if (absValue < 100000000000.0 ) {
+				 decimals = NumberRoundingMethod.MAX_DEC_PLACES - 11;
+			 } else if (absValue < 1000000000000.0 ) {
+				 decimals = NumberRoundingMethod.MAX_DEC_PLACES - 12;
+			 } else if (absValue < 10000000000000.0 ) {
+				 decimals = NumberRoundingMethod.MAX_DEC_PLACES - 13;
+			 } else if (absValue < 100000000000000.0 ) {
+				 decimals = NumberRoundingMethod.MAX_DEC_PLACES - 14;
+			 }
+
+			 if (decimals < 0) {
+				 decimals = 0;
+			 }
+			 return decimals;
+		 }
+	 static public String numberToString(double amt, int numberOfdec,
+			 Locale locale, boolean useGrouping) {
+		 if( Double.isNaN(amt) ) {
+			 return NULL_NUMBER_STRING;
+		 }
+
+		 if(numberOfdec < 0) return numberToString(amt);
+		 DecimalFormat df = getDecimalFormat(numberOfdec, locale, useGrouping);
+		 synchronized(df) {
+			 return df.format(amt);
+		 }
+	 }
+	 synchronized static DecimalFormat getDecimalFormat(int numberOfdec,
+			 Locale loc,
+			 boolean useGrouping) {
+
+		 if (loc == null)
+			 loc = Locale.getDefault();
+		 DecimalFormat f=
+			 useGrouping ?
+					 (DecimalFormat)_decimalFormat.get(loc.toString()+numberOfdec) :
+						 (DecimalFormat)_decimalFormatNoGrouping.get(loc.toString()+numberOfdec);
+					 if (f == null) {
+						 NumberFormat numberFormat = getNumberFormat(loc, useGrouping);
+						 if (numberFormat instanceof DecimalFormat)
+							 f = (DecimalFormat)numberFormat.clone();
+						 else
+							 f=new DecimalFormat();
+						 f.setGroupingUsed(useGrouping);
+						 f.setMinimumFractionDigits(numberOfdec);
+						 f.setMaximumFractionDigits(numberOfdec);
+						 if (useGrouping) {
+							 _decimalFormat.put(loc.toString()+numberOfdec, f);
+						 }
+						 else {
+							 _decimalFormatNoGrouping.put(loc.toString()+numberOfdec, f);
+						 }
+					 }
+					 return f;
+	 }
+	 /**
+	   * Returns the integer value of a given String.
+	   * <p>
+	   * Returns -1 if the string passed in is null or if an
+	   * error is encountered when parsing the string to an integer.
+	   *
+	   * @param s a String to decode
+	   */
+	  static public int stringToInteger(String s) {
+		  return stringToInteger(s, true);
+	  }
+
+	  static public int stringToInteger(String s, boolean useGrouping) {
+		  int value = -1;
+		  if (isEmpty(s))
+			  return value;
+
+		  NumberFormat f = getNumberFormat(Locale.getDefault(), useGrouping);
+		  synchronized(f) {
+			  f.setMaximumFractionDigits(DECIMALS);
+			  try {
+				  value = f.parse(s.trim()).intValue();}
+			  catch(Exception e) {
+				 displayError("CommonUtil", "stringToInteger", e);
+			  }
+		  }
+		  return value;
+	  }
+	 static DecimalFormat getDecimalFormat(int numberOfDec,
+			 boolean useGrouping) {
+
+		 Locale loc = Locale.getDefault();
+		 return getDecimalFormat(numberOfDec, loc, useGrouping);
+	 }
 	static public boolean validatePhoneNumberField(String value) {
 		 String sPhoneNumber = "605-8889999";
 		 boolean flag = false;
@@ -626,14 +792,7 @@ public class commonUTIL {
 		     //  deb = null;
 		    }
 	    static SimpleDateFormat formator = new SimpleDateFormat(CommonConstants.SDF_DATE_FORMAT);
-	 static public String  dateToString(java.util.Date date) {
-	    
-	        formator.setLenient(true);
-	        String datetostring = "";
-	        String nowYYYYMMDD = new String(formator.format(date));
-	        datetostring = formator.format(date).toString();
-	      return nowYYYYMMDD.toString();
-	    }
+	  
 	 
 	 /**
 	   * Returns the IP address of the host we're running on.
@@ -1259,11 +1418,11 @@ public class commonUTIL {
 	}
 	
 	  /**
-	   * Returns the String representation of a JDate using a given locale.
+	   * Returns the String representation of a CDate using a given locale.
 	   * <p>
 	   * The DateFormat is LONG.
 	   *
-	   * @param jdate a JDate to convert
+	   * @param CDate a CDate to convert
 	   * @param loc   a Locale
 	   */
 	  public static String dateToLongString(Date date,Locale loc) {
@@ -1849,6 +2008,1021 @@ public class commonUTIL {
           return valueIfNull;
       return s;
   }
+  
+  /**
+   * Converts a given Date into a String, and returns the String.
+   * <p>
+   * The DateFormat is SHORT for Date, and
+   * the DateFormat is LONG for Time.
+   *
+   * @param date a Date to convert
+ * @param timeZone a TimeZone used for the conversion
+   */
+public static String timestampToString2(Date date, TimeZone timeZone) {
+	  if(date == null) return "";
+	  DateFormat dateformat=
+        getDatetimeFormatFull(Locale.getDefault(), timeZone);
+	  String s;
+	  synchronized(dateformat) {
+		  s = dateformat.format(date);
+	  }
+	  //Now replace the characters which are non-
+	  //standard to calypso
+	  if (s != null && s.indexOf(".")>0 && s.indexOf(".") < 10){
+		  s = s.replace('.','/');
+	  }
+	  if (s != null && s.indexOf("-")>0  && s.indexOf("-") < 10){
+		  s = s.replace('-','/');
+	  }
+	  return s;
+  }
+
+  /**
+ * Converts a given Date into a String, and returns the String.
+ * <p>
+ * The DateFormat is SHORT for Date, and
+ * the DateFormat is LONG for Time.
+ *
+ * @param date a Date to convert
+ */
+public static String timestampToString2(Date date) {
+    return timestampToString2(date, TimeZone.getDefault());
+}
+
+
+/**
+   * Converts a given CDateTime into a String, and returns the String.
+   * <p>
+   * The DateFormat is SHORT for Date, and
+   * the DateFormat is LONG for Time.
+   *
+   * @param date a CDateTime to convert
+   */
+  public static String datetimeToString2(CDateTime date) {
+	  return timestampToString2(date);
+  }
+
+
+  /**
+   * Converts a given String into a CDateTime, and returns the CDateTime.
+   * <p>
+   * The DateFormat is SHORT for Date, and
+   * the DateFormat is LONG for Time.
+   *
+   * @param s a String to convert
+   */
+  public static CDateTime stringToCDateTime2(String s) {
+	  Date date=stringToTimestamp2(s);
+	  if(date != null) return new CDateTime(date);
+	  else return null;
+  }
+  /**
+   * Converts a given String into a Date, and returns the Date.
+   * <p>
+   * The DateFormat is SHORT for Date, and
+   * the DateFormat is LONG for Time.
+   *
+   * @param s a String to convert
+   */
+  public static Date stringToTimestamp2(String s) {
+	  try {
+		  if((s==null) || (s.length() ==0)) return null;
+		  DateFormat dateformat=
+			  DateFormat.getDateTimeInstance(DateFormat.SHORT,
+					  DateFormat.FULL,
+					  Locale.getDefault());
+		  dateformat.setTimeZone(TimeZone.getDefault());
+		  try {
+			  SimpleDateFormat sd=(SimpleDateFormat)dateformat;
+			  String pattern = sd.toPattern();
+			  int idx=pattern.indexOf("ss");
+			  if(idx >= 0)
+				  sd.applyLocalizedPattern(pattern.substring(0,idx+2) +
+						  ".SSS" +
+						  pattern.substring(idx+2));
+		  }catch (Exception ex) {}
+		  Date date=null;
+		  try {
+			  date=dateformat.parse(s);
+		  }
+		  catch( Exception e ) {
+			 displayError("CommonUtil", "stringToTimestamp2",  e);
+		  }
+		  return date;
+
+	  } catch(Throwable x) {  displayError("CommonUtil", "stringToTimestamp2",  x); }
+	  return null;
+  }
+  /**
+   * Returns the String representation of a Date using the default locale.
+   * <p>
+   * The DateFormat is LONG.
+   *
+   * @param date a Date to convert
+   */
+  public static String dateToLongString(Date date) {
+	  return dateToLongString(date,Locale.getDefault());
+  }
+  static DateFormat getDatetimeFormatFull(Locale loc, TimeZone tz) {
+	  Object key=new util. common.LocalTimeZone(loc,tz);
+	  synchronized(_datetimeFormatFull) {
+		  Object o=_datetimeFormatFull.get(key);
+		  if(o!=null) return (DateFormat)o;
+	  }
+	  DateFormat dateformat=
+		  DateFormat.getDateTimeInstance(DateFormat.SHORT,
+				  DateFormat.FULL,
+				  loc);
+	  try {
+		  SimpleDateFormat sd=(SimpleDateFormat)dateformat;
+		  set2DigitYearStart(sd,tz);
+		  String pattern = sd.toPattern();
+		  int idx=pattern.indexOf("ss");
+		  if(idx >= 0)
+			  sd.applyLocalizedPattern(pattern.substring(0,idx+2) +
+					  ".SSS" +
+					  pattern.substring(idx+2));
+		  //sd=sd.replace("ss","ss.SSS");
+	  }catch (Exception ex) {}
+	  dateformat.setTimeZone(tz);
+	  synchronized(_datetimeFormatFull) {
+		  _datetimeFormatFull.put(key,dateformat);
+	  }
+	  return dateformat;
+  }
+  private static void set2DigitYearStart(SimpleDateFormat sm,TimeZone tz){
+	  String s = "99";//Defaults.get2DigitYearStart();
+	  int start = 50;
+	  if (!isEmpty(s)){
+		  try{
+			  start = Integer.parseInt(s);
+		  }catch(Exception e){}
+	  }
+	  sm.set2DigitYearStart((util.common.CDate.getNow().addYears(-start))
+			  .getDate(tz));
+  }
+  /**
+   * Returns the Date represented by a given String using a given Locale.
+   * <p>
+   * If the String is null or empty then a null is returned for the date.
+   * When the date is being converted, it is assumed to be in the short
+   * date format.
+   * <p>
+   * Note that this is <em><b>not</b></em> the inverse of <code>dateToString(CDate, ...)</code>.
+   * If your String was created with <code>dateToString(CDate, ...)</code> it must be parsed
+   * with <code>stringToCDate(...)</code>.
+   *
+   * @param dateText a String to decode
+   * @param locale   a Locale
+   */
+  public static Date stringToDate(String dateText, Locale locale) {
+	  if((dateText==null) || (dateText.length() ==0)) return null;
+	  if(locale == null) locale = Locale.getDefault();
+	  DateFormat dateformat=getDateFormat(locale,TimeZone.getDefault());
+
+	  synchronized(dateformat) {
+		  Date date=null;
+		  try {
+			  date=dateformat.parse(dateText);
+		  }
+		  catch( Exception e ) {
+			 displayError("CommonUtil", "stringToDate", e);
+		  }
+		  return date;
+	  }
+  }
+
+  /**
+   * Returns the Date represented by a String using the default locale.
+   * <p>
+   * If the string is null or empty then a null is returned for the date.
+   * When the date is being converted, it is assumed to be in the short
+   * date format
+   * <p>
+   * Note that this is <em><b>not</b></em> the inverse of <code>dateToString(CDate, ...)</code>.
+   * If your String was created with <code>dateToString(CDate, ...)</code> it must be parsed
+   * with <code>stringToCDate(...)</code>.
+   *
+   * @param dateText a String to decode
+   * @return a Date
+   */
+  public static Date stringToDate(String dateText) {
+	  return stringToDate(dateText, Locale.getDefault());
+  }
+
+  /**
+   * Returns the Date represented by a String formatted as returned by Date.toString().
+   *
+   * @param dateText a String to decode
+   * @return a Date
+   */
+  public static Date stringToDate2(String dateText) {
+	  try {
+		  return (new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy")).parse(dateText);
+	  } catch (Exception e) {
+		  throw new IllegalArgumentException(e);
+	  }
+  }
+
+  static DateFormat getDatetimeFormatMedium(Locale loc, TimeZone tz) {
+	  Object key= new  util.common.LocalTimeZone(loc,tz);
+	  synchronized(_datetimeFormatMedium) {
+		  Object o=_datetimeFormatMedium.get(key);
+		  if(o!=null) return (DateFormat)o;
+	  }
+	  DateFormat dateformat=
+		  DateFormat.getDateTimeInstance(DateFormat.SHORT,
+				  DateFormat.MEDIUM,
+				  loc);
+	  dateformat.setTimeZone(tz);
+	  SimpleDateFormat sd=(SimpleDateFormat)dateformat;
+	  set2DigitYearStart(sd,tz);
+	  synchronized(_datetimeFormatMedium) {
+		  _datetimeFormatMedium.put(key,dateformat);
+	  }
+	  return dateformat;
+  }
+
+  static DateFormat getDatetimeFormatMediumShort(Locale loc, TimeZone tz) {
+	  Object key=new util.common.LocalTimeZone(loc,tz);
+	  synchronized(_datetimeFormatMediumShort) {
+		  Object o=_datetimeFormatMediumShort.get(key);
+		  if(o!=null) return (DateFormat)o;
+	  }
+	  DateFormat dateformat=
+		  DateFormat.getDateTimeInstance(DateFormat.MEDIUM,
+				  DateFormat.SHORT,
+				  loc);
+
+	  //Bug 21024
+	  if (loc.equals(Locale.JAPAN) ||
+			  loc.equals(Locale.JAPANESE))
+		  ((SimpleDateFormat)dateformat).applyPattern("yyyy/MM/dd HH:mm");
+	  else
+		  ((SimpleDateFormat)dateformat).applyPattern("MMM dd, yyyy hh:mm a");
+	  dateformat.setTimeZone(tz);
+	  SimpleDateFormat sd=(SimpleDateFormat)dateformat;
+	  set2DigitYearStart(sd,tz);
+	  synchronized(_datetimeFormatMediumShort) {
+		  _datetimeFormatMediumShort.put(key,dateformat);
+	  }
+	  return dateformat;
+  }
+
+static DateFormat getDatetimeFormatShortMedium(Locale loc, TimeZone tz) {
+    Object key = new util.common.LocalTimeZone(loc, tz);
+    synchronized (_datetimeFormatShortMedium) {
+        Object o = _datetimeFormatShortMedium.get(key);
+        if (o != null)
+            return (DateFormat) o;
+    }
+    DateFormat dateformat = DateFormat.getDateTimeInstance(DateFormat.SHORT,
+                                                           DateFormat.MEDIUM,
+                                                           loc);
+
+    // Bug 21024
+    if (loc.equals(Locale.JAPAN)
+            || loc.equals(Locale.JAPANESE))
+        ((SimpleDateFormat) dateformat).applyPattern("yyyy/MM/dd HH:mm:ss");
+    else
+        ((SimpleDateFormat) dateformat).applyPattern("MM/dd/yyyy hh:mm:ss a");
+    dateformat.setTimeZone(tz);
+    SimpleDateFormat sd = (SimpleDateFormat) dateformat;
+    synchronized (_datetimeFormatShortMedium) {
+        _datetimeFormatShortMedium.put(key, dateformat);
+    }
+    return dateformat;
+}
+/**
+ * Converts a given String into a JDatetime, and returns the JDatetime.
+ * <p>
+ * The DateFormat is SHORT for Date, and
+ * the DateFormat is LONG for Time.
+ *
+ * @param s a String to convert
+ */
+public static CDateTime stringToJDatetime2(String s) {
+	  Date date=stringToTimestamp2(s);
+	  if(date != null) return new CDateTime(date);
+	  else return null;
+}
+  static DateFormat get2DigDateFormat(Locale loc,TimeZone tz){
+	  Object key=new util.common.LocalTimeZone(loc,tz);
+	  synchronized(_twoDigDateFormat) {
+		  Object o=_twoDigDateFormat.get(key);
+		  if(o!=null) return (DateFormat)o;
+	  }
+	  DateFormat dateformat=DateFormat.getDateInstance(DateFormat.MEDIUM,
+			  loc);
+	  //Bug 21024
+	  if (!loc.equals(Locale.JAPAN) &&
+			  !loc.equals(Locale.JAPANESE))
+		  ((SimpleDateFormat)dateformat).applyPattern("MMM dd,yyyy");
+	  dateformat.setTimeZone(tz);
+	  synchronized(_twoDigDateFormat) {
+		  _twoDigDateFormat.put(key,dateformat);
+	  }
+	  return dateformat;
+  }
+
+/**
+ * @return default SimpleDateFormat, for Locale.getDefault(), TimeZone.getDefault().
+ * DateFormat is cloned to avoid possible mutation of the Util locally cached DateFormat.
+ * <br> This DateFormat(DateFormat.MEDIUM, DateFormat.SHORT) is the one used by com.calypso.tk.core.DisplayDatetime
+ * @see com.calypso.tk.core.DisplayDatetime
+ */
+public static SimpleDateFormat getDatetimeFormatMediumShort() {
+    return (SimpleDateFormat)getDatetimeFormatMediumShort(Locale.getDefault(), TimeZone.getDefault());
+}
+
+/**
+ * Default SimpleDateFormat, for Locale.getDefault(), TimeZone.getDefault().
+ * DateFormat is cloned to avoid possible mutation of the Util locally
+ * cached DateFormat. <br>
+ * Equivalent to DateFormat(DateFormat.SHORT, DateFormat.MEDIUM) but with
+ * four digit years
+ * 
+ * @return a SimpleDateFormat object
+ */
+public static SimpleDateFormat getDatetimeFormatShortMedium() {
+    return (SimpleDateFormat) getDatetimeFormatShortMedium(Locale.getDefault(),
+                                                           TimeZone.getDefault());
+}
+
+  static DateFormat getDateFormat(Locale loc, TimeZone tz) {
+	  Object key=new util.common.LocalTimeZone(loc,tz);
+	  synchronized(_dateFormat) {
+		  Object o=_dateFormat.get(key);
+		  if(o!=null) return (DateFormat)o;
+	  }
+	  DateFormat dateformat=
+		  DateFormat.getDateInstance(DateFormat.SHORT,
+				  loc);
+	  dateformat.setTimeZone(tz);
+	  SimpleDateFormat sd=(SimpleDateFormat)dateformat;
+	  set2DigitYearStart(sd,tz);
+	  synchronized(_dateFormat) {
+		  _dateFormat.put(key,dateformat);
+	  }
+	  return dateformat;
+
+  }
+
+  /**
+   * This method is used only to for dateToString(params) method
+   * where you expect
+   * 2 digit month,day and 4 digit year in the date's string representation.
+   */
+  public static DateFormat getDateFormatWithAppliedPattern(Locale loc, TimeZone tz) {
+	  Object key=new util.common.LocalTimeZone(loc,tz);
+	  synchronized(_dateFormatPattern) {
+		  Object o=_dateFormatPattern.get(key);
+		  if(o!=null) return (DateFormat)o;
+	  }
+	  DateFormat dateformat=
+		  DateFormat.getDateInstance(DateFormat.SHORT,
+				  loc);
+	  dateformat.setTimeZone(tz);
+	  SimpleDateFormat sm = (SimpleDateFormat)dateformat;
+	  set2DigitYearStart(sm,tz);
+	  String pattern = checkPattern(sm.toPattern(),false);
+	  sm.applyPattern(pattern);
+	  pattern = checkSeparatorPattern(sm.toPattern());
+	  sm.applyPattern(pattern);
+	  synchronized(_dateFormatPattern) {
+		  _dateFormatPattern.put(key,dateformat);
+	  }
+	  return dateformat;
+  }
+
+  /*
+   * Converts a given String to a standard date pattern,
+   * and returns the String.
+   * <p>
+   * The standard date pattern is as follows:
+   * <ul type=square>
+   * <li>All days are made 2 digit days</li>
+   * <li>All months are made 2 digit months</li>
+   * <li>All years are made 4 digit years, or 2 digit years based on the
+   * twoDigYear boolean</li>
+   * <li>Separators are '/'</li>
+   * </ul>
+   *
+   * @param s          a String to convert
+   * @param twoDigYear if true, all years are made 2 digit years, or 4 digit
+   * otherwise
+   */
+  static String checkPattern(String s,boolean twoDigYear) {
+	  //We need to cache this otherwise its very expensive
+	  //Needs regression testing..
+
+
+
+	  //Make month 2 digit
+	  if (s.indexOf("MM") <0){
+		  if (s.indexOf("M") >=0){
+			  int idx1 = s.indexOf("M");
+			  StringBuilder sb = new StringBuilder(s);
+			  sb = sb.deleteCharAt(idx1);
+			  sb = sb.insert(idx1,"MM");
+			  s = sb.toString();
+		  }
+	  }
+	  //Make day 2 digit
+	  if (s.indexOf("dd") <0){
+		  if (s.indexOf("d") >=0){
+			  int idx1 = s.indexOf("d");
+			  StringBuilder sb = new StringBuilder(s);
+			  sb = sb.deleteCharAt(idx1);
+			  sb = sb.insert(idx1,"dd");
+			  s = sb.toString();
+		  }
+	  }
+	  //Make year 4 digit
+	  if (!twoDigYear){
+		  if (s.indexOf("yyyy") <0){
+			  if (s.indexOf("yy") >=0){
+				  int idx1 = s.indexOf("yy");
+				  StringBuilder sb = new StringBuilder(s);
+				  sb = sb.deleteCharAt(idx1);
+				  sb = sb.deleteCharAt(idx1);
+				  sb = sb.insert(idx1,"yyyy");
+				  s = sb.toString();
+			  }
+		  }
+	  } else {
+		  if (s.indexOf("yyyy") >0){
+			  int idx1 = s.indexOf("yy");
+			  StringBuilder sb = new StringBuilder(s);
+			  sb = sb.deleteCharAt(idx1);
+			  sb = sb.deleteCharAt(idx1);
+			  s = sb.toString();
+		  }
+	  }
+	  String finalS = s;
+	  //Replace the separator with '/' if its '.'
+	  if (finalS.indexOf('.') >= 0){
+		  finalS = finalS.replace('.','/');
+	  }
+	  //Replace the separator with '/' if its '-'
+	  if (finalS.indexOf('-') >= 0){
+		  finalS = finalS.replace('-','/');
+	  }
+	  return finalS;
+  }
+
+  /**
+   * Replaces all the Locale specific separators with fixed "/"
+   */
+  static String checkSeparatorPattern(String s){
+	  String finalS = s;
+	  //Replace the separator with '/' if its '.'
+	  if (finalS.indexOf('.') >= 0){
+		  finalS = finalS.replace('.','/');
+	  }
+	  //Replace the separator with '/' if its '-'
+	  if (finalS.indexOf('-') >= 0){
+		  finalS = finalS.replace('-','/');
+	  }
+	  return finalS;
+  }
+
+  /**
+   * This method is used only to for stringToDate(params) method
+   * The purpose of this method is when parsing the date from string
+   * We cannot expect 4 digit year and 2 digit month but the separator
+   * remains same "/"
+   */
+  public static DateFormat getDateFormatWithSeparatorPattern(Locale loc,
+		  TimeZone tz) {
+	  Object key=new util.common.LocalTimeZone(loc,tz);
+	  synchronized(_dateFormatSepPattern) {
+		  Object o=_dateFormatSepPattern.get(key);
+		  if(o!=null) return (DateFormat)o;
+	  }
+	  DateFormat dateformat=
+		  DateFormat.getDateInstance(DateFormat.SHORT,
+				  loc);
+	  dateformat.setTimeZone(tz);
+	  SimpleDateFormat sm = (SimpleDateFormat)dateformat;
+	  set2DigitYearStart(sm,tz);
+	  String pattern = checkSeparatorPattern(sm.toPattern());
+	  sm.applyPattern(pattern);
+	  synchronized(_dateFormatSepPattern) {
+		  _dateFormatSepPattern.put(key,dateformat);
+	  }
+	  return dateformat;
+  }
+
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  /**
+   * Custom pattern
+   */
+
+  public static DateFormat getDateFormatCustom(String   pattern,
+		  Locale   loc,
+		  TimeZone tz)
+  {
+	  Object key=pattern+loc.toString()+tz.getID();
+	  synchronized(_dateFormatCustom) {
+		  Object o = _dateFormatCustom.get(key);
+		  if (o!=null) return (DateFormat)o;
+	  }
+	  DateFormat sm;
+	  try {
+		  sm = new SimpleDateFormat(pattern, loc);
+		  sm.setTimeZone(tz);
+	  } catch(Throwable x) {
+		 displayError("CommonUtil", "Util", x);
+		  sm = getDateFormat(loc,tz);
+	  }
+	  synchronized(_dateFormatCustom) {
+		  _dateFormatCustom.put(key, sm);
+	  }
+	  return sm;
+  }
+
+  static DateFormat getDatetimeFormatCustom(String   pattern,
+		  Locale   loc,
+		  TimeZone tz)
+  {
+	  Object key=pattern+loc.toString()+tz.getID();
+	  synchronized(_datetimeFormatCustom) {
+		  Object o=_datetimeFormatCustom.get(key);
+		  if(o!=null) return (DateFormat)o;
+	  }
+	  DateFormat sm = null;
+	  try {
+		  sm = new SimpleDateFormat(pattern, loc);
+		  sm.setTimeZone(tz);
+	  } catch(Throwable x) {
+		  displayError("CommonUtil" ,"Util", x);
+		  sm =  getDatetimeFormatMedium(loc,tz);
+	  }
+	  synchronized(_datetimeFormatCustom) {
+		  _datetimeFormatCustom.put(key,sm);
+	  }
+	  return sm;
+  }
+
+  public static String dateToString(CDate CDate, String customPattern) {
+	  /*LOCALE USE */
+	  if(CDate == null) return "";
+	  String s="";
+	  DateFormat dateformat = getDateFormatCustom(customPattern,
+			  Locale.getDefault(),
+			  TimeZone.getDefault());
+	  Date date = CDate.getDate(TimeZone.getDefault());
+	  synchronized(dateformat){
+		  s = dateformat.format(date);
+	  }
+	  return s;
+  }
+
+  public static String datetimeToString(CDateTime date, String customPattern) {
+    return datetimeToString(date, customPattern, TimeZone.getDefault());
+}
+
+public static String datetimeToString(CDateTime date, String customPattern, TimeZone tz) {
+	  if(date == null) return "";
+	  String s="";
+	  DateFormat dateformat = getDateFormatCustom(customPattern,
+			  Locale.getDefault(),
+            tz);
+	  synchronized(dateformat){
+		  s = dateformat.format(date);
+	  }
+	  return s;
+  }
+
+  public static String dateArrayToString(util.common.CDate[] arr) {
+	  if (arr == null || arr.length == 0) return "";
+
+	  String s = "[";
+	  for(int i=0;i<arr.length;i++) {
+		  if( i != 0)
+			  s+= ",";
+		  s+= arr[i].toString();
+	  }
+	  s+= "]";
+	  return s;
+  }
+
+  /**
+   * Returns the String representation of a given CDate using the short
+   * date format of a given Locale.
+   * <p>
+   * Note that this differs from {@link #dateToString(CDate)} in that there
+   * is no changing of the format used. The date format from the supplied
+   * locale will be used as is.
+   *
+   * @param CDate  a CDate to convert
+   * @param locale a Locale
+   */
+  public static String dateToString(CDate CDate, Locale locale) {
+	  if(CDate == null) return "";
+	  return dateToString(CDate.getDate(TimeZone.getDefault()), locale);
+  }
+  /**
+   * Returns the String representation of a given Date in a given Locale.
+   * <p>
+   * The date is formatted using the short format. If the locale is
+   * null then the default locale is used. If the date is null then an
+   * empty string is returned.
+   *
+   * @param date a Date to convert
+   * @param locale a Locale
+   */
+  public static String dateToString(Date date, Locale locale) {
+	  if(date == null) return "";
+	  if(locale == null) locale = Locale.getDefault();
+	  DateFormat dateformat=getDateFormat(locale,TimeZone.getDefault());
+	  synchronized(dateformat) {
+		  return dateformat.format(date);
+	  }
+  }
+
+  /**
+   * Returns the String representation of a Date using the default locale.
+   * <p>
+   * The date is formatted using the short format.
+   * If the date is null then an empty string is returned.
+   *
+   * @param date a Date to convert
+   */
+  public static String dateToString(Date date) {
+	  return dateToString(date, Locale.getDefault());
+  }
+  /**
+   * Returns the String representation (like MM/DD/YY or DD/MM/YY) of a
+   * given CDate using the default Locale.
+   *
+   * @param CDate a CDate to convert
+   */
+
+  public static String dateToString(CDate CDate) {
+	  /*LOCALE USE */
+	  if(CDate == null) return "";
+	  String s;
+	  DateFormat dateformat=getDateFormatWithAppliedPattern
+	  (Locale.getDefault(),
+			  TimeZone.getDefault());
+	  Date date = CDate.getDate(TimeZone.getDefault());
+	  synchronized(dateformat){
+		  s = dateformat.format(date);
+	  }
+	  return s;
+  }
+
+  
+  /**
+   * Converts a given String into a CDate, and returns the CDate.
+   *
+   * @param s a String to decode
+   */
+  public static CDate stringToCDatePlus(String s) {
+	  try {
+		  /*LOCALE USE */
+		  return stringToCDate(s);
+	  } catch(Throwable x) {display("CommonUtil stringToCDatePlus", s); }
+	  return null;
+  }
+  public static CDate stringToCDate(String s) {
+	  return stringToCDate(s, true);
+  }
+  public static CDate stringToCDate(String s, boolean isLenient) {
+	  return stringToCDate(s, isLenient, true);
+  }
+
+  public static CDate stringToCDate(String s, boolean isLenient, boolean logError) {
+
+	  try {
+		  if ( isEmpty(s)) return null;
+		  DateFormat dateformat=getDateFormatWithSeparatorPattern
+		  (Locale.getDefault(),
+				  TimeZone.getDefault());
+		  dateformat.setLenient(isLenient);
+		  Calendar cal;
+		  Date date;
+		  synchronized(dateformat){
+			  try{
+				  date = dateformat.parse(s);
+			  }catch(Exception e){
+				  date = null;
+			  }
+			  if(date==null) return null;
+			  cal = dateformat.getCalendar();
+			  cal.setTime(date);
+			  int y = cal.get(Calendar.YEAR);
+			  if (y > MAX_YEAR_ALLOWED_IN_DATES) {
+				  // shunt for abnormally large years since they are not allowed
+				  // on sybase and oracle, BZ 22883
+				  return null;
+			  }
+			  if(y < 50 ) { //This is NEW and should be checked !!!
+				  y += 2000;
+				  cal.set(Calendar.YEAR,y);
+			  }
+			  if(y < 100 && y >= 50) {
+				  y+= 1900;
+				  cal.set(Calendar.YEAR,y);
+			  }
+			  date =cal.getTime();
+		  }
+		  return CDate.valueOf(date,TimeZone.getDefault());
+	  } catch(Throwable x) { if (logError) display("CommonUTil","stringToCDate"); }
+	  return null;
+  }
+
+  /**
+   * Converts a given set of String object into a CDateTime,
+   * and returns the CDateTime.
+   *
+   * @param ds a date (String)
+   * @param ts a time (String)
+   */
+  public static CDateTime stringToCDateTime(String ds,String ts) {
+	  return stringToCDateTime(ds, ts, DateFormat.MEDIUM);
+  }
+
+  /**
+   * Converts a given set of String objects into a CDateTime,
+   * and returns the CDateTime.
+   *
+   * @param ds a date (String)
+   * @param ts a time (String)
+   * @param df a DateFormat (SHORT, MEDIUM, LONG, or FULL)
+   */
+  public static CDateTime stringToCDateTime(String ds, String ts, int df) {
+	  return stringToCDateTime(ds,ts,df,TimeZone.getDefault());
+  }
+  public static CDateTime stringToCDateTime(String ds, String ts, int df,TimeZone tz) {
+	  if ((ds == null) || (ds.length() == 0)) {
+		  return null;
+	  }
+	  CDate CDate = stringToCDate(ds);
+    return stringToCDateTime(CDate, ts, df, tz);
+}
+  /**
+   * Converts a given String into a Date, and returns the Date.
+   * <p>
+   * The DateFormat is SHORT for Date, and
+   * the DateFormat is MEDIUM for Time.
+   *
+   * @param s a String to convert
+   */
+  public static Date stringToTimestamp(String s) {
+	  if((s==null) || (s.length() ==0)) return null;
+	  DateFormat dateformat=
+		  DateFormat.getDateTimeInstance(DateFormat.SHORT,
+				  DateFormat.MEDIUM,
+				  Locale.getDefault());
+	  dateformat.setTimeZone(TimeZone.getDefault());
+	  Date date=null;
+	  try {
+		  date=dateformat.parse(s);
+	  }
+	  catch( Exception e ) {
+
+			displayError("CommonUtil ", "stringToTimestamp  Error parsing string to CDateTime (\"MM/dd/yy h:mm a\")" , e);
+	  }
+	  return date;
+  }
+
+public static CDateTime stringToCDateTime(CDate CDate, String ts, int df, TimeZone tz) {
+	  Date time = stringToTime(ts,df,tz);
+
+	  if (CDate == null || time == null) {
+		  return null;
+	  }
+	  Calendar cal = new GregorianCalendar();
+	  cal.setTimeZone(tz);
+	  cal.setTime(time);
+	  cal.set(Calendar.YEAR,CDate.getYear());
+	  cal.set(Calendar.MONTH,CDate.getMonth()-1);
+	  cal.set(Calendar.DATE,CDate.getDayOfMonth());
+	  return new CDateTime(cal.getTime());
+  }
+
+/**
+ * Converts a given String into a Date using a given DateFormat, and
+ * returns the Date.
+ *
+ * @param s  a String to convert
+ * @param df a DateFormat (SHORT, MEDIUM, LONG, or FULL)
+ */
+public static Date stringToTime(String s, int df) {
+	  return stringToTime(s,df,TimeZone.getDefault());
+}
+
+public static Date stringToTime(String s, int df, TimeZone tz) {
+	  return stringToTime(s, df, tz,
+			  Locale.getDefault());
+}
+public static Date stringToTime(String s, int df,TimeZone tz,
+		  Locale loc) {
+	  if((s==null) || (s.length() ==0)) return null;
+	  DateFormat dateformat=DateFormat.getTimeInstance(df,loc);
+	  dateformat.setTimeZone(tz);
+	  Date date=null;
+	  try {
+		  date=dateformat.parse(s);
+	  }
+	  catch( Exception e ) {
+	       
+	      displayError("CommonUtil ", "stringToTime  " , e);
+	  }
+	  return date;
+}
+/**
+ * Converts a given Date into a String, and returns the String.
+ * <p>
+ * The DateFormat is SHORT for Date.
+ *
+ * @param date a Date to convert
+ */
+public static String timeToShortString(Date date) {
+	  if(date == null) return "";
+	  DateFormat dateformat=DateFormat.getTimeInstance(DateFormat.SHORT,
+			  Locale.getDefault());
+	  dateformat.setTimeZone(TimeZone.getDefault());
+	  return dateformat.format(date);
+}
+
+public static boolean isNumber(String string) {
+	return string.matches("^\\d+$");
+}
+/**
+ * Converts a given String into a Date, and returns the Date.
+ * <p>
+ * The DateFormat is SHORT for Date.
+ *
+ * @param s a String to decode
+ */
+public static Date shortStringToTime(String s) {
+	  if((s==null) || (s.length() ==0)) return null;
+	  DateFormat dateformat=DateFormat.getTimeInstance(DateFormat.SHORT,
+			  Locale.getDefault());
+	  dateformat.setTimeZone(TimeZone.getDefault());
+	  Date date=null;
+	  try {
+		  date=dateformat.parse(s);
+	  }
+	  catch( Exception e ) {
+		  displayError("CommonUtil ", "shortStringToTime  " , e);
+	  }
+	  return date;
+}
+/**
+ * Parses a string into a CDateTime object. Expects a string matching
+ * "MM/dd/yy h:mm a" (i.e. "1/12/11 8:45 PM" is 12 January 2011 at 8:45 in
+ * the evening).
+ * 
+ * @param datetime
+ * @return a CDateTime object that representing the date and time from the
+ *         string
+ */
+public static CDateTime stringToDateWithTime(String datetime) {
+	SimpleDateFormat format = new SimpleDateFormat("MM/dd/yy h:mm a");
+	try {
+		return new CDateTime(format.parse(datetime));
+	} catch(ParseException e) {
+		displayError("CommonUtil ", "stringToDateWithTime  Error parsing string to CDateTime (\"MM/dd/yy h:mm a\")" , e);
+		return null;
+	}
+}
+/**
+ * Converts a given Date into a String using a given TimeZone,
+ * and returns the String.
+ *
+ * @param date a Date to convert
+ * @param df a DateFormat (SHORT, MEDIUM, LONG, or FULL)
+ * @param tz a TimeZone
+ * @param loc Locale
+ * @return
+ */
+public static String timeToString(Date date, int df, TimeZone tz,
+        Locale loc) {
+    if(date == null) return "";
+    DateFormat dateformat=
+        DateFormat.getTimeInstance(df,loc);
+    dateformat.setTimeZone(tz);
+    return dateformat.format(date);
+}
+
+/**
+* Converts a given String into a Date, and returns the Date.
+* <p>
+* The DateFormat is MEDIUM for Date.
+*
+* @param s a String to convert
+*/
+public static Date stringToTime(String s) {
+  return stringToTime(s, DateFormat.MEDIUM);
+}
+
+/**
+* Attempt to convert a User input String into a Date
+* <p>
+* User input may not exactly match a pre-defined DateFormat style. 
+* Conversion here attempts interpretation of
+* <li> {@link DateFormat#MEDIUM}
+* <li> {@link DateFormat#SHORT}
+* <li> digit input: 2233 or 1033
+* 
+* @param s a String to convert
+*/ // from AppUtil
+public static CDateTime stringInputToTime(String s) {
+  if (isEmpty(s)) return null;
+  
+  s = s.toUpperCase().trim();
+  Locale locale = Locale.getDefault();
+  if (s.matches(".*[A|P]M")) {
+      String pattern = ((SimpleDateFormat) DateFormat.getTimeInstance(DateFormat.SHORT, locale)).toPattern();
+      if (pattern.toUpperCase().startsWith("H")) {
+          // overriding default Locale in case of US-like formatted input time in non US default locale
+          locale = Locale.US;
+      }
+      // BZ 54287
+      if (s.indexOf(':') == -1) {
+          s = s.replaceAll("[ \t]*AM", ":00 AM").replaceAll("[ \t]*PM", ":00 PM");
+      }
+      s = s.replaceAll("PM", " PM").replaceAll("AM", " AM").replaceAll("[ \t]+", " ");
+  }
+  
+  // try MEDIUM 12:20:34 AM or 22:33:44 depending on Locale
+  Date date = stringToTime(s, DateFormat.MEDIUM, TimeZone.getDefault(), locale);
+  
+  // try SHORT 10:33 PM or 22:33 depending on Locale
+  if (date == null) 
+      date = stringToTime(s, DateFormat.SHORT, TimeZone.getDefault(), locale);
+  
+  // try number
+  if (date == null && isNumber(s) && s.length() < 7)
+      date = integerToTime((int)stringToNumber(s), locale);
+  
+  return date == null ? null : new CDateTime(date);
+}
+
+// 22     -> [10:00:00 pm|22:00:00]
+// 223    -> [10:03:00 pm|22:03:00]
+// 2233   -> [10:33:00 pm|22:33:00]
+// 22334  -> [10:33:04 pm|22:33:04]
+// 223344 -> [10:33:44 pm|22:33:44]
+// 1      -> [01:00:00 am|01:00:00]
+// 103    -> [10:03:00 am|10:03:00]
+// 103344 -> [10:33:44 am|10:33:44]
+private static Date integerToTime(int time, Locale locale) {
+Date date = null;
+String pattern = ((SimpleDateFormat) DateFormat.getTimeInstance(DateFormat.SHORT, locale)).toPattern();
+if (pattern.toUpperCase().startsWith("H")) {
+    String s = String.valueOf(time);
+    pattern = s.length() < 3 ? "HH" : s.length() < 5 ? "HHmm" : "HHmmss";
+    DateFormat dateformat = getDateFormatCustom(pattern, Locale.getDefault(), TimeZone.getDefault());
+    try {
+        date = dateformat.parse(s);
+    } catch (Exception e) {
+      
+        displayError("CommonUtil", "integerToTime", e);
+    }
+}
+return date;
+}
+/**
+ * Converts a given String into a CDateTime, and returns the CDateTime.
+ * (Only converts the date, not the time. Use {@link Util.stringToDateWithTime()} instead.)
+ *
+ * @param s a String to decode
+ */
+public static CDateTime stringToCDateTime(String s) {
+    CDate d = stringToCDate(s);
+    
+    if (d == null)
+		  return null;
+    return new CDateTime(d,TimeZone.getDefault());
+	  }
+
+public static CDateTime stringToCDateTime(String s, TimeZone tz) {
+	  CDate d = stringToCDate(s);
+	  if (d == null)
+		  return null;
+	  return new CDateTime(d,tz);
+  }
+
+  /**
+   * Converts a given String into a CDate, and returns the CDate.
+   *
+   * @param s a String to decode
+   */
+  /**
+   * Returns the String representation of the date compoenent of a given CDateTime.
+   *
+   * @param CDate a CDateTime to convert
+   */
+  public static String dateToString(CDateTime cDatetime) {
+	  if (cDatetime == null) return "";
+	  return dateToString(CDate.valueOf(cDatetime,TimeZone.getDefault()));
+  }
 
   public static Vector<Attribute> convertStartupVectorToAtrributeVector(
 		Vector<String> attributes) {
@@ -1864,5 +3038,20 @@ public class commonUTIL {
 	return attributesbean;
 	// TODO Auto-generated method stub
 	
-	}
+	} 
+ 
+public static void writeUTF(String _name, ObjectOutput out) {
+	// TODO Auto-generated method stub
+	
+}
+
+public static String readUTF(ObjectInput in) {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+public static Vector sort(Collection collection) {
+	// TODO Auto-generated method stub
+	  return SortShell.sort(collection);
+}
 }
