@@ -8,8 +8,13 @@ import util.commonUTIL;
 import com.jidesoft.grid.CellStyle;
 
 public class PropertyCellStyle implements BaseBean{
+	
+	
+	
+	
+	
 
-	int columnserialno;
+	int columnserialno=0;
 
 	public void setColumnserialno(int columnserialno) {
 		this.columnserialno = columnserialno;
