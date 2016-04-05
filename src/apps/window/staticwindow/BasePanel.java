@@ -174,10 +174,10 @@ public abstract class BasePanel extends  JPanel {
 	protected static final Color BACKGROUND2 = new Color(230, 230, 255);
 	protected static final Color BACKGROUND3 = new Color(210, 255, 210);
 
-	protected static final Color FOREGROUND1 = new Color(0, 0, 10);
+	protected static final Color FOREGROUND1 = new   Color(0, 0, 10);
 
 	protected static final Color BACKGROUND4 = new Color(0, 128, 0);
-	protected static final Color FOREGROUND4 = new Color(255, 255, 255);
+	protected static final Color FOREGROUND4 = new    Color(255, 255, 255);
 
 	public BaseWindowUtil validationActionUtil = null;
 
