@@ -56,7 +56,7 @@ import com.jidesoft.icons.JideIconsFactory;
 import constants.CurrencyDefaultConstant;
 import constants.WindowSheetConstants;
 
-public class WindowSheetWindow extends BasePanel {
+public class WindowSheetWindow  extends  BasePanel {
 	   ActionMap actions = null;
 	   private static final long serialVersionUID = 1L; 
 	   PropertyTable cellStylepropertyTable = null;
