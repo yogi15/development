@@ -38,7 +38,7 @@ private static String getHolidaysOnCurrencyPair(String cp,String date) {
 	return sql;
 }
  
- private static String getupdateSQL(Holiday editHoliday) {
+ private static String getupdateSQL(HolidayCode editHoliday) {
 	 String updateSQL = " update holiday set ";
 	 updateSQL = updateSQL + " currency = '" +editHoliday.getCurrency() + "', ";
 	 updateSQL = updateSQL + " country = '" +editHoliday.getCountry() + "', ";
@@ -50,7 +50,7 @@ private static String getHolidaysOnCurrencyPair(String cp,String date) {
  }
  
  
- public static boolean save(Holiday insertHoliday, Connection con) {
+ public static boolean save(HolidayCode insertHoliday, Connection con) {
 	 try {
          return insert(insertHoliday, con);
      }catch(Exception e) {
@@ -58,7 +58,7 @@ private static String getHolidaysOnCurrencyPair(String cp,String date) {
     	 return false;
      }
  }
- public static boolean update(Holiday updateHoliday, Connection con) {
+ public static boolean update(HolidayCode updateHoliday, Connection con) {
 	 try {
          return edit(updateHoliday, con);
      }catch(Exception e) {
@@ -67,7 +67,7 @@ private static String getHolidaysOnCurrencyPair(String cp,String date) {
      }
  }
  
- public static boolean delete(Holiday deleteHoliday, Connection con) {
+ public static boolean delete(HolidayCode deleteHoliday, Connection con) {
 	 try {
          return remove(deleteHoliday, con);
      }catch(Exception e) {
@@ -75,7 +75,7 @@ private static String getHolidaysOnCurrencyPair(String cp,String date) {
     	 return false;
      }
  }
- public static Holiday selectHoliday(String currency, Connection con) {
+ public static HolidayCode selectHoliday(String currency, Connection con) {
 	 try {
          return  select(currency, con);
      }catch(Exception e) {
@@ -101,7 +101,7 @@ private static String getHolidaysOnCurrencyPair(String cp,String date) {
      }
  }
  
- protected static  boolean edit(Holiday updateHoliday, Connection con ) {
+ protected static  boolean edit(HolidayCode updateHoliday, Connection con ) {
 	 
         PreparedStatement stmt = null;
         String sql = getupdateSQL(updateHoliday);
@@ -129,7 +129,7 @@ private static String getHolidaysOnCurrencyPair(String cp,String date) {
 			return true;
  }
 
-protected static boolean remove(Holiday deleteHoliday, Connection con ) {
+protected static boolean remove(HolidayCode deleteHoliday, Connection con ) {
 
         PreparedStatement stmt = null;
 	 try {
@@ -184,7 +184,7 @@ protected static int selectMax(Connection con ) {
         return j;
  }
  
- protected static boolean insert(Holiday inserHoliday, Connection con ) {
+ protected static boolean insert(HolidayCode inserHoliday, Connection con ) {
 		
         PreparedStatement stmt = null;
 	 try {
@@ -217,12 +217,12 @@ protected static int selectMax(Connection con ) {
         return true;
  }
  
- protected static Holiday select(String currency,Connection con ) {
+ protected static HolidayCode select(String currency,Connection con ) {
 	 
 	 int j = 0;
         PreparedStatement stmt = null;
         Vector Holidays = new Vector();
-        Holiday Holiday = new Holiday();
+        HolidayCode Holiday = new HolidayCode();
         String sql = "";
 	 try {
 		 con.setAutoCommit(false);
@@ -271,7 +271,7 @@ protected static int selectMax(Connection con ) {
       
       while(rs.next()) {
    
-     Holiday Holiday = new Holiday();
+     HolidayCode Holiday = new HolidayCode();
 
 	 Holiday.setCurrency(rs.getString(1));
      Holiday.setCountry(rs.getString(2));
@@ -309,7 +309,7 @@ protected static int selectMax(Connection con ) {
       ResultSet rs = stmt.executeQuery();
       
       while(rs.next()) {
-    	  Holiday Holiday = new Holiday();
+    	  HolidayCode Holiday = new HolidayCode();
     	
 
      	 Holiday.setCurrency(rs.getString(1));
@@ -370,7 +370,7 @@ protected static int selectMax(Connection con ) {
 	 int j = 0;
         PreparedStatement stmt = null;
         Vector Holidays = new Vector();
-        Holiday Holiday = new Holiday();
+        HolidayCode Holiday = new HolidayCode();
         String sql = "";
 	 try {
 		 con.setAutoCommit(false);
