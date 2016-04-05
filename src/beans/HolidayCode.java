@@ -5,8 +5,16 @@ import java.io.Serializable;
 public class HolidayCode implements Serializable {
 	
 	boolean isWeekEnd = false;
+	private int _firstNonBusinessDay;
+	private int _secondNonBusinessDay;
 	
-	
+
+    final public int getFirstNonBusinessDay() { return _firstNonBusinessDay ;}
+    final public int getSecondNonBusinessDay() { return _secondNonBusinessDay;}
+
+    final public void setFirstNonBusinessDay(int s) { _firstNonBusinessDay=s;}
+    final public void setSecondNonBusinessDay(int s){ _secondNonBusinessDay=s;}
+
 	String currency;
 	int fweekday;
 	public int getFweekday() {
