@@ -1,4 +1,4 @@
-package apps.window.util.tableModelUtil;
+package src.apps.window.util.tableModelUtil;
 
 import java.util.Vector;
 
@@ -14,6 +14,12 @@ public class WindowSheetTableModelUtil extends AbstractTableModel {
 	final String[] columnNames;  
 	 String col[] = {"DesignType","WindowName","FieldName","DataType","Default","IsStartUpData","StartDataName","CustomPanel","IsNull","BeanName","MethodName","IsChildField","ParentFieldName"};
 	 /**
+	 * @return the col
+	 */
+	public String[] getCol() {
+		return col;
+	}
+	/**
 	 * @return the data
 	 */
 	public Vector<WindowSheet> getData() {

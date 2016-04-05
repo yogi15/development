@@ -1,4 +1,4 @@
-package apps.window.util.tableModelUtil;
+package src.apps.window.util.tableModelUtil;
  
 import java.io.Serializable;
 import java.lang.reflect.Field;
