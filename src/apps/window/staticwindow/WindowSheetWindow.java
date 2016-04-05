@@ -3,7 +3,6 @@ package src.apps.window.staticwindow;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,11 +19,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
-import javax.swing.JTextField; 
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import org.dyno.visual.swing.layouts.Bilateral;
@@ -37,18 +35,13 @@ import util.commonUTIL;
 import apps.window.staticwindow.util.WindowSheetWindowUtil;
 import apps.window.util.propertyTable.CellStyleProrpertyTable;
 import apps.window.util.propertyTable.WindowSheetPropertyTable;
-import apps.window.util.tableModelUtil.SampleTableModel;
 import apps.window.util.tableModelUtil.WindowSheetTableModelUtil;
-import beans.PropertyCellStyle;
 import beans.WindowSheet;
 
-import com.jidesoft.grid.CellStyle;
-import com.jidesoft.grid.ColumnCellStyleProvider;
 import com.jidesoft.grid.Property;
 import com.jidesoft.grid.PropertyTable;
 import com.jidesoft.grid.RowStripeTableStyleProvider;
 import com.jidesoft.grid.SortableTable;
-import com.jidesoft.grid.TableCellStyleEditor;
 import com.jidesoft.grid.TextFieldCellEditor;
 import com.jidesoft.hints.ListDataIntelliHints;
 import com.jidesoft.icons.JideIconsFactory;
@@ -56,7 +49,7 @@ import com.jidesoft.icons.JideIconsFactory;
 import constants.CurrencyDefaultConstant;
 import constants.WindowSheetConstants;
 
-public class WindowSheetWindow  extends  BasePanel {
+public class WindowSheetWindow extends BasePanel {
 	   ActionMap actions = null;
 	   private static final long serialVersionUID = 1L; 
 	   PropertyTable cellStylepropertyTable = null;
