@@ -1,4 +1,4 @@
-package util.common;
+package src.util.common;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;

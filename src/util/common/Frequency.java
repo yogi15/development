@@ -1,4 +1,4 @@
-package util.common;
+package src.util.common;
 
 public class Frequency {
 	

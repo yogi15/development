@@ -1,4 +1,4 @@
-package util.common;
+package src.util.common;
 
 import java.util.Hashtable;
 import java.util.Locale;

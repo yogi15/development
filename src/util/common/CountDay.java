@@ -1,12 +1,17 @@
-package util.common;
+package src.util.common;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
+import java.util.Map; 
+import java.util.Vector; 
+ 
+ 
+ 
+ 
 import util.commonUTIL;
+import util.common.holiday.Holiday;
 
 public class CountDay {
 
@@ -97,6 +102,7 @@ public class CountDay {
 	private static List<String> domainValues = new ArrayList<String>();
 	private static Map<String, Integer> daysinYearsCountsByCode = new HashMap<String, Integer>();
 
+    final public static Vector BU252_Holidays = null; //        Util.string2Vector((String) Defaults.getProperty("BU252_HOLIDAYS"));
 	static {
 
 		dayCountsByName.put(S_30_360, D_30_360);
@@ -199,6 +205,446 @@ public class CountDay {
 		daysinYearsCountsByCode.put(S_DC_30_360_ISDA, new Integer(360));		
 	}
 	private int _dc;
+
+	/**
+     * Computes the difference in days between the two dates start and end. This
+     * is done according to the day count that is set for this object.
+     * 
+     * @param start
+     *            the start date of the interval.
+     * @param end
+     *            the end of the interval.
+     * @return the number of days between the 2 dates.
+     */
+    public int dayDiff(CDate start, CDate end) {
+        CDate d1, d2;
+        if (start.before(end)) {
+            d1 = start;
+            d2 = end;
+        } else {
+            d1 = end;
+            d2 = start;
+        }
+
+        switch (_dc) {
+            case DC_30_360 :
+                return dayDiff30_360(d1, d2);
+            case DC_30E_360 :
+                return dayDiff30E_360(d1, d2);
+            case DC_30EP_360 :
+                return dayDiff30EP_360(d1, d2);
+            case DC_ACT_360 :
+                return (int) CDate.diff(d1, d2);
+            case DC_ACT_365 :
+                return (int) CDate.diff(d1, d2);
+            case DC_ACT_365_ISDA :
+                return (int) CDate.diff(d1, d2);
+            case DC_ACT_ACT :
+                return (int) CDate.diff(d1, d2);
+            case DC_ACT_ACT29 :
+                return (int) CDate.diff(d1, d2);
+            case DC_ACTB_ACTB :
+                return (int) CDate.diff(d1, d2);
+                // case DC_ACT_nACT : return (int) CDate.diff(d1,d2);
+            case DC_ACT_365_25 :
+                return (int) CDate.diff(d1, d2);
+            case DC_ACT_365_JPY :
+            case DC_NL_365 :
+                return (dayDiffACT_365_JPY(start, end));
+            case DC_ACT_1_365_JPY :
+                return (dayDiffACT_1_365_JPY(start, end));
+            case DC_ACT_1_360 :
+                return (dayDiffACT_1_360(start, end));
+            case DC_ACT_1_365 :
+                return (dayDiffACT_1_360(start, end));
+            case DC_30_365 :
+                return (dayDiff30_365(start, end));
+            case DC_30E_365 :
+                return (dayDiff30E_365(start, end));
+            case DC_30EM_360 :
+                return (dayDiff30EM_360(start, end));
+            case DC_ACT_365CM :
+                return (dayDiffACT_365CM(start, end));
+            case DC_BU_252 :
+                return 0;//(dayDiffBU_252(start, end));
+            case DC_1_1 :
+                return (int) CDate.diff(d1, d2);
+            case DC_30E_360_FINAL:
+            	return dayDiff30E_360_FINAL(start, end);
+	    case DC_ACT_366:
+		return dayDiffACT_366(start,end);
+            default : {
+            	return 0;
+          /*      DayCountCalculator calc = getCalculator();
+                if (calc != null)
+                    return calc.dayDiff(this, start, end);
+                else
+                    throw new Error("DayCount corrupted"); */
+            }
+        }
+    }
+    /**
+     * calculate number of business days according to BU/252 convention, using any specified holidays
+     * @param start
+     * @param end
+     * @param holidays
+     * @return number of business days
+     */
+    static public int dayDiffBU_252(CDate start, CDate end, Vector holidays) {
+        if (holidays == null) {
+            return Holiday.getCurrent().numberOfBusinessDays(start, end, BU252_Holidays);
+        } else {
+            return Holiday.getCurrent().numberOfBusinessDays(start, end, holidays);
+        }
+    }
+    
+    static public double yearDiffBU_252(CDate start, CDate end, Vector holidays) {
+        return (dayDiffBU_252(start, end, holidays) / 252.0);
+    }
+    
+    public double yearDiff(CDate start, CDate end, Vector holidays) {
+        if (_dc == DC_BU_252 && holidays != null) {
+            return yearDiffBU_252(start, end, holidays);
+        }
+        return yearDiff(start,end);
+    }
+    /**
+     * Computes the fraction of a year between the two dates start and end. This
+     * is done according to the day count that is set for this object.
+     * 
+     * @param start
+     *            the start date of the interval.
+     * @param end
+     *            the end date of the interval.
+     * @return the fraction of a year between the two dates.
+     */
+    public double yearDiff(CDate start, CDate end) {
+        switch (_dc) {
+            case DC_30_360 :
+                return (yearDiff30_360(start, end));
+            case DC_30E_360 :
+                return (yearDiff30E_360(start, end));
+            case DC_30EP_360 :
+                return (yearDiff30EP_360(start, end));
+            case DC_ACT_360 :
+                return (yearDiffACT_360(start, end));
+            case DC_ACT_365 :
+                return (yearDiffACT_365(start, end));
+            case DC_ACT_365_ISDA :
+                return (yearDiffACT_365_ISDA(start, end));
+            case DC_ACT_ACT :
+                return (yearDiffACT_ACT(start, end));
+            case DC_ACT_ACT29 :
+                return (yearDiffACT_ACT29(start, end));
+            case DC_ACTB_ACTB :
+                return (yearDiffACTB_ACTB(start, end));
+                // case DC_ACT_nACT: return (yearDiffACT_nACT(start,end));
+            case DC_ACT_365_25 :
+                return (yearDiffACT_365_25(start, end));
+            case DC_ACT_365_JPY :
+            case DC_NL_365 :
+                return (yearDiffACT_365_JPY(start, end));
+            case DC_ACT_1_365_JPY :
+                return (yearDiffACT_1_365_JPY(start, end));
+            case DC_ACT_1_360 :
+                return (yearDiffACT_1_360(start, end));
+            case DC_ACT_1_365 :
+                return (yearDiffACT_1_365(start, end));
+            case DC_30_365 :
+                return (yearDiff30_365(start, end));
+            case DC_30E_365 :
+                return (yearDiff30E_365(start, end));
+            case DC_30EM_360 :
+                return (yearDiff30EM_360(start, end));
+            case DC_ACT_365CM :
+                return (yearDiffACT_365CM(start, end));
+            case DC_BU_252 :
+                return 0;// (yearDiffBU_252(start, end));
+            case DC_1_1 :
+                return (yearDiff1_1(start, end));
+            case DC_30E_360_FINAL :
+            	return yearDiff30E_360_FINAL(start, end);
+	    case DC_ACT_366:
+	         return yearDiffACT_366(start,end);
+            default : {
+            	return 0;
+             /*   DayCountCalculator calc = getCalculator();
+                if (calc != null)
+                    return calc.yearDiff(this, start, end);
+                else
+                    throw new Error("DayCount corrupted"); */
+            }
+        }
+    }
+     
+    /**
+     * Computes the difference in days between the two dates start and end. This
+     * is done according to the day count that is set for this object.
+     * 
+     * @param start
+     *            the start date of the interval.
+     * @param end
+     *            the end of the interval.
+     * @param holidays
+     *            holiday city codes list as vector of strings
+     * @return the number of days between the 2 dates.
+     */
+    public int dayDiff(CDate start, CDate end, Vector holidays) {
+        if (_dc == DC_BU_252 && holidays != null) {
+            return dayDiffBU_252(start, end, holidays);
+        }
+        return dayDiff(start,end);     
+    }
+    
+
+    static private int dayDiffACT_365CM(CDate start, CDate end) {
+        return (int) (CDate.diff(start, end));
+    }
+
+    static private int dayDiffACT_366(CDate start, CDate end) {
+       return (int) CDate.diff(start, end);
+   }
+
+   static private int dayDiffACT_1_360(CDate start, CDate end) {
+       return (int) CDate.diff(start, end) + 1;
+   }
+
+ 
+ 
+
+
+    static private int dayDiff30EP_360(CDate start, CDate end) {
+        int y2 = end.getYear();
+        int m2 = end.getMonth();
+        int d2 = end.getDayOfMonth();
+        int y1 = start.getYear();
+        int m1 = start.getMonth();
+        int d1 = start.getDayOfMonth();
+
+        if (d1 == 31)
+            d1 = 30;
+        if (d2 == 31) {
+            d2 = 1;
+            if (m2 != 12) {
+                m2 += 1;
+            } else {
+                m2 = 1;
+                y2 += 1;
+            }
+        }
+
+        return ((d2 - d1)
+                + 30 * (m2 - m1) + 360 * (y2 - y1));
+    }
+
+    /*
+     * 
+     */
+    /*
+     * Replaced containsFeb29 with numberOfFeb29
+     */
+    static private double yearDiffACT_365_JPY(CDate start, CDate end) {
+        return (CDate.diff(start, end) - UtilDate.numberOfFeb29(start, end)) / 365.0;
+    }
+
+    static private double yearDiffACT_365_JPY(CDate start,
+                                              CDate end,
+                                              double amount) {
+        return (CDate.diff(start, end) - UtilDate.numberOfFeb29(start, end))
+                * amount / 365.0;
+    }
+    
+    static private int dayDiffACT_1_365_JPY(CDate start, CDate end) {
+        return dayDiffACT_365_JPY(start, end)+1;
+    }
+
+    static private int dayDiffACT_365_JPY(CDate start, CDate end) {
+        return (int) (CDate.diff(start, end) - UtilDate.numberOfFeb29(start,
+                                                                      end));
+    }
+    static private double yearDiffACT_1_365_JPY(CDate start, CDate end) {
+        return dayDiffACT_1_365_JPY(start, end) / 365.0;
+    }
+
+    static private double yearDiffACT_1_365_JPY(CDate start,
+                                              CDate end,
+                                              double amount) {
+        return dayDiffACT_1_365_JPY(start, end)
+                * amount / 365.0;
+    }
+
+    static private int dayDiff30_360(CDate start, CDate end) {
+        int y2 = end.getYear();
+        int m2 = end.getMonth();
+        int d2 = end.getDayOfMonth();
+        int y1 = start.getYear();
+        int m1 = start.getMonth();
+        int d1 = start.getDayOfMonth();
+
+        if (d1 == 30
+                || d1 == 31) {
+            if (d2 == 31)
+                d2 = 30;
+        }
+        if (d1 == 31)
+            d1 = 30;
+
+        return ((d2 - d1)
+                + 30 * (m2 - m1) + 360 * (y2 - y1));
+    }
+
+    static private double yearDiff30E_360(CDate start, CDate end) {
+        return dayDiff30E_360(start, end) / 360.0;
+    }
+
+    static private double yearDiff30_365(CDate start, CDate end) {
+        return dayDiff30_365(start, end) / 365.;
+    }
+
+    static private double yearDiff30_365(CDate start, CDate end, double amount) {
+        return dayDiff30_365(start, end)
+                * amount / 365.;
+    }
+
+    static private int dayDiff30_365(CDate start, CDate end) {
+        int d1 = start.getDayOfMonth();
+        int m1 = start.getMonth();
+        int y1 = start.getYear();
+
+        int d2 = end.getDayOfMonth();
+        int m2 = end.getMonth();
+        int y2 = end.getYear();
+
+        if (d1 == 31)
+            d1 = 30;
+        if (d2 == 31
+                && d1 == 30)
+            d2 = 30;
+        return 360
+                * (y2 - y1) + 30 * (m2 - m1) + (d2 - d1);
+
+    }
+
+    static private double yearDiff30E_365(CDate start, CDate end) {
+        return dayDiff30E_365(start, end) / 365.;
+    }
+
+    static private double yearDiff30E_365(CDate start, CDate end, double amount) {
+        return dayDiff30E_365(start, end)
+                * amount / 365.;
+    }
+
+    static private int dayDiff30E_365(CDate start, CDate end) {
+        int d1 = start.getDayOfMonth();
+        int m1 = start.getMonth();
+        int y1 = start.getYear();
+
+        int d2 = end.getDayOfMonth();
+        int m2 = end.getMonth();
+        int y2 = end.getYear();
+        if (d1 == 31)
+            d1 = 30;
+        if (d2 == 31)
+            d2 = 30;
+        return 360
+                * (y2 - y1) + 30 * (m2 - m1) + (d2 - d1);
+    }
+
+    static private double yearDiff30EM_360(CDate start, CDate end) {
+        int y2 = end.getYear();
+        int m2 = end.getMonth();
+        int d2 = end.getDayOfMonth();
+        int y1 = start.getYear();
+        int m1 = start.getMonth();
+        int d1 = start.getDayOfMonth();
+        if (d1 == 31)
+            d1 = 30;
+        if (d2 == 31)
+            d2 = 30;
+        return ((d2 - d1)
+                + 30 * (m2 - m1) + 360 * (y2 - y1)) / 360.0;
+    }
+
+    static private double yearDiff30EM_360(CDate start, CDate end, double amount) {
+        int y2 = end.getYear();
+        int m2 = end.getMonth();
+        int d2 = end.getDayOfMonth();
+        int y1 = start.getYear();
+        int m1 = start.getMonth();
+        int d1 = start.getDayOfMonth();
+        if (d1 == 31)
+            d1 = 30;
+        if (d2 == 31)
+            d2 = 30;
+        return ((d2 - d1)
+                + 30 * (m2 - m1) + 360 * (y2 - y1))
+                * amount / 360.0;
+    }
+
+    static private int dayDiff30EM_360(CDate start, CDate end) {
+        int y2 = end.getYear();
+        int m2 = end.getMonth();
+        int d2 = end.getDayOfMonth();
+        int y1 = start.getYear();
+        int m1 = start.getMonth();
+        int d1 = start.getDayOfMonth();
+        if (d1 == 31)
+            d1 = 30;
+        if (d2 == 31)
+            d2 = 30;
+
+        return ((d2 - d1)
+                + 30 * (m2 - m1) + 360 * (y2 - y1));
+    }
+    static private double yearDiff30E_360(CDate start, CDate end, double amount) {
+        return yearDiff30E_360(start, end)
+                * amount;
+    }
+
+    static private int dayDiff30E_360(CDate start, CDate end) {
+        int y2 = end.getYear();
+        int m2 = end.getMonth();
+        int d2 = end.getDayOfMonth();
+        int y1 = start.getYear();
+        int m1 = start.getMonth();
+        int d1 = start.getDayOfMonth();
+
+        if (d1 == start.getMonthLength()) {
+        	d1 = 30;
+        }
+        if (d2 == end.getMonthLength()) {
+        	d2 = 30;
+        }
+        return ((d2 - d1)
+                + 30 * (m2 - m1) + 360 * (y2 - y1));
+    }
+    
+    static private double yearDiff30E_360_FINAL(CDate start, CDate end) {
+        return dayDiff30E_360_FINAL(start, end) / 360.0;
+    }
+
+    static private double yearDiff30E_360_FINAL(CDate start, CDate end, double amount) {
+        return yearDiff30E_360(start, end)
+                * amount;
+    }
+
+    static private int dayDiff30E_360_FINAL(CDate start, CDate end) {
+        int y2 = end.getYear();
+        int m2 = end.getMonth();
+        int d2 = end.getDayOfMonth();
+        int y1 = start.getYear();
+        int m1 = start.getMonth();
+        int d1 = start.getDayOfMonth();
+
+        if (d1 == start.getMonthLength()) {
+        	d1 = 30;
+        }
+        if (d2 == 31) {
+        	d2 = 30;
+        }
+        return ((d2 - d1)
+                + 30 * (m2 - m1) + 360 * (y2 - y1));
+    }
 
 	private CountDay(int daycount) {
 		_dc = daycount;
@@ -645,8 +1091,8 @@ public class CountDay {
 
 	static private double yearDiffACT_ACT29(DateU start, DateU end) {
 
-		// return JDate.diff(start,end) / (365.+
-		// DateUtil.numberOfFeb29(start,end));
+		// return CDate.diff(start,end) / (365.+
+		// UtilDate.numberOfFeb29(start,end));
 		if (containsFeb29(start, end)) {
 			return DateU.diff(start, end) / 366.;
 		} else {
@@ -751,7 +1197,7 @@ public class CountDay {
 		case DC_BU_252:
 			// return (yearDiffBU_252(start, end));
 		case DC_1_1:
-			return (yearDiff1_1(start, end));
+			return 0;//(yearDiff1_1(start, end));
 		case DC_30E_360_FINAL:
 			return yearDiff30E_360_FINAL(start, end);
 		case DC_ACT_366:
@@ -802,7 +1248,7 @@ public class CountDay {
 			return (int) DateU.diff(d1, d2);
 		case DC_ACTB_ACTB:
 			return (int) DateU.diff(d1, d2);
-			// case DC_ACT_nACT : return (int) JDate.diff(d1,d2);
+			// case DC_ACT_nACT : return (int) CDate.diff(d1,d2);
 		case DC_ACT_365_25:
 			return (int) DateU.diff(d1, d2);
 		case DC_ACT_365_JPY:
@@ -840,15 +1286,18 @@ public class CountDay {
 		}
 	}
 
-	static private double yearDiff1_1(DateU start, DateU end) {
-		double yeardiff = end.get_year() - start.get_year();
-		double monthdiff = (end.get_month() - start.get_month()) / 12.;
-		if (yeardiff == 0.)
-			return monthdiff;
-		else
-			monthdiff = ((end.get_month() + 12) - start.get_month()) / 12.;
+	static private double yearDiff1_1(CDate start, CDate end) {
+		  double yeardiff = end.getYear()
+	                - start.getYear();
+	        double monthdiff = (end.getMonth() - start.getMonth()) / 12.;
+	        if (yeardiff == 0.)
+	            return monthdiff;
+	        else
+	            monthdiff = ((end.getMonth() + 12) - start.getMonth()) / 12.;
 
-		return (yeardiff - 1) + monthdiff;
+	        return (yeardiff - 1)
+	                + monthdiff;
+	    
 	}
 
 	static public CountDay valueOf(String s) {
@@ -926,7 +1375,7 @@ public class CountDay {
 			return (int) DateU.diff(d1, d2);
 		case DC_ACTB_ACTB:
 			return (int) DateU.diff(d1, d2);
-			// case DC_ACT_nACT : return (int) JDate.diff(d1,d2);
+			// case DC_ACT_nACT : return (int) CDate.diff(d1,d2);
 		case DC_ACT_365_25:
 			return (int) DateU.diff(d1, d2);
 		case DC_ACT_365CM:
@@ -1228,7 +1677,7 @@ public class CountDay {
 			return (int) DateU.diff(d1, d2);
 		case DC_ACTB_ACTB:
 			return (int) DateU.diff(d1, d2);
-			// case DC_ACT_nACT : return (int) JDate.diff(d1,d2);
+			// case DC_ACT_nACT : return (int) CDate.diff(d1,d2);
 		case DC_ACT_365_25:
 			return (int) DateU.diff(d1, d2);
 		case DC_ACT_365CM:
@@ -1396,6 +1845,451 @@ public class CountDay {
 
 	}
 
+
+    static private double yearDiffACT_365_ISDA(CDate start, CDate end) {
+        CDate d1, d2;
+        int sign;
+        if (start.before(end)) {
+            d1 = start;
+            d2 = end;
+            sign = 1;
+        } else {
+            d1 = end;
+            d2 = start;
+            sign = -1;
+        }
+
+        int y1 = d1.getYear();
+        int y2 = d2.getYear();
+
+        double yearDiff = 0.0;
+        if (y1 == y2) {
+            double dr = (CDate.isLeapYear(y1))
+                                              ? 366.0 : 365.0;
+            yearDiff = CDate.diff(d1, d2)
+                    / dr;
+        } else {
+            double dr = (CDate.isLeapYear(y1))
+                                              ? 366.0 : 365.0;
+            yearDiff = CDate.diff(d1, CDate.valueOf((y1 + 1),
+                                                    CDate.JANUARY,
+                                                    1))
+                    / dr;
+            // yearDiff = CDate.diff(d1, CDate.valueOf(y1, CDate.DECEMBER,
+            // 31)) / dr;
+
+            for (int i = y1 + 1; i < y2; i++)
+                yearDiff += 1.0;
+
+            dr = (CDate.isLeapYear(y2))
+                                       ? 366.0 : 365.0;
+            yearDiff += CDate.diff(CDate.valueOf(y2, CDate.JANUARY, 1), d2)
+                    / dr;
+        }
+
+        return yearDiff
+                * sign;
+    }
+
+    static private double yearDiffACT_365_ISDA(CDate start,
+                                               CDate end,
+                                               double amount) {
+        CDate d1, d2;
+        int sign;
+        if (start.before(end)) {
+            d1 = start;
+            d2 = end;
+            sign = 1;
+        } else {
+            d1 = end;
+            d2 = start;
+            sign = -1;
+        }
+
+        int y1 = d1.getYear();
+        int y2 = d2.getYear();
+
+        double yearDiff = 0.0;
+        if (y1 == y2) {
+            double dr = (CDate.isLeapYear(y1))
+                                              ? 366.0 : 365.0;
+            yearDiff = CDate.diff(d1, d2)
+                    * amount / dr;
+        } else {
+            double dr = (CDate.isLeapYear(y1))
+                                              ? 366.0 : 365.0;
+            yearDiff = CDate.diff(d1, CDate.valueOf((y1 + 1),
+                                                    CDate.JANUARY,
+                                                    1))
+                    * amount / dr;
+            // yearDiff = CDate.diff(d1, CDate.valueOf(y1, CDate.DECEMBER,
+            // 31)) / dr;
+
+            for (int i = y1 + 1; i < y2; i++)
+                yearDiff += 1.0 * amount;
+
+            dr = (CDate.isLeapYear(y2))
+                                       ? 366.0 : 365.0;
+            yearDiff += CDate.diff(CDate.valueOf(y2, CDate.JANUARY, 1), d2)
+                    * amount / dr;
+        }
+
+        return yearDiff
+                * sign;
+    }
+
+    /*
+     * Replaced containsFeb29 with numberOfFeb29 , presently commented Harshal
+     */
+    static private double yearDiffACT_ACT29(CDate start, CDate end) {
+
+        // return CDate.diff(start,end) / (365.+
+        // UtilDate.numberOfFeb29(start,end));
+        if (UtilDate.containsFeb29(start, end)) {
+            return CDate.diff(start, end) / 366.;
+        } else {
+            return CDate.diff(start, end) / 365.;
+        }
+
+    }
+
+    static private double yearDiffACT_ACT29(CDate start,
+                                            CDate end,
+                                            double amount) {
+
+        // return CDate.diff(start,end) / (365.+
+        // UtilDate.numberOfFeb29(start,end));
+        if (UtilDate.containsFeb29(start, end)) {
+            return CDate.diff(start, end)
+                    * amount / 366.;
+        } else {
+            return CDate.diff(start, end)
+                    * amount / 365.;
+        }
+
+    }
+
+    static private double yearDiffACT_365(CDate start, CDate end) {
+        return CDate.diff(start, end) / 365.0;
+    }
+     static private double yearDiffACT_366(CDate start, CDate end) {
+        return CDate.diff(start, end) / 366.0;
+    }
+      static private double yearDiffACT_366(CDate start, CDate end,double amount) {
+        return CDate.diff(start, end) * amount / 366.0;
+    }
+
+    static private double yearDiffACT_365CM(CDate start, CDate end) {
+        return CDate.diff(start, end) / 365.0;
+    }
+
+    static private double yearDiffACT_365(CDate start, 
+                                          CDate end, 
+                                          double amount) {
+        return CDate.diff(start, end)
+                * amount / 365.0;
+    }
+
+    static private double yearDiffACT_ACT(CDate start, CDate end) {
+        return yearDiffACT_365_ISDA(start, end);
+    }
+
+    static private double yearDiffACT_ACT(CDate start, 
+                                          CDate end, 
+                                          double amount) {
+        return yearDiffACT_365_ISDA(start, end, amount);
+    }
+   
+
+    /**
+     * from JP Morgan Paper : Governement Bond
+     */
+    static private double yearDiffACTB_ACTB(CDate start, CDate end) {
+        // Not necessary - the right function
+        // to call to get an accurate yearDiffACTB_ACTB
+        // is the yearDiffACTB_ACTB(CDate start, CDate end,int periods)
+        // where periods is the number of coupons per year.
+        /*
+         * double nr = CDate.diff(start,end); if (nr >=360.) return 1; if (nr *
+         * 2 >= 362. && nr * 2 <= 368.) return 1./2.; if (nr * 4 >= 352. && nr *
+         * 4 <= 372) return 1./4.; if (nr * 12 >= 336. && nr * 12 <=372) return
+         * 1./12.;
+         */
+        return yearDiffACT_ACT29(start, end);
+    }
+
+    static private double yearDiffACTB_ACTB(CDate start,
+                                            CDate end,
+                                            double amount) {
+        return yearDiffACT_ACT29(start, end, amount);
+    }
+
+    /**
+     * 
+     * 
+     * @deprecated
+     */
+    static public double yearDiffACTB_ACTB(CDate start, CDate end, int periods)
+
+    {
+        return yearDiffACTB_ACTB(start, end, periods, false, -1);
+    }
+
+    /**
+     * Used only for Bond.<BR>
+     * Computes the date difference for a bond using the period of payment as
+     * the unit.
+     * 
+     * @param start
+     *            the start date of the interval.
+     * @param end
+     *            the end date of the interval.
+     * @param periods
+     *            the number of months in a period.
+     * @param eofMonth
+     *            indicates if month end rule should be used.
+     * @deprecated Method with a rolling day should be used instead (BZ 28807)
+     */
+    static public double yearDiffACTB_ACTB(CDate start,
+                                           CDate end,
+                                           int periods,
+                                           boolean eofMonth) {
+        return yearDiffACTB_ACTB(start, end, periods, eofMonth, -1);
+    }
+    
+    /**
+     * Used only for Bond.<BR>
+     * Computes the date difference for a bond using the period of payment as
+     * the unit.
+     * 
+     * @param start
+     *            the start date of the interval.
+     * @param end
+     *            the end date of the interval.
+     * @param periods
+     *            the number of months in a period.
+     * @param isEOM
+     *            indicates if month end rule should be used.
+     * @param rollingDay
+     *            indicates the day on which the periods should start and stop.
+     */
+    static public double yearDiffACTB_ACTB(CDate start,
+                                           CDate end,
+                                           int periods,
+                                           boolean isEOM,
+                                           int rollDay) {
+        // If added on June 25 2001
+        if (periods == 0.) {
+         //   Log.error(LOG_CATEGORY, "Periods cannot be equal to 0");
+            return 1;
+        }
+        if (!isEOM) {
+            // BZ 28807: Use the rolling day to determine the quasi-periods
+            if (end.addMonths(-periods, rollDay).after(start)) {
+                double yd = 0;
+                while (end.addMonths(-periods, rollDay).after(start)) {
+                    yd += 1.;
+                    end = end.addMonths(-periods, rollDay);
+                }
+                yd += yearDiffACTB_ACTB(start, end, periods, isEOM, rollDay);
+                return yd;
+            } else {
+                CDate fullPeriodStart = end.addMonths(-periods, rollDay);
+                // BZ 28807: The passed end date may be the maturity date
+                // and it's possible it doesn't fall on the roll day. So make
+                // sure to recompute what the period end date should be before
+                // using it in the diff.
+                CDate fullPeriodEnd = fullPeriodStart.addMonths(periods, rollDay);
+                return CDate.diff(start, end)
+                        / CDate.diff(fullPeriodStart, fullPeriodEnd);
+            }
+        } else {
+            if (UtilDate.addMonthsObserveEOM(end, -periods).after(start)) {
+                double yd = 0;
+                while (UtilDate.addMonthsObserveEOM(end, -periods)
+                        .after(start)) {
+                    yd += 1.;
+                    end = UtilDate.addMonthsObserveEOM(end, -periods);
+                }
+                yd += yearDiffACTB_ACTB(start, end, periods, isEOM, rollDay);
+                return yd;
+            } else {
+                CDate fullPeriodStart = UtilDate.addMonthsObserveEOM(end, -periods);
+                // BZ 28807: The passed end date may be the maturity date
+                // and it's possible it doesn't fall on and EOM. So make
+                // sure to recompute what the period end date should be before
+                // using it in the diff.
+                CDate fullPeriodEnd = UtilDate.addMonthsObserveEOM(fullPeriodStart, periods);
+                return CDate.diff(start, end)
+                        / CDate.diff(fullPeriodStart, fullPeriodEnd);
+            }
+        }
+    }
+    
+    static private double yearDiffACT_360(CDate start, CDate end) {
+    	//System.out.print(" Daycount == yearDiffACT_360  start date "+start + " end date "+ end);
+        return CDate.diff(start, end) / 360.0;
+    }
+
+    static private double yearDiffACT_360(CDate start, CDate end, double amount) {
+        return CDate.diff(start, end)
+                * amount / 360.0;
+    }
+
+    static private double yearDiff30_360(CDate start, CDate end) {
+        int y2 = end.getYear();
+        int m2 = end.getMonth();
+        int d2 = end.getDayOfMonth();
+        int y1 = start.getYear();
+        int m1 = start.getMonth();
+        int d1 = start.getDayOfMonth();
+
+        if (d1 == 30
+                || d1 == 31) {
+            if (d2 == 31)
+                d2 = 30;
+        }
+        if (d1 == 31)
+            d1 = 30;
+
+        return ((d2 - d1)
+                + 30 * (m2 - m1) + 360 * (y2 - y1)) / 360.0;
+    }
+
+    static private double yearDiff30_360(CDate start, CDate end, double amount) {
+        int y2 = end.getYear();
+        int m2 = end.getMonth();
+        int d2 = end.getDayOfMonth();
+        int y1 = start.getYear();
+        int m1 = start.getMonth();
+        int d1 = start.getDayOfMonth();
+
+        if (d1 == 30
+                || d1 == 31) {
+            if (d2 == 31)
+                d2 = 30;
+        }
+        if (d1 == 31)
+            d1 = 30;
+
+        return ((d2 - d1)
+                + 30 * (m2 - m1) + 360 * (y2 - y1))
+                * amount / 360.0;
+    }
+
+    
+   
+    static private double yearDiff30EP_360(CDate start, CDate end) {
+        int y2 = end.getYear();
+        int m2 = end.getMonth();
+        int d2 = end.getDayOfMonth();
+        int y1 = start.getYear();
+        int m1 = start.getMonth();
+        int d1 = start.getDayOfMonth();
+
+        if (d1 == 31)
+            d1 = 30;
+        if (d2 == 31) {
+            d2 = 1;
+            if (m2 != 12) {
+                m2 += 1;
+            } else {
+                m2 = 1;
+                y2 += 1;
+            }
+        }
+
+        return ((d2 - d1)
+                + 30 * (m2 - m1) + 360 * (y2 - y1)) / 360.0;
+    }
+
+    static private double yearDiff30EP_360(CDate start, CDate end, double amount) {
+        int y2 = end.getYear();
+        int m2 = end.getMonth();
+        int d2 = end.getDayOfMonth();
+        int y1 = start.getYear();
+        int m1 = start.getMonth();
+        int d1 = start.getDayOfMonth();
+
+        if (d1 == 31)
+            d1 = 30;
+        if (d2 == 31) {
+            d2 = 1;
+            if (m2 != 12) {
+                m2 += 1;
+            } else {
+                m2 = 1;
+                y2 += 1;
+            }
+        }
+
+        return ((d2 - d1)
+                + 30 * (m2 - m1) + 360 * (y2 - y1))
+                * amount / 360.0;
+    }
+ 
+    /*
+     * 
+     */
+    /*
+     * Replaced containsFeb29 with numberOfFeb29
+     */
+     
+    /*
+     * frequency - Frequency of coupon payment days - day between most recent
+     * two coupon payments.
+     * 
+     * 
+     */
+    /*
+     * Currently commented... static public double yearDiffACT_nACT(CDate
+     * start,CDate end,Frequency frequency,int days) { if (frequency.getCode() ==
+     * 0 || days == 0){ System.out.println("Frequency or days cannot be zero");
+     * return 1; } return (CDate.diff(start,end)/(frequency.getCode()*days)); }
+     */
+    /*
+     * 
+     * 
+     */
+    static private double yearDiffACT_365_25(CDate start, CDate end) {
+        return (CDate.diff(start, end) / 365.25);
+    }
+
+    static private double yearDiffACT_365_25(CDate start,
+                                             CDate end,
+                                             double amount) {
+        return (CDate.diff(start, end)
+                * amount / 365.25);
+    }
+
+    /*
+     * 
+     */
+    static private double yearDiffACT_1_360(CDate start, CDate end) {
+        return (CDate.diff(start, end) + 1) / 360.0;
+    }
+
+    static private double yearDiffACT_1_360(CDate start,
+                                            CDate end,
+                                            double amount) {
+        return (CDate.diff(start, end) + 1)
+                * amount / 360.0;
+    }
+
+    /*
+     * 
+     */
+    static private double yearDiffACT_1_365(CDate start, CDate end) {
+        return (CDate.diff(start, end) + 1) / 365.0;
+    }
+
+    static private double yearDiffACT_1_365(CDate start,
+                                            CDate end,
+                                            double amount) {
+        return (CDate.diff(start, end) + 1)
+                * amount / 365.0;
+    }
+	
 	/**
 	 * Returns number of days for 30EP/360 Day Count Convention
 	 * 
@@ -1516,8 +2410,8 @@ public class CountDay {
 		CountDay S_ACT_36512 = CountDay.valueOf(S_ACT_365);
 		System.out.println("S_ACT_36512" + S_ACT_36512.dayDiff(start, end));
 
-		// JDate date = DateUtil.addMonthsObserveEOM(end, -periods);
-		// JDate.diff(start,end)/JDate.diff(date,end);
+		// CDate date = UtilDate.addMonthsObserveEOM(end, -periods);
+		// CDate.diff(start,end)/CDate.diff(date,end);
 
 	}
 

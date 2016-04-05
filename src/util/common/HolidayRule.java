@@ -1,4 +1,4 @@
-package util.common;
+package src.util.common;
 
 import java.rmi.RemoteException;
 import java.util.Date;
@@ -6,8 +6,9 @@ import java.util.Iterator;
 import java.util.Vector;
 
 import util.commonUTIL;
+import util.common.holiday.Holiday;
 
-import beans.Holiday;
+import beans.HolidayCode;
 
 import dsServices.RemoteReferenceData;
 
