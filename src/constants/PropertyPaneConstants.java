@@ -1,4 +1,4 @@
-package constants;
+package src.constants;
 
 public class PropertyPaneConstants {
 	public static final String STRING = "String";

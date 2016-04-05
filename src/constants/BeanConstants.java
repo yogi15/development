@@ -1,7 +1,8 @@
-package constants;
+package src.constants;
 
 public class BeanConstants {
-	 public static String ACCCONFIGRULE = "AccConfigRule";  
+	 public static final String PROPERTYCELLSTYLE = "PropertyCellStyle";
+	public static String ACCCONFIGRULE = "AccConfigRule";  
 	 public static String ACCESSFUNCTION = "AccessFunction";  
 	 public static String ACCESSWINDOW = "AccessWindow";  
 	 public static String ACCEVENTCONFIG = "AccEventConfig";  

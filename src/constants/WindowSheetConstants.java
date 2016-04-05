@@ -1,4 +1,4 @@
-package constants;
+package src.constants;
 
 public class WindowSheetConstants {
 	
@@ -6,7 +6,7 @@ public class WindowSheetConstants {
 	final public static String WINDOWNAME = "WindowName"; 
 	final public static String WINDOW = "Window"; // this is required to bifurcate between window and attribute
 	final public static String ATTRIBUTE = "Attribute"; // this is required to bifurcate between window and attribute
-
+	final public static String COLUMNSEQUENCENO = "ColumnSequenceNo";
 	final public static String FIELDNAME = "FieldName";
 	final public static String DATATYPE = "DataType";
 	final public static String ISSTARTUPDATA = "IsStartUpData";
@@ -27,14 +27,20 @@ public class WindowSheetConstants {
 	 final public static String JAVAOBJECTNAME   = "JavaObjectName";
 		public static final String CHILDWINDOWNAME = "ChildWindowName";
 		public static final String ISHIERARACHICALWINDOW = "IsHierarachicalWindow";
+		public static final String LOADJAVASCRIPTS = "Load Java Scripts";
 	 final public static String ISCHILDFIELD  = "IsChildField";
 	 
 	 final public static String ISEDITABLE  = "IsEditable";
 	 final public static String ISHIDDEN  = "IsHidden";
 			
 	 final public static String ATTRIBUTENAME   = "AttributeName";
-	public static final String ISCHILDSQL = "childWindowname = ";
+	
+	public static final String PROPERTYPREVIEW= "PropertyPreView";
 
+	
+	
+	// all sql
+	public static final String ISCHILDSQL = "childWindowname = ";
 
 
 
