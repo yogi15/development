@@ -34,11 +34,9 @@ public abstract class BaseSQL {
 		  AttributeContainer attributes = (AttributeContainer) bean;
 		 Vector<Attribute> attributeData = attributes.getAttributes();
 		 if(!commonUTIL.isEmpty(attributeData)) {
-			 for(int i=0;i<attributeData.size();i++) {
-				 Attribute att =  attributeData.get(i);
-				BaseSQL baseSQL = makeSQLObject(entityType);
-				baseSQL.insertSQL(att, dsSQL.getConn());
-			 }
+			 
+			//	baseSQL.saveAttribute(attributeData, dsSQL.getConn()  );
+			 saveAttribute(makeSQLObject(entityType),attributeData, dsSQL.getConn());
 		 }
 	  }
 	  public AttributeContainer getAttributes(int entityID,String entityType)  {
@@ -63,10 +61,10 @@ public abstract class BaseSQL {
 		  return attributeData;
 	  }
 	  
-	  static public Hashtable<String, BaseSQL> sqlCache = new Hashtable<String, BaseSQL>();
+	  static public Hashtable<String, AttributeProvider> sqlCache = new Hashtable<String, AttributeProvider>();
 
-		private static BaseSQL makeSQLObject(String sqlName) {
-			BaseSQL sql = null;
+		private static AttributeProvider makeSQLObject(String sqlName) {
+			AttributeProvider sql = null;
 			 
 			if (!commonUTIL.isEmpty(sqlName)) {
 				String sqlObject = "dbSQL." + sqlName +"AttributeSQL";
@@ -76,16 +74,25 @@ public abstract class BaseSQL {
 						Class sqlC = ClassInstantiateUtil
 								.getClass(sqlObject, false);
 						if (sqlC != null) {
-							sql = (BaseSQL) sqlC.newInstance();
+							sql = (AttributeProvider) sqlC.newInstance();
 							sqlCache.put(sqlName.trim(), sql);
 						}
 					}
 				} catch (InstantiationException | IllegalAccessException e) {
 					// TODO Auto-generated catch block
-					commonUTIL.displayError("ReferenceDataImp", "makeSQLObject", e);
+					commonUTIL.displayError("BaseSQL", "makeSQLObject", e);
 				}
 			}
 			return sql;
+		}
+		static public void saveAttribute(AttributeProvider attributeP,Vector attributes,Connection con) {
+			attributeP.saveAttributes(attributes, con);
+		}
+		static public void updateAttribute(AttributeProvider attributeP,Vector attributes,Connection con) {
+			attributeP.updateAttributes(attributes, con);
+		}
+		static public void selectAttribute(AttributeProvider attributeP,Vector attributes,Connection con) {
+			attributeP.updateAttributes(attributes, con);
 		}
 	  
 }
