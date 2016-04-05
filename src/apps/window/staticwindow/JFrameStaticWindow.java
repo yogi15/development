@@ -1,4 +1,4 @@
-package apps.window.staticwindow;
+package src.apps.window.staticwindow;
 
 import javax.swing.JFrame;
 

@@ -1,4 +1,4 @@
-package apps.window.staticwindow; 
+package src.apps.window.staticwindow; 
 import java.awt.Color;
 import java.awt.Dialog;
 import java.awt.Font;
