@@ -59,13 +59,13 @@ public class HolidayUtil {
 		List<String> holidayList = new ArrayList<String>();
 		List<Integer> weekendList = new ArrayList<Integer>();
 
-		Holiday holiday = new Holiday();
+		HolidayCode holiday = new HolidayCode();
 
-		Holiday holiday2 = new Holiday();
+		HolidayCode holiday2 = new HolidayCode();
 		holiday.setCurrency(currency);
 
 		try {
-			holiday2 = (Holiday) RemoteServiceUtil.getRemoteReferenceDataService().selectHoliday(holiday);
+			holiday2 = (HolidayCode) RemoteServiceUtil.getRemoteReferenceDataService().selectHoliday(holiday);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
