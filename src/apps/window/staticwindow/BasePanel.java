@@ -81,8 +81,8 @@ import constants.CommonConstants;
 import constants.JavaScriptConstants;
 import constants.WindowSheetConstants;
 
-public abstract class BasePanel extends JPanel {
-	public JFrame frame = null;
+public abstract class BasePanel extends   JPanel {
+	public JFrame frame  = null;
 	HierarchicalTable childWindow = null;
 	JPanel leftFrame = new JPanel();
 
