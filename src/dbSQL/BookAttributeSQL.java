@@ -15,7 +15,7 @@ import beans.Book;
 import beans.Attribute;
 import util.commonUTIL;
 
-public class BookAttributeSQL    implements AttributeProvider {
+public class BookAttributeSQL implements AttributeProvider {
 
 	 final static private String DELETE_FROM_BOOK_ATTRIBUTE =
 				"DELETE FROM BOOKATTRIBUTES where bookid =? ";
