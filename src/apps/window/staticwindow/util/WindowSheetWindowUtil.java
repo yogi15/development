@@ -1,18 +1,47 @@
-package apps.window.staticwindow.util;
+package src.apps.window.staticwindow.util;
 
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.lang.ref.Reference;
 import java.util.List;
 import java.util.Vector;
 
-import org.apache.activemq.store.ReferenceStore.ReferenceData;
+import javax.swing.AbstractAction;
+import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JList;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.ListModel;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.AbstractTableModel;
 
+import org.apache.activemq.store.ReferenceStore.ReferenceData;
+import org.dyno.visual.swing.layouts.Constraints;
+import org.dyno.visual.swing.layouts.Leading;
+
+import com.jidesoft.grid.CellStyle;
+import com.jidesoft.grid.ColumnCellStyleProvider;
 import com.jidesoft.grid.Property; 
+import com.jidesoft.grid.SortableTable;
+import com.jidesoft.grid.TableCellStyleEditor;
 
 import util.commonUTIL;
 import util.cacheUtil.ReferenceDataCache;
 import apps.window.staticwindow.BasePanel;
+import apps.window.staticwindow.TestingSampleProperty;
 import apps.window.staticwindow.WindowSheetWindow;
+import apps.window.util.tableModelUtil.SampleTableModel;
 import apps.window.util.tableModelUtil.TableUtils;
+import beans.PropertyCellStyle;
 import beans.WindowSheet;
+import constants.BeanConstants;
 import constants.CommonConstants;
 import constants.WindowSheetConstants;
 
@@ -125,6 +154,42 @@ public class WindowSheetWindowUtil extends BaseWindowUtil {
 		if(action.equalsIgnoreCase(CommonConstants.SAVEBUTTON)) {
 			saveButtonAction();
 		}
+		if(action.equalsIgnoreCase(WindowSheetConstants.LOADJAVASCRIPTS)) {
+			genearteJavaScript();
+		}
+		if(action.equalsIgnoreCase(WindowSheetConstants.PROPERTYPREVIEW)) {
+			previewProperty();
+		}
+	}
+
+	private void previewProperty() {
+		// TODO Auto-generated method stub
+		String windowName = windowSheetWindow.propertyTable.getwSheet().getWindowName();
+		if(commonUTIL.isEmpty(windowName))
+			return;
+		List<Property> preProps = generateProperty(windowName);
+		TestingSampleProperty frame = new TestingSampleProperty(preProps,windowName);
+		 
+	 
+	 
+	//frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
+	frame.setTitle(windowName +"Preview ");
+ 
+	frame.setSize(200, 110);
+	frame.getContentPane().setPreferredSize(frame.getSize());
+	frame.pack();
+	frame.setLocationRelativeTo(null);
+	frame.setVisible(true); 
+		
+	}
+
+	private void genearteJavaScript() {
+		// TODO Auto-generated method stub
+		String windowName = windowSheetWindow.propertyTable.getwSheet().getWindowName();
+		 if(!commonUTIL.isEmpty(windowName)) {
+			 JavaScriptWindowUtil.loadJavaScripts(windowName);
+		 }
+		
 	}
 
 	private void saveButtonAction() {
@@ -252,7 +317,19 @@ public class WindowSheetWindowUtil extends BaseWindowUtil {
 	private void searchTextAction() {
 		 
 		loadButtonAction();
+		DefaultListModel<String> newFieldNames = new DefaultListModel<String>();
+		windowSheetWindow.cellStyle.clearFieldNames();
+		Vector<String> rows = new Vector<String>();
+		String col [] = new String[windowSheetWindow.model.getRowCount()];
+		for(int i=0;i<windowSheetWindow.model.getRowCount();i++) {
+			newFieldNames.add(0,  ((WindowSheet)windowSheetWindow.model.getRow(i)).getFieldName());
+			 
+		}
+		windowSheetWindow.cellStyle.addFieldNames(newFieldNames);
+		 
 	}
+	
+	 
 	// check Null pointerException.
 	private void deleteButtonAction() {
 		
@@ -283,6 +360,21 @@ public class WindowSheetWindowUtil extends BaseWindowUtil {
 	@Override
 	public void clearALL() {
 		// TODO Auto-generated method stub 
+		
+	}
+
+	 
+	 
+	public void savePropertyStyle(Vector<PropertyCellStyle> styleCells) {
+		// TODO Auto-generated method stub
+	String windowName= 	(String) windowSheetWindow.propertyTable.getPropertyTable().getPropertyTableModel().getProperty(WindowSheetConstants.WINDOWNAME).getValue();
+		if(!commonUTIL.isEmpty(styleCells)) {
+			for(int i=0;i<styleCells.size();i++) {
+			PropertyCellStyle styleCell = styleCells.get(i);
+			styleCell.setWindowname(windowName);
+		ReferenceDataCache.insertSQL(styleCell, BeanConstants.PROPERTYCELLSTYLE);
+			}
+		}
 		
 	}
 }

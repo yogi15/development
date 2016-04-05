@@ -1,4 +1,4 @@
-package apps.window.staticwindow.util;
+package src.apps.window.staticwindow.util;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -10,18 +10,14 @@ import util.commonUTIL;
 import util.cacheUtil.ReferenceDataCache;
 import apps.window.staticwindow.BasePanel;
 import apps.window.staticwindow.JavaScriptWindow;
-import beans.LegalEntity;
 import beans.JavaScript;
 import beans.WindowSheet;
 import beans.WindowTableModelMapping;
 
-import com.jidesoft.grid.HierarchicalTableModel;
 import com.jidesoft.grid.Property;
 
-import constants.BeanConstants;
 import constants.CommonConstants;
 import constants.JavaScriptConstants;
-import constants.LegalEntityConstants;
 import constants.WindowSheetConstants;
 import constants.WindowTableModelMappingConstants;
 
@@ -29,22 +25,22 @@ public class JavaScriptWindowUtil extends BaseWindowUtil {
 	JavaScriptWindow javaScriptWindow = null;
 	JavaScript javaScript = null;
 	String javaScriptName = "";
-	boolean isWindowHier = false;
-	boolean isWindowChild = false;
-	String beanName = "Template";
+	static boolean isWindowHier = false;
+	static boolean isWindowChild = false;
+	static String beanName = "Template";
 
 	/**
 	 * @return the beanName
 	 */
-	public String getBeanName() {
+	public static String getBeanName() {
 		return beanName;
 	}
 
 	/**
 	 * @param beanName the beanName to set
 	 */
-	public void setBeanName(String beanName) {
-		this.beanName = beanName;
+	public static void setBeanName(String beanNa) {
+		 beanName = beanNa;
 	}
 
 	/**
@@ -140,48 +136,51 @@ public class JavaScriptWindowUtil extends BaseWindowUtil {
 		javaScriptWindow.model.clear();
 		setJavaScript(null);
 	}
-	String hieraricalTable = "";
-	String addComboBoxColumnScript ="";
-	String addComboxBoxVaraible = "";
+	static String hieraricalTable = "";
+	static String addComboBoxColumnScript ="";
+	static String addComboxBoxVaraible = "";
 	private void loadButtonAction() {
 		javaScriptWindow.propertyTable
 				.setfillValues(javaScriptWindow.propertyTable.getJavaScript());
 		String windowName = javaScriptWindow.propertyTable.getJavaScript()
 				.getWindowName();
 		javaScriptWindow.textarea.setText("");
+	} 
+	public static void  loadJavaScripts(String windowName)  {
+	
 		String script = ""; 
 		isWindowChild = isWindowChild( windowName);
 		  hieraricalTable = getHierarachicalModel(windowName);
 		  addComboBoxColumnScript = getComboxOnColumn(windowName);
 		  addComboxBoxVaraible = getVariableForComboxColumn(windowName);
 		  beanName =getBeanName();
-		if (javaScriptWindow.propertyTable.getJavaScript().getScriptName()
-				.equalsIgnoreCase(JavaScriptConstants.CONSTANTS)) {
+		/*if (javaScriptWindow.propertyTable.getJavaScript().getScriptName()
+				.equalsIgnoreCase(JavaScriptConstants.CONSTANTS)) {*/
 			script = createWindowConstantsScript(windowName);
 			writeStringToFile(JavaScriptConstants.CONSTANTPATH, script,
-					windowName + JavaScriptConstants.CONSTANTS);
-			javaScriptWindow.textarea.append(script);
-		}
-		if (javaScriptWindow.propertyTable.getJavaScript().getScriptName()
-				.equalsIgnoreCase(JavaScriptConstants.WINDOW)) {
+					getBeanName() + JavaScriptConstants.CONSTANTS);
+			//javaScriptWindow.textarea.append(script);
+		//}
+			/* if (javaScriptWindow.propertyTable.getJavaScript().getScriptName()
+				.equalsIgnoreCase(JavaScriptConstants.WINDOW)) {*/
 			script = createWindowScript(windowName);
 			script = script.replaceAll("Template", windowName);
 			script = script.replaceAll("template", windowName.toLowerCase());
 			writeStringToFile(JavaScriptConstants.WINDOWPATH, script,
 					windowName + JavaScriptConstants.WINDOW);
-			javaScriptWindow.textarea.append(script);
-		}
+		//	javaScriptWindow.textarea.append(script);
+		/*}
 		if (javaScriptWindow.propertyTable.getJavaScript().getScriptName()
-				.equalsIgnoreCase(JavaScriptConstants.PROPERTY)) {
+				.equalsIgnoreCase(JavaScriptConstants.PROPERTY)) {*/
 			script = createPropertyTableWindowScript(windowName);
 			script = script.replaceAll("Template", windowName);
 			script = script.replaceAll("template", windowName.toLowerCase());
 			writeStringToFile(JavaScriptConstants.WINDOWPROPERTYPATH, script,
 					windowName + JavaScriptConstants.PROPERTY);
-			javaScriptWindow.textarea.append(script);
-		}
-		if (javaScriptWindow.propertyTable.getJavaScript().getScriptName()
-				.equalsIgnoreCase(JavaScriptConstants.WINDOWUTIL)) {
+		//	javaScriptWindow.textarea.append(script);
+		//}
+		/*if (javaScriptWindow.propertyTable.getJavaScript().getScriptName()
+				.equalsIgnoreCase(JavaScriptConstants.WINDOWUTIL)) { */
 
 			script = createWindowUtilScript(windowName);
 			script = script.replaceAll("Template", windowName);
@@ -189,17 +188,17 @@ public class JavaScriptWindowUtil extends BaseWindowUtil {
 
 			writeStringToFile(JavaScriptConstants.WINDOWUTILPATH, script,
 					windowName + JavaScriptConstants.WINDOWUTIL);
-			javaScriptWindow.textarea.append(script);
-		}
+			//javaScriptWindow.textarea.append(script);
+		/*}
 		if (javaScriptWindow.propertyTable.getJavaScript().getScriptName()
-				.equalsIgnoreCase("TableModelUtil")) {
+				.equalsIgnoreCase("TableModelUtil")) { */
 			script = createWindowTableModelUtil(windowName);
 			script = script.replaceAll("Template", windowName);
 			script = script.replaceAll("template", windowName.toLowerCase());
 			writeStringToFile(JavaScriptConstants.WINDOWTABLEMODELPATH, script,
 					windowName + "TableModelUtil");
-			javaScriptWindow.textarea.append(script);
-		}
+		//	javaScriptWindow.textarea.append(script);
+		//}
 
 	}
 
@@ -223,9 +222,9 @@ public class JavaScriptWindowUtil extends BaseWindowUtil {
 
 	}
 
-	public String createWindowConstantsScript(String windowName) {
+	public static String createWindowConstantsScript(String windowName) {
 		String windowConstantScript = "package constants; \n\n public class "
-				+ windowName
+				+ getBeanName()
 				+ "Constants { \n\n final public static String WINDOW_NAME  = \"";
 		windowConstantScript = windowConstantScript + windowName + "\"";
 		Vector<WindowSheet> windowPropertys = getWindowProperty(windowName);
@@ -247,14 +246,20 @@ public class JavaScriptWindowUtil extends BaseWindowUtil {
 		windowConstantScript = windowConstantScript
 				+ ";\npublic static final String SEARCHTEXTBOX = ";
 		windowConstantScript = windowConstantScript + "\"";
-		windowConstantScript = windowConstantScript + windowName + "Search";
+		windowConstantScript = windowConstantScript + getBeanName() + "Search";
+		windowConstantScript = windowConstantScript + "\""; 
+		windowConstantScript = windowConstantScript + ";\n" ;
+				windowConstantScript = windowConstantScript +"public static final String LOADALL"+getBeanName().toUpperCase() +" = ";
+		windowConstantScript = windowConstantScript + "\"";
+		windowConstantScript = windowConstantScript + " Load "+getBeanName() +"Details";
 		windowConstantScript = windowConstantScript + "\"";
 		windowConstantScript = windowConstantScript + ";\n}";
+				
 
 		return windowConstantScript;
 	}
 
-	public String createWindowScript(String windowName) {
+	public static String createWindowScript(String windowName) {
 		
 		String  windowScript ="";
 		windowScript = windowScript
@@ -330,7 +335,7 @@ public class JavaScriptWindowUtil extends BaseWindowUtil {
 		windowScript = windowScript
 				+ "public final	JTextField templateSearchTextField = new JTextField(";
 		windowScript = windowScript + "\"";
-		windowScript = windowScript + "TemplateTextField";
+		windowScript = windowScript + getBeanName()+"TextField";
 		windowScript = windowScript + "\"";
 		windowScript = windowScript
 				+ ",15); // search textfield in leftTopPanel Data\n";
@@ -345,7 +350,7 @@ public class JavaScriptWindowUtil extends BaseWindowUtil {
 		windowScript = windowScript
 				+ "protected JButton templateDetails = new JButton(";
 		windowScript = windowScript + "\"";
-		windowScript = windowScript + "Load TemplateDetails";
+		windowScript = windowScript + "Load "+getBeanName() +"Details";
 		windowScript = windowScript + "\"";
 		windowScript = windowScript + ");\n";
 		windowScript = windowScript + "// leftSide PropertyTable \n";
@@ -526,7 +531,7 @@ public class JavaScriptWindowUtil extends BaseWindowUtil {
 		return windowScript;
 	}
 
-	private boolean isWindowChild(String windowName) {
+	private static boolean isWindowChild(String windowName) {
 		// TODO Auto-generated method stub
 		String isChildSQL = WindowSheetConstants.ISCHILDSQL + "'"+windowName+"'";
 		Vector<WindowSheet> ws = (Vector<WindowSheet>) ReferenceDataCache.selectWhere(isChildSQL,WindowSheetConstants.WINDOW_NAME);
@@ -536,7 +541,7 @@ public class JavaScriptWindowUtil extends BaseWindowUtil {
 		return false;
 	}
 
-	public String createPropertyTableWindowScript(String windowName) {
+	public static String createPropertyTableWindowScript(String windowName) {
 		String windowScript = "";
 		windowScript = windowScript
 				+ "package apps.window.util.propertyTable;\n";
@@ -595,7 +600,7 @@ public class JavaScriptWindowUtil extends BaseWindowUtil {
 		return windowScript;
 	}
 
-	public String createWindowUtilScript(String windowName) {
+	public static String createWindowUtilScript(String windowName) {
 		String windowScript = "";
 		String startDataScriptForComboxColumn = addScriptInStartDataMethodComboxColumn(windowName);
 		String beanName = getBeanConstantName(getBeanName());
@@ -887,14 +892,12 @@ public class JavaScriptWindowUtil extends BaseWindowUtil {
 		return windowScript;
 	}
 	
-	public String getBeanConstantName(String beanName) {
+	public static String getBeanConstantName(String beanName) {
 		return "BeanConstants."+getBeanName().toUpperCase();
 	}
 
-	public String createWindowTableModelUtil(String windowName) {
-		addColMap("BookNameWindow", "Book", "BookNo", "Book_no");
-		addColMap("BookNameWindow", "Book", "BookName", "Book_name");
-		addColMap("BookNameWindow", "Book", "LegalEntity", "le");
+	public static String createWindowTableModelUtil(String windowName) {
+		 
 		String col = getColumnName(windowName);
 		String switchCase = getSwitchCaseMapping(windowName);
 		String classTypeMethod = getColumnClassDataType(windowName);
@@ -918,7 +921,12 @@ public class JavaScriptWindowUtil extends BaseWindowUtil {
 
 		windowScript = windowScript + "		final String[] columnNames;  \n";
 		windowScript = windowScript + "		 String col[] =" + col + " ;\n";
-
+		windowScript = windowScript +  "   /**\n";
+		windowScript = windowScript + "  * @return the col\n";
+		windowScript = windowScript +  " */\n";
+		windowScript = windowScript + "public String[] getCol() {\n";
+				windowScript = windowScript + "return col;\n";
+				windowScript = windowScript + "}\n";
 		windowScript = windowScript + " /**\n";
 		windowScript = windowScript + "	 * @return the data\n";
 		windowScript = windowScript + "	 */\n";
@@ -1033,7 +1041,7 @@ public class JavaScriptWindowUtil extends BaseWindowUtil {
 
 	}
 	
-	private String getValueAtScriptMethod(String windowName2) {
+	private static String getValueAtScriptMethod(String windowName2) {
 		String valueAt = " ";
 		Vector<WindowTableModelMapping> maps = getMapColumns(windowName2);
 		for (int i = 0; i < maps.size(); i++) {
@@ -1050,7 +1058,7 @@ public class JavaScriptWindowUtil extends BaseWindowUtil {
 		return valueAt;
 	}
 
-	private String getSwitchCaseMapping(String windowName2) {
+	private static String getSwitchCaseMapping(String windowName2) {
 		// TODO Auto-generated method stub
 
 		String switchcase = "";
@@ -1067,7 +1075,7 @@ public class JavaScriptWindowUtil extends BaseWindowUtil {
 	
 	
 	
-	private String addScriptInStartDataMethodComboxColumn(String window) {
+	private static String addScriptInStartDataMethodComboxColumn(String window) {
 		String startUPScript = "";
 		Vector<WindowTableModelMapping> maps = getMapColumns(window);
 		for (int i = 0; i < maps.size(); i++) {
@@ -1085,7 +1093,7 @@ public class JavaScriptWindowUtil extends BaseWindowUtil {
 	}
 	
 	
-	private String getVariableForComboxColumn(String windowName2) {
+	private static String getVariableForComboxColumn(String windowName2) {
 		// TODO Auto-generated method stub
 
 		String variableName = "";
@@ -1109,7 +1117,7 @@ public class JavaScriptWindowUtil extends BaseWindowUtil {
 		}
 	}
 	 
-	private String getColumnClassDataType (String windowName2) {
+	private static String getColumnClassDataType (String windowName2) {
 		// TODO Auto-generated method stub
 
 		String classType = "@Override \n      public Class getColumnClass(int column) { \n switch (column) {\n";
@@ -1137,7 +1145,7 @@ public class JavaScriptWindowUtil extends BaseWindowUtil {
 
 	Vector<WindowTableModelMapping> mappingCol = new Vector<WindowTableModelMapping>();
 
-	private String getColumnName(String windowName2) {
+	private static String getColumnName(String windowName2) {
 		// TODO Auto-generated method stub
 		String col = "{";
 		Vector<WindowTableModelMapping> maps = getMapColumns(windowName2);
@@ -1150,8 +1158,9 @@ public class JavaScriptWindowUtil extends BaseWindowUtil {
 		return col;
 	}
 	
-	private String getHierarachicalModel(String windowName) {
-		String hierarachicalModel = "rightSideCenterTable.setModel(model);";
+	private static String getHierarachicalModel(String windowName) {
+		String hierarachicalModel = "model = new TemplateTableModelUtil(rightPanelJtableTemplatedata); \n";
+		hierarachicalModel = hierarachicalModel + "	setCornerForScrollPane(model.getCol()); \n	setQuickSearchOnTable(model);";
 		if(isWindowChild)
 			hierarachicalModel = "model = new TemplateTableModelUtil(rightPanelJtableTemplatedata); \n";
 		Vector<WindowSheet> maps = getWindowColumns(windowName);
@@ -1167,7 +1176,8 @@ public class JavaScriptWindowUtil extends BaseWindowUtil {
 				hierarachicalModel = "//\n"+hierarachicalModel;
 				hierarachicalModel = hierarachicalModel + "model = new TemplateTableModelUtil(rightPanelJtableTemplatedata); \n";
 				hierarachicalModel = hierarachicalModel + " // adding model  \n";
-				hierarachicalModel = hierarachicalModel + " hierarchicalTable = createTable(model,new "+mp.getChildWindowName()+"Window());\n";	
+				hierarachicalModel = hierarachicalModel + "	setCornerForScrollPane(model.getCol()); \n	setQuickSearchOnTable(model);";
+				hierarachicalModel = hierarachicalModel + " hierarchicalTable = createTable(getFilterModel(),new "+mp.getChildWindowName()+"Window());\n";	
 				hierarachicalModel = hierarachicalModel + "setEventListener(hierarchicalTable);";
 				 
 			}  
@@ -1175,7 +1185,7 @@ public class JavaScriptWindowUtil extends BaseWindowUtil {
 		return hierarachicalModel;
 		
 	}
-	private String getEditingOnColumn (String windowName2) {
+	private static String getEditingOnColumn (String windowName2) {
 		// TODO Auto-generated method stub
 		String editColumn = "";
 		Vector<WindowTableModelMapping> maps = getMapColumns(windowName2);
@@ -1194,7 +1204,7 @@ public class JavaScriptWindowUtil extends BaseWindowUtil {
 		}   
 	
 
-	 private String getChildWindowScript() {
+	 private static String getChildWindowScript() {
 		 String childWindowScript = "";
 		 childWindowScript = childWindowScript+"JPanel panel = new JPanel();\n";
 		 childWindowScript = childWindowScript+"panel.setLayout(new BorderLayout());\n";
@@ -1210,7 +1220,7 @@ public class JavaScriptWindowUtil extends BaseWindowUtil {
 	
 	
 	
-	private String getComboxOnColumn(String windowName) {
+	private static String getComboxOnColumn(String windowName) {
 		Vector<WindowTableModelMapping> maps = getMapColumns(windowName);
 		String table = "rightSideCenterTable";
 				if(isWindowHier) 
@@ -1248,13 +1258,13 @@ public class JavaScriptWindowUtil extends BaseWindowUtil {
 		mappingCol.add(mp);
 	}
 
-	public Vector<WindowTableModelMapping> getMapColumns(String windowName) {
+	public static Vector<WindowTableModelMapping> getMapColumns(String windowName) {
 		Vector<WindowTableModelMapping> mp = ReferenceDataCache
 				.selectWindowTableModelMappings(windowName);
 
 		return mp;
 	}
-	public Vector<WindowSheet> getWindowColumns(String windowName) {
+	public static Vector<WindowSheet> getWindowColumns(String windowName) {
 		Vector<WindowSheet> mp = ReferenceDataCache.selectWindowSheets(windowName, WindowSheetConstants.WINDOW);
 				 
 
@@ -1267,7 +1277,7 @@ public class JavaScriptWindowUtil extends BaseWindowUtil {
 
 	}
 
-	private void writeStringToFile(String path, String content, String fileName) {
+	private static void writeStringToFile(String path, String content, String fileName) {
 		File file = new File(path + "/" + fileName + ".java");
 
 		// if file doesnt exists, then create it

@@ -1,10 +1,10 @@
-package apps.window.staticwindow.util;
+package src.apps.window.staticwindow.util;
 
 import java.util.Vector;
 import apps.window.util.tableModelUtil.TableUtils;
 import apps.window.util.windowUtil.DynamicMenu;
-import util.ReferenceDataCache;
 import util.commonUTIL;
+import util.cacheUtil.ReferenceDataCache;
 import apps.window.staticwindow.BasePanel;
 import apps.window.staticwindow.MenuConfigurationWindow;
 import beans.MenuConfiguration; 

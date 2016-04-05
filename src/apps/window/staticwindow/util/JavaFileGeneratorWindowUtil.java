@@ -1,4 +1,4 @@
-package apps.window.staticwindow.util;
+package src.apps.window.staticwindow.util;
 
 import java.io.BufferedWriter;
 import java.io.File;

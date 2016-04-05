@@ -1,4 +1,4 @@
-package apps.window.staticwindow.util;
+package src.apps.window.staticwindow.util;
 
 import java.util.Vector;
 import util.commonUTIL;
