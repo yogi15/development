@@ -1,4 +1,4 @@
-package apps.window.util.propertyUtil;
+package src.apps.window.util.propertyUtil;
  
 
 import java.awt.Component;
@@ -102,6 +102,11 @@ public class CommonPropertyUtil {
          return bookProp;
 }
 
+	 
+	 
+	 
+	 
+	 
 	 /**
      * <p>creates a number property that displays its value with the specified precision
      *

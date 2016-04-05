@@ -1,4 +1,4 @@
-package apps.window.util.propertyUtil;
+package src.apps.window.util.propertyUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,14 +33,14 @@ import com.jidesoft.grid.EnumCellEditor;
 import com.jidesoft.grid.EnumCellRenderer;
  
 
-public class PropertyEnum <T> extends DefaultPropertyExtended<T> {
+public class PropertyEnum <T> extends DefaultPropertyExtended<T>  {
 	private Style style = Style.CLASSIC;
     private int maxHits = -1;
     private ListResolver listResolver = null;
     private Object[] objects;
     private String[] labels;
 
-    private PropertyEnumCallbacks<T> enumPropertyCallbacks;
+    private PropertyEnumCallbacks<T> enumPropertyCallbacks; 
 
     /**
      * @param name

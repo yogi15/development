@@ -1,7 +1,9 @@
-package apps.window.util.propertyUtil;
+package src.apps.window.util.propertyUtil;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
@@ -11,6 +13,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Vector;
 
 import javax.swing.AbstractAction;
 import javax.swing.AbstractButton;
@@ -23,19 +26,27 @@ import javax.swing.JTable;
 import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
+import javax.swing.border.MatteBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellEditor;
 import javax.swing.text.JTextComponent;
+
+import util.commonUTIL;
  
 import apps.window.util.propertyTable.PropertyTableBuilder;
+import beans.PropertyCellStyle;
    
 import com.jidesoft.combobox.ListComboBox;
+import com.jidesoft.converter.ConverterContext;
+import com.jidesoft.grid.CellStyle;
+import com.jidesoft.grid.EditorStyleTableModel;
 import com.jidesoft.grid.Property;
 import com.jidesoft.grid.PropertyTable;
 import com.jidesoft.grid.PropertyTableModel;
+import com.jidesoft.grid.StyleModel;
 import com.jidesoft.icons.JideIconsFactory;
 
 public class BasePropertyTable extends PropertyTable {
@@ -44,8 +55,10 @@ public class BasePropertyTable extends PropertyTable {
 	    private static final String CLIENT_PROP_PREV_COMPONENT = "prevTable";
 	    private static final String ACTION_KEY_SHIFT_TAB = "shift-tab";
 	    private static final String ACTION_KEY_TAB = "tab";
-	    
-	    
+	    static Vector<PropertyCellStyle> cellStyles = null;
+	//    private Vector<PropertyStyleCell> propertyStyleCell = null;
+
+		private static int _editorStyle = EditorStyleTableModel.EDITOR_STYLE_NORMAL;
 	    public static PropertyTable makePropertyTable(Property... properties) {
 	        return makePropertyTable(Arrays.asList(properties), new PropertyTableBuilder() {
 	            public PropertyTable createPropertyTable() {
@@ -66,14 +79,27 @@ public class BasePropertyTable extends PropertyTable {
 	        }
 	        return propertyTable;
 	    }
-	    
+	    public static PropertyTable makePropertyTable(List<Property> props,Vector<PropertyCellStyle> styles) {
+	    	cellStyles = styles;
+	        PropertyTable propertyTable = makePropertyTable(props, new PropertyTableBuilder() {
+	        	
+	            public PropertyTable createPropertyTable() {
+	                return new DynamicPropertyTable();
+	            }
+	        }, true);
+	        if (propertyTable instanceof DynamicPropertyTable) { // to enable categorizes
+	            ((DynamicPropertyTable) propertyTable).setOrder(PropertyTableModel.CATEGORIZED);
+	            propertyTable.expandFirstLevel();
+	        }
+	        return propertyTable;
+	    }
 	    public static PropertyTable makePropertyTable(List<Property> props, PropertyTableBuilder builder, boolean showCategories) {
 	        final PropertyTable propertyTable = builder.createPropertyTable();
 
 	        propertyTable.setRowSelectionAllowed(true);
 	        propertyTable.setColumnSelectionAllowed(true);
 
-	        final PropertyTableModel model = new PropertyTableModel(props);
+	        final PropertyTableModel model = new EditorStylePropertyTableModel(props);
 	        
 	        
 	      
@@ -392,7 +418,21 @@ public class BasePropertyTable extends PropertyTable {
     private static int prevCyclicId(int crt, int max) {
         return crt == 0 ? max - 1 : crt - 1;
     }
-        
+        private static CellStyle getPropertyCellStyle(String propertyName) {
+        	CellStyle cellStyle = null;
+        	if(!commonUTIL.isEmpty(cellStyles)) {
+        		for(int i=0;i<cellStyles.size();i++) {
+        			PropertyCellStyle style = cellStyles.get(i);
+        			if(style.getPropertyname().equalsIgnoreCase(propertyName)) {
+        				cellStyle =  style.getCellStyle();
+        		   break;
+        			}
+        			
+        		}
+        	}
+        	 
+        	return cellStyle;
+        }
         
         private static void initiateComboBoxEditing(int selectedRow, PropertyTable propertyTable) {
             PropertyTableModel propertyTableModel = propertyTable.getPropertyTableModel();
@@ -409,5 +449,65 @@ public class BasePropertyTable extends PropertyTable {
                 }
             }
         }
+   
+        
+        
+        
+        
+        static class EditorStylePropertyTableModel<T extends Property> extends
+		PropertyTableModel<T> implements EditorStyleTableModel, StyleModel {
+	private static final long serialVersionUID = -4435995349055070783L;
 
+	public EditorStylePropertyTableModel(List<T> properties) {
+		super(properties);
+	}
+
+	public int getEditorStyleAt(int rowIndex, int columnIndex) {
+		return _editorStyle;
+	}
+
+	@Override
+	public ConverterContext getConverterContextAt(int row, int column) {
+		T valueProperty = getPropertyAt(row);
+		if (valueProperty == null) {
+			return null;
+		}
+		T priorityProperty = getProperty("Priority");
+		if ("Multiple Values".equals(valueProperty.getName())) {
+			Object[] possibleValues = new Object[] { "A", "B", "C", "D",
+					"E" };
+			Object priorityValue = priorityProperty.getValue();
+			if (priorityValue instanceof Integer
+					&& (Integer) priorityValue == 0) {
+				possibleValues = new Object[] { "A", "B" };
+			}
+			return new ConverterContext("ABCDE", possibleValues);
+		}
+		return super.getConverterContextAt(row, column);
+	}
+
+	@Override
+	public CellStyle getCellStyleAt(int rowIndex, int columnIndex) {
+		if (columnIndex == 1) {
+			T property = getPropertyAt(rowIndex);
+			 /// if (property.isExpert()) {
+				return getPropertyCellStyle(property.getName());
+			//}
+
+		}
+		return null;
+	}
+
+	@Override
+	public boolean isCellStyleOn() {
+		return true;
+	}
+}
+        private final static CellStyle CELL_STYLE_EXPERT = new CellStyle();
+    	static {
+    		 
+    		CELL_STYLE_EXPERT.setBorder(new MatteBorder(0, 0, 0, 6, Color.BLUE));
+    		CELL_STYLE_EXPERT.setBackground(new Color(190,119,221));
+    		//CELL_STYLE_EXPERT.setFont(new Font(name, style, size));
+    	}
 }

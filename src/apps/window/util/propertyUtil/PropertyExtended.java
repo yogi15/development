@@ -1,4 +1,4 @@
-package apps.window.util.propertyUtil;
+package src.apps.window.util.propertyUtil;
 
 import java.awt.Component;
 import java.util.Collections;
@@ -31,7 +31,7 @@ public abstract class PropertyExtended<T> extends DefaultProperty {
     protected void setup(String name, String description, Class<?> type, T defaultValueIfNull) {
         setName(name);
         setDisplayName(name);
-        setDescription(description);
+        setDescription(description); 
         setType(type);
         setDefaultValueIfNull(defaultValueIfNull);
     }

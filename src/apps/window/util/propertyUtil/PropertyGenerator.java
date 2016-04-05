@@ -1,4 +1,4 @@
-package apps.window.util.propertyUtil;
+package src.apps.window.util.propertyUtil;
 
 import static apps.window.util.propertyUtil.CommonPropertyUtil.createStartUPDataProperty;
 
@@ -122,13 +122,10 @@ public class PropertyGenerator {
 					    		    renumProperty.setValue(new Boolean(true));
 					    	}
 					     }
-				 }if((dataType.trim().equalsIgnoreCase(PropertyPaneConstants.INTEGER))  ) {
-					 renumProperty  = createIntegerProperty( ws.getFieldName().trim(), ws.getFieldName().trim(), ws.getCategory().trim() );
-					 renumProperty.setValue(0);
-				 }
-					 if((dataType.trim().equalsIgnoreCase(PropertyPaneConstants.INTEGER))  ) {
+				 }  if((dataType.trim().equalsIgnoreCase(PropertyPaneConstants.INTEGER))  ) {
 					  renumProperty  = createIntegerProperty( ws.getFieldName().trim(), ws.getFieldName().trim(), ws.getCategory().trim() );
 						 renumProperty.setValue(0);
+						 renumProperty.setEditable(true);
 				 }
 					 if((dataType.trim().equalsIgnoreCase(PropertyPaneConstants.NUMBER))  ) {
 						  renumProperty  = createNumberProperty( ws.getFieldName().trim(), ws.getFieldName().trim(), ws.getCategory().trim() ,10);
@@ -155,6 +152,7 @@ public class PropertyGenerator {
 			if(renumProperty != null ) {
 				if(!ws.isEditable()) {
 					renumProperty.setEditable(false);
+					
 				}
 				if(commonUTIL.isEmpty(ws.getParentFieldName())) {
 			       propertyList.add(renumProperty);

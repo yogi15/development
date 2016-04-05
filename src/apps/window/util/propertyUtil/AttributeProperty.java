@@ -1,4 +1,4 @@
-package apps.window.util.propertyUtil;
+package src.apps.window.util.propertyUtil;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -55,17 +55,17 @@ public class AttributeProperty extends PropertyExtended<AttributeContainer>
 	};
 
 	public AttributeProperty(final String attributeName, String category) {
-		super();
+		super( );
 		setName(attributeName);
-
+        
 		setType(AttributeContainer.class);
-		setDisplayName(attributeName);
+	//	setDisplayName(attributeName);
 		setEditable(false); // this is important dont make it editable.
 
 		addPropertyChangeListener(PROPERTY_VALUE, new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent evt) {
 
-				setDisplayName(attributeName);
+				//setDisplayName(attributeName);
 
 				addChildren(0, buildChildrenProperties());
 
@@ -183,7 +183,7 @@ public class AttributeProperty extends PropertyExtended<AttributeContainer>
 
 		@Override
 		public AbstractComboBox createAbstractComboBox() {
-			 System.out.println("From createAbstractComboBox" );
+			// System.out.println("From createAbstractComboBox" );
 			AbstractComboBox comboBox = new AttributeComboBox(null, null);
 			return (AbstractComboBox) comboBox;
 		}
@@ -193,7 +193,7 @@ public class AttributeProperty extends PropertyExtended<AttributeContainer>
 
 		AttributeComboBox(ComboBoxModel model, Class<?> type) {
 			super(DROPDOWN);
-			System.out.println("From AttributeComboBox" );
+			//System.out.println("From AttributeComboBox" );
 			setType(type);
 			initComponent(model);
 			AttributeComboBox.this.setEditable(true);

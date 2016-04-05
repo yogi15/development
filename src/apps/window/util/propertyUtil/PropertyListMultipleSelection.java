@@ -1,4 +1,4 @@
-package apps.window.util.propertyUtil;
+package src.apps.window.util.propertyUtil;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -18,7 +18,7 @@ import com.jidesoft.grid.DefaultProperty;
 import com.jidesoft.grid.EditorContext;
 import com.jidesoft.swing.NullPanel;
 
-public class PropertyListMultipleSelection<T> extends DefaultProperty {
+public class PropertyListMultipleSelection<T> extends DefaultPropertyExtended<T> {
     EditorContext editorContext;
     private List<T> domain;
      

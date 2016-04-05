@@ -1,7 +1,9 @@
-package apps.window.util.propertyUtil;
+package src.apps.window.util.propertyUtil;
  
+import util.commonUTIL;
+
 import com.jidesoft.grid.DefaultProperty;
-public   abstract class PropertyNumeric<N extends Number> extends DefaultProperty {
+public   abstract class PropertyNumeric<N extends Number> extends PropertyEnum<DefaultProperty> {
 
     /**
      * 
@@ -20,6 +22,7 @@ public   abstract class PropertyNumeric<N extends Number> extends DefaultPropert
     protected PropertyNumeric(Class<N> type) {
         assert type != null;
         assert Number.class.isAssignableFrom(type);
+        
         this.type = type;
         super.setType(type);
     }
@@ -38,6 +41,9 @@ public   abstract class PropertyNumeric<N extends Number> extends DefaultPropert
         }
         super.setType(type);
     }
+   // public Object getValue() {
+    //	return getValue();
+   // }
 
     /**
      * Returns whether or not null is an allowed value
@@ -68,7 +74,8 @@ public   abstract class PropertyNumeric<N extends Number> extends DefaultPropert
         if (value == null) {
             return 0;
         }
-        return ((Number) value).intValue();
+        
+        return (((Integer) value)).intValue();
     }
 
     /**
