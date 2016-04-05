@@ -54,11 +54,11 @@ public class HolidayRule {
 	 }
 	 
 	 
-	 public Holiday getHolidayOnCode(String code) {
-		 Holiday holiday = null;
-		 Iterator<Holiday> holi = holidayCode.iterator();
+	 public HolidayCode getHolidayOnCode(String code) {
+		 HolidayCode holiday = null;
+		 Iterator<HolidayCode> holi = holidayCode.iterator();
 		 while(holi.hasNext()) {
-			 Holiday hd = holi.next();
+			 HolidayCode hd = holi.next();
 			if(hd.getCurrency().equalsIgnoreCase(code)) {
 				holiday = hd;
 				break;
@@ -67,7 +67,7 @@ public class HolidayRule {
 		 return holiday;
 	 }
 	 
-	 public int checkHolidayExists(Holiday holi,DateU date,Period period) {
+	 public int checkHolidayExists(HolidayCode holi,DateU date,Period period) {
 		 boolean flag = false;
 		 String holidays [] = getHolidayArray(holi.getHdate());
 		 int counter = 0;
@@ -82,7 +82,7 @@ public class HolidayRule {
 	 }
      
 	 
-	 public boolean isHoliday(Holiday holi,DateU date,Period period) {
+	 public boolean isHoliday(HolidayCode holi,DateU date,Period period) {
 		 
 		 boolean flag = false;
 		 String holidays [] = getHolidayArray(holi.getHdate());
