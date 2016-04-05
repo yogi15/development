@@ -20,26 +20,26 @@ public class BookAttributeSQL    implements AttributeProvider {
 	 final static private String DELETE_FROM_BOOK_ATTRIBUTE =
 				"DELETE FROM BOOKATTRIBUTES where bookid =? ";
 			final static private String INSERT_INTO_BOOK_ATTRIBUTE =
-				"INSERT into BOOKATTRIBUTES(bookid, attributeName, attributeValue) values(?,?,?)";
+				"INSERT into BOOKATTRIBUTES( id, attributeName, attributeValue) values(?,?,?)";
 			final static private String UPDATE_BOOK_ATTRIBUTE =
 				"UPDATE BOOKATTRIBUTES set attributeName=?,attributeValue=? where bookid = ? ";
 			final static private String SELECT_MAX_BOOK_ATTRIBUTE =
 				"SELECT MAX(bookid) DESC_ID FROM BOOKATTRIBUTES ";
 			final static private String SELECTALL_BOOK_ATTRIBUTE =
-				"SELECT bookid, attributeName, attributeValue FROM BOOKATTRIBUTES order by bookid";
+				"SELECT bookid, attributeName, attributeValue FROM BOOKATTRIBUTES order by  id";
 			final static private String SELECT_BOOK_ATTRIBUTE =
-				"SELECT bookid, attributeName, attributeValue FROM BOOKATTRIBUTES where bookid =  ?";
+				"SELECT bookid, attributeName, attributeValue FROM BOOKATTRIBUTES where id =  ?";
 			final static private String SELECTONE_BOOK_ATTRIBUTE =
-				"SELECT bookid, attributeName, attributeValue FROM BOOKATTRIBUTES where bookid =  " ;
+				"SELECT bookid, attributeName, attributeValue FROM BOOKATTRIBUTES where  id =  " ;
 			 
 			final static private String SELECTWHERE_BOOK_ATTRIBUTE =
 				"SELECT bookid, attributeName,attributeValue FROM BOOKATTRIBUTES where    " ;
 			
 			final static private String BOOK_ATTRIBUTE_UPDATE_SQL = "UPDATE BOOKATTRIBUTES  set " +
-	  		" bookid= ?" +      		
+	  		"  id= ?" +      		
 	  		",attributeName= ? " +  	      		
 	  		",attributeValue= ?" + 	      		
-	  		" where bookid= ?" + 
+	  		" where  id= ?" + 
 	  		" and attributeName= ?"; 
 			
 			 public static BaseBean saveBookAttribute(Vector<Attribute>  bookAttrVec, Connection con) {
