@@ -58,7 +58,7 @@ public interface RemoteReferenceData extends Remote{
 	public MessageConfig selectMessageConfig(MessageConfig messConfig)throws RemoteException;
 	public boolean deleteMessageConfig(MessageConfig messConfig)throws RemoteException;
 	public boolean updateMessageConfig(MessageConfig messConfig) throws RemoteException;
-	public boolean updateHoliday(Holiday holiday) throws RemoteException;
+	public boolean updateHoliday(HolidayCode holiday) throws RemoteException;
 	
 	public Collection  selectALLMessageConfigs() throws RemoteException;
 	public Collection  getMessageConfigsonProductype(String productype,String productSubtype) throws RemoteException;
@@ -116,9 +116,9 @@ public interface RemoteReferenceData extends Remote{
 	
 	public Collection selectAllLs() throws RemoteException;
 	
-	public boolean saveHoliday(Holiday holiday)throws RemoteException;
-	public Holiday selectHoliday(Holiday holiday)throws RemoteException;
-	public boolean deleteHoliday(Holiday holiday)throws RemoteException;
+	public boolean saveHoliday(HolidayCode holiday)throws RemoteException;
+	public HolidayCode selectHoliday(HolidayCode holiday)throws RemoteException;
+	public boolean deleteHoliday(HolidayCode holiday)throws RemoteException;
 	
 	public Collection  selectALLHolidays() throws RemoteException;
 	
