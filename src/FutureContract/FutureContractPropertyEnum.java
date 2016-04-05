@@ -147,7 +147,7 @@ public enum FutureContractPropertyEnum {
 		
 		Vector<String> propertyValuesVec = new Vector<String>();
 			
-		Collection<Holiday> holiday = new Vector<Holiday>();
+		Collection<HolidayCode> holiday = new Vector<HolidayCode>();
 		
 		try {
 			holiday =	RemoteServiceUtil.getRemoteReferenceDataService().selectALLHolidays();
@@ -156,9 +156,9 @@ public enum FutureContractPropertyEnum {
 			e.printStackTrace();
 		}
 		
-		Iterator<Holiday> iterator = holiday.iterator();
+		Iterator<HolidayCode> iterator = holiday.iterator();
 		while (iterator.hasNext()) {
-			Holiday data = iterator.next();
+			HolidayCode data = iterator.next();
 			propertyValuesVec.add(data.getCountry());
 		}
 		
