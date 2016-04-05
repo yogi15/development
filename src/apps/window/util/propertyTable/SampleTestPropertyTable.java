@@ -1,17 +1,22 @@
-package apps.window.util.propertyTable;
+package src.apps.window.util.propertyTable;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
+import java.util.Vector;
+
+import util.cacheUtil.ReferenceDataCache;
 
 import apps.window.util.propertyPane.enumsList.CurrencyDefaultPropertyEnumList;
 import apps.window.util.propertyPane.enumsList.SampleTestPropertyEnumList;
 import apps.window.util.propertyUtil.BasePropertyTable;
+import beans.PropertyCellStyle;
 
 import com.jidesoft.grid.Property;
 import com.jidesoft.grid.PropertyTable;
 import com.jidesoft.grid.PropertyTableModel;
 
+import constants.BeanConstants;
 import constants.CurrencyDefaultConstant;
 import constants.SamplesTestContant;
 
@@ -28,20 +33,33 @@ public class SampleTestPropertyTable extends BasePropertyTable implements Proper
 		
 	}
 	String name = "";
+	List<Property> prop;
 	public SampleTestPropertyTable(String name) {
 
 		this.name = name;
 	
 
 	}
+	public SampleTestPropertyTable(List <Property> prop) {
 
+		this.prop = prop;
+	
+
+	}
 		 public PropertyTable getSampleTestPropertyTable() {
 	       
 			 sampleTestProperties = getSampleTestProperties();
 			 return makePropertyTable(sampleTestProperties);
 			 
 	    }
-
+		 public PropertyTable getSampleTestPropertyTable(List <Property> prop1,String windowName) {
+			   String sql = "WindowName = '"+windowName+"'";
+		     Vector<PropertyCellStyle> propCellSty =   (Vector<PropertyCellStyle>) ReferenceDataCache.selectWhere(sql, BeanConstants.PROPERTYCELLSTYLE);
+			 sampleTestProperties =  prop1;
+			 
+			 return makePropertyTable(sampleTestProperties,propCellSty);
+			 
+	    }
 		private List< Property> getSampleTestProperties() {
 			// TODO Auto-generated method stub
 			 

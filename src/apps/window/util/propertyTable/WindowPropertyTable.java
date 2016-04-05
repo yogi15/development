@@ -1,28 +1,43 @@
-package apps.window.util.propertyTable;
+package src.apps.window.util.propertyTable;
+ 
 
+import java.awt.Color;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
-import java.util.Properties;
 
-import util.CosmosException;
+import javax.swing.border.MatteBorder;
+
 import util.commonUTIL;
-
 import apps.window.util.propertyUtil.BasePropertyTable;
 import apps.window.util.propertyUtil.PropertyEnum;
 import apps.window.util.propertyUtil.PropertyGenerator;
 import beans.BaseBean;
-import beans.JavaFileGenerator;
-import beans.Template;
 
+import com.jidesoft.grid.AbstractMultiTableModel;
+import com.jidesoft.grid.CellStyle;
+import com.jidesoft.grid.EditorStyleTableModel;
 import com.jidesoft.grid.Property;
 import com.jidesoft.grid.PropertyTable;
+import com.jidesoft.grid.PropertyTableModel;
+import com.jidesoft.grid.StyleModel; 
 
-import constants.WindowTableModelMappingConstants;
-
-public abstract class WindowPropertyTable implements PropertyChangeListener {
-
+public  abstract class WindowPropertyTable extends AbstractMultiTableModel
+implements  PropertyChangeListener {
+	
+	private static int _editorStyle = EditorStyleTableModel.EDITOR_STYLE_NORMAL;
+	 protected List<String> _columnNames;
+	    protected int _colCount;
+	    protected int _rowCount;
+	    protected CellStyle _cellStyle = new CellStyle();
 	public PropertyTable propertyTable = null;
+
+	private final static CellStyle CELL_STYLE_EXPERT = new CellStyle();
+	static {
+		 
+		CELL_STYLE_EXPERT.setBorder(new MatteBorder(0, 0, 0, 6, Color.BLUE));
+		CELL_STYLE_EXPERT.setBackground(new Color(190,119,221));
+	}
 	String name = "";
 
 	/**
@@ -65,6 +80,7 @@ public abstract class WindowPropertyTable implements PropertyChangeListener {
 
 		setPropertyTable(BasePropertyTable
 				.makePropertyTable(addListenerToProperty(properties)));
+		 
 		return propertyTable;
 
 	}
@@ -395,5 +411,66 @@ public abstract class WindowPropertyTable implements PropertyChangeListener {
 	private List<Property> getProperties(PropertyTable propertyTable) {
 		return propertyTable.getPropertyTableModel().getProperties();
 
+	}
+
+	@Override
+	public int getColumnType(int arg0) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getTableIndex(int arg0) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getRowCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getColumnCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public Object getValueAt(int rowIndex, int columnIndex) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	static class EditorStylePropertyTableModel<T extends Property> extends
+			PropertyTableModel<T> implements EditorStyleTableModel, StyleModel {
+				private static final long serialVersionUID = -4435995349055070783L;
+
+				public EditorStylePropertyTableModel(List<T> properties) {
+					super(properties);
+				}
+
+			public int getEditorStyleAt(int rowIndex, int columnIndex) {
+				return _editorStyle;
+			}
+
+			@Override
+			public CellStyle getCellStyleAt(int arg0, int arg1) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public boolean isCellStyleOn() {
+				// TODO Auto-generated method stub
+				return false;
+			}
 	}
 }
