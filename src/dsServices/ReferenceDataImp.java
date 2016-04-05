@@ -862,19 +862,19 @@ public class ReferenceDataImp implements RemoteReferenceData {
 	}
 
 	@Override
-	public boolean saveHoliday(Holiday holiday) throws RemoteException {
+	public boolean saveHoliday(HolidayCode holiday) throws RemoteException {
 		// TODO Auto-generated method stub
 		return HolidaySQL.update(holiday, dsSQL.getConn());
 	}
 
 	@Override
-	public Holiday selectHoliday(Holiday holiday) throws RemoteException {
+	public HolidayCode selectHoliday(HolidayCode holiday) throws RemoteException {
 		// TODO Auto-generated method stub
 		return HolidaySQL.selectHoliday(holiday.getCurrency(), dsSQL.getConn());
 	}
 
 	@Override
-	public boolean deleteHoliday(Holiday holiday) throws RemoteException {
+	public boolean deleteHoliday(HolidayCode holiday) throws RemoteException {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -1467,7 +1467,7 @@ public class ReferenceDataImp implements RemoteReferenceData {
 	}
 
 	@Override
-	public boolean updateHoliday(Holiday holiday) throws RemoteException {
+	public boolean updateHoliday(HolidayCode holiday) throws RemoteException {
 		// TODO Auto-generated method stub
 		return HolidaySQL.update(holiday, dsSQL.getConn());
 	}
