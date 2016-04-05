@@ -1,4 +1,4 @@
-package util.cacheUtil;
+package src.util.cacheUtil;
 
 import java.rmi.RemoteException;
 import java.sql.Connection;
@@ -7,13 +7,12 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
 
-import util.commonUTIL;
+import src.util.commonUTIL;
 
 import constants.SDIConstants;
 import dsServices.RemoteReferenceData;
 import dsServices.ServerConnectionUtil;
 import beans.Attribute;
-import beans.BaseBean;
 import beans.Book;
 import beans.Country;
 import beans.Folder;
@@ -29,7 +28,7 @@ import beans.Users;
 import beans.WindowSheet;
 import beans.WindowTableModelMapping;
 
-public class ReferenceDataCache extends  BaseCache {
+public class ReferenceDataCache {
 	
 	static public Hashtable <Integer,LegalEntity> leCache = new Hashtable <Integer,LegalEntity>();
 	static public  Hashtable <Integer,Book> bookCache = new Hashtable <Integer,Book>();
@@ -741,105 +740,6 @@ static public  ReferenceDataCache singleTonInstance;
 			e.printStackTrace();
 			return null;
 		}
-	}
-
-
- 
-	public  static BaseBean insertSQL(BaseBean bean  , String beanName)
-		  {
-		// TODO Auto-generated method stub
-		try {
-		return remoteBORef.insertSQL(bean,   beanName);
-		  } catch (RemoteException e) {
-				// TODO Auto-generated catch block
-				commonUTIL.displayError("ReferenceDataCache", "insertSQL error "+ beanName, e);
-				return null;
-			}
-	}
-
-
-	 
-	public static boolean updateSQL(BaseBean bean,  String beanName)
-			  {
-		try{
-		// TODO Auto-generated method stub
-		return remoteBORef.updateSQL(bean,   beanName);
-			  } catch (RemoteException e) {
-					// TODO Auto-generated catch block
-					commonUTIL.displayError("ReferenceDataCache", "updateSQL error "+ beanName, e);
-					return false;
-				}
-	}
-
-
-	 
-	public   static  boolean deleteSQL(BaseBean bean,  String beanName)
-			  {
-		// TODO Auto-generated method stub
-		try {
-		return remoteBORef.deleteSQL(bean,   beanName);
-		 } catch (RemoteException e) {
-				// TODO Auto-generated catch block
-				commonUTIL.displayError("ReferenceDataCache", "deleteSQL error "+ beanName, e);
-				return false;
-			}
-}
-	
-
-
- 
-	public   static  BaseBean select(int id,   String beanName)
-			  {
-		// TODO Auto-generated method stub
-		try{
-		return remoteBORef.select(id,   beanName);
-			} catch (RemoteException e) {
-				// TODO Auto-generated catch block
-				commonUTIL.displayError("ReferenceDataCache", "select error "+ beanName, e);
-				return null;
-			}
-	}
-
-
-	 
-	public   static  BaseBean select(String name,  String beanName)
-			 {
-		// TODO Auto-generated method stub
-		try {
-		return remoteBORef.select(name,   beanName);
-			} catch (RemoteException e) {
-				// TODO Auto-generated catch block
-				commonUTIL.displayError("ReferenceDataCache", "select error "+ beanName, e);
-				return null;
-			}
-	}
-
-
-	 
-	public   static  Collection selectWhere(String where , String beanName)
-			  {
-		// TODO Auto-generated method stub
-		try {
-		return remoteBORef.selectWhere(where,   beanName);
-			  } catch (RemoteException e) {
-					// TODO Auto-generated catch block
-					commonUTIL.displayError("ReferenceDataCache", "selectWhere error "+ beanName, e);
-					return null;
-				}
-	}
-
-
-	 
-	public   static  Collection  selectALLData(String beanName)
-			 {
-		// TODO Auto-generated method stub
-		try {
-		return   remoteBORef.selectALLData(beanName );
-			 } catch (RemoteException e) {
-					// TODO Auto-generated catch block
-					commonUTIL.displayError("ReferenceDataCache", "selectWhere error "+ beanName, e);
-					return null;
-				}
 	}
 
 	
