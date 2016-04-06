@@ -187,9 +187,13 @@ public class WindowSheetWindowUtil extends BaseWindowUtil {
 	private void genearteJavaScript() {
 		// TODO Auto-generated method stub
 		String windowName = windowSheetWindow.propertyTable.getwSheet().getWindowName();
-		 if(!commonUTIL.isEmpty(windowName)) {
-			 JavaScriptWindowUtil.loadJavaScripts(windowName);
+		if(windowSheetWindow.packageD.getSelectedIndex() != -1); {
+		String packName = windowSheetWindow.packageD.getSelectedItem().toString();
+		 if(!commonUTIL.isEmpty(windowName)&&!commonUTIL.isEmpty(packName)) {
+			 JavaScriptWindowUtil.loadJavaScripts(windowName,packName);
+			 
 		 }
+		}
 		
 	}
 
