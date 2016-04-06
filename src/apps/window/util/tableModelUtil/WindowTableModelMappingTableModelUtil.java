@@ -9,6 +9,13 @@ public class WindowTableModelMappingTableModelUtil extends AbstractTableModel {
 	String col[] = { "WindowName", "BeanName", "ColumnName", "MethodName" };
 
 	/**
+	 * @return the col
+	 */
+	public String[] getCol() {
+		return col;
+	}
+
+	/**
 	 * @return the data
 	 */
 	public Vector<WindowTableModelMapping> getData() {
