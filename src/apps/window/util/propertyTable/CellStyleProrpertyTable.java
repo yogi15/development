@@ -34,6 +34,16 @@ public class CellStyleProrpertyTable   implements PropertyChangeListener {
 	static HashMap<String, PropertyCellStyle> map = new HashMap<String, PropertyCellStyle>();
 	
 	
+	/**
+	 * @param map the map to set
+	 */
+	public static void setCellStyle(  Vector<PropertyCellStyle> propCellSty) {
+		map.clear();
+		for(int i=0;i<propCellSty.size();i++) {
+			PropertyCellStyle style = propCellSty.get(i);
+			map.put(style.getPropertyname(), style);
+		}
+	}
 	public Vector<PropertyCellStyle> getPropertyCellStyles() {
 		Vector<PropertyCellStyle> cellStyles = new Vector<PropertyCellStyle>();
 		 if(!commonUTIL.isEmpty(map)) {
