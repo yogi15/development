@@ -81,8 +81,8 @@ import constants.CommonConstants;
 import constants.JavaScriptConstants;
 import constants.WindowSheetConstants;
 
-public abstract class BasePanel extends  JPanel {
-	public JFrame frame  = null;
+public abstract class BasePanel extends JPanel {
+	public JFrame frame = null;
 	HierarchicalTable childWindow = null;
 	JPanel leftFrame = new JPanel();
 
@@ -169,7 +169,8 @@ public abstract class BasePanel extends  JPanel {
 	 */
 	/**
 	 * 
-	 */ 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected static final Color BACKGROUND1 = new Color(253, 253, 244);
 	protected static final Color BACKGROUND2 = new Color(230, 230, 255);
 	protected static final Color BACKGROUND3 = new Color(210, 255, 210);
@@ -252,6 +253,8 @@ public abstract class BasePanel extends  JPanel {
 					.setTableStyleProvider(new RowStripeTableStyleProvider(
 							new Color[] { BACKGROUND1, BACKGROUND3 }));
 			rightSideCenterTable.setName(CommonConstants.RIGHTSIDECENTERTABLE);
+			rightSideCenterTable.setAutoResizeMode( JTable.AUTO_RESIZE_OFF );
+
 			rightSideCenterTable.setRowSelectionAllowed(true);
 		}
 
@@ -275,10 +278,12 @@ public abstract class BasePanel extends  JPanel {
 	public IFilterableTableModel getFilterModel() {
 		return  _filterField.getDisplayTableModel();
 	}
-	protected void setQuickSearchOnTable(TableModel model) {
-		
-	        _filterField = new QuickTableFilterField(model, new int[]{0,1,    });
-	        _filterField.setHintText("Type here to filter songs");
+	protected void setQuickSearchOnTable(TableModel model,int count) {
+		int [] column = new int[count];
+		for(int i=0;i<count;i++) 
+			column [i] = i;
+	        _filterField = new QuickTableFilterField(model, column);
+	        _filterField.setHintText("Type here to filter Data");
 	        rightTopbuttonsPanel.add(_filterField);
 	        quickSearchPanel.setBorder(new JideTitledBorder(new PartialEtchedBorder(PartialEtchedBorder.LOWERED, PartialSide.NORTH), "QuickTableFilterField", JideTitledBorder.LEADING, JideTitledBorder.ABOVE_TOP));
 	        _filterField.setTable(rightSideCenterTable); 

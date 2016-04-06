@@ -86,7 +86,7 @@ public class WindowTableModelMappingWindow extends BasePanel {
 		model = new WindowTableModelMappingTableModelUtil(
 				rightPanelJtableWindowTableModelMappingdata);
 		setCornerForScrollPane(model.getCol());
-		setQuickSearchOnTable(model);
+		setQuickSearchOnTable(model,model.getCol().length);
 		createSingleSplitPaneLayout(CommonConstants.SPLITWINDOWLOCATION);
 		setSize(CommonConstants.WINDOWWIDTH, CommonConstants.WINDOWHIGHT);
 	}

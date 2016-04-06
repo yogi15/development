@@ -13,6 +13,7 @@ import javax.swing.ActionMap;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -54,7 +55,9 @@ public class WindowSheetWindow extends BasePanel {
 	   private static final long serialVersionUID = 1L; 
 	   PropertyTable cellStylepropertyTable = null;
 	   public WindowSheetTableModelUtil model =null;
-	  public JList  fieldNameList = new JList();
+	  public String [] packageData;
+	  public JList<String>  fieldNameList = new JList<String>();
+	  public JComboBox<String>  packageD = new JComboBox<String>();
 	  public CellStyleProrpertyTable cellStyle = null;
 	  public String searchData [];
 	     WindowSheet windowSheet = new WindowSheet(); /// used as a bean 
@@ -118,7 +121,7 @@ public class WindowSheetWindow extends BasePanel {
 	      // add  model to table 
 	       model = new WindowSheetTableModelUtil(rightPanelJtableWindowSheetdata);
 	       setCornerForScrollPane(model.getCol());
-	       setQuickSearchOnTable(model);
+	       setQuickSearchOnTable(model,model.getCol().length);
 	      rightSideCenterTable.setModel(model); 
 
 	      rightSideCenterTable.getColumnModel().getColumn(1)
@@ -204,6 +207,7 @@ public class WindowSheetWindow extends BasePanel {
 				setEventListener(javaDetails);
 				setEventListener(previewProp);
 				setEventListener(WindowSheetSearchTextField);
+				setEventListener(packageD);
 			} catch (CosmosException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -229,6 +233,7 @@ public class WindowSheetWindow extends BasePanel {
 		       rightTopbuttonsPanel.add(windowDetails);
 		       rightTopbuttonsPanel.add(javaDetails);
 		       rightTopbuttonsPanel.add( previewProp);
+		       rightTopbuttonsPanel.add( packageD);
 		}
 		 // create property proprities. 
 		@Override
@@ -249,7 +254,8 @@ public class WindowSheetWindow extends BasePanel {
 			 
 			jPanel1 = new JPanel();
 			jPanel1.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED, null, null));
-			jPanel1.setLayout(new GroupLayout()); 
+			
+			jPanel1.setLayout(new BorderLayout()); 
 		     JPanel jj  = getJPanel2();  
 			        JButton bt = new JButton(new AbstractAction("Update the Cell Styles") {
 			            public void actionPerformed(ActionEvent e) { 
@@ -260,9 +266,14 @@ public class WindowSheetWindow extends BasePanel {
 			            }
 			        }); 
 			        jj.add(getJPanel3(),BorderLayout.CENTER); 
-			        jj.add(bt,BorderLayout.SOUTH); 
-			jPanel1.add(scrollPane, new Constraints(new Leading(4, 1018, 10, 10), new Leading(3, 214, 12, 12))); 
-			jPanel1.add(jj, new Constraints(new Leading(4, 397, 12, 12), new Leading(221, 233, 12, 12))); 
+			        jj.add(bt,BorderLayout.SOUTH);  
+			        JPanel southPanel = new JPanel();
+			        southPanel.setLayout(new BorderLayout()); 
+			        southPanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED, null, null)); 
+			        southPanel.add(jj, BorderLayout.LINE_START); 
+			     
+			        jPanel1.add(scrollPane,BorderLayout.CENTER); 
+			        jPanel1.add(southPanel,BorderLayout.SOUTH);
 			centerRightSidePanel.add(jPanel1);
 			 
 		}
