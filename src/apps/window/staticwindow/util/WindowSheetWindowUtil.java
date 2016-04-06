@@ -37,6 +37,7 @@ import util.cacheUtil.ReferenceDataCache;
 import apps.window.staticwindow.BasePanel;
 import apps.window.staticwindow.TestingSampleProperty;
 import apps.window.staticwindow.WindowSheetWindow;
+import apps.window.util.propertyTable.CellStyleProrpertyTable;
 import apps.window.util.tableModelUtil.SampleTableModel;
 import apps.window.util.tableModelUtil.TableUtils;
 import beans.PropertyCellStyle;
@@ -326,7 +327,7 @@ public class WindowSheetWindowUtil extends BaseWindowUtil {
 			 
 		}
 		windowSheetWindow.cellStyle.addFieldNames(newFieldNames);
-		 
+		setCellStyles(windowSheetWindow.cellStyle);
 	}
 	
 	 
@@ -375,6 +376,17 @@ public class WindowSheetWindowUtil extends BaseWindowUtil {
 		ReferenceDataCache.insertSQL(styleCell, BeanConstants.PROPERTYCELLSTYLE);
 			}
 		}
+		
+	}
+
+	public void setCellStyles(CellStyleProrpertyTable cellStyle) {
+		// TODO Auto-generated method stub
+		String searchText =   windowSheetWindow.WindowSheetSearchTextField.getText();
+		  String sql = "WindowName = '"+searchText+"'";
+		     Vector<PropertyCellStyle> propCellSty =   (Vector<PropertyCellStyle>) ReferenceDataCache.selectWhere(sql, BeanConstants.PROPERTYCELLSTYLE);
+		     if(!commonUTIL.isEmpty(propCellSty)) {
+		    	 cellStyle.setCellStyle(propCellSty);
+		     }
 		
 	}
 }
