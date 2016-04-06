@@ -146,9 +146,37 @@ public class JavaScriptWindowUtil extends BaseWindowUtil {
 				.getWindowName();
 		javaScriptWindow.textarea.setText("");
 	} 
-	public static void  loadJavaScripts(String windowName)  {
+	static String windowPath = "";
+	static String packagePath = "";
+	/**
+	 * @return the windowPath
+	 */
+	public static String getWindowPath() {
+		return windowPath;
+	}
+
+	/**
+	 * @param windowPath the windowPath to set
+	 */
+	public static void setPackagePath(String packPath) {
+		packagePath = packPath;
+	}
+	public static String getPackagePath() {
+		return packagePath;
+	}
+
+	/**
+	 * @param windowPath the windowPath to set
+	 */
+	public static void setWindowPath(String windowP) {
+		 windowPath = windowP;
+	}
+	public static void  loadJavaScripts(String windowName,String path)  {
+		
 	
 		String script = ""; 
+		setWindowPath("src/apps/window/"+ path);
+		setPackagePath("apps.window."+ path);
 		isWindowChild = isWindowChild( windowName);
 		  hieraricalTable = getHierarachicalModel(windowName);
 		  addComboBoxColumnScript = getComboxOnColumn(windowName);
@@ -166,7 +194,8 @@ public class JavaScriptWindowUtil extends BaseWindowUtil {
 			script = createWindowScript(windowName);
 			script = script.replaceAll("Template", windowName);
 			script = script.replaceAll("template", windowName.toLowerCase());
-			writeStringToFile(JavaScriptConstants.WINDOWPATH, script,
+			 
+			writeStringToFile(getWindowPath(), script,
 					windowName + JavaScriptConstants.WINDOW);
 		//	javaScriptWindow.textarea.append(script);
 		/*}
@@ -263,8 +292,10 @@ public class JavaScriptWindowUtil extends BaseWindowUtil {
 		
 		String  windowScript ="";
 		windowScript = windowScript
-				+ "package apps.window.staticwindow; \n\n\n  import java.awt.BorderLayout;\n";
+				+ "package "+getPackagePath()+";  \n\n\n  import java.awt.BorderLayout;\n";
 		windowScript = windowScript + "import java.awt.Component;\n";
+		windowScript = windowScript + "import apps.window.staticwindow.BasePanel;\n";
+ 
 		windowScript = windowScript + "import java.util.ArrayList;\n";
 		windowScript = windowScript + "import java.util.Vector;\n";
 		windowScript = windowScript + "import java.util.Vector;\n";
@@ -614,7 +645,7 @@ public class JavaScriptWindowUtil extends BaseWindowUtil {
 		windowScript = windowScript
 				+ "import apps.window.staticwindow.BasePanel;\n";
 		windowScript = windowScript
-				+ "import apps.window.staticwindow.TemplateWindow;\n";
+				+ "import "+ getWindowPath()+".TemplateWindow;\n";
 		windowScript = windowScript + "import beans."+getBeanName() +"; \n";
 		windowScript = windowScript + "import beans.WindowSheet;\n";
 		windowScript = windowScript + "import com.jidesoft.grid.Property;\n";
@@ -1160,7 +1191,7 @@ public class JavaScriptWindowUtil extends BaseWindowUtil {
 	
 	private static String getHierarachicalModel(String windowName) {
 		String hierarachicalModel = "model = new TemplateTableModelUtil(rightPanelJtableTemplatedata); \n";
-		hierarachicalModel = hierarachicalModel + "	setCornerForScrollPane(model.getCol()); \n	setQuickSearchOnTable(model);";
+		hierarachicalModel = hierarachicalModel + "	setCornerForScrollPane(model.getCol()); \n	setQuickSearchOnTable(model,model.getCol().length);";
 		if(isWindowChild)
 			hierarachicalModel = "model = new TemplateTableModelUtil(rightPanelJtableTemplatedata); \n";
 		Vector<WindowSheet> maps = getWindowColumns(windowName);
