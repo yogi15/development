@@ -176,7 +176,7 @@ public class WindowSheetWindowUtil extends BaseWindowUtil {
 	//frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
 	frame.setTitle(windowName +"Preview ");
  
-	frame.setSize(200, 110);
+	frame.setSize(250, 300);
 	frame.getContentPane().setPreferredSize(frame.getSize());
 	frame.pack();
 	frame.setLocationRelativeTo(null);
