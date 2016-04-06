@@ -346,6 +346,7 @@ public class WindowSheetWindow extends BasePanel {
 		 
 		private JPanel getCellStyleTablePanel(JList jList0) {
 			  cellStyle = new   CellStyleProrpertyTable ("Style",jList0);
+			  windowUtil.setCellStyles(cellStyle);
 			  cellStylepropertyTable = cellStyle.getCellStyleProrpertyTable();
 			cellStylepropertyTable.setPaintMarginBackground(false);
 			cellStylepropertyTable.setMarginRenderer(new DefaultTableCellRenderer() {
