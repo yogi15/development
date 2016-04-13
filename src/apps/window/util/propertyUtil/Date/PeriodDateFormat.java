@@ -1,4 +1,4 @@
-package src.apps.window.util.propertyUtil.Date;
+package apps.window.util.propertyUtil.Date;
 
 import java.text.FieldPosition;
 import java.text.ParseException;

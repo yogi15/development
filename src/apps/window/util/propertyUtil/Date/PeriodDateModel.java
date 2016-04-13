@@ -1,4 +1,4 @@
-package src.apps.window.util.propertyUtil.Date;
+package apps.window.util.propertyUtil.Date;
  
 import apps.window.util.propertyUtil.Date.Provider.ProviderReferenceDate;
 import apps.window.util.propertyUtil.Date.Provider.ProviderTimeZone;

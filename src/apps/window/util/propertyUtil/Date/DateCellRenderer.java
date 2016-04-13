@@ -1,4 +1,4 @@
-package src.apps.window.util.propertyUtil.Date;
+package apps.window.util.propertyUtil.Date;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -51,11 +51,7 @@ public class DateCellRenderer  extends DefaultTableCellRenderer {
             CDate date = CDate.valueOf(cal.get(Calendar.YEAR),
                                        cal.get(Calendar.MONTH) + 1,
                                        cal.get(Calendar.DAY_OF_MONTH));
-            boolean isBusinessDay = Holiday.getCurrent()
-                    .isBusinessDay(date,
-                                   holidaysProvider == null
-                                                           ? new Vector<Object>()
-                                                           : holidaysProvider.getHolidays());
+            boolean isBusinessDay = false; //Holiday.getCurrent().isBusinessDay(date,holidaysProvider == null ? new Vector<Object>() : holidaysProvider.getHolidays());
             String strDate;
             if (isTimeDisplayed) {
                 DateFormat format = commonUTIL.getDatetimeFormatShortMedium();
@@ -70,7 +66,7 @@ public class DateCellRenderer  extends DefaultTableCellRenderer {
                                                                                     row,
                                                                                     column);
 
-           final Color COLOR_ERROR = new java.awt.Color(255, 153, 153);
+           final Color COLOR_ERROR = new java.awt.Color(255 ,48 ,48 );
             rendererComponent.setOpaque(true);
             if (!isBusinessDay) {
                 rendererComponent.setBackground( COLOR_ERROR);
