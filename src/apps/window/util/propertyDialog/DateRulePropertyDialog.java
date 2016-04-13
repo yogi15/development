@@ -20,8 +20,8 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.AbstractTableModel;
 
-import util.ReferenceDataCache;
 import util.RemoteServiceUtil;
+import util.cacheUtil.ReferenceDataCache;
 
 import beans.DateRule;
 

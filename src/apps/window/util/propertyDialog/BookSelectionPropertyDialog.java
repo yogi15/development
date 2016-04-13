@@ -108,10 +108,10 @@ public class BookSelectionPropertyDialog extends JDialog {
 			int id = 0;
 			try {
 
-				_vectorLEs = (Vector) remoteReference.selectALLBooks();
+				_vectorLEs = (Vector) remoteReference.selectALLBooks(); // we must getting from caching.  no remote call please make through cache. 
 
 				for (int i = 0; i < _vectorLEs.size(); i++) {
-					Book book = (Book) _vectorLEs.get(i);
+					Book book = (Book) _vectorLEs.get(i); 
 					bookAtRow.put(book.getBookno(), book);
 				}
 			} catch (RemoteException e) {
