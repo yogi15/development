@@ -1,4 +1,4 @@
-package src.apps.window.util.tableModelUtil;
+package apps.window.util.tableModelUtil;
 import java.util.Vector;
 import javax.swing.table.AbstractTableModel;
 import beans.Template;

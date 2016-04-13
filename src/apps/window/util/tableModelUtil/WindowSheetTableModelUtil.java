@@ -1,4 +1,4 @@
-package src.apps.window.util.tableModelUtil;
+package apps.window.util.tableModelUtil;
 
 import java.util.Vector;
 
@@ -12,7 +12,7 @@ public class WindowSheetTableModelUtil extends AbstractTableModel {
  * 
  */ 
 	final String[] columnNames;  
-	 String col[] = {"DesignType","WindowName","FieldName","DataType","Default","IsStartUpData","StartDataName","CustomPanel","IsNull","BeanName","MethodName","IsChildField","ParentFieldName"};
+	 String col[] = {"ColumnSequence","DesignType","WindowName","FieldName","DataType","Default","IsStartUpData","StartDataName","CustomPanel","IsNull","BeanName","MethodName","IsChildField","ParentFieldName","IsHieRarachicalWindow","ChildWindowName","ChildKey","MapJavaObject","IsEditAble","IsHidden","IsConditional","ConfigureIfElseCondition"};
 	 /**
 	 * @return the col
 	 */
@@ -37,6 +37,8 @@ public class WindowSheetTableModelUtil extends AbstractTableModel {
 		 	this.columnNames = col;
 		this.mydata = data;   
 		}   
+	 
+	  
 	    
 	 public int getColumnCount() {   
 	     return columnNames.length;   
@@ -51,13 +53,19 @@ public class WindowSheetTableModelUtil extends AbstractTableModel {
 	     
 	 }
 	 @Override
-     public Class getColumnClass(int column) {
+     public Class<?>  getColumnClass(int column) {
 		 switch (column) {
-		 case 5:
+		 case 6:
+        	 return Boolean.class ;
+         case 9:
         	 return Boolean.class;
-         case 8:
+         case 12:
         	 return Boolean.class;
-         case 11:
+         case 18:
+        	 return Boolean.class;
+         case 19:
+        	 return Boolean.class;
+         case 16:
         	 return Boolean.class;
          default:
              return String.class;
@@ -71,48 +79,76 @@ public class WindowSheetTableModelUtil extends AbstractTableModel {
 	 
 	     WindowSheet  windowSheet = (WindowSheet) mydata.get(row);
 		 switch (col) {
-		 case 0:
+		   case 0:
+		         value =windowSheet.getColunmSequenceNo();
+		          break;
+		 case 1:
 	         value =windowSheet.getDesignType();
 	         break;
-	     case 1:
+	     case 2:
 	         value =windowSheet.getWindowName();
 	         break;
-	     case 2:
+	     case 3:
 	         value =windowSheet.getFieldName();
 	         break;
-	     case 3:
+	     case 4:
 	         value =windowSheet.getDataType();
 	         break;
-	     case 4:
+	     case 5:
 	         value =windowSheet.getDefaultValue();
 	         break;
-	     case 5:
-	         if(windowSheet.getIsStartupdata() ==1) 
-	        	 return true;
-	         if(windowSheet.getIsStartupdata() ==0) 
-	        	 return false;
-	         break;
 	     case 6:
-	         value =windowSheet.getStartUpDataName();
+	         if(windowSheet.getIsStartupdata() ==1) 
+	        	 return new Boolean(true) ;
+	         if(windowSheet.getIsStartupdata() ==0) 
+	        	 return new Boolean(false) ;
 	         break;
 	     case 7:
-	         value =windowSheet.getCustomPanelName();
+	         value =windowSheet.getStartUpDataName();
 	         break;
 	     case 8:
-	         value =new Boolean(windowSheet.isNullChecked());
+	         value =windowSheet.getCustomPanelName();
 	         break;
 	     case 9:
-	         value =windowSheet.getBeanName();
+	         value =new Boolean(windowSheet.isNullChecked());
 	         break;
 	     case 10:
-	         value =windowSheet.getMethodName();
+	         value =windowSheet.getBeanName();
 	         break;
 	     case 11:
-	         value =new Boolean(windowSheet.isChildField());
+	         value =windowSheet.getMethodName();
 	         break;
 	     case 12:
+	         value =new Boolean(windowSheet.isChildField());
+	         break;
+	     case 13:
 	         value = windowSheet.getParentFieldName();
 	         break;
+	     case 14:
+	         value = new Boolean(windowSheet.IsHierarachicalWindow());
+	         break;
+	     case 15:
+	         value = windowSheet.getChildWindowName();
+	         break;
+	     case 16:
+	         value =new Boolean( windowSheet.isMapJavaObject());
+	          break;
+	     case 17:
+	         value =windowSheet.getJavaObjectName();
+	          break;
+	     case 18:
+	         value =new Boolean( windowSheet.isEditable());
+	          break;
+	     case 19:
+	         value =new Boolean( windowSheet.isHidden());
+	          break;
+	     case 20:
+	         value =new Boolean( windowSheet.isCondition());
+	          break;
+	     case 21:
+	         value =windowSheet.getConfigureIfelseCondition();
+	          break;
+	  
 		 }
 	     return value;
 	 }   

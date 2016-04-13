@@ -1,4 +1,4 @@
-package src.apps.window.util.tableModelUtil;
+package apps.window.util.tableModelUtil;
 
 import java.util.Vector;
 
@@ -107,5 +107,9 @@ private static final long serialVersionUID = -8215525061025568783L;
 	 fireTableCellUpdated(row, col);   
 	  
 	    
+	}
+	public String[] getcols() {
+		// TODO Auto-generated method stub
+		return col;
 	}   
 }

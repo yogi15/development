@@ -1,28 +1,29 @@
 package apps.window.util.tableModelUtil;
 import java.util.Vector;
+import com.jidesoft.grid.HierarchicalTableModel;
 import javax.swing.table.AbstractTableModel;
- import beans.Book;
- public class BookTableModelUtil extends AbstractTableModel {
+ import beans.SearchProperty;
+ public class SearchPropertyTableModelUtil extends AbstractTableModel  { 
 		final String[] columnNames;  
-		 /**
-		 * @return the col
-		 */
-		public String[] getCol() {
-			return col;
-		}
-		String col[] ={"BookName","BookName","BookID"} ;
+		 String col[] ={" Attributes"} ;
+   /**
+  * @return the col
+ */
+public String[] getCol() {
+return col;
+}
  /**
 	 * @return the data
 	 */
-public Vector<Book> getData() {
+public Vector<SearchProperty> getData() {
 	return mydata;
 	}
-	final Vector<Book> mydata;   
- public BookTableModelUtil( Vector<Book> data  ) {
+	final Vector<SearchProperty> mydata;   
+ public SearchPropertyTableModelUtil( Vector<SearchProperty> data  ) {
 		 	this.columnNames = col;
 		this.mydata = data;   
 	}   
- public BookTableModelUtil( Vector<Book> data ,String [] col ) {  
+ public SearchPropertyTableModelUtil( Vector<SearchProperty> data ,String [] col ) {  
 	 	this.columnNames = col;
 	this.mydata = data;   
 		}   
@@ -32,7 +33,7 @@ public Vector<Book> getData() {
 		    public int getRowCount() {   
 			     return mydata.size();   
 			 }  
-			 public Book getRow(int i) {   
+			 public SearchProperty getRow(int i) {   
 			     return mydata.get(i)  ; 
 			 }
 			 public String getColumnName(int col) {  
@@ -40,15 +41,9 @@ public Vector<Book> getData() {
 		 }   
  public Object getValueAt(int row, int col) {   
 		     Object value = null;  	 
-		     Book  book = (Book) mydata.get(row);	
+		     SearchProperty  searchproperty = (SearchProperty) mydata.get(row);	
   switch (col) {  case 0:
-value =  book.getAttributes();
- break; 
- case 1:
-value =  book.getBook_name();
- break; 
- case 2:
-value =  book.getBookno();
+value =  searchproperty.getAttributesName();
  break; 
  }
  return value;}   
@@ -57,10 +52,6 @@ value =  book.getBookno();
  switch (column) {
  case 0:
  return String.class; 
- case 1:
- return String.class; 
- case 2:
- return Integer.class; 
   default: 
  return String.class;
  }
@@ -70,8 +61,8 @@ value =  book.getBookno();
 
 
   public void setValueAt(Object value, int row, int col) {   
-  if(value instanceof Book) {
-	 	 mydata.set(row,(Book ) value) ;
+  if(value instanceof SearchProperty) {
+	 	 mydata.set(row,(SearchProperty ) value) ;
 			     this.fireTableDataChanged();      
  }
   }   
@@ -80,7 +71,7 @@ value =  book.getBookno();
    this.fireTableDataChanged();
 }
  public void addRow(Object value) {  
- mydata.add((Book ) value) ;
+ mydata.add((SearchProperty ) value) ;
 this.fireTableDataChanged(); 
  }   	
  public void delRow(int row) {   
@@ -88,7 +79,7 @@ this.fireTableDataChanged();
  this.fireTableDataChanged(); 
  }   
 public void udpateValueAt(Object value, int row, int col) {
-	 mydata.set(row,(Book) value) ;
+	 mydata.set(row,(SearchProperty) value) ;
     fireTableCellUpdated(row, col); 
 } 
 }
