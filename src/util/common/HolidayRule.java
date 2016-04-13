@@ -1,4 +1,4 @@
-package src.util.common;
+package util.common;
 
 import java.rmi.RemoteException;
 import java.util.Date;

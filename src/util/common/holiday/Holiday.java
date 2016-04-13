@@ -1,4 +1,4 @@
-package src.util.common.holiday;
+package util.common.holiday;
 
 import java.io.IOException;
 import java.io.ObjectInput;

@@ -1,4 +1,4 @@
-package src.util.common;
+package util.common;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
