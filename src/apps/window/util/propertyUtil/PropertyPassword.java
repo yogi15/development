@@ -1,4 +1,4 @@
-package src.apps.window.util.propertyUtil;
+package apps.window.util.propertyUtil;
 
 import com.jidesoft.converter.PasswordConverter;
 import com.jidesoft.grid.DefaultProperty;

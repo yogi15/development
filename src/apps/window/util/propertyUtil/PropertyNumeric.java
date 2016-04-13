@@ -1,4 +1,4 @@
-package src.apps.window.util.propertyUtil;
+package apps.window.util.propertyUtil;
  
 import util.commonUTIL;
 
@@ -74,7 +74,8 @@ public   abstract class PropertyNumeric<N extends Number> extends PropertyEnum<D
         if (value == null) {
             return 0;
         }
-        
+        if(value instanceof String) 
+        	return  Integer.parseInt((String) value);
         return (((Integer) value)).intValue();
     }
 

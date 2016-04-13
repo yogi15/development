@@ -1,5 +1,7 @@
-package src.apps.window.util.propertyUtil;
+package apps.window.util.propertyUtil;
  
+
+import static apps.window.util.propertyUtil.CommonPropertyUtil.createMultipleSelectionListProperty;
 
 import java.awt.Component;
 import java.awt.EventQueue;
@@ -38,7 +40,7 @@ import util.cacheUtil.ReferenceDataCache;
 
 import beans.AttributeContainer; 
 import beans.WindowSheet;
- 
+  
 import com.jidesoft.combobox.ListComboBox;
 import com.jidesoft.grid.CellEditorFactory;
 import com.jidesoft.grid.CellEditorManager;
@@ -55,9 +57,11 @@ import constants.WindowSheetConstants;
 import apps.window.util.property.CurrencyDefaultProperty;
 import apps.window.util.propertyPane.editor.AutoCompleteCellEditor;
 import apps.window.util.propertyTable.PropertyTableBuilder;
+import apps.window.util.propertyUtil.Date.Provider.ProviderHoliday;
 import apps.window.util.propertyUtil.PropertyBoolean.BooleanStyle;
 import apps.window.util.propertyUtil.editor.PositiveFigureProcessor;
 import apps.window.util.propertyUtil.editor.ValueReferenceProvider;
+
 
 public class CommonPropertyUtil {
 	 private static final String  PROP_NEXT_COMPONENT = "nextTable";
@@ -93,6 +97,14 @@ public class CommonPropertyUtil {
 	              PropertyLegalEntity leProp = new PropertyLegalEntity(name, category, String.class, "");
 	              return leProp;
 	 }
+	 public static PropertySearchBox createSearchBoxProperty(String name, String displayName, String category, String searchType) {
+		 PropertySearchBox searchBox = new PropertySearchBox(name, category, String.class, searchType);
+         return searchBox;
+}
+	 public static PropertyConditional createPropertyConditional(String name, String displayName, String category,Vector<String>  sdata,String windowName,String designType) {
+	    	PropertyConditional pconditional =  new PropertyConditional(name, displayName, category,String.class,sdata,windowName,designType );
+	    	return pconditional;
+	    }
 	 public static PropertyBook createBookProperty(String name, String displayName, String category ) {
          PropertyBook bookProp = new PropertyBook(name, category, String.class );
          return bookProp;
@@ -101,12 +113,33 @@ public class CommonPropertyUtil {
          PropertyBook bookProp = new PropertyBook(name, category, String.class );
          return bookProp;
 }
+	 public static PropertyEnum  createBuySellProperty(String name, String displayName, String category ) {
+		  Vector<String> values = new Vector<String>();
+		  values.add("SELL");
+		  values.add("BUY");
+		   return createStartUPDataProperty(name, displayName, category, values, PropertyEnum.Style.CLASSIC);
+        
+}
+	 
+	 
+	 public static PropertyDate createDateProperty(String name, String displayName, String category ) {
+		 
+		 ProviderHoliday noHolidays = new ProviderHoliday() {
+	            public Vector getHolidays() {
+	               return new Vector();
+	            }
+	        };   
 
+		 PropertyDate propertyDate	 = new PropertyDate(  name,     displayName,   category,noHolidays);
+		 propertyDate.setEditable(true);
+		 propertyDate.setDisplayName(name);
+		 propertyDate.setCategory(category);
+		 propertyDate.setName(name);
 	 
+	        return  propertyDate ;
+	    }
 	 
-	 
-	 
-	 
+	
 	 /**
      * <p>creates a number property that displays its value with the specified precision
      *
@@ -119,7 +152,7 @@ public class CommonPropertyUtil {
     public static PropertyNumber createNumberProperty(String name, String displayName, String category, int precision) {
         return new PropertyNumber(name, displayName, category, precision);
     }
-
+   
     
     public static PropertyPassword createPassWordProperty(String name, String displayName, String category) {
     	 return new PropertyPassword(name, displayName, category);
@@ -210,7 +243,7 @@ public class CommonPropertyUtil {
     * @param action - the action that will be used to configure the property
     * @return
     */
-   public static PropertyAction makeActionProperty(String name, String displayName, String category, Action action) {
+   public static PropertyAction createActionProperty(String name, String displayName, String category, Action action) {
 	   PropertyAction actionProperty = new PropertyAction(action);
        actionProperty.setName(name);
        actionProperty.setDisplayName(displayName);
@@ -253,8 +286,8 @@ public class CommonPropertyUtil {
         return booleanProperty;
     }
     
-    public static Property createFieldListProperty(String propertyName,String displayName,String categoryName ) {
-		Vector<WindowSheet> data = ReferenceDataCache.selectWindowSheets(WindowSheetConstants.WINDOW_NAME,WindowSheetConstants.WINDOW);
+    public static Property createFieldListProperty(String propertyName,String displayName,String categoryName,String windowName ) {
+ 	Vector<WindowSheet> data = ReferenceDataCache.selectWindowSheets(windowName,WindowSheetConstants.WINDOW);
 		Vector<String> fieldNames = new Vector<String>();
 		PropertyEnum<String> newParentProp  = null;
 		if(!commonUTIL.isEmpty(data)) {
@@ -328,6 +361,7 @@ public class CommonPropertyUtil {
         prop.setName(name);
         prop.setDisplayName(displayName);
         prop.setCategory(category);
+        prop.setValue(0);
         return prop;
     }
     
@@ -452,7 +486,7 @@ public class CommonPropertyUtil {
         }
     }
     /**
-     * <p>creates an enum property that takes its domain values by invoking a static getDomain() method on the specified class
+     * <p>creates an enum property that takes its startupData values by invoking a static getstartupData() method on the specified class
      *
      * @param name - the name of the property - identifies the property from a programatic perspective
      * @param displayName - the name that will be used to visually identify the property on screen

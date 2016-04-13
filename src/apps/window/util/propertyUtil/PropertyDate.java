@@ -1,4 +1,4 @@
-package src.apps.window.util.propertyUtil;
+package apps.window.util.propertyUtil;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -89,7 +89,8 @@ public class PropertyDate  extends DefaultProperty {
     }
 
     public PropertyDate(String name, String displayName, String category, ProviderHoliday holidaysProvider, ProviderReferenceDate referenceDateProvider) {
-        this.holidaysProvider = holidaysProvider;
+      //  super();
+    	this.holidaysProvider = holidaysProvider;
         this.referenceDateProvider = referenceDateProvider == null ? new ProviderReferenceDate() {
             public Date getReferenceDate() {
                 return new Date();

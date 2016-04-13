@@ -1,4 +1,4 @@
-package src.apps.window.util.propertyUtil;
+package apps.window.util.propertyUtil;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -18,6 +18,9 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import org.apache.commons.collections.set.CompositeSet.SetMutator;
+
+import util.CosmosException;
 import util.commonUTIL;
 import util.cacheUtil.ReferenceDataCache;
 import beans.AttributeContainer;
@@ -53,11 +56,11 @@ public class AttributeProperty extends PropertyExtended<AttributeContainer>
 			return (p.getValue() == null ? "" : "+") + p.getName();
 		}
 	};
-
+	
 	public AttributeProperty(final String attributeName, String category) {
 		super( );
 		setName(attributeName);
-        
+        setCategory("Attributes");
 		setType(AttributeContainer.class);
 	//	setDisplayName(attributeName);
 		setEditable(false); // this is important dont make it editable.
@@ -99,7 +102,8 @@ public class AttributeProperty extends PropertyExtended<AttributeContainer>
 
 	@Override
 	public void setValue(Object value) {
-		super.setValue(null);
+		 
+		super.setValue(value);
 		if (value != null)
 			super.setValue(value);
 		setChildrenPropsSecCodeValues();
@@ -185,6 +189,7 @@ public class AttributeProperty extends PropertyExtended<AttributeContainer>
 		public AbstractComboBox createAbstractComboBox() {
 			// System.out.println("From createAbstractComboBox" );
 			AbstractComboBox comboBox = new AttributeComboBox(null, null);
+			 
 			return (AbstractComboBox) comboBox;
 		}
 	}
@@ -204,7 +209,7 @@ public class AttributeProperty extends PropertyExtended<AttributeContainer>
 
 		@Override
 		public PopupPanel createPopupComponent() {
-			 System.out.println("From createPopupComponent" );
+			// System.out.println("From createPopupComponent" );
 			return new AttributeEditionPopupPanel();
 		}
 
@@ -313,6 +318,7 @@ public class AttributeProperty extends PropertyExtended<AttributeContainer>
 
 			PropertyTable propertyTable = CommonPropertyUtil
 					.createPropertyTable(properties);
+			propertyTable.getPropertyTableModel().setMiscCategoryName("");
 			propertyAssign = true;
 			PropertyPane propertyPane = new PropertyPane(propertyTable, 0);
 			Dimension d = propertyTable.getPreferredSize();
@@ -328,6 +334,8 @@ public class AttributeProperty extends PropertyExtended<AttributeContainer>
 
 	private List<Property> buildChildrenProperties() {
 		// TODO Auto-generated method stub
+		 
+			
 		AttributeContainer attributeC = getValue();
 
 		String attributeName = attributeC.getAttributeName();
@@ -335,6 +343,10 @@ public class AttributeProperty extends PropertyExtended<AttributeContainer>
         	//attributeName = attributeName.substring(0, attributeName.indexOf("Attributes"));
 		Vector<WindowSheet> windowSheets = ReferenceDataCache
 				.selectWindowSheets(attributeName,WindowSheetConstants.ATTRIBUTE);
+		if(windowSheets.size() == 0) {
+			commonUTIL.displayError("AttributeProperty", "buildChildrenProperties " +attributeName + " Not configured in WindowSheet Attributes Type " , new CosmosException());
+			return null;
+		} 
 		List<Property> properties = PropertyGenerator
 				.getPropertiesOnAttributes(windowSheets);
 		if (!commonUTIL.isEmpty(properties)) {

@@ -1,11 +1,33 @@
-package src.apps.window.util.propertyUtil;
+package apps.window.util.propertyUtil;
 
+import static apps.window.util.propertyUtil.CommonPropertyUtil.createAttributeProperty;
+import static apps.window.util.propertyUtil.CommonPropertyUtil.createBeanNameProperty;
+import static apps.window.util.propertyUtil.CommonPropertyUtil.createBookProperty;
+import static apps.window.util.propertyUtil.CommonPropertyUtil.createBooleanProperty;
+import static apps.window.util.propertyUtil.CommonPropertyUtil.createBuySellProperty;
+import static apps.window.util.propertyUtil.CommonPropertyUtil.createDateProperty;
+import static apps.window.util.propertyUtil.CommonPropertyUtil.createFieldListProperty;
+import static apps.window.util.propertyUtil.CommonPropertyUtil.createFolderProperty;
+import static apps.window.util.propertyUtil.CommonPropertyUtil.createIntegerProperty;
+import static apps.window.util.propertyUtil.CommonPropertyUtil.createLegalEntityProperty;
+import static apps.window.util.propertyUtil.CommonPropertyUtil.createMultipleSelectionListProperty;
+import static apps.window.util.propertyUtil.CommonPropertyUtil.createNumberProperty;
+import static apps.window.util.propertyUtil.CommonPropertyUtil.createObjectMethodNameProperty;
+import static apps.window.util.propertyUtil.CommonPropertyUtil.createPassWordProperty;
+import static apps.window.util.propertyUtil.CommonPropertyUtil.createPositiveNumberProperty;
+import static apps.window.util.propertyUtil.CommonPropertyUtil.createPropertyConditional;
+import static apps.window.util.propertyUtil.CommonPropertyUtil.createSearchBoxProperty;
 import static apps.window.util.propertyUtil.CommonPropertyUtil.createStartUPDataProperty;
+import static apps.window.util.propertyUtil.CommonPropertyUtil.createStringProperty;
+import static apps.window.util.propertyUtil.CommonPropertyUtil.createTimeZoneProperty;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
+import java.util.StringTokenizer;
 import java.util.Vector;
 
 import util.ClassInstantiateUtil;
@@ -13,57 +35,37 @@ import util.FileSearch;
 import util.ReflectionUtil;
 import util.commonUTIL;
 import util.cacheUtil.ReferenceDataCache;
-
 import beans.AttributeContainer;
+import beans.HolidayCode;
 import beans.WindowSheet;
 
 import com.jidesoft.grid.Property;
+
+import constants.BeanConstants;
+import constants.HolidayCodeConstants;
 import constants.JavaFileGeneratorConstants;
 import constants.PropertyPaneConstants;
 import constants.WindowSheetConstants;
 
-import static apps.window.util.propertyUtil.CommonPropertyUtil.createNumberProperty;
-
-import static apps.window.util.propertyUtil.CommonPropertyUtil.createPassWordProperty;
-
-import static apps.window.util.propertyUtil.CommonPropertyUtil.createAttributeProperty;
-import static apps.window.util.propertyUtil.CommonPropertyUtil.createPositiveNumberProperty;
-import static apps.window.util.propertyUtil.CommonPropertyUtil.createBooleanProperty;
-import static apps.window.util.propertyUtil.CommonPropertyUtil.createStringProperty;
-import static apps.window.util.propertyUtil.CommonPropertyUtil.createIntegerProperty;
-
-import static apps.window.util.propertyUtil.CommonPropertyUtil.createMultipleSelectionListProperty;
-import static apps.window.util.propertyUtil.CommonPropertyUtil.createObjectMethodNameProperty;
-
-import static apps.window.util.propertyUtil.CommonPropertyUtil.createBeanNameProperty;
-
-import static apps.window.util.propertyUtil.CommonPropertyUtil.createLegalEntityProperty;
-
-import static apps.window.util.propertyUtil.CommonPropertyUtil.createFolderProperty;
-
-import static apps.window.util.propertyUtil.CommonPropertyUtil.createTimeZoneProperty;
-
-import static apps.window.util.propertyUtil.CommonPropertyUtil.createBookProperty;
-
-import static apps.window.util.propertyUtil.CommonPropertyUtil.createFieldListProperty;
-
 public class PropertyGenerator {
 
 	public static List<Property> getProperties(String windowName,
-			Vector<WindowSheet> windowProperty) {
+			Vector<WindowSheet> windowProperty ) {
+		WindowSheet ws = null;
 		// TODO Auto-generated method stub
 		List< Property> propertyList = new ArrayList< Property>();
 		try {
 		if(!commonUTIL.isEmpty(windowProperty)) {
 			 for(int i=0;i<windowProperty.size();i++) {
-				 WindowSheet ws = windowProperty.get(i);
+				 ws = windowProperty.get(i);
 				 String dataType = ws.getDataType(); 
 				 Property renumProperty = null;
-				 if(!commonUTIL.isEmpty(dataType) && !ws.isHidden())  {
+				 if(!commonUTIL.isEmpty(dataType) && !ws.isMapJavaObject() )  {
 					 if((dataType.equalsIgnoreCase(PropertyPaneConstants.STRING)) && (ws.getIsStartupdata()== 1)) {
 					 Vector<String> sData =  getStartUpData(ws.getStartUpDataName().trim());
 					 if(!commonUTIL.isEmpty(sData)) { 
-						renumProperty  = createStartUPDataProperty(ws.getFieldName(), ws.getFieldName(), ws.getCategory(), sData); 						 
+						renumProperty  = createStartUPDataProperty(ws.getFieldName(), ws.getFieldName(), ws.getCategory(), sData); 			
+						renumProperty.setValue(ws.getDefaultValue());
 					 }
 				 }
 					 if((dataType.equalsIgnoreCase(PropertyPaneConstants.INITIALDATA)) ) {
@@ -78,6 +80,29 @@ public class PropertyGenerator {
 						   renumProperty  = createMultipleSelectionListProperty(ws.getWindowName(),ws.getFieldName(),ws.getCategory(),sData );
 					 }
 				 }
+				 if((dataType.equalsIgnoreCase(PropertyPaneConstants.MULTICOLUMNNAMESSELECTION)) ) {
+					  renumProperty  = 	 getMultiColumnMethodNames(ws.getBeanName(),ws.getFieldName(),ws.getCategory() );
+				 }
+				 if((dataType.equalsIgnoreCase(PropertyPaneConstants.IFELSECONDITIONAL)) ) {
+					 Vector<String> sdata =  new Vector<String> ();  
+					 
+					  renumProperty  = 	 createPropertyConditional(ws.getFieldName(),ws.getFieldName(),ws.getCategory(),sdata,windowName,ws.getDesignType() );
+				 }
+				 if((dataType.equalsIgnoreCase(PropertyPaneConstants.DATE))  ) {
+					 
+						   renumProperty  = createDateProperty(ws.getWindowName(),ws.getFieldName(),ws.getCategory()  );
+					 
+				 }
+				 if((dataType.equalsIgnoreCase(PropertyPaneConstants.BUYSELL))  ) {
+					 
+					   renumProperty  = createBuySellProperty(ws.getWindowName(),ws.getFieldName(),ws.getCategory()  );
+				 
+			 }
+				 if((dataType.equalsIgnoreCase(PropertyPaneConstants.HOLIDAYCODE))  ) {
+					 
+					   renumProperty  = createHolidayCodeProperty(ws.getWindowName(),ws.getFieldName(),ws.getCategory()  );
+				 
+			 }
 				 if((dataType.equalsIgnoreCase(PropertyPaneConstants.BOOK))  ) {
 					 	   renumProperty  = createBookProperty(ws.getWindowName(),ws.getFieldName(),ws.getCategory()  );
 				 }
@@ -95,6 +120,10 @@ public class PropertyGenerator {
 					 
 						 renumProperty  = createLegalEntityProperty(ws.getFieldName(),ws.getFieldName(), ws.getCategory(),"PO" );
 				 }
+				 if((dataType.equalsIgnoreCase(PropertyPaneConstants.SEARCHBOX))  ) {
+					 
+					 renumProperty  = createSearchBoxProperty(ws.getFieldName(),ws.getFieldName(), ws.getCategory(),"Product" );
+			 }
 				 if((dataType.equalsIgnoreCase(PropertyPaneConstants.ATTRIBUTE) )  ) {
 					 Vector<String>  attributeData = ReferenceDataCache.getStarupData(ws.getWindowName()+"Attributes");
 				    	AttributeContainer attributebean = new AttributeContainer();
@@ -108,13 +137,11 @@ public class PropertyGenerator {
 						 renumProperty.setValue(ws.getDefaultValue() );
 				 }
 				 if((dataType.equalsIgnoreCase(PropertyPaneConstants.FIELDNAMES)) && (ws.getIsStartupdata()== 0)) {
-					 renumProperty  = createFieldListProperty(ws.getFieldName().trim(), ws.getFieldName().trim(), ws.getCategory().trim() );
+					 renumProperty  = createFieldListProperty(ws.getFieldName().trim(), ws.getFieldName().trim(), ws.getCategory().trim(),ws.getWindowName() );
 						 
 				 }
 				 if((dataType.trim().equalsIgnoreCase(PropertyPaneConstants.BOOLEAN))  ) {
-					     if(ws.getFieldName().equalsIgnoreCase(WindowSheetConstants.ISEDITABLE)) {
-					    	
-					     }
+					      
 					  renumProperty  = createBooleanProperty( ws.getFieldName().trim(), ws.getFieldName().trim(), ws.getCategory().trim() );
 					  if(ws.getFieldName().equalsIgnoreCase(WindowSheetConstants.ISEDITABLE)) {
 					    	if(renumProperty != null) {
@@ -125,7 +152,7 @@ public class PropertyGenerator {
 				 }  if((dataType.trim().equalsIgnoreCase(PropertyPaneConstants.INTEGER))  ) {
 					  renumProperty  = createIntegerProperty( ws.getFieldName().trim(), ws.getFieldName().trim(), ws.getCategory().trim() );
 						 renumProperty.setValue(0);
-						 renumProperty.setEditable(true);
+					//	 renumProperty.setEditable(true);
 				 }
 					 if((dataType.trim().equalsIgnoreCase(PropertyPaneConstants.NUMBER))  ) {
 						  renumProperty  = createNumberProperty( ws.getFieldName().trim(), ws.getFieldName().trim(), ws.getCategory().trim() ,10);
@@ -155,12 +182,26 @@ public class PropertyGenerator {
 					
 				}
 				if(commonUTIL.isEmpty(ws.getParentFieldName())) {
+					if( ws.isCondition() && !commonUTIL.isEmpty(ws.getConfigureIfelseCondition())) {
+						 
+					Hashtable<String,String> conditions = 		getconditions(ws.getConfigureIfelseCondition());
+					//renumProperty.addPropertyChangeListener(arg0, arg1) 
+					addConditionalProperty(renumProperty,conditions);
+					}
 			       propertyList.add(renumProperty);
 				} else {
 					Property parentProperty = getParentPropertyFromList(propertyList,ws.getParentFieldName());
-					addChildProperty(parentProperty,renumProperty);
+					if(parentProperty != null) { 
+					addChildProperty(parentProperty,renumProperty );
+					} else {
+						 commonUTIL.display("PropertyGenerator", "Parent Property Field is Null on Window " + ws.getWindowName() + " for Child Property " +    ws .getFieldName() + " dataType ==  "+ ws.getDataType());
+						    return propertyList;
+					}
 					
 				}
+				
+				
+				
 					
 			}
 		}
@@ -168,9 +209,67 @@ public class PropertyGenerator {
 		}
 		return propertyList;
 		}catch(NullPointerException e) {
-			   commonUTIL.display("PropertyGenerator", "No Properities found for this window");
+			   commonUTIL.display("PropertyGenerator", "No Properities found for this window on " +  ws .getFieldName() + " dataType ==  "+ ws.getDataType());
 			    return propertyList;
 		}
+	}
+
+	private static void addConditionalProperty(Property conditionalProperty,final Hashtable<String,String> conditions ) {
+		conditionalProperty.addPropertyChangeListener(Property.PROPERTY_VALUE, new PropertyChangeListener() {
+			
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				// TODO Auto-generated method stub
+				
+				 List<Property> childList = (List<Property>) ((Property) evt.getSource()).getChildren();
+				setAllChildHidden(childList);
+				 String newValue = (String) evt.getNewValue();
+				 for (Map.Entry<String, String> entry : conditions.entrySet()) { 
+			            if(newValue.equalsIgnoreCase( entry.getKey())) {
+			            	String conds [] = entry.getValue().split(","); 
+			            	if(!commonUTIL.isEmpty(childList)) {
+								   for(int i=0;i<childList.size();i++) {
+									  for(int s=0;s<conds.length;s++) {
+										  if(conds[s].equalsIgnoreCase(childList.get(i).getName())) {
+											  childList.get(i).setHidden(false);
+										   
+									  }
+										  
+								   }
+								   }
+							   }
+							
+			            }
+			        }
+				 ((Property) evt.getSource()).setExpanded(true);
+	                
+			}
+		});
+			
+		}
+		private static void setAllChildHidden( List<Property> childList) {
+			   for(int i=0;i<childList.size();i++)  
+				   childList.get(i).setHidden(true);
+			
+		}
+							 
+	
+	public static Property createWindowFieldName(String windowName,
+			String fieldName, String category) {
+		Property	property =  createFieldListProperty(fieldName,fieldName, category,windowName );
+		return property;
+	}
+	private static Property createHolidayCodeProperty(String windowName,
+			String fieldName, String category) {
+		// TODO Auto-generated method stub
+		 Property renumProperty = null;
+		Vector<HolidayCode> sData = (Vector<HolidayCode>) ReferenceDataCache.selectKeyColumns(HolidayCodeConstants.SELECTHOLIDAYCODECOLUMN, BeanConstants.HOLIDAY);
+	 
+	Vector<String> codeData = 	commonUTIL.convertHolidayCodetoString(sData );
+		if(!commonUTIL.isEmpty(sData)) {
+			   renumProperty  = createMultipleSelectionListProperty(windowName,fieldName,category,codeData );
+		 }
+		 return renumProperty;
 	}
 
 	private static   Property   getParentPropertyFromList(List<Property> propertyList,String parentPropertyName) {
@@ -179,7 +278,7 @@ public class PropertyGenerator {
 			 
 			for(int i=0;i<propertyList.size();i++) {
 				parentProperty = propertyList.get(i);
-				if(parentProperty.getName().equalsIgnoreCase(parentPropertyName)) {
+				if(parentProperty != null && parentProperty.getName().equalsIgnoreCase(parentPropertyName)) {
 					break;
 				}
 			}
@@ -190,9 +289,33 @@ public class PropertyGenerator {
 	}
 
 	
- 
+	public static   Property   getAttributeProperty( String AttributesName) {
+		Vector<String>  attributeData = ReferenceDataCache.getStarupData(AttributesName);
+    	AttributeContainer attributebean = new AttributeContainer();
+    	attributebean.setAttributeName(AttributesName);
+    	attributebean.setAttributes( commonUTIL.convertStartupVectorToAtrributeVector(attributeData));
+    	Property  renumProperty  = createAttributeProperty(attributebean.getAttributeName(), attributebean.getAttributeName(), attributebean.getAttributeName(), attributebean);
+		// TODO Auto-generated method stub
+		return renumProperty;
+	}
 	
-	private static void addChildProperty(Property parentProperty,Property childProperty) {
+	private static Hashtable getconditions(String condition) {
+		Hashtable<String,String> conditons = new Hashtable<String,String>();
+		if(!commonUTIL.isEmpty(condition))  {
+			StringTokenizer conds  = new StringTokenizer(condition,"|");
+			while(conds.hasMoreElements()) {
+				String cond = conds.nextToken();
+				String key = cond.substring(0, cond.indexOf("="));
+				String value = cond.substring(key.length()+1,cond.length());
+				conditons.put(key, value);
+			 
+				
+			}
+		}
+		return conditons;
+		
+	}
+	private static void addChildProperty(Property parentProperty,Property childProperty ) {
 		if(parentProperty != null)
 			parentProperty.addChild(childProperty);
 			parentProperty.addPropertyChangeListener(Property.PROPERTY_VALUE, new PropertyChangeListener() {
@@ -200,6 +323,8 @@ public class PropertyGenerator {
 				@Override
 				public void propertyChange(PropertyChangeEvent evt) {
 					// TODO Auto-generated method stub
+					
+					if(  evt.getNewValue() instanceof  Boolean) {
 					Boolean parentSignal = (Boolean) evt
 							.getNewValue();
 
@@ -226,6 +351,8 @@ public class PropertyGenerator {
 							}
 					}
 					
+					
+				}
 				}
 			});
 	}
@@ -272,7 +399,32 @@ public class PropertyGenerator {
 			return null;
 		}
 	}
-
+	public static PropertyListMultipleSelection getMultiColumnMethodNames(String nameObject,
+			String fieldName, String categoryName) {
+		try {
+			if (commonUTIL.isEmpty(nameObject)
+					|| nameObject.equalsIgnoreCase("NONE"))
+				return null;
+			String path = "beans." + nameObject;
+			Class c1 = ClassInstantiateUtil.getClass(path, false);
+			PropertyListMultipleSelection renumProperty = null;
+			try {
+				Vector<String> methodNames = getMethodNameOnObject(c1
+						.newInstance());
+				renumProperty = createMultipleSelectionListProperty(fieldName,
+						fieldName, categoryName, methodNames);
+				return renumProperty;
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return null;
+			}
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
 	private static Vector<String> getBeanFiles(String path) {
 
 		return FileSearch.searchInFile(path);
@@ -336,6 +488,12 @@ public class PropertyGenerator {
 							propertyList.add(renumProperty);
 
 						}
+						 if((dataType.equalsIgnoreCase(PropertyPaneConstants.MULTISELECTION)) && (ws.getIsStartupdata()== 1)) {
+							 Vector<String> sData =  getStartUpData(ws.getStartUpDataName().trim());
+							 if(!commonUTIL.isEmpty(sData)) {
+								 propertyList.add(  createMultipleSelectionListProperty(ws.getWindowName(),ws.getFieldName(),ws.getCategory(),sData ));
+							 }
+						 }
 					}
 				}
 			}

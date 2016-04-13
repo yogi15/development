@@ -1,4 +1,4 @@
-package src.apps.window.util.propertyUtil;
+package apps.window.util.propertyUtil;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -101,7 +101,7 @@ public class BasePropertyTable extends PropertyTable {
 
 	        final PropertyTableModel model = new EditorStylePropertyTableModel(props);
 	        
-	        
+	        model.setMiscCategoryName("");
 	      
 	       if (showCategories) // to disable Catergorizes
 	            model.setOrder(PropertyTableModel.CATEGORIZED);

@@ -1,4 +1,4 @@
-package src.apps.window.util.propertyUtil;
+package apps.window.util.propertyUtil;
  
 
 public class PropertyInteger extends PropertyNumeric<Integer> {

@@ -1,4 +1,4 @@
-package src.apps.window.util.propertyUtil;
+package apps.window.util.propertyUtil;
 
 import javax.swing.CellEditor;
 import javax.swing.table.TableCellRenderer;

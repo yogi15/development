@@ -5,8 +5,8 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.CellEditor;
 
-import apps.window.util.propertyPane.editor.BookSelectionCellEditor;
-import beans.Book;
+import apps.window.util.propertyPane.editor.DateRulePropertyEditor;
+import apps.window.util.propertyPane.editor.SearchPropertyEditor;
 
 import com.jidesoft.converter.ConverterContext;
 import com.jidesoft.converter.ObjectConverter;
@@ -16,25 +16,25 @@ import com.jidesoft.grid.CellEditorManager;
 import com.jidesoft.grid.EditorContext;
 import com.jidesoft.grid.Property;
 
-public class PropertyBook extends Property implements PropertyChangeListener {
+public class PropertySearchBox extends Property implements
+		PropertyChangeListener {
 
-	public PropertyBook(String propertyName, String description, Class type) {
+	 
+	public PropertySearchBox(String propertyName, String description, Class type,final String searchType) {
 		super(propertyName, description, type);
 
 		CellEditorManager.registerEditor(String.class, new CellEditorFactory() {
 			public CellEditor create() {
-
-				Book book = new Book();
-				return new BookSelectionCellEditor(book);
+				return new SearchPropertyEditor(searchType);
 			}
 		}, new EditorContext(propertyName));
 		setCategory(description);
-		final ObjectConverter converter = new BookCodeConverter();
+		final ObjectConverter converter = new SearchPropertyConverter();
 		setConverterContext(new ConverterContext(getName()));
 		ObjectConverterManager.registerConverter(getType(), converter,
 				getConverterContext());
 		setEditorContext(new EditorContext(propertyName));
-
+setEditable(true);
 		addPropertyChangeListener(PROPERTY_VALUE, new PropertyChangeListener() {
 
 			@Override
@@ -44,17 +44,7 @@ public class PropertyBook extends Property implements PropertyChangeListener {
 
 			}
 		});
-
 	}
-
-	public void setValue(Object value, boolean fireEvent) {
-		Object oldValue = setValue;
-		setValue = value;
-		if (oldValue != setValue && fireEvent) {
-			firePropertyChange(PROPERTY_VALUE, oldValue, value);
-		}
-	}
-
 	private Object setValue = null;
 
 	@Override
@@ -66,27 +56,28 @@ public class PropertyBook extends Property implements PropertyChangeListener {
 	@Override
 	public void setValue(Object value) {
 		// d stub
-		setValue(value, true);
+		//System.out.println("From propertySearchBox " + value);
+		//setValue(value);
 
 	}
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		// TODO Auto-generated method stub
-		//System.out.println(getValue());
+		System.out.println(getValue());
 
 	}
 
 }
 
-class BookCodeConverter implements ObjectConverter {
-	Book p = null;
+class SearchPropertyConverter implements ObjectConverter {
+	String p = null;
 
 	public String toString(Object o, ConverterContext converterContext) {
-		if (!(o instanceof Book))
+		if (!(o instanceof String))
 			return "";
-		p = (Book) o;
-		return p.getBook_name();
+		p = (String) o;
+		return p ;
 	}
 
 	public boolean supportToString(Object o, ConverterContext converterContext) {
