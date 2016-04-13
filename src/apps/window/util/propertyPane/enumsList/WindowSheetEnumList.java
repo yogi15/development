@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
-import apps.window.uti.propertypane.enums.SampleTestPropertyEnum;
-import apps.window.uti.propertypane.enums.WindowSheetPropertyEnum;
+import apps.window.util.propertyPane.enums.SampleTestPropertyEnum;
+import apps.window.util.propertyPane.enums.WindowSheetPropertyEnum;
 
 import com.jidesoft.grid.Property;
 
@@ -45,6 +45,9 @@ public enum WindowSheetEnumList {
 		List< Property> propertyList = new ArrayList< Property>();
 		
 		propertyList.add((Property) WindowSheetPropertyEnum.WINDOWNAME.getProperty());
+
+		propertyList.add((Property) WindowSheetPropertyEnum.DESIGNTYPE.getProperty());
+		
 		propertyList.add((Property) WindowSheetPropertyEnum.FIELDNAME.getProperty());
 		propertyList.add((Property) WindowSheetPropertyEnum.DATATYPE.getProperty());
 

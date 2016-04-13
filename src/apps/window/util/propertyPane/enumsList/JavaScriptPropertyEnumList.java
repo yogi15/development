@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
-import apps.window.uti.propertypane.enums.JavaScriptPropertyEnum; 
+import apps.window.util.propertyPane.enums.JavaScriptPropertyEnum;
 
 import com.jidesoft.grid.Property;
 

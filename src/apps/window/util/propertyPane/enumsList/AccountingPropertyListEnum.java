@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
-import apps.window.uti.propertypane.enums.AccountingPropertyEnum;
 import apps.window.util.property.AccountingProperty;
+import apps.window.util.propertyPane.enums.AccountingPropertyEnum;
 import constants.ReferenceConstants;
 
 public enum AccountingPropertyListEnum {

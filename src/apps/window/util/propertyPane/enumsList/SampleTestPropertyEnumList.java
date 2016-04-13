@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
  
-import apps.window.uti.propertypane.enums.SampleTestPropertyEnum;
+import apps.window.util.propertyPane.enums.SampleTestPropertyEnum;
 
 import com.jidesoft.grid.Property;
 
@@ -49,6 +49,8 @@ public enum SampleTestPropertyEnumList {
 		propertyList.add((Property) SampleTestPropertyEnum.STARTUPDATA.getProperty());
 
 		propertyList.add((Property) SampleTestPropertyEnum.ATTRIBUTEDATA.getProperty());
+
+		propertyList.add((Property) SampleTestPropertyEnum.DATE.getProperty());
 		return propertyList;
 	}
 

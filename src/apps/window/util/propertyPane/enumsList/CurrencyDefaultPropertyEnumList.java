@@ -7,8 +7,8 @@ import java.util.List;
 import com.jidesoft.grid.Property;
  
 
-import apps.window.uti.propertypane.enums.CurrencyDefaultPropertyEnum;
 import apps.window.util.property.CurrencyDefaultProperty;
+import apps.window.util.propertyPane.enums.CurrencyDefaultPropertyEnum;
 
 public enum CurrencyDefaultPropertyEnumList {
 	  CURRENCYDEFAULT(getCurrencyDefaultPropertyPropertyList());
