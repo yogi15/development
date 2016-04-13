@@ -74,7 +74,7 @@ public class BookSelectionPropertyCombox extends AbstractComboBox {
 				}
 				if (value == null)
 					return "";
-				System.out.println(_stringFutCon);
+				//System.out.println(_stringFutCon);
 				return _stringFutCon;
 			}
 
