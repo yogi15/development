@@ -8,6 +8,73 @@ public class WindowTableModelMapping implements BaseBean {
 	String columnDataType;
 	String customColumnName;
 	boolean IsCombobox;
+	boolean isStartUpdata;
+	/**
+	 * @return the isStartUpdata
+	 */
+	public boolean isStartUpdata() {
+		return isStartUpdata;
+	}
+
+	/**
+	 * @param isStartUpdata the isStartUpdata to set
+	 */
+	public void setStartUpdata(boolean isStartUpdata) {
+		this.isStartUpdata = isStartUpdata;
+	}
+
+	/**
+	 * @return the startUpdataName
+	 */
+	public String getStartUpdataName() {
+		return startUpdataName;
+	}
+
+	/**
+	 * @param startUpdataName the startUpdataName to set
+	 */
+	public void setStartUpdataName(String startUpdataName) {
+		this.startUpdataName = startUpdataName;
+	}
+
+	/**
+	 * @return the comboxBeanName
+	 */
+	public String getComboxBeanName() {
+		return comboxBeanName;
+	}
+
+	/**
+	 * @param comboxBeanName the comboxBeanName to set
+	 */
+	public void setComboxBeanName(String comboxBeanName) {
+		this.comboxBeanName = comboxBeanName;
+	}
+
+	/**
+	 * @return the comboxmethodName
+	 */
+	public String getComboxmethodName() {
+		return comboxmethodName;
+	}
+
+	/**
+	 * @param comboxmethodName the comboxmethodName to set
+	 */
+	public void setComboxmethodName(String comboxmethodName) {
+		this.comboxmethodName = comboxmethodName;
+	}
+
+	/**
+	 * @return the isCombobox
+	 */
+	public boolean isIsCombobox() {
+		return IsCombobox;
+	}
+
+	String startUpdataName;
+	String comboxBeanName;
+	String comboxmethodName;
 	/**
 	 * @return the isCombobox
 	 */
@@ -149,41 +216,58 @@ public class WindowTableModelMapping implements BaseBean {
 		Object obj = null;
 		if (propertyPaneColumnName
 				.equalsIgnoreCase(WindowTableModelMappingConstants.METHODNAME)) {
-			obj = getMethodName();
+		return	obj = getMethodName();
+			
 		} 
 		if (propertyPaneColumnName
 				.equalsIgnoreCase(WindowTableModelMappingConstants.COLUMNNAME)) {
-			obj = getColumnName();
+			return		obj = getColumnName();
 		} 
 		if (propertyPaneColumnName
 				.equalsIgnoreCase(WindowTableModelMappingConstants.WINDOWNAME)) {
-			obj = getWindowName();
+			return		obj = getWindowName();
 		}
 		if (propertyPaneColumnName
 				.equalsIgnoreCase(WindowTableModelMappingConstants.BEANNAME)) {
-			obj = getBeanName();
+			return		obj = getBeanName();
 			
 			
 		}
 		if (propertyPaneColumnName
 				.equalsIgnoreCase(WindowTableModelMappingConstants.COLUMNDISPLAYNAME)) {
-			obj = getColumnDisplayName();
+			return		obj = getColumnDisplayName();
 		}
 		if (propertyPaneColumnName
 				.equalsIgnoreCase(WindowTableModelMappingConstants.COLUMNDATATYPE)) {
-			obj =getColumnDataType();
+			return		obj =getColumnDataType();
 		}
 		if (propertyPaneColumnName
 				.equalsIgnoreCase(WindowTableModelMappingConstants.CUSTOMCOLUMNNAME)) {
-			obj = getCustomColumnName( );
+			return		obj = getCustomColumnName( );
 		}
 		if (propertyPaneColumnName
 				.equalsIgnoreCase(WindowTableModelMappingConstants.CUSTOMMETHODNAME)) {
-			obj = getCustomMethodName( );
+			return		obj = getCustomMethodName( );
 		}
 		if (propertyPaneColumnName
 				.equalsIgnoreCase(WindowTableModelMappingConstants.ISCOMBOX)) {
-			obj = IsCombobox();
+			return			obj = IsCombobox();
+		}
+		if (propertyPaneColumnName
+				.equalsIgnoreCase(WindowTableModelMappingConstants.COMBOXBEANNAME)) {
+			return			obj = getComboxBeanName();
+		}
+		if (propertyPaneColumnName
+				.equalsIgnoreCase(WindowTableModelMappingConstants.ISSTARTUPDATA)) {
+			return		obj = isStartUpdata();
+		}
+		if (propertyPaneColumnName
+				.equalsIgnoreCase(WindowTableModelMappingConstants.STARTUPDATANAME)) {
+			return		obj = getStartUpdataName();
+		}
+		if (propertyPaneColumnName
+				.equalsIgnoreCase(WindowTableModelMappingConstants.COMBOXMETHODNAME)) {
+			return		obj = getComboxmethodName();
 		}
 		 
 		return obj;
@@ -193,39 +277,70 @@ public class WindowTableModelMapping implements BaseBean {
 		if (propertyPaneColumnName
 				.equalsIgnoreCase(WindowTableModelMappingConstants.METHODNAME)) {
 			setMethodName((String) object);
+			return;
 		}
 		if (propertyPaneColumnName
 				.equalsIgnoreCase(WindowTableModelMappingConstants.COLUMNNAME)) {
 			setColumnName((String) object);
+			return;
 		}
 		if (propertyPaneColumnName
 				.equalsIgnoreCase(WindowTableModelMappingConstants.WINDOWNAME)) {
 			setWindowName((String) object);
+			return;
 		}
 		if (propertyPaneColumnName
 				.equalsIgnoreCase(WindowTableModelMappingConstants.BEANNAME)) {
 			setBeanName((String) object);
+			return;
 		}
 		if (propertyPaneColumnName
 				.equalsIgnoreCase(WindowTableModelMappingConstants.COLUMNDISPLAYNAME)) {
 			setColumnDisplayName((String) object);
+			return;
 		}
 		if (propertyPaneColumnName
 				.equalsIgnoreCase(WindowTableModelMappingConstants.COLUMNDATATYPE)) {
 			setColumnDataType((String) object);
+			return;
 		}
 		if (propertyPaneColumnName
 				.equalsIgnoreCase(WindowTableModelMappingConstants.CUSTOMCOLUMNNAME)) {
 			setCustomColumnName((String) object);
+			return;
 		}
 		if (propertyPaneColumnName
 				.equalsIgnoreCase(WindowTableModelMappingConstants.CUSTOMMETHODNAME)) {
 			setCustomMethodName((String) object);
+			return;
 		}
 		if (propertyPaneColumnName
 				.equalsIgnoreCase(WindowTableModelMappingConstants.ISCOMBOX)) {
 			setIsCombobox( (Boolean) object);
+			return;
 		}
+		if (propertyPaneColumnName
+				.equalsIgnoreCase(WindowTableModelMappingConstants.COMBOXBEANNAME)) {
+			setComboxBeanName((String) object);
+			return;
+		}
+		if (propertyPaneColumnName
+				.equalsIgnoreCase(WindowTableModelMappingConstants.ISSTARTUPDATA)) {
+			//setIsStartUpdata( (Boolean) object);
+			setStartUpdata((Boolean) object);
+			return;
+		}
+		if (propertyPaneColumnName
+				.equalsIgnoreCase(WindowTableModelMappingConstants.STARTUPDATANAME)) {
+			setStartUpdataName((String) object);
+			return;
+		}
+		if (propertyPaneColumnName
+				.equalsIgnoreCase(WindowTableModelMappingConstants.COMBOXMETHODNAME)) {
+			setComboxmethodName((String) object);
+			return;
+		}
+		 
 	}
 int id =0 ;
 	public void setId(int id) {

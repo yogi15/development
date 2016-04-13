@@ -55,6 +55,31 @@ public class AttributeContainer implements BaseBean {
 		 
 	
 	}
+	public void addAttributeValue(String name,String value) {
+		boolean  valueGot =false;
+		int valueAt =0;
+		String val = "";
+	 
+			for(int i=0;i<attributes.size();i++) {
+				if(attributes.get(i).getName().equalsIgnoreCase(name)) {
+					attributes.get(i).setValue(value);
+					//val = value;
+					valueGot = true;
+					valueAt = i;
+					break;
+				}
+			}
+		 
+		if(!valueGot) {
+			Attribute	att =  new Attribute();
+			att.setValue(value);
+			att.setName(name);
+			attributes.add(valueAt, att);
+		}
+		 
+		 
+	
+	}
 	public String getAttributeValue(String name ) {
 		String attributeValue = "";
 		if(commonUTIL.isEmpty(attributes)) {

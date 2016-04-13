@@ -11,6 +11,27 @@ public class Book implements BaseBean {
 	String book_name;
 	int folderID;
 	
+	AttributeContainer attributeContainer = null;
+	
+	
+/**
+	 * @return the attributeContainer
+	 */
+	public AttributeContainer getAttributeContainer() {
+		return attributeContainer;
+	}
+	/**
+	 * @param attributeContainer the attributeContainer to set
+	 */
+	public void setAttributeContainer(AttributeContainer attributeContainer) {
+		this.attributeContainer = attributeContainer;
+	}
+	/**
+	 * @param attributesData the attributesData to set
+	 */
+	public void setAttributesData(Hashtable<String, String> attributesData) {
+		this.attributesData = attributesData;
+	}
 transient   Hashtable<String, String> attributesData = new Hashtable<String, String>();
 	
 	public Hashtable<String, String> getAttributesData() {

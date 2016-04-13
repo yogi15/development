@@ -1,4 +1,4 @@
-package src.beans;
+package beans;
 
 import java.io.Serializable;
 
@@ -7,9 +7,22 @@ public class HolidayCode implements Serializable {
 	boolean isWeekEnd = false;
 	private int _firstNonBusinessDay;
 	private int _secondNonBusinessDay;
+	String holidayCode = null;
 	
 
-    final public int getFirstNonBusinessDay() { return _firstNonBusinessDay ;}
+    /**
+	 * @return the holidayCode
+	 */
+	public String getHolidayCode() {
+		return holidayCode;
+	}
+	/**
+	 * @param holidayCode the holidayCode to set
+	 */
+	public void setHolidayCode(String holidayCode) {
+		this.holidayCode = holidayCode;
+	}
+	final public int getFirstNonBusinessDay() { return _firstNonBusinessDay ;}
     final public int getSecondNonBusinessDay() { return _secondNonBusinessDay;}
 
     final public void setFirstNonBusinessDay(int s) { _firstNonBusinessDay=s;}

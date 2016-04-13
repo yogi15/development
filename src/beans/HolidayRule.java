@@ -1,4 +1,4 @@
-package src.beans;
+package beans;
 
 import java.io.Externalizable;
 import java.io.IOException;

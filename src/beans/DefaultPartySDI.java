@@ -2,7 +2,7 @@ package beans;
 
 import java.io.Serializable;
 
-import util.ReferenceDataCache;
+import util.cacheUtil.ReferenceDataCache;
 
 
 import beans.Trade;

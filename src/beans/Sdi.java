@@ -3,8 +3,8 @@ package beans;
 import java.io.Serializable;
 import java.util.Hashtable;
 
-import util.ReferenceDataCache;
 import util.commonUTIL;
+import util.cacheUtil.ReferenceDataCache;
 
 public class Sdi extends BOObject implements Serializable,Cloneable {
 	

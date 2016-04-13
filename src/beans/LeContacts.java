@@ -1,8 +1,8 @@
 package beans;
+ 
+import constants.LeContactsConstants; 
 
-import java.io.Serializable;
-
-public class LeContacts implements Serializable {
+public class LeContacts implements BaseBean {
 
 	 int id = 0; 
 	 int leId = 0;
@@ -177,6 +177,34 @@ public class LeContacts implements Serializable {
 	public void setProductType(String productType) {
 		// TODO Auto-generated method stub
 		 this.productType = productType;
+	}
+	@Override
+	public Object getPropertyValue(String propertyPaneColumnName) {
+		// TODO Auto-generated method stub
+		Object obj = null;
+		if (propertyPaneColumnName.equalsIgnoreCase(LeContactsConstants.LEID)) {
+			return obj = getLeId();
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(LeContactsConstants.CONTACTTYPE)) {
+			return obj = getContactCategory();
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(LeContactsConstants.ADDRESS)) {
+			return obj = getMailingAddress();
+		}
+		return obj;
+	}
+	@Override
+	public void setPropertyValue(String propertyPaneColumnName, Object object) {
+		if (propertyPaneColumnName.equalsIgnoreCase(LeContactsConstants.CONTACTTYPE)) {
+			setContactCategory((String) object);
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(LeContactsConstants.LEID)) {
+			setLeId((Integer) object);
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(LeContactsConstants.ADDRESS)) {
+			setMailingAddress((String) object);
+		}
+		
 	}
 	 
 

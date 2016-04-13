@@ -1,4 +1,4 @@
-package src.beans;
+package beans;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -8,13 +8,8 @@ import util.commonUTIL;
 import com.jidesoft.grid.CellStyle;
 
 public class PropertyCellStyle implements BaseBean{
-	
-	
-	
-	
-	
 
-	int columnserialno=0;
+	int columnserialno;
 
 	public void setColumnserialno(int columnserialno) {
 		this.columnserialno = columnserialno;

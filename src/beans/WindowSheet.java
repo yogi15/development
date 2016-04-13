@@ -12,6 +12,36 @@ public class WindowSheet implements BaseBean {
 	boolean mapJavaObject;
 	boolean isEditable;
 	/**
+	 * @return the isCondition
+	 */
+	public boolean isCondition() {
+		return isCondition;
+	}
+
+	/**
+	 * @param isCondition the isCondition to set
+	 */
+	public void setCondition(boolean isCondition) {
+		this.isCondition = isCondition;
+	}
+
+	/**
+	 * @return the configureIfelseCondition
+	 */
+	public String getConfigureIfelseCondition() {
+		return configureIfelseCondition;
+	}
+
+	/**
+	 * @param configureIfelseCondition the configureIfelseCondition to set
+	 */
+	public void setConfigureIfelseCondition(String configureIfelseCondition) {
+		this.configureIfelseCondition = configureIfelseCondition;
+	}
+
+	boolean isCondition;
+	String configureIfelseCondition;
+	/**
 	 * @return the isEditable
 	 */
 	public boolean isEditable() {
@@ -442,6 +472,18 @@ public class WindowSheet implements BaseBean {
 				.equalsIgnoreCase(WindowSheetConstants.ISHIDDEN)) {
 			return		obj = isHidden();
 		}
+		if (propertyPaneColumnName
+				.equalsIgnoreCase(WindowSheetConstants.COLUMNSEQUENCENO)) {
+			return		obj = getColunmSequenceNo();
+		}
+		if (propertyPaneColumnName
+				.equalsIgnoreCase(WindowSheetConstants.ISCONDITIONAL)) {
+			return		obj = isCondition();
+		}
+		if (propertyPaneColumnName
+				.equalsIgnoreCase(WindowSheetConstants.CONFIGUREIFELSECONDITION)) {
+			return		obj = getConfigureIfelseCondition();
+		}
 		return obj;
 	}
 
@@ -531,6 +573,28 @@ public class WindowSheet implements BaseBean {
 				.equalsIgnoreCase(WindowSheetConstants.ISHIDDEN)) {
 			setHidden(((Boolean) object).booleanValue());
 		}
+		if (propertyPaneColumnName
+				.equalsIgnoreCase(WindowSheetConstants.COLUMNSEQUENCENO)) {
+			 
+			setColunmSequenceNo(((Integer) object).intValue());
+		}
+		if (propertyPaneColumnName
+				.equalsIgnoreCase(WindowSheetConstants.ISCONDITIONAL)) {
+			 
+			setCondition(((Boolean) object).booleanValue());
+		}
+		if (propertyPaneColumnName
+				.equalsIgnoreCase(WindowSheetConstants.CONFIGUREIFELSECONDITION)) {
+			setConfigureIfelseCondition(((String) object) );
+		}
 	}
-
+	int ColunmSequenceNo = 0;
+	public int getColunmSequenceNo() {
+		// TODO Auto-generated method stub
+		return ColunmSequenceNo;
+	}
+	public void setColunmSequenceNo(int colunmSequenceNo) {
+		// TODO Auto-generated method stub
+		this.ColunmSequenceNo=colunmSequenceNo;
+	}
 }
