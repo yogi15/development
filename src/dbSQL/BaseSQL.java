@@ -1,6 +1,8 @@
-package src.dbSQL;
+package dbSQL;
 
+import java.rmi.RemoteException;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Vector;
@@ -26,7 +28,10 @@ public abstract class BaseSQL {
 	  public abstract Collection selectWhere(String where,Connection con);
 	  public abstract Collection selectALLData(Connection con);
 	  public abstract int count(String sql,Connection con);
-	 
+	  public abstract Collection selectKeyColumnsWithWhere(String columnNames,String where,Connection con);
+     
+	  public abstract Collection selectKeyColumns(String columnNames,Connection con);
+ 
 	  
 	  
 	  // this method will go when insert 
@@ -94,5 +99,23 @@ public abstract class BaseSQL {
 		static public void selectAttribute(AttributeProvider attributeP,Vector attributes,Connection con) {
 			attributeP.updateAttributes(attributes, con);
 		}
+		 
+		  
+		  public static Collection selectOnWherecClauseReports(ResultSet rs) {
+			  Vector<Object> reportObject = new Vector();
+			  ReportGenerator generateReport = new ReportGenerator();
+			  try {
+				  if(rs != null) {
+					  reportObject.add(rs);
+				reportObject = (Vector) generateReport.generateReportOnSQL(reportObject);
+				   
+				  }
+				
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			    return reportObject;
+		  }
 	  
 }

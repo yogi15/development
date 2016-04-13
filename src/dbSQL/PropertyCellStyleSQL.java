@@ -1,4 +1,4 @@
-package src.dbSQL;
+package dbSQL;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -429,6 +429,21 @@ public class PropertyCellStyleSQL extends BaseSQL {
 				commonUTIL.displayError("PropertyCellStyleSQL", SELECTALL, e);
 			}
 		}
+	}
+
+
+	@Override
+	public Collection selectKeyColumnsWithWhere(String columnNames,
+			String where, Connection con) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Collection selectKeyColumns(String columnNames, Connection con) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 
