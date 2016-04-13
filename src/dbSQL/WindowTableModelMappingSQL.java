@@ -8,28 +8,34 @@ import java.util.Collection;
 import java.util.Vector;
 
 import util.commonUTIL;
+import beans.BaseBean;
 import beans.WindowTableModelMapping;
 
-public class WindowTableModelMappingSQL {
+public class WindowTableModelMappingSQL extends BaseSQL {
 
 	final static private String DELETE_FROM_windowtablemapping = "DELETE FROM WINDOWTABLEMAPPING  ";
 	final static private String SELECT_MAX = "SELECT MAX(id) SerialNo FROM WINDOWTABLEMAPPING ";
-	final static private String INSERT_FROM_windowtablemapping = "INSERT into WINDOWTABLEMAPPING(WINDOWNAME,BEANNAME,COLOUMNNAME,METHODNAME,id,columnDisplayName,columnDatatype,customColumnName,customMethodName,isCombox) values(?,?,?,?,?,?,?,?,?,?)";
+	final static private String INSERT_FROM_windowtablemapping = "INSERT into WINDOWTABLEMAPPING(WINDOWNAME,BEANNAME,COLOUMNNAME,METHODNAME,id,columnDisplayName,columnDatatype,customColumnName,customMethodName,isCombox,isStartUpdata,startUpdataName,comboxBeanName,comboxmethodName) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
-	final static private String SELECTALL = "SELECT  WINDOWNAME, BEANNAME,COLOUMNNAME,METHODNAME,id,columnDisplayName,columnDatatype,customColumnName,customMethodName,isCombox FROM WindowTableMapping order by COLOUMNNAME";
+	final static private String SELECTALL = "SELECT  WINDOWNAME, BEANNAME,COLOUMNNAME,METHODNAME,id,columnDisplayName,columnDatatype,customColumnName,customMethodName,isCombox,isStartUpdata,startUpdataName,comboxBeanName,comboxmethodName FROM WindowTableMapping order by COLOUMNNAME";
 
-	static private String SELECTWHERE = "SELECT  WINDOWNAME, BEANNAME,COLOUMNNAME,METHODNAME ,id,columnDisplayName,columnDatatype,customColumnName,customMethodName,isCombox   FROM WINDOWTABLEMAPPING where   ";
+	static private String SELECTWHERE = "SELECT  WINDOWNAME, BEANNAME,COLOUMNNAME,METHODNAME ,id,columnDisplayName,columnDatatype,customColumnName,customMethodName,isCombox,isStartUpdata,startUpdataName,comboxBeanName,comboxmethodName   FROM WINDOWTABLEMAPPING where   ";
 
 	private static String getUpdateSQL(WindowTableModelMapping wtm) {
 		String updateSQL = "UPDATE WindowTableMapping  set "
 				+ "  WINDOWNAME= '" + wtm.getWindowName() + "' ,BEANNAME= '"
 				+ wtm.getBeanName() + "',  COLOUMNNAME= ' "
 				+ wtm.getColumnName() + "',METHODNAME= '" + wtm.getMethodName() + "',columnDisplayName= '" + wtm.getColumnDisplayName()
-				+ "' "+ ",columnDatatype= '" + wtm.getColumnDataType()+ "',customColumnName= '" + wtm.getCustomColumnName() + "',customMethodName= '" + wtm.getCustomMethodName() +"',";
+				+ "' "+ ",columnDatatype= '" + wtm.getColumnDataType()+ "',customColumnName= '" + wtm.getCustomColumnName() + "',customMethodName= '" + wtm.getCustomMethodName() +"',comboxBeanName= '" + wtm.getComboxBeanName() +"',comboxmethodName= '" + wtm.getComboxmethodName() +"',startUpdataName= '" + wtm.getStartUpdataName() +"',";
 		if(wtm.IsCombobox()) {
-			updateSQL = updateSQL + " isCombox = 'Y'";
+			updateSQL = updateSQL + " isCombox = 'Y',";
 		} else {
-			updateSQL = updateSQL + " isCombox = 'N'";
+			updateSQL = updateSQL + " isCombox = 'N',";
+		}
+		if(wtm.isStartUpdata()) {
+			updateSQL = updateSQL + " isStartUpdata = 'Y'";
+		} else {
+			updateSQL = updateSQL + " isStartUpdata = 'N'";
 		}
 		updateSQL = updateSQL +  "  where  id  =  " + wtm.getId();
 			 
@@ -64,7 +70,7 @@ public class WindowTableModelMappingSQL {
 			stmt = dsSQL.newPreparedStatement(con, sql);
 			stmt.executeUpdate(sql);
 			con.commit();
-			commonUTIL.display("WindowTableModelMapping ::  edit ", sql);
+			commonUTIL.display("WindowTableModelMapping Update ::  edit ", sql);
 		} catch (Exception e) {
 			commonUTIL
 					.displayError("WindowTableModelMapping", "edit " + sql, e);
@@ -124,6 +130,16 @@ public class WindowTableModelMappingSQL {
 			} else {
 				stmt.setString(10, "N");
 			}
+			if(insert.isStartUpdata()) {
+				stmt.setString(11, "Y");
+			} else {
+				stmt.setString(11, "N");
+			}
+			stmt.setString(12, insert.getStartUpdataName());
+
+			stmt.setString(13, insert.getComboxBeanName());
+
+			stmt.setString(14, insert.getComboxmethodName());
 			stmt.executeUpdate();
 			commonUTIL.display("WindowTableModelMappingSQL",
 					INSERT_FROM_windowtablemapping);
@@ -171,20 +187,29 @@ public class WindowTableModelMappingSQL {
 				} else {
 					data.setIsCombobox(false);
 				}
+				String startUPData = rs.getString(11);
+				if(!commonUTIL.isEmpty(startUPData) && startUPData.equalsIgnoreCase("Y")) {
+					data.setStartUpdata(true);
+				} else {
+					data.setStartUpdata(false);
+				}
+				data.setStartUpdataName(rs.getString(12));
+				data.setComboxBeanName(rs.getString(13));
+				data.setComboxmethodName( rs.getString(14));
 				jTableData.add(data);
 			}
 
-			commonUTIL.display("WindowTableModelMapping ::  SELECTALL",
+			commonUTIL.display("WindowTableModelMapping SQL ::  SELECTALL",
 					SELECTALL);
 			return jTableData;
 		} catch (Exception e) {
-			commonUTIL.displayError("WindowTableModelMapping", SELECTALL, e);
+			commonUTIL.displayError("WindowTableModelMapping SQL", SELECTALL, e);
 			return null;
 		} finally {
 			try {
 				stmt.close();
 			} catch (SQLException e) {
-				commonUTIL.displayError("WindowTableModelMappingSQL",
+				commonUTIL.displayError("WindowTableModelMapping SQL",
 						SELECTALL, e);
 			}
 		}
@@ -276,24 +301,114 @@ public class WindowTableModelMappingSQL {
 				} else {
 					data.setIsCombobox(false);
 				}
-				 
+				String startUPData = rs.getString(11);
+				if(!commonUTIL.isEmpty(startUPData) && startUPData.equalsIgnoreCase("Y")) {
+					data.setStartUpdata(true);
+				} else {
+					data.setStartUpdata(false);
+				}
+				data.setStartUpdataName(rs.getString(12));
+				data.setComboxBeanName(rs.getString(13));
+				data.setComboxmethodName( rs.getString(14));
 				jTableData.add(data);
 			}
 
-			commonUTIL.display("WindowTableModelMapping ::  selectWindowModel",
+			commonUTIL.display("WindowTableModelMapping SQL ::  selectWindowModel",
 					sql);
 			return jTableData;
 		} catch (Exception e) {
-			commonUTIL.displayError("WindowTableModelMapping", sql, e);
+			commonUTIL.displayError("WindowTableModelMapping SQL", sql, e);
 			return null;
 		} finally {
 			try {
 				stmt.close();
 			} catch (SQLException e) {
 				commonUTIL
-						.displayError("WindowTableModelMapping", SELECTALL, e);
+						.displayError("WindowTableModelMapping SQL", SELECTALL, e);
 			}
 		}
+	}
+
+	@Override
+	public BaseBean insertSQL(String sql, Connection con) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean updateSQL(String sql, Connection con) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean deleteSQL(String sql, Connection con) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public BaseBean select(int id, Connection con) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public BaseBean select(String name, Connection con) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Collection selectWhere(String where, Connection con) {
+		// TODO Auto-generated method stub
+	   String sql = 	" WINDOWNAME = '" + where + "'";
+		return 	  selectWindowModel(sql, con);
+	}
+
+	@Override
+	public Collection selectALLData(Connection con) {
+		// TODO Auto-generated method stub
+		return selectALL(con);
+	}
+
+	@Override
+	public BaseBean insertSQL(BaseBean sql, Connection con) {
+		// TODO Auto-generated method stub
+		return insert((WindowTableModelMapping)sql, con);
+		 
+	}
+
+	@Override
+	public boolean updateSQL(BaseBean sql, Connection con) {
+		// TODO Auto-generated method stub
+		return update((WindowTableModelMapping)sql, con);
+	}
+
+	@Override
+	public boolean deleteSQL(BaseBean sql, Connection con) {
+		// TODO Auto-generated method stub
+		return delete((WindowTableModelMapping)sql, con);
+	}
+
+	 
+	@Override
+	public int count(String sql, Connection con) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public Collection selectKeyColumnsWithWhere(String columnNames,
+			String where, Connection con) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Collection selectKeyColumns(String columnNames, Connection con) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

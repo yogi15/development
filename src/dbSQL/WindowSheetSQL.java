@@ -8,26 +8,27 @@ import java.util.Collection;
 import java.util.Vector;
 
 import util.commonUTIL; 
+import beans.BaseBean;
 import beans.WindowSheet;
 
-public class WindowSheetSQL {
+public class WindowSheetSQL extends BaseSQL {
 	
 	final static private String DELETE_FROM_WINDOSHEET =
 			"DELETE FROM windowSheet where WindowSheetName =? , FIELDNAME = ? ";
 		final static private String INSERT_FROM_windowName =
-			"INSERT into windowSheet(WINDOWNAME,FIELDNAME,DATATYPE,ISSTARTUPDATA,STARTUPDATANAME,CUSTOMPANELNAME,DEFAULTVALUE,NULLCHECKED,category,columnSerialNo,beanname,methodname,designType) values(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			"INSERT into windowSheet(WINDOWNAME,FIELDNAME,DATATYPE,ISSTARTUPDATA,STARTUPDATANAME,CUSTOMPANELNAME,DEFAULTVALUE,NULLCHECKED,category,columnSerialNo,beanname,methodname,designType,isChildField,ParentFieldName,IsHierarachicalWindow,childwindowname,mapjavaobject,javaobjectname,iseditable,ishidden,columnsequence,isconditional,configureifelsecondition) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		final static private String UPDATE_FROM_WINDOSHEET =
 			"UPDATE windowSheet set le_id=?,WindowSheet_name=? where WindowSheetno = ? ";
 		final static private String SELECT_MAX =
 			"SELECT MAX(columnSerialNo) SerialNo FROM windowSheet ";
 		final static private String SELECTALL =
-			"SELECT WINDOWNAME,FIELDNAME,DATATYPE,ISSTARTUPDATA,STARTUPDATANAME,CUSTOMPANELNAME,DEFAULTVALUE,NULLCHECKED,category,columnSerialNo,beanname,methodname,designType FROM windowSheet order by columnserialno asc ";
+			"SELECT WINDOWNAME,FIELDNAME,DATATYPE,ISSTARTUPDATA,STARTUPDATANAME,CUSTOMPANELNAME,DEFAULTVALUE,NULLCHECKED,category,columnSerialNo,beanname,methodname,designType,isChildField,ParentFieldName,IsHierarachicalWindow,childwindowname,mapjavaobject,javaobjectname,iseditable,ishidden,columnsequence,isconditional,configureifelsecondition FROM windowSheet order by columnsequence asc ";
 		final static private String SELECT =
-			"SELECT WINDOWNAME,FIELDNAME,DATATYPE,ISSTARTUPDATA,STARTUPDATANAME,CUSTOMPANELNAME,DEFAULTVALUE,NULLCHECKED,category,columnSerialNo,beanname,methodname,designType FROM windowSheet where windowName =  ?";
+			"SELECT WINDOWNAME,FIELDNAME,DATATYPE,ISSTARTUPDATA,STARTUPDATANAME,CUSTOMPANELNAME,DEFAULTVALUE,NULLCHECKED,category,columnSerialNo,beanname,methodname,designType,isChildField,ParentFieldName,IsHierarachicalWindow,childwindowname,mapjavaobject,javaobjectname,iseditable,ishidden,columnsequence,isconditional,configureifelsecondition FROM windowSheet where windowName =  ?";
 		 static private String SELECTONE =
-			"SELECT WINDOWNAME,FIELDNAME,DATATYPE,ISSTARTUPDATA,STARTUPDATANAME,CUSTOMPANELNAME,DEFAULTVALUE,NULLCHECKED,category,columnSerialNo,beanname,methodname,designType FROM windowSheet where windowName =  " ;
+			"SELECT WINDOWNAME,FIELDNAME,DATATYPE,ISSTARTUPDATA,STARTUPDATANAME,CUSTOMPANELNAME,DEFAULTVALUE,NULLCHECKED,category,columnSerialNo,beanname,methodname,designType,isChildField,ParentFieldName,IsHierarachicalWindow,childwindowname,mapjavaobject,javaobjectname,iseditable,ishidden,columnsequence,isconditional,configureifelsecondition FROM windowSheet where windowName =  " ;
 		 static private String SELECTWHERE =
-					"SELECT WINDOWNAME,FIELDNAME,DATATYPE,ISSTARTUPDATA,STARTUPDATANAME,CUSTOMPANELNAME,DEFAULTVALUE,NULLCHECKED,category,columnSerialNo,beanname,methodname,designType FROM windowSheet where   " ;
+					"SELECT WINDOWNAME,FIELDNAME,DATATYPE,ISSTARTUPDATA,STARTUPDATANAME,CUSTOMPANELNAME,DEFAULTVALUE,NULLCHECKED,category,columnSerialNo,beanname,methodname,designType,isChildField,ParentFieldName,IsHierarachicalWindow,childwindowname ,mapjavaobject,javaobjectname,iseditable,ishidden,columnsequence,isconditional,configureifelsecondition FROM windowSheet where   " ;
 		 
 		 
 		 private static String getUpdateSQL(WindowSheet wSheet) {
@@ -42,11 +43,48 @@ public class WindowSheetSQL {
 		    		  " DEFAULTVALUE= "+getValueWithoutNull(wSheet.getDefaultValue())+ "," +
 		    		  " beanname= "+getValueWithoutNull(wSheet.getBeanName())+ "," +
 		    		  " methodName= "+getValueWithoutNull(wSheet.getMethodName())+ "," +
+		    		  " category= "+getValueWithoutNull(wSheet.getCategory())+ "," +
+		    		  " parentfieldName= "+getValueWithoutNull(wSheet.getParentFieldName())+ "," +
+		    		  " childwindowname= "+getValueWithoutNull(wSheet.getChildWindowName())+ "," +
+		    		  " javaobjectname= "+getValueWithoutNull(wSheet.getJavaObjectName())+ "," +
+		    		  " configureifelsecondition= "+getValueWithoutNull(wSheet.getConfigureIfelseCondition())+ "," +
+		    		  " columnsequence  = "+ wSheet.getColunmSequenceNo() + "," +
 		    		  " NULLCHECKED=  "; 
-		      if(wSheet.isNullChecked())
+		      if(wSheet.isNullChecked()) {
 		    	  updateSQL = updateSQL +"'Y'";
-		      else 
+		      } else {
 		    	  updateSQL = updateSQL +"'N'";
+		      }
+		      if(wSheet.IsHierarachicalWindow()) {
+		    	  updateSQL = updateSQL +" , IsHierarachicalWindow = 'Y'";
+		      } else {
+		    	  updateSQL = updateSQL +" , IsHierarachicalWindow = 'N'";
+		      }
+		      if(wSheet.isCondition()) {
+		    	  updateSQL = updateSQL +" , isconditional = 'Y'";
+		      } else {
+		    	  updateSQL = updateSQL +" , isconditional = 'N'";
+		      }
+		      if(wSheet.isMapJavaObject()) {
+		    	  updateSQL = updateSQL +" , mapjavaobject = 'Y'";
+		      } else {
+		    	  updateSQL = updateSQL +" , mapjavaobject = 'N'";
+		      }
+		      if(wSheet.isEditable()) {
+		    	  updateSQL = updateSQL +" , iseditable = 'Y'";
+		      } else {
+		    	  updateSQL = updateSQL +" , iseditable = 'N'";
+		      }
+		      if(wSheet.isHidden()) {
+		    	  updateSQL = updateSQL +" , ishidden = 'Y'";
+		      } else {
+		    	  updateSQL = updateSQL +" , ishidden = 'N'";
+		      }
+		      if(wSheet.isChildField()) {
+		    	  updateSQL = updateSQL +" , isChildField = 'Y'";
+		      }else  {
+		    	  updateSQL = updateSQL +" , isChildField = 'N'";
+		      }
 		      updateSQL = updateSQL +"  where columnSerialNo= " + wSheet.getColumnSerialNo() +"";
 		      return updateSQL;
 		     }
@@ -91,7 +129,7 @@ public class WindowSheetSQL {
 		 }
 		 public static Vector selectWindowSheet(String windowName, Connection con) {
 			 try {
-	             return  select(windowName, con);
+	             return  selectOld(windowName, con);
 	         }catch(Exception e) {
 	        	 commonUTIL.displayError("WindowSheetSQL","select",e);
 	        	 return null;
@@ -224,6 +262,41 @@ public class WindowSheetSQL {
 		            stmt.setString(11,inserWindowSheet.getBeanName());
 		            stmt.setString(12,inserWindowSheet.getMethodName());
 		            stmt.setString(13,inserWindowSheet.getDesignType());
+		            if(inserWindowSheet.isChildField()){
+			            stmt.setString(14,"Y" ); 
+			            } else {
+			            	stmt.setString(14,"N" );
+			            }
+		            stmt.setString(15,inserWindowSheet.getParentFieldName());
+		            if(inserWindowSheet.IsHierarachicalWindow()){
+			            stmt.setString(16,"Y" ); 
+			            } else {
+			            	stmt.setString(16,"N" );
+			            }
+		            stmt.setString(17,inserWindowSheet.getChildWindowName());
+		            if(inserWindowSheet.isMapJavaObject()){
+			            stmt.setString(18,"Y" ); 
+			            } else {
+			            	stmt.setString(18,"N" );
+			            }
+		            stmt.setString(19,inserWindowSheet.getJavaObjectName());
+		            if(inserWindowSheet.isEditable()){
+			            stmt.setString(20,"Y" ); 
+			            } else {
+			            	stmt.setString(20,"N" );
+			            }
+		            if(inserWindowSheet.isHidden()){
+			            stmt.setString(21,"Y" ); 
+			            } else {
+			            	stmt.setString(21,"N" );
+			            }
+		            stmt.setInt(22,inserWindowSheet.getColunmSequenceNo());
+		            if(inserWindowSheet.isCondition()){
+			            stmt.setString(23,"Y" ); 
+			            } else {
+			            	stmt.setString(23,"N" );
+			            }
+		            stmt.setString(24,inserWindowSheet.getConfigureIfelseCondition());
 		            stmt.executeUpdate();
 		            con.commit();
 		            inserWindowSheet.setColumnSerialNo(id);
@@ -244,12 +317,12 @@ public class WindowSheetSQL {
 		     
 		 }
 		 
-		 protected static Vector select(String WindowSheetIn,Connection con ) {
+		 protected static Vector selectOld(String WindowSheetIn,Connection con ) {
 			 
 			 int j = 0;
 		        PreparedStatement stmt = null;
 		        Vector WindowSheets = new Vector();
-		        String sql = SELECTONE + "'" + WindowSheetIn +"' order by columnserialno asc ";
+		        String sql = SELECTONE + "'" + WindowSheetIn +"' order by columnsequence asc ";
 		        
 			 try {
 				 
@@ -269,13 +342,30 @@ public class WindowSheetSQL {
 		        	 windowSheet.setDefaultValue(rs.getString(7));
 		        if(rs.getString(8).equalsIgnoreCase("Y"))
 		        	windowSheet.setNullChecked(true);
-		          
+		       
 		        windowSheet.setCategory(rs.getString(9));
 		        windowSheet.setColumnSerialNo(rs.getInt(10));
 		        windowSheet.setBeanName(rs.getString(11));
 		        windowSheet.setMethodName(rs.getString(12));
 
 		        windowSheet.setDesignType(rs.getString(13));
+		        if(rs.getString(14).equalsIgnoreCase("Y"))
+		        	windowSheet.setChildField(true);
+		        windowSheet.setParentFieldName(rs.getString(15));
+		        if(rs.getString(16).equalsIgnoreCase("Y"))
+		        	windowSheet.setIsHierarachicalWindow(true);
+		        windowSheet.setChildWindowName(rs.getString(17));
+		        if(!commonUTIL.isEmpty(rs.getString(18)) && rs.getString(18).equalsIgnoreCase("Y"))
+		        	windowSheet.setMapJavaObject(true);
+		        windowSheet.setJavaObjectName(rs.getString(19));
+		        if(!commonUTIL.isEmpty(rs.getString(20)) && rs.getString(20).equalsIgnoreCase("Y"))
+		        	windowSheet.setEditable(true);
+		        if(!commonUTIL.isEmpty(rs.getString(21)) && rs.getString(21).equalsIgnoreCase("Y"))
+		        	windowSheet.setHidden(true);
+		        windowSheet.setColunmSequenceNo(rs.getInt(22));
+		        if(!commonUTIL.isEmpty(rs.getString(23)) && rs.getString(23).equalsIgnoreCase("Y"))
+		        	windowSheet.setCondition(true); 
+		        	windowSheet.setConfigureIfelseCondition(rs.getString(24));
 		        WindowSheets.add(windowSheet);
 		      
 		         
@@ -291,7 +381,7 @@ public class WindowSheetSQL {
 					stmt.close();
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
-					commonUTIL.displayError("WindowSheetSQL","selectMax",e);
+					commonUTIL.displayError("WindowSheetSQL","select "+sql,e);
 				}
 		        
 		        }
@@ -325,7 +415,23 @@ public class WindowSheetSQL {
 
 
 		        windowSheet.setDesignType(rs.getString(13));
-		        
+		        if(rs.getString(14).equalsIgnoreCase("Y"))
+		        	windowSheet.setChildField(true);
+		        windowSheet.setParentFieldName(rs.getString(15));
+		        if(rs.getString(16).equalsIgnoreCase("Y"))
+		        	windowSheet.setIsHierarachicalWindow(true);
+		        windowSheet.setChildWindowName(rs.getString(17));
+		        if(!commonUTIL.isEmpty(rs.getString(18)) && rs.getString(18).equalsIgnoreCase("Y"))
+		        	windowSheet.setMapJavaObject(true);
+		        windowSheet.setJavaObjectName(rs.getString(19));
+		        if(!commonUTIL.isEmpty(rs.getString(20)) && rs.getString(20).equalsIgnoreCase("Y"))
+		        	windowSheet.setEditable(true);
+		        if(!commonUTIL.isEmpty(rs.getString(21)) && rs.getString(21).equalsIgnoreCase("Y"))
+		        	windowSheet.setHidden(true);
+		        windowSheet.setColunmSequenceNo(rs.getInt(22));
+		        if(!commonUTIL.isEmpty(rs.getString(23)) && rs.getString(23).equalsIgnoreCase("Y"))
+		        	windowSheet.setCondition(true); 
+		        	windowSheet.setConfigureIfelseCondition(rs.getString(24));
 		        WindowSheets.add(windowSheet);
 		      
 		      }
@@ -349,7 +455,7 @@ public class WindowSheetSQL {
 			 int j = 0;
 		     PreparedStatement stmt = null;
 		     Vector WindowSheets = new Vector();
-		     String sqls = SELECTWHERE + " " + sql + " order by columnserialno asc";
+		     String sqls = SELECTWHERE + " " + sql + " order by columnsequence asc";
 			 try {
 				 con.setAutoCommit(false);
 				
@@ -366,20 +472,38 @@ public class WindowSheetSQL {
 		        	 windowSheet.setStartUpDataName(rs.getString(5));
 		        	 windowSheet.setCustomPanelName( rs.getString(6));
 		        	 windowSheet.setDefaultValue(rs.getString(7));
-		        if(rs.getString(8).equalsIgnoreCase("Y"))
+		        	   if(!commonUTIL.isEmpty(rs.getString(8)) &&rs.getString(8).equalsIgnoreCase("Y"))
 		        	windowSheet.setNullChecked(true);
 		          
 		        windowSheet.setCategory(rs.getString(9));
 		        windowSheet.setColumnSerialNo(rs.getInt(10));
-
+		        windowSheet.setBeanName(rs.getString(11));
                windowSheet.setMethodName(rs.getString(12));
 		        windowSheet.setDesignType(rs.getString(13));
+		        if(!commonUTIL.isEmpty(rs.getString(14)) &&rs.getString(14).equalsIgnoreCase("Y"))
+		        	windowSheet.setChildField(true);
+		        windowSheet.setParentFieldName(rs.getString(15));
+		        if(!commonUTIL.isEmpty(rs.getString(16)) && rs.getString(16).equalsIgnoreCase("Y"))
+		        	windowSheet.setIsHierarachicalWindow(true);
+		        windowSheet.setChildWindowName(rs.getString(17));
+		        if(!commonUTIL.isEmpty(rs.getString(18)) && rs.getString(18).equalsIgnoreCase("Y"))
+		        	windowSheet.setMapJavaObject(true);
+		        windowSheet.setJavaObjectName(rs.getString(19));
+		        if(!commonUTIL.isEmpty(rs.getString(20)) && rs.getString(20).equalsIgnoreCase("Y"))
+		        	windowSheet.setEditable(true);
+		        if(!commonUTIL.isEmpty(rs.getString(21)) && rs.getString(21).equalsIgnoreCase("Y"))
+		        	windowSheet.setHidden(true);
+		        windowSheet.setColunmSequenceNo(rs.getInt(22));
+		        if(!commonUTIL.isEmpty(rs.getString(23)))
+		        		if(rs.getString(23).trim().equalsIgnoreCase("Y"))
+		        	windowSheet.setCondition(true); 
+		        	windowSheet.setConfigureIfelseCondition(rs.getString(24));
 		        WindowSheets.add(windowSheet);
 		      
 		      }
 		      commonUTIL.display("WindowSheetSQL","selectWindowSheetWhere  "+sqls);
 			 } catch (Exception e) {
-				 commonUTIL.displayError("WindowSheetSQL","selectWindowSheetWhere",e);
+				 commonUTIL.displayError("WindowSheetSQL","selectWindowSheetWhere"+sqls,e);
 				 return WindowSheets;
 		        
 		     }
@@ -388,11 +512,151 @@ public class WindowSheetSQL {
 					stmt.close();
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
-					commonUTIL.displayError("WindowSheetSQL","selectWindowSheetWhere",e);
+					commonUTIL.displayError("WindowSheetSQL","selectWindowSheetWhere"+sqls,e);
 				}
 		     }
 		     return WindowSheets;
 		 }
+
+		@Override
+		public BaseBean insertSQL(String sql, Connection con) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public boolean updateSQL(String sql, Connection con) {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		@Override
+		public boolean deleteSQL(String sql, Connection con) {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		@Override
+		public BaseBean insertSQL(BaseBean sql, Connection con) {
+			// TODO Auto-generated method stub
+			return insert((WindowSheet) sql,con);
+		}
+
+		@Override
+		public boolean updateSQL(BaseBean sql, Connection con) {
+			// TODO Auto-generated method stub
+			return edit((WindowSheet) sql,con);
+		}
+
+		@Override
+		public boolean deleteSQL(BaseBean sql, Connection con) {
+			// TODO Auto-generated method stub
+			return delete((WindowSheet) sql,con);
+		}
+
+		@Override
+		public BaseBean select(int id, Connection con) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public BaseBean select(String name, Connection con) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public Collection selectWhere(String where, Connection con) {
+			// TODO Auto-generated method stub
+			String sql = SELECTWHERE + where + " order by columnsequence asc";
+			 PreparedStatement stmt = null;
+		     Vector WindowSheets = new Vector(); try {
+				 con.setAutoCommit(false);
+				
+				 stmt = dsSQL.newPreparedStatement(con, sql );
+		      
+		      ResultSet rs = stmt.executeQuery();
+		      
+		      while(rs.next()) {
+		    	  WindowSheet windowSheet = new WindowSheet();
+		        	 windowSheet.setWindowName(rs.getString(1));
+		        	 windowSheet.setFieldName( rs.getString(2));
+		        	 windowSheet.setDataType(rs.getString(3));
+		        	 windowSheet.setIsStartupdata(rs.getInt(4));
+		        	 windowSheet.setStartUpDataName(rs.getString(5));
+		        	 windowSheet.setCustomPanelName( rs.getString(6));
+		        	 windowSheet.setDefaultValue(rs.getString(7));
+		        	   if(!commonUTIL.isEmpty(rs.getString(8)) &&rs.getString(8).equalsIgnoreCase("Y"))
+		        	windowSheet.setNullChecked(true);
+		          
+		        windowSheet.setCategory(rs.getString(9));
+		        windowSheet.setColumnSerialNo(rs.getInt(10));
+
+               windowSheet.setMethodName(rs.getString(12));
+		        windowSheet.setDesignType(rs.getString(13));
+		        if(!commonUTIL.isEmpty(rs.getString(14)) &&rs.getString(14).equalsIgnoreCase("Y"))
+		        	windowSheet.setChildField(true);
+		        windowSheet.setParentFieldName(rs.getString(15));
+		        if(!commonUTIL.isEmpty(rs.getString(16)) && rs.getString(16).equalsIgnoreCase("Y"))
+		        	windowSheet.setIsHierarachicalWindow(true);
+		        windowSheet.setChildWindowName(rs.getString(17));
+		        if(!commonUTIL.isEmpty(rs.getString(18)) && rs.getString(18).equalsIgnoreCase("Y"))
+		        	windowSheet.setMapJavaObject(true);
+		        windowSheet.setJavaObjectName(rs.getString(19));
+		        if(!commonUTIL.isEmpty(rs.getString(20)) && rs.getString(20).equalsIgnoreCase("Y"))
+		        	windowSheet.setEditable(true);
+		        if(!commonUTIL.isEmpty(rs.getString(21)) && rs.getString(21).equalsIgnoreCase("Y"))
+		        	windowSheet.setHidden(true);
+		        windowSheet.setColunmSequenceNo(rs.getInt(22));
+		        if(!commonUTIL.isEmpty(rs.getString(23)) && rs.getString(21).equalsIgnoreCase("Y"))
+		        	windowSheet.setCondition(true); 
+		        	windowSheet.setConfigureIfelseCondition(rs.getString(24));
+		        WindowSheets.add(windowSheet);
+		      
+		      }
+		      commonUTIL.display("WindowSheetSQL","selectWindowSheetWhere  "+sql);
+			 } catch (Exception e) {
+				 commonUTIL.displayError("WindowSheetSQL","selectWindowSheetWhere"+sql,e);
+				 return WindowSheets;
+		        
+		     }
+		     finally {
+		        try {
+					stmt.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					commonUTIL.displayError("WindowSheetSQL","selectWindowSheetWhere"+sql,e);
+				}
+		     }
+		     return WindowSheets;
+		}
+
+		@Override
+		public Collection selectALLData(Connection con) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+ 
+
+		@Override
+		public int count(String sql, Connection con) {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		@Override
+		public Collection selectKeyColumnsWithWhere(String columnNames,
+				String where, Connection con) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public Collection selectKeyColumns(String columnNames, Connection con) {
+			// TODO Auto-generated method stub
+			return null;
+		}
 		 
 		 
 }
