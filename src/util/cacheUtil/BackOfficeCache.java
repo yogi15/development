@@ -1,4 +1,4 @@
-package src.util.cacheUtil;
+package util.cacheUtil;
 
 import java.rmi.RemoteException;
 import java.util.Collection;
@@ -6,7 +6,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Vector;
 
-import src.util.commonUTIL;
+import util.commonUTIL;
 
 import beans.Account;
 import beans.Country;
