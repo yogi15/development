@@ -139,7 +139,7 @@ public class LESelectionPropertyPanel extends PopupPanel {
 	}
 	public void reloadKeyPress(String keyTypeD) {
 		// TODO Auto-generated method stub
-		System.out.println(keyTypeD);
+		//System.out.println(keyTypeD);
 		
 	}
 

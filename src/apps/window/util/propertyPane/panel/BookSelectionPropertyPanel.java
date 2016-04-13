@@ -26,11 +26,11 @@ public class BookSelectionPropertyPanel extends PopupPanel {
 	private Book book = null;
 
 	public BookSelectionPropertyPanel(BookSelectionPropertyCombox comboBox
-			  , Book le) {
+			  , Book book) {
 		setTitle("Book");
 		_comboBox = comboBox;
 		 
-		book = le;
+		this.book = book;
 		initComponent();
 	}
 
