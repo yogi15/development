@@ -59,7 +59,7 @@ public class FutureContractProperty  extends Property {
 	public FutureContractProperty(String name) {
 		super(name);
 	}
-
+ 
 	public void setValue(Object value, boolean fireEvent) {
 		Object oldValue = setValue;
 		setValue = value;
@@ -140,6 +140,7 @@ public class FutureContractProperty  extends Property {
 			}
 		}, new EditorContext(name));
 		FutureContractProperty property = new FutureContractProperty(name, description, String.class);
+		 
 		property.addPropertyChangeListener(PROPERTY_VALUE, new PropertyChangeListener() {
 			
 			@Override

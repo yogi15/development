@@ -1,4 +1,4 @@
-package src.apps.window.util.property;
+package apps.window.util.property;
 
 import java.awt.Color;
 import java.awt.Dimension;
