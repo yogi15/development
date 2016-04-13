@@ -1,7 +1,9 @@
-package src.constants;
+package constants;
 
 public class BeanConstants {
-	 public static final String PROPERTYCELLSTYLE = "PropertyCellStyle";
+	 public static final String PROPERTYCELLSTYLE = "PropertyCellStyle"; 
+	public static final String SEARCHCONFIG = "SearchConfig";
+	public static final String SEARCHPROPERTY = "SearchProperty";
 	public static String ACCCONFIGRULE = "AccConfigRule";  
 	 public static String ACCESSFUNCTION = "AccessFunction";  
 	 public static String ACCESSWINDOW = "AccessWindow";  
@@ -54,7 +56,7 @@ public class BeanConstants {
 	 public static String HELPERMMDEALBEAN = "HelperMMDealBean";  
 	 public static String HELPERPRODUCTUPLOADERBEAN = "HelperProductUploaderBean";  
 	 public static String HELPERREPOBEAN = "HelperRepoBean";  
-	 public static String HOLIDAY = "Holiday";  
+	 public static String HOLIDAY = "HolidayCode";  
 	 public static String INCOMINGFILE = "IncomingFile";  
 	 public static String JAVAFILEGENERATOR = "JavaFileGenerator";  
 	 public static String JAVASCRIPT = "JavaScript";  

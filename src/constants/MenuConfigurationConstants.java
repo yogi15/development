@@ -1,4 +1,4 @@
-package src.constants; 
+package constants; 
 
  public class MenuConfigurationConstants { 
 

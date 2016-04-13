@@ -1,4 +1,4 @@
-package src.constants;
+package constants;
 
 public class WindowSheetConstants {
 	
@@ -32,7 +32,8 @@ public class WindowSheetConstants {
 	 
 	 final public static String ISEDITABLE  = "IsEditable";
 	 final public static String ISHIDDEN  = "IsHidden";
-			
+	 final public static String ISCONDITIONAL  = "IsConditional";
+	 final public static String CONFIGUREIFELSECONDITION  = "ConfigureIfElseCondition";
 	 final public static String ATTRIBUTENAME   = "AttributeName";
 	
 	public static final String PROPERTYPREVIEW= "PropertyPreView";
@@ -41,6 +42,7 @@ public class WindowSheetConstants {
 	
 	// all sql
 	public static final String ISCHILDSQL = "childWindowname = ";
+	public static final String PACKAGENAME = "packageName";
 
 
 

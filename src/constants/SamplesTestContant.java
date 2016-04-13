@@ -1,4 +1,4 @@
-package src.constants;
+package constants;
 
 public class SamplesTestContant {
 	
@@ -11,6 +11,8 @@ public class SamplesTestContant {
 	public static final String NUMBERTEXT = "NumberText";
 	public static final String BOOLEANFIELD = "BooleanField";
 	public static final String DROPDOWN = "DropDown";
+
+	public static final String WINDOW_NAME = "SampleTest";
 	
 
 

@@ -1,4 +1,4 @@
-package src.constants;
+package constants;
 
 public class JavaScriptConstants {
 
@@ -22,7 +22,12 @@ public class JavaScriptConstants {
 	
 	public static final String WINDOWUTILPATH  = "src/apps/window/staticwindow/util";
 	 
-    public static final String WINDOWPATH  = "src/apps/window/staticwindow"; 
+    public static final String STATICWINDOWPATH  = "staticwindow"; 
+
+    public static final String REFERNCEWINDOWPATH  = "referencewindow"; 
+    public static final String PACKAGEPATH   = "apps.window."; 
+
+   
     public static final String WINDOWPROPERTYPATH  = "src/apps/window/util/propertyTable";
 
     public static final String CONSTANTPATH  = "src/constants";

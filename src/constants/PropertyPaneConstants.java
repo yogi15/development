@@ -1,9 +1,15 @@
-package src.constants;
+package constants;
 
 public class PropertyPaneConstants {
+	public static final String SEARCHBOX = "SearchBox";
+
+	public static final String IFELSECONDITIONAL = "IfElseConditional";
 	public static final String STRING = "String";
+	public static final String MULTICOLUMNNAMESSELECTION = "MultiColumnNamesSelection";
 	public static final String INTEGER = "Integer";
+	public static final String HOLIDAYCODE = "HolidayCode";
 	public static final String NUMBER = "Number";
+	public static final String BUYSELL = "BuySell";
 	public static final String POSITIVENUMBER = "PositiveNumber";
 	public static final String DATE = "Date"; 
 	public static final String BOOLEAN = "Boolean"; 

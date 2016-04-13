@@ -1,4 +1,4 @@
-package src.constants;
+package constants;
 
 public class CommonConstants {
 	public static final int SPLITWINDOWLOCATION = 370;
