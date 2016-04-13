@@ -1,4 +1,4 @@
-package src.apps.window.staticwindow;
+package apps.window.staticwindow;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -31,6 +31,7 @@ import beans.JavaFileGenerator;
 import constants.CommonConstants;
 import constants.CurrencyDefaultConstant;
 import constants.JavaFileGeneratorConstants;
+import constants.WindowSheetConstants;
 
 public class JavaFileGeneratorWindow extends BasePanel {
 	   ActionMap actions = null;
@@ -94,7 +95,7 @@ public class JavaFileGeneratorWindow extends BasePanel {
 			
 			setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED, null, null));
 			setLayout(new BorderLayout());
-			 
+		
 			
 			
 	       
@@ -103,6 +104,8 @@ public class JavaFileGeneratorWindow extends BasePanel {
 	      
 	      // add  model to table 
 	       model = new JavaFileGeneratorTableModelUtil(rightPanelJtableJavaFileGeneratordata);
+	   	setCornerForScrollPane(model.getcols());
+	   	setQuickSearchOnTable(model, model.getcols().length);
 	       rightSideCenterTable.setModel(model); 
 	       
 	       
@@ -230,5 +233,10 @@ public class JavaFileGeneratorWindow extends BasePanel {
 		public JPanel createChildPanel(String id) {
 			// TODO Auto-generated method stub
 			return null;
+		}
+		@Override
+		public String getWindowName() {
+			// TODO Auto-generated method stub
+			return JavaFileGeneratorConstants.WINDOW_NAME;
 		}
 }

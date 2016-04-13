@@ -1,4 +1,4 @@
-package src.apps.window.staticwindow;
+package apps.window.staticwindow;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -193,7 +193,7 @@ public class StartDataUPWindow extends BasePanel {
 		return removeButton;
 	}
 
-	private JPanel getJPanel0() {
+	public JPanel getJPanel0() {
 		if (jPanel0 == null) {
 			jPanel0 = new JPanel();
 			jPanel0.setBorder(BorderFactory.createTitledBorder(null,
@@ -255,7 +255,7 @@ public class StartDataUPWindow extends BasePanel {
 		return jTree0;
 	}
 
-	private JPanel getJPanel1() {
+	public JPanel getJPanel1() {
 		if (jPanel1 == null) {
 			jPanel1 = new JPanel();
 			jPanel1.setLayout(new GroupLayout());
@@ -539,6 +539,12 @@ list.add(valueTextField);
 
 	@Override
 	public JPanel createChildPanel(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getWindowName() {
 		// TODO Auto-generated method stub
 		return null;
 	}

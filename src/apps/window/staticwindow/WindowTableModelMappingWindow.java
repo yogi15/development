@@ -1,4 +1,4 @@
-package src.apps.window.staticwindow;
+package apps.window.staticwindow;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -18,6 +18,7 @@ import apps.window.util.propertyTable.WindowTableModelMappingPropertyTable;
 import apps.window.util.tableModelUtil.WindowTableModelMappingTableModelUtil;
 import beans.WindowTableModelMapping;
 import constants.CommonConstants;
+import constants.WindowSheetConstants;
 import constants.WindowTableModelMappingConstants;
 
 public class WindowTableModelMappingWindow extends BasePanel {
@@ -188,5 +189,10 @@ public class WindowTableModelMappingWindow extends BasePanel {
 	public JPanel createChildPanel(String id) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	@Override
+	public String getWindowName() {
+		// TODO Auto-generated method stub
+		return WindowTableModelMappingConstants.WINDOW_NAME;
 	}
 }

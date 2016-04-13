@@ -1,4 +1,4 @@
-package src.apps.window.staticwindow;
+package apps.window.staticwindow;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -87,7 +87,7 @@ public class WindowSheetWindow extends BasePanel {
 	      
 	     // leftTopPanel Data
 	    protected JLabel windowName = new JLabel("WindowName");
-	    public final	JTextField WindowSheetSearchTextField = new JTextField("WindowSheetTextField"); // search textfield in leftTopPanel Data
+	    public final	JTextField WindowSheetSearchTextField = new JTextField("WindowSheetTextField",15); // search textfield in leftTopPanel Data
 		
 
 		// rightTopPanel Data
@@ -131,7 +131,7 @@ public class WindowSheetWindow extends BasePanel {
 	  		@Override
 	  		protected JTextField createTextField() {
 	  			JTextField cellEditorTextField = new JTextField();
-	  			ListDataIntelliHints fontIntellihints = new ListDataIntelliHints<String>(
+	  			ListDataIntelliHints<String> fontIntellihints = new ListDataIntelliHints<String>(
 	  					cellEditorTextField, fontNames);
 	  			fontIntellihints.setCaseSensitive(false);
 	  			return cellEditorTextField;
@@ -232,8 +232,9 @@ public class WindowSheetWindow extends BasePanel {
 		       rightTopbuttonsPanel.add(windowName);
 		       rightTopbuttonsPanel.add(windowDetails);
 		       rightTopbuttonsPanel.add(javaDetails);
-		       rightTopbuttonsPanel.add( previewProp);
+		      
 		       rightTopbuttonsPanel.add( packageD);
+		      rightTopbuttonsPanel.add( previewProp);
 		}
 		 // create property proprities. 
 		@Override
@@ -308,10 +309,10 @@ public class WindowSheetWindow extends BasePanel {
 		 
 		JPanel jPanel4 = null;
 		JPanel jPanel3= null;
-		private JList getJList0() {
+		private JList<String> getJList0() {
 			if (fieldNameList == null) {
 				
-				DefaultListModel listModel = new DefaultListModel();
+				DefaultListModel<String> listModel = new DefaultListModel<String>();
 				 
 				fieldNameList.setModel(listModel);
 			}
@@ -341,7 +342,7 @@ public class WindowSheetWindow extends BasePanel {
 						@Override
 						protected JTextField createTextField() {
 							JTextField cellEditorTextField = new JTextField();
-							ListDataIntelliHints fontIntellihints = new ListDataIntelliHints<String>(
+							ListDataIntelliHints<String> fontIntellihints = new ListDataIntelliHints<String>(
 									cellEditorTextField, fontNames);
 							fontIntellihints.setCaseSensitive(false);
 							return cellEditorTextField;
@@ -355,7 +356,7 @@ public class WindowSheetWindow extends BasePanel {
 		}
 		
 		 
-		private JPanel getCellStyleTablePanel(JList jList0) {
+		private JPanel getCellStyleTablePanel(JList<String> jList0) {
 			  cellStyle = new   CellStyleProrpertyTable ("Style",jList0);
 			  windowUtil.setCellStyles(cellStyle);
 			  cellStylepropertyTable = cellStyle.getCellStyleProrpertyTable();
@@ -398,5 +399,11 @@ public class WindowSheetWindow extends BasePanel {
 		public JPanel createChildPanel(String id) {
 			// TODO Auto-generated method stub
 			return null;
+		}
+
+		@Override
+		public String getWindowName() {
+			// TODO Auto-generated method stub
+			return WindowSheetConstants.WINDOW_NAME;
 		}
 }

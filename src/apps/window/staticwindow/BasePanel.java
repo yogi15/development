@@ -1,4 +1,4 @@
-package src.apps.window.staticwindow;
+package apps.window.staticwindow;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -14,17 +14,22 @@ import java.awt.event.ItemEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.EventObject;
 import java.util.List;
 
 import javax.swing.AbstractButton;
 import javax.swing.ActionMap;
 import javax.swing.BorderFactory;
+import javax.swing.DefaultCellEditor;
 import javax.swing.Icon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -34,11 +39,15 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.CellEditorListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableCellRenderer; 
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 
 import org.dyno.visual.swing.layouts.Constraints;
@@ -46,7 +55,7 @@ import org.dyno.visual.swing.layouts.GroupLayout;
 import org.dyno.visual.swing.layouts.Leading;
 
 import util.CosmosException;
-import util.commonUTIL;
+import util.commonUTIL;   
 import apps.window.staticwindow.util.BaseWindowUtil;
 import apps.window.util.propertyPane.enumsList.JavaScriptPropertyEnumList;
 import apps.window.util.propertyPane.enumsList.WindowSheetEnumList; 
@@ -83,9 +92,10 @@ import constants.WindowSheetConstants;
 
 public abstract class BasePanel extends JPanel {
 	public JFrame frame = null;
-	HierarchicalTable childWindow = null;
+	HierarchicalTable childWindow = null;  
 	JPanel leftFrame = new JPanel();
-
+    String windowName = "";
+    
     private QuickTableFilterField _filterField;
 	  private TableModelListener _listener;
 	  JPanel quickSearchPanel = new JPanel(new FlowLayout(FlowLayout.LEADING));
@@ -98,7 +108,12 @@ public abstract class BasePanel extends JPanel {
 		leftFrame.add(leftBottombuttonsPanel, BorderLayout.SOUTH);
 		return leftFrame;
 	}
-
+	public JPanel getLeftSearchFrame() {
+		leftFrame.add(leftTopbuttonsPanel, BorderLayout.NORTH);
+		leftFrame.add(leftCenterPanel, BorderLayout.CENTER);
+		leftFrame.add(leftBottombuttonsPanel, BorderLayout.SOUTH);
+		return leftFrame;
+	}
 	/**
 	 * @return the centerFrame
 	 */
@@ -193,17 +208,17 @@ public abstract class BasePanel extends JPanel {
 	public abstract void addTopLeftSidePanelComponents();
 
 	public abstract void addTopRigthSidePanelComponents();
+	public abstract String getWindowName();
+	public abstract void createPropertyPaneTable() throws CosmosException ;
 
-	public abstract void createPropertyPaneTable();
-
-	public abstract void addCenterRightSidePanelComponents();
+	public abstract void addCenterRightSidePanelComponents()throws CosmosException ;
 
 	public abstract JPanel createChildPanel(int id);
 
 	public abstract JPanel createChildPanel(String id);
 
 	/* add listerener to each Jcompenonts added subclass panel. */
-	public abstract void setWindowActionListener();
+	public abstract void setWindowActionListener() throws CosmosException ;
 
 	public JScrollPane scrollPane = new JScrollPane();
 	public SortableTable rightSideCenterTable = new SortableTable();
@@ -227,8 +242,8 @@ public abstract class BasePanel extends JPanel {
 	protected JPanel leftCenterPanelNoLeftTopPanel = new JPanel(
 			new BorderLayout());
 
-	protected JButton loadButton = new JButton("Load");
-	protected JButton newButton = new JButton("New");
+	public JButton loadButton = new JButton("Load");
+	public JButton newButton = new JButton("New");
 	protected JButton deleteButton = new JButton("Delete");
 	protected JButton saveButton = new JButton("Save");
 	protected JButton saveAsNewButton = new JButton("Save As New");
@@ -236,13 +251,23 @@ public abstract class BasePanel extends JPanel {
 	boolean isHierarchicalTableSelected = false;
 	EventAction lSymAction = new EventAction();
 
-	protected void createSingleSplitPaneLayout(int splitPaneLocation) {
+	protected void createSingleSplitPaneLayout(int splitPaneLocation) { 
 		leftFrame.setLayout(new BorderLayout());
 		centerFrame.setLayout(new BorderLayout());
-		validationActionUtil.windowstartUpData();
+		try {
+			validationActionUtil.windowstartUpData();
+		} catch ( Exception e) {
+			// TODO Auto-generated catch block
+		    commonUTIL.displayError(getWindowName() , "windowstartUpData exception "+ e.getMessage() , e);
+		}
 		addTopLeftSidePanelComponents();
 		addTopRigthSidePanelComponents();
+		try {
 		createPropertyPaneTable();
+	} catch (CosmosException e) {
+		// TODO Auto-generated catch block
+	    commonUTIL.displayError(getWindowName() , "createPropertyPaneTable exception "+ e.getMessage() , e);
+	}
 		splitPane.setDividerLocation(splitPaneLocation);
 		scrollPane.getViewport().add(rightSideCenterTable);
 	   
@@ -256,6 +281,16 @@ public abstract class BasePanel extends JPanel {
 			rightSideCenterTable.setAutoResizeMode( JTable.AUTO_RESIZE_OFF );
 
 			rightSideCenterTable.setRowSelectionAllowed(true);
+			 
+		/*	for(int c=0;c< rightSideCenterTable.getColumnCount();c++) { 
+			if(rightSideCenterTable.getColumnClass(c).equals(Boolean.class) ) {
+				String columnName = rightSideCenterTable.getColumnName(c);
+				rightSideCenterTable.getColumn(columnName).setCellRenderer( new MultiRenderer());
+				rightSideCenterTable.getColumn(columnName).setCellEditor( new CellEditor());
+				 
+				 
+			}
+			} */
 		}
 
 		splitLeftPanel.add(leftTopbuttonsPanel, BorderLayout.NORTH);
@@ -266,7 +301,14 @@ public abstract class BasePanel extends JPanel {
 		rightSideCenterTable.setModel(_filterField.getDisplayTableModel() );
 		createleftBottomsPanel();
 		setRightPanelTopComp();
-		addCenterRightSidePanelComponents();
+		try {
+			addCenterRightSidePanelComponents();
+		} catch (CosmosException e) {
+			// TODO Auto-generated catch block
+		 	// TODO Auto-generated catch block
+		    commonUTIL.displayError(getWindowName() , "addCenterRightSidePanelComponents exception "+ e.getMessage() , e);
+		}
+	 
 
 		setEventActionListener();
 		
@@ -274,7 +316,70 @@ public abstract class BasePanel extends JPanel {
 		
 		add(splitPane, BorderLayout.CENTER);
 	}
+	protected void createSearchSingleSplitPaneLayout(int splitPaneLocation) { 
+		try {
+			validationActionUtil.windowstartUpData();
+		} catch (CosmosException e) {
+			// TODO Auto-generated catch block
+		    commonUTIL.displayError(getWindowName() , "windowstartUpData exception "+e.getMessage() , e);
+		}
+		leftFrame.setLayout(new BorderLayout());
+		centerFrame.setLayout(new BorderLayout());
+		 
+		addTopLeftSidePanelComponents();
+		//addTopRigthSidePanelComponents();
+		try{
+		createPropertyPaneTable();
+	} catch (CosmosException e) {
+		// TODO Auto-generated catch block
+	    commonUTIL.displayError(getWindowName() , "createPropertyPaneTable exception "+ e.getMessage() , e);
+	}
+		splitPane.setDividerLocation(splitPaneLocation);
+		scrollPane.getViewport().add(rightSideCenterTable);
+	      
+		splitRightPanel.add(centerRightSidePanel, BorderLayout.CENTER);
+		if (!isHierarchicalTableSelected) {
+			rightSideCenterTable
+					.setTableStyleProvider(new RowStripeTableStyleProvider(
+							new Color[] { BACKGROUND1, BACKGROUND3 }));
+			rightSideCenterTable.setName(CommonConstants.RIGHTSIDECENTERTABLE);
+			rightSideCenterTable.setAutoResizeMode( JTable.AUTO_RESIZE_OFF );
 
+			rightSideCenterTable.setRowSelectionAllowed(true);
+			 
+			for(int c=0;c< rightSideCenterTable.getColumnCount();c++) { 
+			if(rightSideCenterTable.getColumnClass(c).equals(Boolean.class) ) {
+				String columnName = rightSideCenterTable.getColumnName(c);
+				rightSideCenterTable.getColumn(columnName).setCellRenderer( new MultiRenderer());
+				rightSideCenterTable.getColumn(columnName).setCellEditor( new CellEditor());
+				 
+				 
+			}
+			} 
+		}
+
+		splitLeftPanel.add(leftTopbuttonsPanel, BorderLayout.NORTH);
+		splitLeftPanel.add(leftCenterPanel, BorderLayout.CENTER);
+		splitLeftPanel.add(leftBottombuttonsPanel, BorderLayout.SOUTH); 
+		    
+		splitRightPanel.add(rightTopbuttonsPanel, BorderLayout.NORTH);
+		rightSideCenterTable.setModel(_filterField.getDisplayTableModel() );
+		createSearchleftBottomsPanel();
+		//setRightPanelTopComp();
+		try {
+			addCenterRightSidePanelComponents();
+		} catch (CosmosException e) {
+			// TODO Auto-generated catch block
+		 	// TODO Auto-generated catch block
+		    commonUTIL.displayError(getWindowName() , "addCenterRightSidePanelComponents exception "+ e.getMessage() , e);
+		};
+
+		setEventActionListener();
+		
+	
+		
+		add(splitPane, BorderLayout.CENTER); 
+	}
 	public IFilterableTableModel getFilterModel() {
 		return  _filterField.getDisplayTableModel();
 	}
@@ -294,11 +399,19 @@ public abstract class BasePanel extends JPanel {
 	}
 	protected void createSingleSplitPaneLayout() {
 
-		validationActionUtil.windowstartUpData();
+		try {
+			validationActionUtil.windowstartUpData();
+		} catch (CosmosException e) {
+			// TODO Auto-generated catch block
+		    commonUTIL.displayError(getWindowName() , "windowstartUpData exception "+e.getMessage() , e);
+		}
 		addTopLeftSidePanelComponents();
-
+try {
 		createPropertyPaneTable();
-
+	} catch (CosmosException e) {
+		// TODO Auto-generated catch block
+	    commonUTIL.displayError(getWindowName() , "createPropertyPaneTable exception "+ e.getMessage() , e);
+	}
 		// setLayout(new JideBoxLayout(splitLeftPanel, JideBoxLayout.X_AXIS));
 
 		createleftBottomsPanel();
@@ -341,7 +454,14 @@ public abstract class BasePanel extends JPanel {
 		closeButton.addActionListener(lSymAction);
 		rightSideCenterTable.addMouseListener(lSymAction);
 		rightSideCenterTable.addKeyListener(lSymAction);
-		setWindowActionListener();
+		 
+		try {
+			setWindowActionListener();
+		} catch (CosmosException e) {
+			// TODO Auto-generated catch block
+			 commonUTIL.displayError(getWindowName() , "setWindowActionListener exception "+ e.getMessage() , e);
+		}
+	
 	}
 
 	protected void setEventListener(JComponent comp) throws CosmosException {
@@ -371,7 +491,15 @@ public abstract class BasePanel extends JPanel {
 		leftBottombuttonsPanel.add(buttonPanel, JideBoxLayout.FLEXIBLE);
 
 	}
+	protected void createSearchleftBottomsPanel() {
+		JPanel buttonPanel = new ButtonPanel(SwingConstants.LEFT);
 
+		buttonPanel
+				.add(buttonsSearchColumnForLeftBottonPanel(  newButton,loadButton));
+	 
+		leftBottombuttonsPanel.add(buttonPanel, JideBoxLayout.FLEXIBLE);
+
+	}
 	protected void setRightPanelTopComp() {
 		FlowLayout layout = new FlowLayout();
 		layout.setAlignment(FlowLayout.LEFT);
@@ -412,10 +540,24 @@ public abstract class BasePanel extends JPanel {
 		return buttonPanel;
 
 	}
+	private ButtonPanel buttonsSearchColumnForLeftBottonPanel(JButton topButton,
+			JButton botButton) {
+		ButtonPanel buttonPanel = new ButtonPanel(SwingConstants.LEFT);
+		buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
+		buttonPanel.add(topButton, ButtonPanel.AFFIRMATIVE_BUTTON);
+		buttonPanel.add(botButton, ButtonPanel.AFFIRMATIVE_BUTTON);
+		return buttonPanel;
 
-	public List<Property> generateProperty(String windowName) {
-		List<Property> prope = validationActionUtil
-				.generateProperty(windowName);
+	}
+	public List<Property> generateProperty(String windowName)  {
+		List<Property> prope = null;;
+		try {
+			prope = validationActionUtil
+					.generateProperty(windowName);
+		} catch (CosmosException e) {
+			// TODO Auto-generated catch block
+			commonUTIL.displayError(getWindowName() , "generateSearchAttributeProperty exception "+ e.getMessage() , e);
+		}
 
 		if (commonUTIL.isEmpty(prope)) {
 			if (windowName.equalsIgnoreCase("JavaScriptWindow"))
@@ -427,7 +569,26 @@ public abstract class BasePanel extends JPanel {
 		}
 		return prope;
 	}
+	public List<Property> generateSearchAttributeProperty(String windowName) {
+		List<Property> prope = null;
+		try {
+			prope = validationActionUtil
+					.generateAttributesProperty(windowName);
+		} catch (CosmosException e) {
+			// TODO Auto-generated catch block
+			 commonUTIL.displayError(getWindowName() , "generateSearchAttributeProperty exception "+ e.getMessage() , e);
+		}
 
+		if (commonUTIL.isEmpty(prope)) {
+			if (windowName.equalsIgnoreCase("JavaScriptWindow"))
+				prope = JavaScriptPropertyEnumList.JAVASCRIPT
+						.getPropertyList(JavaScriptConstants.WINDOW_NAME);
+			else
+				prope = WindowSheetEnumList.WINDOWSHEET
+						.getPropertyList(WindowSheetConstants.WINDOW_NAME);
+		}
+		return prope;
+	}
 	protected void setLeftSidePropertyPanePanel(PropertyTable propertyTable) {
 		JPanel quickSearchPanel = new JPanel(new FlowLayout(FlowLayout.LEADING));
 
@@ -666,7 +827,87 @@ public abstract class BasePanel extends JPanel {
 			return panel;
 		}
 	}
+	class MultiRenderer extends JCheckBox implements TableCellRenderer  {
+		  JCheckBox checkBox = new JCheckBox();
 
+		  public Component getTableCellRendererComponent(
+		                     JTable table, Object value,
+		                     boolean isSelected, boolean hasFocus,
+		                     int row, int column) {
+		    if (value instanceof Boolean) {                    // Boolean
+		      checkBox.setSelected(((Boolean)value).booleanValue());
+		      checkBox.setHorizontalAlignment(JLabel.CENTER);
+		      return checkBox;
+		    }
+		    
+		    return table;
+		  }
+		}
+	
+	class CellEditor implements TableCellEditor {
+		DefaultCellEditor defaultCellEditor;
+		
+		CellEditor() {
+			JCheckBox checkBox   = new JCheckBox();
+		    checkBox.setHorizontalAlignment(JLabel.CENTER);
+		    defaultCellEditor = new DefaultCellEditor(checkBox);
+		} 
+
+		@Override
+		public Object getCellEditorValue() {
+			// TODO Auto-generated method stub
+			return defaultCellEditor.getCellEditorValue();
+		}
+
+		@Override
+		public boolean isCellEditable(EventObject anEvent) {
+			// TODO Auto-generated method stub
+			return defaultCellEditor.isCellEditable(anEvent);
+		}
+
+		@Override
+		public boolean shouldSelectCell(EventObject anEvent) {
+			// TODO Auto-generated method stub
+			return defaultCellEditor.shouldSelectCell(anEvent);
+		}
+
+		@Override
+		public boolean stopCellEditing() {
+			// TODO Auto-generated method stub
+			return defaultCellEditor.stopCellEditing();
+		}
+
+		@Override
+		public void cancelCellEditing() {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void addCellEditorListener(CellEditorListener l) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void removeCellEditorListener(CellEditorListener l) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public Component getTableCellEditorComponent(JTable table,
+				Object value, boolean isSelected, int row, int column) {
+			// TODO Auto-generated method stub
+			if (value instanceof Boolean) {                    // Boolean
+			      
+			      return defaultCellEditor.getTableCellEditorComponent(
+			                       table, value, isSelected, row, column);
+			
+		}
+			return null;
+		}
+	}
 	class EventAction implements java.awt.event.ActionListener,
 			java.awt.event.ItemListener, java.awt.event.MouseListener,
 			java.awt.event.KeyListener {

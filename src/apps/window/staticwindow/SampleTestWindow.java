@@ -1,4 +1,4 @@
-package  apps.window.staticwindow;
+package apps.window.staticwindow;
 
 import java.awt.Component;
 import java.util.ArrayList;
@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import javax.swing.ActionMap;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+
+import constants.SamplesTestContant;
+import constants.WindowSheetConstants;
 
 public class SampleTestWindow  extends BasePanel {
 
@@ -73,5 +76,10 @@ public class SampleTestWindow  extends BasePanel {
 	public void setWindowActionListener() {
 		// TODO Auto-generated method stub
 		
+	}
+	@Override
+	public String getWindowName() {
+		// TODO Auto-generated method stub
+		return SamplesTestContant.WINDOW_NAME;
 	}
 }

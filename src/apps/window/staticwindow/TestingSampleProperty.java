@@ -1,4 +1,4 @@
-package src.apps.window.staticwindow;
+package apps.window.staticwindow;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.FlowLayout;
@@ -46,7 +46,8 @@ import constants.SamplesTestContant;
 
 //VS4E -- DO NOT REMOVE THIS LINE!
 public class TestingSampleProperty extends JFrame {
- 
+
+	private static final long serialVersionUID = 1L;
 	private JPanel jPanel0;
 	private static final String PREFERRED_LOOK_AND_FEEL = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
 	private PropertyTable propertyTable = null;
