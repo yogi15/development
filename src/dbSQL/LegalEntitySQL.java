@@ -1,5 +1,6 @@
 package dbSQL;
 
+import java.rmi.RemoteException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,12 +8,17 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Vector;
 
+import beans.Attribute;
+import beans.AttributeContainer;
 import beans.BaseBean;
-import beans.CounterParty;
+import beans.LEAttribute;
+import beans.LeContacts;
+import beans.LegalEntity;
 import beans.Product;
+import constants.BeanConstants;
 import util.commonUTIL;
 
-public class LegalEntitySQL implements BaseSQL {
+public class LegalEntitySQL extends BaseSQL {
 
 	final static private String tableName = "LE";
 	final static private String DELETE = "DELETE FROM " + tableName
@@ -29,10 +35,15 @@ public class LegalEntitySQL implements BaseSQL {
 			+ tableName + " where id =  ?  ";
 	final static private String SELECTWHERE = "SELECT id,name,role,status,attributes,alias, contact, country  FROM "
 			+ tableName + " where  ";
+	final static private String SQLCOUNT = new StringBuffer(
+			"SELECT count(*) countRows ").append(" FROM Le where  ")
+			.toString();
 	static private String SELECTONE = "SELECT id,name,role,status,attributes,alias, contact, country FROM "
 			+ tableName + " where id =  ";
+
+
 	
-	private static String getUpdateSQL(CounterParty le) {
+	private static String getUpdateSQL(LegalEntity le) {
 		
 		String updateSQL = "UPDATE le  set " 
 				+ " name= '" + le.getName()
@@ -48,16 +59,16 @@ public class LegalEntitySQL implements BaseSQL {
 		
 	}
 
-	public static int save(CounterParty insertLegalEntity, Connection con) {
+	public static LegalEntity save(LegalEntity insertLegalEntity, Connection con) {
 		try {
-			return insert(insertLegalEntity, con);
+			return insertLe(insertLegalEntity, con);
 		} catch (Exception e) {
 			commonUTIL.displayError("LegalEntitySQL", "save", e);
-			return 0;
+			return null;
 		}
 	}
 
-	public static boolean update(CounterParty updateLegalEntity, Connection con) {
+	public static boolean update(LegalEntity updateLegalEntity, Connection con) {
 		try {
 			return edit(updateLegalEntity, con);
 		} catch (Exception e) {
@@ -66,7 +77,7 @@ public class LegalEntitySQL implements BaseSQL {
 		}
 	}
 
-	public static boolean delete(CounterParty deleteLegalEntity, Connection con) {
+	public static boolean deleteLe(LegalEntity deleteLegalEntity, Connection con) {
 		try {
 			return remove(deleteLegalEntity, con);
 		} catch (Exception e) {
@@ -75,7 +86,7 @@ public class LegalEntitySQL implements BaseSQL {
 		}
 	}
 
-	protected static boolean remove(CounterParty deleteLegalEntity,
+	protected static boolean remove(LegalEntity deleteLegalEntity,
 			Connection con) {
 
 		PreparedStatement stmt = null;
@@ -109,7 +120,7 @@ public class LegalEntitySQL implements BaseSQL {
 
 	public static Vector selectLegalEntity(int LegalEntityId, Connection con) {
 		try {
-			return (Vector) selectA(LegalEntityId, con);
+			return (Vector) select1(LegalEntityId, con);
 		} catch (Exception e) {
 			commonUTIL.displayError("LegalEntitySQL", "select", e);
 			return null;
@@ -134,7 +145,7 @@ public class LegalEntitySQL implements BaseSQL {
 		}
 	}
 
-	protected static boolean edit(CounterParty updateLegalEntity, Connection con) {
+	protected static boolean edit(LegalEntity updateLegalEntity, Connection con) {
 
 		PreparedStatement stmt = null;
 		String sql = getUpdateSQL(updateLegalEntity);
@@ -189,7 +200,7 @@ public class LegalEntitySQL implements BaseSQL {
 		return j;
 	}
 
-	protected static int insert(CounterParty inserLegalEntity, Connection con) {
+	protected static LegalEntity insertLe(LegalEntity inserLegalEntity, Connection con) {
 
 		PreparedStatement stmt = null;
 		int id = 0;
@@ -208,14 +219,18 @@ public class LegalEntitySQL implements BaseSQL {
 			stmt.setString(7, inserLegalEntity.getContact());
 			stmt.setString(8, inserLegalEntity.getCountry());
 			
-			commonUTIL.display("LESQL", "insert" + INSERT);
+			
 			
 			stmt.executeUpdate();
 			con.commit();
+			inserLegalEntity.setId(id);
+			insertAttributes(inserLegalEntity.getAttributeContainer(),id,BeanConstants.LegalEntity);
+			return  inserLegalEntity;
+			
 			
 		} catch (Exception e) {
-			commonUTIL.displayError("LESQL", "insert", e);
-			return 0;
+			 commonUTIL.displayError("LegalEntitySQL",INSERT,e);
+			return null;
 
 		} finally {
 			try {
@@ -225,9 +240,9 @@ public class LegalEntitySQL implements BaseSQL {
 				commonUTIL.displayError("LESQL", "insert", e);
 			}
 		}
-		return id + 1;
+		
 	}
-	protected static CounterParty saveNew(CounterParty inserLegalEntity, Connection con) {
+	protected static LegalEntity saveNew(LegalEntity inserLegalEntity, Connection con) {
 
 		PreparedStatement stmt = null;
 		int id = 0;
@@ -246,14 +261,17 @@ public class LegalEntitySQL implements BaseSQL {
 			stmt.setString(7, inserLegalEntity.getContact());
 			stmt.setString(8, inserLegalEntity.getCountry());
 			
-			commonUTIL.display("LESQL", "insert" + INSERT);
+			
 			
 			stmt.executeUpdate();
 			con.commit();
+			commonUTIL.display("LESQL", "insert" + INSERT);
 			inserLegalEntity.setId(id);
+			insertAttributes(inserLegalEntity.getAttributeContainer(),id,BeanConstants.LegalEntity);
+			
 			return inserLegalEntity;
 		} catch (Exception e) {
-			commonUTIL.displayError("LESQL", "insert", e);
+			commonUTIL.displayError("LESQL", "insert",  e);
 			return null;
 
 		} finally {
@@ -265,7 +283,7 @@ public class LegalEntitySQL implements BaseSQL {
 			}
 		} 
 	}
-	protected static Collection selectA(int LegalEntityID, Connection con) {
+	protected static Collection select1(int LegalEntityID, Connection con) {
 
 		int j = 0;
 		PreparedStatement stmt = null;
@@ -279,7 +297,7 @@ public class LegalEntitySQL implements BaseSQL {
 			 
 			while (rs.next()) {
 				
-				CounterParty LegalEntity = new CounterParty();
+				LegalEntity LegalEntity = new LegalEntity();
 				LegalEntity.setId(rs.getInt(1));
 				LegalEntity.setName(rs.getString(2));
 				LegalEntity.setRole(rs.getString(3));
@@ -322,7 +340,7 @@ public class LegalEntitySQL implements BaseSQL {
 			
 			while (rs.next()) {
 				
-				CounterParty LegalEntity = new CounterParty();
+				LegalEntity LegalEntity = new LegalEntity();
 
 				LegalEntity.setId(rs.getInt(1));
 				LegalEntity.setName(rs.getString(2));
@@ -336,7 +354,6 @@ public class LegalEntitySQL implements BaseSQL {
 				LegalEntitys.add(LegalEntity);
 
 			}
-			
 			commonUTIL.display("LegalEntitySQL", SELECTALL);
 			
 		} catch (Exception e) {
@@ -352,6 +369,7 @@ public class LegalEntitySQL implements BaseSQL {
 			}
 		}
 		return LegalEntitys;
+		
 	}
 
 	protected static Collection selectLE(int bookId, Connection con) {
@@ -368,7 +386,7 @@ public class LegalEntitySQL implements BaseSQL {
 
 			while (rs.next()) {
 				
-				CounterParty LegalEntity = new CounterParty();
+				LegalEntity LegalEntity = new LegalEntity();
 
 				LegalEntity.setId(rs.getInt(1));
 				LegalEntity.setName(rs.getString(2));
@@ -410,7 +428,7 @@ public class LegalEntitySQL implements BaseSQL {
 
 			while (rs.next()) {
 				
-				CounterParty LegalEntity = new CounterParty();
+				LegalEntity LegalEntity = new LegalEntity();
 
 				LegalEntity.setId(rs.getInt(1));
 				LegalEntity.setName(rs.getString(2));
@@ -453,7 +471,7 @@ public class LegalEntitySQL implements BaseSQL {
 
 			while (rs.next()) {
 				
-				CounterParty LegalEntity = new CounterParty();
+				LegalEntity LegalEntity = new LegalEntity();
 
 				LegalEntity.setId(rs.getInt(1));
 				LegalEntity.setName(rs.getString(2));
@@ -483,64 +501,126 @@ public class LegalEntitySQL implements BaseSQL {
 		return LegalEntitys;
 	}
 
-	@Override
 	public BaseBean insertSQL(String sql, Connection con) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public boolean updateSQL(String sql, Connection con) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
 	public boolean deleteSQL(String sql, Connection con) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
 	public BaseBean insertSQL(BaseBean sql, Connection con) {
 		// TODO Auto-generated method stub
-		return saveNew((CounterParty)sql,con);
+		return (BaseBean) saveNew((LegalEntity)sql,con);
 	}
 
-	@Override
 	public boolean updateSQL(BaseBean sql, Connection con) {
 		// TODO Auto-generated method stub
-		return false;
+		return update((LegalEntity) sql, con);
 	}
 
-	@Override
 	public boolean deleteSQL(BaseBean sql, Connection con) {
 		// TODO Auto-generated method stub
-		return false;
+		
+		return deleteLe((LegalEntity)sql,con);
 	}
 
-	@Override
 	public BaseBean select(int id, Connection con) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public BaseBean select(String name, Connection con) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public Collection selectWhere(String where, Connection con) {
 		// TODO Auto-generated method stub
 		return selectLEOnWhereClause(where,con);
 	}
 
-	@Override
-	public Collection selectALLData(Connection con) {
+	//public Collection selectALLData(Connection con) {
 		// TODO Auto-generated method stub
-		return selectALLLEs(con);
+		//return selectALLLEs(con);
+//}
+
+	public int count(String sql, Connection con) {
+		// TODO Auto-generated method stub
+		PreparedStatement stmt = null;
+		String sql1 = SQLCOUNT + "name =  " + sql;
+		int tem=0;
+		
+		try {
+			con.setAutoCommit(true);
+
+			stmt = dsSQL.newPreparedStatement(con, sql1);
+
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()){
+				LegalEntity le = new LegalEntity();
+			tem=rs.getInt(1);
+			
+			}
+			return tem;
+		} catch (Exception e) {
+			commonUTIL.displayError("LegalEntitysqlSql", "selectLEOnWhereClause "
+					+ sql1, e);
+
+		} finally {
+			try {
+				stmt.close();
+				// con.close();
+			} catch (SQLException e) {
+				commonUTIL.displayError("LegalEntitysqlSql",
+						"selectLEOnWhereClause", e);
+			}
+		}
+		return 0;
+
 	}
 
+
+//	public Collection<LegalEntity> selectALL() throws RemoteException {
+		// TODO Auto-generated method stub
+		//return LegalEntitySQL.selectALL(dsSQL.getConn());
+	//}
+
+
+	public Collection selectALLData(Connection con) {
+		// TODO Auto-generated method stub
+		return selectALL(con);
+	}
+
+	public static void main(String args[]) {
+		LegalEntity boo = new LegalEntity();
+	    boo.setId(106);
+		boo.setName("Pppp");
+		boo.setRole("xyz");
+		boo.setStatus("dwd");
+		boo.setAttributes("sss");
+		boo.setAlias("ddd");
+		boo.setCountry("india");
+		boo.setContact("899");
+		
+		AttributeContainer att = new AttributeContainer();
+		att.addAttribute("testing","pppp");
+		att.addAttribute("testing1","sdfg");
+		boo.setAttributeContainer(att);
+		insertLe(boo, dsSQL.getConn());
+	}
+
+	
+
+	
+
+	
 }
+
