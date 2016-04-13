@@ -1,10 +1,11 @@
-package src.apps.window.staticwindow.util;
+package apps.window.staticwindow.util;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 import java.util.Vector;
 
+import util.CosmosException;
 import util.commonUTIL;
 import util.cacheUtil.ReferenceDataCache;
 
@@ -21,7 +22,7 @@ import apps.window.util.propertyUtil.PropertyGenerator;
 public abstract class BaseWindowUtil {
 	public abstract boolean validate();
 
-	public abstract void windowstartUpData();
+	public abstract void windowstartUpData()  throws CosmosException;
 
 	public abstract Vector<String> fillData(String action);
 
@@ -49,11 +50,14 @@ public abstract class BaseWindowUtil {
 	 * 
 	 * Returns: List<Property> property
 	 */
-	public List<Property> generateProperty(String windowName) {
+	public List<Property> generateProperty(String windowName) throws CosmosException {
 		List<Property> properties = null;
 		Vector<WindowSheet> windowPropertys = getWindowProperty(windowName);
 		properties = PropertyGenerator.getProperties(windowName,
 				windowPropertys);
+		if(commonUTIL.isEmpty(properties)) {
+		     throw new CosmosException("Properties issues in Window " + windowName, new CosmosException());
+		}
 		for (int i = 0; i < properties.size(); i++) {
 			final Property prop = properties.get(i);
 			prop.addPropertyChangeListener(Property.PROPERTY_VALUE,
@@ -68,7 +72,37 @@ public abstract class BaseWindowUtil {
 		}
 		return properties;
 	}
+	/*
+	 * creates a List<Property> property on Attributes
+	 * 
+	 * Parameters: name - the name of the window - identifies the properties for
+	 * the window
+	 * 
+	 * Returns: List<Property> property
+	 */
+	public List<Property> generateAttributesProperty(String windowName) throws CosmosException {
+		
+		List<Property> properties = null; 
+		Vector<WindowSheet> windowPropertys = getWindowProperty(windowName,"Attribute");
+		properties = PropertyGenerator.getProperties(windowName,
+				windowPropertys);
+		if(commonUTIL.isEmpty(properties)) {
+		     throw new CosmosException("Attributes Properties issues in Window " + windowName, new CosmosException());
+		}
+		for (int i = 0; i < properties.size(); i++) {
+			final Property prop = properties.get(i);
+			prop.addPropertyChangeListener(Property.PROPERTY_VALUE,
+					new PropertyChangeListener() {
 
+						@Override
+						public void propertyChange(PropertyChangeEvent evt) {
+							// TODO Auto-generated method stub
+
+						}
+					});
+		}
+		return properties;
+	}
 	public static Vector<WindowSheet> getWindowProperty(String windowName) {
 		Vector<WindowSheet> windowSheets = ReferenceDataCache
 				.selectWindowSheets(windowName, WindowSheetConstants.WINDOW);
@@ -79,7 +113,16 @@ public abstract class BaseWindowUtil {
 		}
 		return windowSheets;
 	}
-
+	public static Vector<WindowSheet> getWindowProperty(String windowName,String designType) {
+		Vector<WindowSheet> windowSheets = ReferenceDataCache
+				.selectWindowSheets(windowName, designType);
+		if (commonUTIL.isEmpty(windowSheets)) {
+			// commonUTIL.display(logName, name, message);
+			commonUTIL.display(windowName + " from base Window",
+					"ReferenceDataCache.selectWindowSheets coming null");
+		}
+		return windowSheets;
+	}
 	/*
 	 * Dynamic a field validation for null values if specify in Configuration
 	 * 

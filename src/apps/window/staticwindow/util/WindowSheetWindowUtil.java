@@ -1,50 +1,29 @@
-package src.apps.window.staticwindow.util;
+package apps.window.staticwindow.util;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.lang.ref.Reference;
 import java.util.List;
 import java.util.Vector;
 
-import javax.swing.AbstractAction;
-import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JList;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.ListModel;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableColumn;
 
-import org.apache.activemq.store.ReferenceStore.ReferenceData;
-import org.dyno.visual.swing.layouts.Constraints;
-import org.dyno.visual.swing.layouts.Leading;
-
-import com.jidesoft.grid.CellStyle;
-import com.jidesoft.grid.ColumnCellStyleProvider;
-import com.jidesoft.grid.Property; 
-import com.jidesoft.grid.SortableTable;
-import com.jidesoft.grid.TableCellStyleEditor;
-
+import util.CosmosException;
 import util.commonUTIL;
 import util.cacheUtil.ReferenceDataCache;
 import apps.window.staticwindow.BasePanel;
 import apps.window.staticwindow.TestingSampleProperty;
 import apps.window.staticwindow.WindowSheetWindow;
 import apps.window.util.propertyTable.CellStyleProrpertyTable;
-import apps.window.util.tableModelUtil.SampleTableModel;
 import apps.window.util.tableModelUtil.TableUtils;
 import beans.PropertyCellStyle;
 import beans.WindowSheet;
+
+import com.jidesoft.grid.Property;
+
 import constants.BeanConstants;
 import constants.CommonConstants;
 import constants.WindowSheetConstants;
+import constants.WindowTableModelMappingConstants;
 
 public class WindowSheetWindowUtil extends BaseWindowUtil {
 	 WindowSheetWindow windowSheetWindow= null;
@@ -168,7 +147,14 @@ public class WindowSheetWindowUtil extends BaseWindowUtil {
 		String windowName = windowSheetWindow.propertyTable.getwSheet().getWindowName();
 		if(commonUTIL.isEmpty(windowName))
 			return;
-		List<Property> preProps = generateProperty(windowName);
+		List<Property> preProps =null;
+		try {
+			preProps = generateProperty(windowName);
+		} catch (CosmosException e) {
+			// TODO Auto-generated catch block
+			commonUTIL.displayError(WindowTableModelMappingConstants.WINDOW_NAME, "previewProperty", e);
+		}
+		if(preProps != null) {
 		TestingSampleProperty frame = new TestingSampleProperty(preProps,windowName);
 		 
 	 
@@ -181,7 +167,7 @@ public class WindowSheetWindowUtil extends BaseWindowUtil {
 	frame.pack();
 	frame.setLocationRelativeTo(null);
 	frame.setVisible(true); 
-		
+		}
 	}
 
 	private void genearteJavaScript() {
@@ -332,6 +318,7 @@ public class WindowSheetWindowUtil extends BaseWindowUtil {
 		}
 		windowSheetWindow.cellStyle.addFieldNames(newFieldNames);
 		setCellStyles(windowSheetWindow.cellStyle);
+		 
 	}
 	
 	 
@@ -357,9 +344,17 @@ public class WindowSheetWindowUtil extends BaseWindowUtil {
 	@Override
 	public void windowstartUpData() {
 		// TODO Auto-generated method stub
+	 
 		String curr [] = {""};
 		  Vector<String> windowS=	ReferenceDataCache.getStarupData(WindowSheetConstants.WINDOWNAME);
 		  windowSheetWindow.searchData = commonUTIL.convertStartupVectortoStringArray(windowS);
+		  Vector<String> packageData=	ReferenceDataCache.getStarupData(WindowSheetConstants.PACKAGENAME);
+		  windowSheetWindow.packageData = commonUTIL.convertStartupVectortoStringArray(packageData);
+		  DefaultComboBoxModel<String> model = new DefaultComboBoxModel<String>(windowSheetWindow.packageData);
+		  windowSheetWindow.packageD.setModel(model);
+		 
+		  
+		 
 	}
     
 	@Override

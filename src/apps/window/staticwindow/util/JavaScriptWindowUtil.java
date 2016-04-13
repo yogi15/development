@@ -1,4 +1,4 @@
-package src.apps.window.staticwindow.util;
+package apps.window.staticwindow.util;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -557,6 +557,11 @@ public class JavaScriptWindowUtil extends BaseWindowUtil {
 			// TODO Auto-generated method stub
 										windowScript = windowScript + "	return null;\n";
 										windowScript = windowScript + "}\n";
+										windowScript = windowScript + "	@Override\n";
+										windowScript = windowScript + "public String getWindowName() {\n";
+											// TODO Auto-generated method stub
+												windowScript = windowScript + "return "+beanName+"Constants.WINDOW_NAME;\n";
+												windowScript = windowScript + "	}\n";
 		windowScript = windowScript + "}\n";
 
 		return windowScript;
@@ -645,7 +650,7 @@ public class JavaScriptWindowUtil extends BaseWindowUtil {
 		windowScript = windowScript
 				+ "import apps.window.staticwindow.BasePanel;\n";
 		windowScript = windowScript
-				+ "import "+ getWindowPath()+".TemplateWindow;\n";
+				+ "import "+ getPackagePath()+".TemplateWindow;\n";
 		windowScript = windowScript + "import beans."+getBeanName() +"; \n";
 		windowScript = windowScript + "import beans.WindowSheet;\n";
 		windowScript = windowScript + "import com.jidesoft.grid.Property;\n";
