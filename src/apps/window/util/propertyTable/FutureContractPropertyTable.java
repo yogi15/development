@@ -15,8 +15,8 @@ import javax.swing.table.TableModel;
 import util.RemoteServiceUtil;
 import util.commonUTIL;
 
-import apps.window.uti.propertypane.enums.FutureContractPropertyEnum;
 import apps.window.util.property.FutureContractProperty;
+import apps.window.util.propertyPane.enums.FutureContractPropertyEnum;
 import apps.window.util.propertyPane.enumsList.FutureContractProductPropertyEnumList;
 import beans.FutureProduct;
 

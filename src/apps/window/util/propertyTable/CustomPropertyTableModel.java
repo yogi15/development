@@ -1,4 +1,4 @@
-package src.apps.window.util.propertyTable;
+package apps.window.util.propertyTable;
 
 import java.util.Hashtable;
 import java.util.List;

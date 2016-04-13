@@ -1,4 +1,4 @@
-package src.apps.window.util.propertyTable;
+package apps.window.util.propertyTable;
  
 
 import java.awt.Color;
@@ -11,9 +11,12 @@ import javax.swing.border.MatteBorder;
 import javax.swing.event.TableModelListener;
 
 import util.commonUTIL;
+import util.cacheUtil.ReferenceDataCache;
 import apps.window.util.propertyUtil.BasePropertyTable;
+import apps.window.util.propertyUtil.PropertyConditional;
 import apps.window.util.propertyUtil.PropertyEnum;
 import apps.window.util.propertyUtil.PropertyGenerator;
+import apps.window.util.propertyUtil.PropertyInteger;
 import beans.WindowSheet;
 
 import com.jidesoft.converter.ConverterContext;
@@ -125,6 +128,14 @@ public class WindowSheetPropertyTable implements PropertyChangeListener,
 					WindowSheetConstants.ISHIERARACHICALWINDOW)) {
 				addListenerToProperty(property, properties);
 			}
+			if (property.getName().equalsIgnoreCase(
+					WindowSheetConstants.ISCHILDFIELD)) {
+				addListenerToProperty(property, properties);
+			}
+			if (property.getName().equalsIgnoreCase(
+					WindowSheetConstants.ISCONDITIONAL)) {
+				addListenerToProperty(property, properties);
+			}
 
 		}
 
@@ -132,13 +143,16 @@ public class WindowSheetPropertyTable implements PropertyChangeListener,
 	}
 
 	public void setfillValues() {
+		Property property = null;
 		try {
 			wSheet = new WindowSheet();
-
+			
 			List<Property> prop = propertyTable.getPropertyTableModel()
 					.getProperties();
 			for (int i = 0; i < prop.size(); i++) {
-				Property property = prop.get(i);
+				  property = prop.get(i);
+				  
+				 // System.out.println(property.getName());
 				if (property.getName().equalsIgnoreCase(
 						WindowSheetConstants.DESIGNTYPE)) {
 					wSheet.setDesignType((String) property.getValue());
@@ -150,8 +164,14 @@ public class WindowSheetPropertyTable implements PropertyChangeListener,
 								WindowSheetConstants.ATTRIBUTENAME)) {
 					if (property.getName().equalsIgnoreCase(
 							WindowSheetConstants.ATTRIBUTENAME)) {
+						String value = (String) property.getValue();
+						if(value.contains("Search"))  {
+							wSheet.setWindowName((String) property.getValue()
+									 );
+						} else {
 						wSheet.setWindowName((String) property.getValue()
-								+ "Attributes");
+								+ "Attributes");  // risk in future. 
+						}
 					} else {
 						wSheet.setWindowName((String) property.getValue());
 					}
@@ -162,6 +182,7 @@ public class WindowSheetPropertyTable implements PropertyChangeListener,
 				}
 				if (property.getName().equalsIgnoreCase(
 						WindowSheetConstants.DATATYPE)) {
+					
 					wSheet.setDataType((String) property.getValue());
 				}
 				if (property.getName().equalsIgnoreCase(
@@ -237,15 +258,26 @@ public class WindowSheetPropertyTable implements PropertyChangeListener,
 							.booleanValue());
 				}
 				if (property.getName().equalsIgnoreCase(
-						WindowSheetConstants.COLUMNSEQUENCENO)) {
-					wSheet.setColunmSequenceNo(((Integer) property.getValue())
-							.intValue());
+						WindowSheetConstants.COLUMNSEQUENCENO)) { 
+					if(  property.getValue() != null)  { 
+						int value =((PropertyInteger) property ).intValue();
+					  wSheet.setColunmSequenceNo(value);
+					}
+				}
+				if (property.getName().equalsIgnoreCase(
+						WindowSheetConstants.ISCONDITIONAL)) {
+					wSheet.setCondition(((Boolean) property.getValue())
+							.booleanValue());
+				}
+				if (property.getName().equalsIgnoreCase(
+						WindowSheetConstants.CONFIGUREIFELSECONDITION)) {
+					wSheet.setConfigureIfelseCondition((String) property.getValue());
 				}
 			}
 
 		} catch (Exception e) {
 			commonUTIL.displayError("WindowSheetPropertyTable",
-					"setfillValues", e);
+					"setfillValues not able to set value for Property " + property.getName() + " " +  e.getMessage() , e);
 
 		}
 
@@ -298,7 +330,7 @@ public class WindowSheetPropertyTable implements PropertyChangeListener,
 					new PropertyChangeListener() {
 						public void propertyChange(PropertyChangeEvent evt) {
 
-							if (property.getValue() != null) {
+						/*	if (property.getValue() != null) {
 								String value = (String) property.getValue();
 								if (commonUTIL.isEmpty(value))
 									return;
@@ -348,12 +380,76 @@ public class WindowSheetPropertyTable implements PropertyChangeListener,
 
 								}
 
-							}
+							}*/
 
 						}
 
 					});
 
+		}
+		if (property.getName().trim()
+				.equalsIgnoreCase(WindowSheetConstants.ISCHILDFIELD)) {
+			property.addPropertyChangeListener(Property.PROPERTY_VALUE,
+					new PropertyChangeListener() {
+				public void propertyChange(PropertyChangeEvent evt) {
+					Boolean parentSignal = (Boolean) evt
+							.getNewValue();
+					if(parentSignal.booleanValue() == true) { 
+						String windowName = propertyTable.getPropertyTableModel().getProperty(WindowSheetConstants.WINDOWNAME).getValue().toString();
+					   Property parentFieldNames =	PropertyGenerator.createWindowFieldName(windowName, WindowSheetConstants.PARENTFIELDNAME, property.getCategory() );
+					   Property parentProp = null;
+					   List<Property> childProp = (List<Property>) property.getChildren();
+					   int index = 0;
+					   
+					   if(childProp != null) {
+							for (int c = 0; c < childProp.size(); c++) {
+								if(childProp.get(c) != null) { 
+								    
+								  
+								      index =   property.getChildIndex(childProp.get(c));
+								      parentProp =  childProp.get(c);
+								}
+							}
+					   } 
+					   property.removeChild(parentProp);
+					   property.addChild(index,parentFieldNames);
+							propertyTable.getPropertyTableModel().refresh();  
+						 
+					}
+			}
+			});
+		}
+		if (property.getName().trim()
+				.equalsIgnoreCase(WindowSheetConstants.ISCONDITIONAL)) {
+			property.addPropertyChangeListener(Property.PROPERTY_VALUE,
+					new PropertyChangeListener() {
+				public void propertyChange(PropertyChangeEvent evt) {
+					if(evt.getNewValue() == null || ((Boolean)evt.getNewValue()) == false) 
+						return;
+					Boolean parentSignal = (Boolean) evt
+							.getNewValue();
+					 
+					Property fieldN = propertyTable.getPropertyTableModel().getProperty(WindowSheetConstants.FIELDNAME);
+					Property windowN = propertyTable.getPropertyTableModel().getProperty(WindowSheetConstants.WINDOWNAME);
+					if(parentSignal.booleanValue() == true && fieldN.getValue() != null && windowN.getValue() != null ) { 
+						PropertyConditional prop = (PropertyConditional) property.getChildAt(0);
+					String fieldName = fieldN.getValue().toString();
+					String windowName =windowN.getValue().toString();
+					Property isStartup = propertyTable.getPropertyTableModel().getProperty(WindowSheetConstants.ISSTARTUPDATA);
+					  if(( (Boolean)isStartup.getValue()) == true && !commonUTIL.isEmpty(fieldName)  && !commonUTIL.isEmpty(windowName) ) {
+						Property prop1 = (Property)  isStartup.getChildAt(0);
+				        String sValue =(String) prop1.getValue();
+				       Vector<String> vdata =  ReferenceDataCache.getStarupData(sValue);
+				       prop.setConditionPropertyName(fieldName);
+				       prop.setWindowName(windowName);
+				       prop.setConditionalData(vdata);
+				       prop.setDesignType("Window"); // bad programming. 
+			}
+					
+					    
+					}
+			}
+			});
 		}
 		if (property.getName().trim()
 				.equalsIgnoreCase(WindowSheetConstants.DESIGNTYPE)) {
@@ -363,66 +459,33 @@ public class WindowSheetPropertyTable implements PropertyChangeListener,
 							String name = (String) evt.getNewValue();
 							if (commonUTIL.isEmpty(name))
 								return;
-							Property prop = PropertyGenerator
-									.createPropertyFromStartUp(name + "Name",
-											name + "Name",
-											property.getCategory());
-							if (prop.getName().equalsIgnoreCase(
-									WindowSheetConstants.WINDOWNAME)) {
-								Property p = propertyTable
-										.getPropertyTableModel().getProperty(
-												WindowSheetConstants.FIELDNAME);
+							Property prop = PropertyGenerator.createPropertyFromStartUp(name + "Name",name + "Name",property.getCategory());
+							if (prop.getName().equalsIgnoreCase(WindowSheetConstants.WINDOWNAME)) {
+								Property p = propertyTable.getPropertyTableModel().getProperty(WindowSheetConstants.FIELDNAME);
 
-								Property propfield = PropertyGenerator
-										.getStringProperty(
-												WindowSheetConstants.FIELDNAME,
-												WindowSheetConstants.FIELDNAME,
-												property.getCategory());
+								Property propfield = PropertyGenerator.getStringProperty(WindowSheetConstants.FIELDNAME,WindowSheetConstants.FIELDNAME,	property.getCategory());
 								if (propfield != null) {
-									int index = propertyTable
-											.getPropertyTableModel()
-											.getPropertyIndex(p);
+									int index = propertyTable.getPropertyTableModel().getPropertyIndex(p);
 
-									propertyTable.getPropertyTableModel()
-											.getOriginalProperties()
-											.remove(index - 1);
-									propertyTable.getPropertyTableModel()
-											.refresh();
-
+									propertyTable.getPropertyTableModel().getOriginalProperties().remove(index - 1);
+									propertyTable.getPropertyTableModel().refresh();
 									properties.add(index - 1, propfield);
-									propertyTable.getPropertyTableModel()
-											.refresh();
+									propertyTable.getPropertyTableModel().refresh();
 								}
 							}
 
 							if (prop != null) {
 
-								propertyTable.getPropertyTableModel()
-										.getOriginalProperties().remove(1);
+								propertyTable.getPropertyTableModel().getOriginalProperties().remove(1);
 								propertyTable.getPropertyTableModel().refresh();
 
-								prop.addPropertyChangeListener(
-										Property.PROPERTY_VALUE,
-										new PropertyChangeListener() {
-											public void propertyChange(
-													PropertyChangeEvent evt) {
-												Property attributeTypeName = (Property) evt
-														.getSource();
-												if (attributeTypeName
-														.getName()
-														.equalsIgnoreCase(
-																WindowSheetConstants.ATTRIBUTENAME)) {
-													Property p = propertyTable
-															.getPropertyTableModel()
-															.getProperty(
-																	WindowSheetConstants.FIELDNAME);
+								prop.addPropertyChangeListener(	Property.PROPERTY_VALUE,new PropertyChangeListener() {
+											public void propertyChange(	PropertyChangeEvent evt) {
+												Property attributeTypeName = (Property) evt.getSource();
+												if (attributeTypeName.getName().equalsIgnoreCase(WindowSheetConstants.ATTRIBUTENAME)) {
+													Property p = propertyTable.getPropertyTableModel().getProperty(WindowSheetConstants.FIELDNAME);
 
-													Property propfield = PropertyGenerator
-															.createPropertyFromStartUp(
-																	WindowSheetConstants.FIELDNAME,
-																	attributeTypeName
-																			.getValue()
-																			+ "Attributes",
+													Property propfield = PropertyGenerator.createPropertyFromStartUp(WindowSheetConstants.FIELDNAME,attributeTypeName.getValue()+ "Attributes",
 																	property.getCategory());
 													if (propfield != null) {
 														int index = propertyTable

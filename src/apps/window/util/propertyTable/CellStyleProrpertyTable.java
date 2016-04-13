@@ -1,4 +1,4 @@
-package src.apps.window.util.propertyTable;
+package apps.window.util.propertyTable;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -63,7 +63,7 @@ public class CellStyleProrpertyTable   implements PropertyChangeListener {
 
 	}
 
-		 public CellStyleProrpertyTable(String string, JList fieldNames) {
+		 public CellStyleProrpertyTable(String string, JList<String> fieldNames) {
 			this. fieldNames = fieldNames;
 			fieldNames.addMouseListener(new MouseListener() {
 				

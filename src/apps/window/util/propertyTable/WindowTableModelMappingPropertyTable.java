@@ -1,8 +1,10 @@
-package src.apps.window.util.propertyTable;
+package apps.window.util.propertyTable;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
+
+import util.commonUTIL;
  
 
 import apps.window.util.propertyUtil.PropertyGenerator;
@@ -58,43 +60,45 @@ public class WindowTableModelMappingPropertyTable extends WindowPropertyTable {
 					new PropertyChangeListener() {
 						public void propertyChange(PropertyChangeEvent evt) {
 
-							if (property.getValue() != null) {
-								Property p = propertyTable
-										.getPropertyTableModel()
-										.getProperty(
-												WindowTableModelMappingConstants.METHODNAME);
-								if (p == null) {
-									p = PropertyGenerator
-											.getMethodNames(
-													property.getValue()
-															.toString(),
-													WindowTableModelMappingConstants.METHODNAME,
-													property.getCategory());
-									if(p != null)
-									properties.add(p);
-								} else {
-									int index = propertyTable
+							if ((!commonUTIL.isEmpty((String)property.getValue()))  ) { // make sure u check null and empty values.
+								if( ((String)property.getValue()).equalsIgnoreCase("NONE")) {
+									Property p = propertyTable
 											.getPropertyTableModel()
-											.getPropertyIndex(p);
-									propertyTable.getPropertyTableModel()
-											.getOriginalProperties()
-											.remove(index - 1);
-									propertyTable.getPropertyTableModel()
-											.refresh();
-									p = PropertyGenerator
+											.getProperty(
+													WindowTableModelMappingConstants.METHODNAME);
+									p.setEditable(false);
+									return;
+								} else{ 
+								
+								 
+									Property p = PropertyGenerator
 											.getMethodNames(
 													property.getValue()
 															.toString(),
 													WindowTableModelMappingConstants.METHODNAME,
 													property.getCategory());
-									if(p != null)
-										properties.add(p);
-									properties.add(p);
+									 
 
-								}
+									    Property parentProp = null;
+									   List<Property> childProp = (List<Property>) property.getChildren();
+									   int index = 0;
+									   
+									   if(childProp != null) {
+											for (int c = 0; c < childProp.size(); c++) {
+												if(childProp.get(c) != null) { 
+												    
+												  
+												      index =   property.getChildIndex(childProp.get(c));
+												      parentProp =  childProp.get(c);
+												}
+											}
+									   } 
+									   property.removeChild(parentProp);
+									   property.addChild(index,p );
+											propertyTable.getPropertyTableModel().refresh(); 
 
 							}
-
+							}
 						}
 
 					});
@@ -107,7 +111,7 @@ public class WindowTableModelMappingPropertyTable extends WindowPropertyTable {
 			property.addPropertyChangeListener(Property.PROPERTY_VALUE,
 					new PropertyChangeListener() {
 						public void propertyChange(PropertyChangeEvent evt) {
-							if (property.getValue() != null
+							if (!commonUTIL.isEmpty((String)property.getValue())  
 									&& ((String) property.getValue())
 											.equalsIgnoreCase("Others")) {
 								addNewBeanPropertyToPropertyTable(

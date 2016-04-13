@@ -7,9 +7,9 @@ import java.util.List;
 
 import javax.swing.CellEditor;
 
-import apps.window.uti.propertypane.enums.SDIPropertyEnum;
 import apps.window.util.property.SDIProperty;
 import apps.window.util.propertyPane.editor.LESelectionCellEditor;
+import apps.window.util.propertyPane.enums.SDIPropertyEnum;
 import apps.window.util.propertyPane.enumsList.FutureContractProductPropertyEnumList;
 import apps.window.util.propertyPane.enumsList.SDIPropertyEnumList;
 import beans.Account;

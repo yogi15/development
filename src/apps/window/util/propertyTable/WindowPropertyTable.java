@@ -1,4 +1,4 @@
-package src.apps.window.util.propertyTable;
+package apps.window.util.propertyTable;
  
 
 import java.awt.Color;
@@ -86,29 +86,28 @@ implements  PropertyChangeListener {
 	}
 
 	public void setfillValues(BaseBean bean) {
-		try {
+		 
+			Property property = null;
 			try {
 
 				List<Property> prop = propertyTable.getPropertyTableModel()
 						.getProperties();
+				
 				for (int i = 0; i < prop.size(); i++) {
-					Property property = prop.get(i);
-					if (property.getValue() != null)
+					  property = prop.get(i);
+					if (property.getValue() != null && (!property.isCategoryRow()))
 						bean.setPropertyValue(property.getName(),
 								property.getValue());
 				}
 				setBean(bean);
 
 			} catch (Exception e) {
-				commonUTIL.displayError("JavaFileGeneratorPropertyTable",
-						"setfillValues", e);
+				commonUTIL.displayError("WindowPropertyTable",
+						"setfillValues issue in settting values for Bean "+ bean.getClass() + " on method " +property.getName(), e);
 
 			}
 
-		} catch (Exception e) {
-			commonUTIL.displayError(name, "setfillValues", e);
-
-		}
+		 
 	}
 
 	public void setPropertiesValues(BaseBean firstRecord) {
@@ -171,7 +170,9 @@ implements  PropertyChangeListener {
 				}
 				setBean(firstRecord);
 		}catch( Exception e) {
-			commonUTIL.displayError("WindowPropertyTable", "setPropertiesValues "+ getBean().getClass().getName() + " values on property "+ propertyName + " error "+obj, e);
+			if(getBean() != null) {
+			 commonUTIL.displayError("WindowPropertyTable", "setPropertiesValues "+ getBean().getClass().getName() + " values on property "+ propertyName + " error "+obj, e);
+			}
 		}
 		
 		
@@ -192,6 +193,23 @@ implements  PropertyChangeListener {
 	}
 
 	// helper method
+	public void reconfigureOldPropertyToPropertyTable(final Property newProperty,final Property oldProperty,
+			final PropertyTable propertyTab) {
+
+		 int size = propertyTab.getPropertyTableModel().getRowCount();
+				int index = propertyTab.getPropertyTableModel()
+						.getPropertyIndex(oldProperty);
+				propertyTab.getPropertyTableModel().getOriginalProperties()
+						.remove(index -1);
+				propertyTab.getPropertyTableModel().refresh();
+				 
+				propertyTab.getPropertyTableModel().getOriginalProperties().add(index-1, newProperty);
+			 
+				propertyTab.getPropertyTableModel().refresh();
+
+			
+		}
+
 
 	public void addNewBeanPropertyToPropertyTable(final Property p,
 			final PropertyTable propertyTab, final String newPropertyName,
@@ -223,24 +241,33 @@ implements  PropertyChangeListener {
 	}
 
 	public void clearPropertyValues() {
+		Property prop = null;
 		try {
 			if (propertyTable == null)
 				return;
+		
 			if (propertyTable != null) {
 				propertyTable.clearSelection();
+				propertyTable.getPropertyTableModel().reloadProperties();
+		//		propertyTable.getPropertyTableModel().getProperties().clear();
 
 				for (int i = 0; i < propertyTable.getPropertyTableModel()
 						.getProperties().size(); i++) {
-					Property prop = (Property) propertyTable
+					
+					  prop = (Property) propertyTable
 							.getPropertyTableModel().getProperties().get(i);
-					if (prop != null) {
+					if (prop != null && (!prop.isCategoryRow())) {
 						if (prop instanceof PropertyEnum) {
+							 
 							PropertyEnum<String> p = (PropertyEnum<String>) prop;
-							p.setValue("");
+							if(p != null) {
+							//	System.out.println(p.getValue().getClass());
+							p.setValue(null);
+							} 
 
 							// p.re
 						} else {
-
+							//System.out.println(prop.getName());
 							if (prop.getValue() instanceof String) {
 								prop.setValue("");
 							} else if (prop.getValue() instanceof Double) {
@@ -258,7 +285,7 @@ implements  PropertyChangeListener {
 
 		} catch (Exception e) {
 			commonUTIL.displayError("WindowSheetPropertyTable",
-					"clearPropertyValues", e);
+					"clearPropertyValues issues in clearing property " + prop.getName().toUpperCase() + " cause is one of Property Change Listener getting trigger while clearing values of this Property", e);
 			return;
 		}
 
@@ -272,7 +299,7 @@ implements  PropertyChangeListener {
 			int index = propertyTab.getPropertyTableModel().getPropertyIndex(
 					newPropertyp);
 			propertyTab.getPropertyTableModel().getOriginalProperties()
-					.remove(index - 1);
+					.remove(index );
 			propertyTab.getPropertyTableModel().refresh();
 
 		}
