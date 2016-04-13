@@ -1,4 +1,4 @@
-package src.util;
+package util;
 
 import java.rmi.RemoteException;
 import java.text.SimpleDateFormat;
