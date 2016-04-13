@@ -44,7 +44,8 @@ public class NumberCellEditor extends DefaultCellEditor {
 
     public Object getCellEditorValue() {
         String s = (String) super.getCellEditorValue();
-
+            if(!properFormat(s))
+            	return 0;
         if (referenceValueProvider != null && s.endsWith("%") && !isInPercent) {
             String percentStr = s.substring(0, s.length() - 1);
             double percent = commonUTIL.stringToNumber(percentStr )  / 100d;
@@ -58,7 +59,26 @@ public class NumberCellEditor extends DefaultCellEditor {
         return v;
     }
     
-    protected String checkAmount(String s) {
+    private boolean properFormat(String s) {
+		// TODO Auto-generated method stub
+    	int count = 0;
+    	if(!commonUTIL.isEmpty(s)) {
+    		int len = s.length();
+    	    for (int i = 0; i < len; ++i) {
+    	        
+    	        if (!Character.isDigit(s.charAt(i))) {
+    	        	count++;   	             
+    	    }
+             if(count >= 2) {
+            	 return false;
+             }
+    	}
+    	}
+    	if(count == 1 || count == 0)
+    		return true;
+		return false;
+	}
+	protected String checkAmount(String s) {
         return commonUTIL.checkAmount(s, percentDecimals,true);
     }
 
