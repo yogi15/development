@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.net.URL;
-import java.util.Vector;
 
 import javax.swing.ComponentInputMap;
 import javax.swing.Icon;
@@ -13,25 +12,18 @@ import javax.swing.ImageIcon;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
-
-import apps.window.operationwindow.jobpanl.FilterValues; 
-import apps.window.staticwindow.BasePanel;
-import beans.StartUPData;
 
 import com.jidesoft.docking.DefaultDockableHolder;
 import com.jidesoft.docking.DefaultDockingManager;
 import com.jidesoft.docking.DockContext;
 import com.jidesoft.docking.DockableFrame;
 import com.jidesoft.icons.JideIconsFactory;
-import com.jidesoft.swing.JideScrollPane;
-import com.jidesoft.swing.JideSwingUtilities;
 
+import apps.window.staticwindow.BasePanel;
 import marketquotes.FeedListener;
 import swingUtils.CustomFocusTraversalPolicy;
 import util.ClassInstantiateUtil;
