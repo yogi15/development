@@ -122,7 +122,7 @@ public class TemplateWindowUtil extends BaseWindowUtil {
 		setTemplate(templateWindow.propertyTable.getTemplate());
 		template = templateWindow.propertyTable.getTemplate();
 		if (validate())
-			template = ReferenceDataCache.saveTemplate(template);
+			template =null;// ReferenceDataCache.saveTemplate(template);
 			  
 		templateWindow.model.addRow(template);
 		  setTemplate(template);
@@ -136,10 +136,9 @@ public class TemplateWindowUtil extends BaseWindowUtil {
 
 	private void loadButtonAction() {
 		newButtonAction();
-		String searchText = templateWindow.TemplateSearchTextField.getText();
+		String searchText = "";//templateWindow.TemplateSearchTextField.getText();
 		if (!commonUTIL.isEmpty(searchText)) {
-			Vector<Template> data = ReferenceDataCache
-					.selectTemplates(searchText);
+			Vector<Template> data =null;// ReferenceDataCache		.selectTemplates(searchText);
 			templateWindow.model.clear();
 			if (!commonUTIL.isEmpty(data)) {
 				Template firstRecord = data.get(0);
@@ -169,7 +168,7 @@ setTemplate(templateWindow.model .getRow(templateWindow.rightSideCenterTable .ge
 
 	// check Null pointerException.
 	private void deleteButtonAction() {
-		try {
+	/*	try {
 			if (ReferenceDataCache.deleteTemplate(template)) {
 				if (templateWindow.rightSideCenterTable.getSelectedRow() != -1) {
 					templateWindow.model
@@ -182,7 +181,7 @@ setTemplate(templateWindow.model .getRow(templateWindow.rightSideCenterTable .ge
 		} catch (Exception e) {
 			commonUTIL.displayError(TemplateConstants.WINDOW_NAME + "Util",
 					"deleteButtonAction", e);
-		}
+		}*/
 	}
 
 	@Override
