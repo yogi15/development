@@ -7,11 +7,14 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Vector;
 
+import constants.BeanConstants;
+import beans.BaseBean;
+import beans.CurrencyDefault;
 import beans.CurrencyPair;
-
+import beans.LegalEntity;
 import util.commonUTIL;
 
-public class CurrencyPairSQL {
+public class CurrencyPairSQL extends BaseSQL  {
 	
 	
 //	select primary_currency,quoting_currency,quote_factor,bp_factor,rounding,pair_pos_ref_b,spot_days from CURRENCYPAIR
@@ -19,35 +22,62 @@ public class CurrencyPairSQL {
 	
 	
 	final static private String DELETE_FROM_CURRENCYPAIR =
-	"DELETE FROM CURRENCYPAIR where  ";
-final static private String INSERT_FROM_CURRENCYPAIR =
-	"INSERT into CURRENCYPAIR(primary_currency,quoting_currency,quote_factor,bp_factor,rounding,pair_pos_ref_b,spot_days) values(?,?,?,?,?,?,?)";
-final static private String UPDATE_FROM_CURRENCYPAIR =
-	"UPDATE CURRENCYPAIR set primary_currency=?,quoting_currency=?,quote_factor=?,bp_factor=?,rounding=?,pair_pos_ref_b=?,spot_days=? where quoting_currency = ? ";
+	"DELETE FROM CURRENCYPAIR where primary_currency=?";
+final static private String INSERT =
+	"INSERT into CURRENCYPAIR(primary_currency,quoting_currency,rounding,pairname,spot_days) values(?,?,?,?,?)";
+final static private String UPDATE =
+	"UPDATE CURRENCYPAIR set quoting_currency=?,rounding=?,pairname=?,spot_days=? where primary_currency= ? ";
 final static private String SELECT_MAX =
 	"SELECT MAX(CurrencyPairno) DESC_ID FROM CURRENCYPAIR ";
 final static private String SELECTALL =
-	"select primary_currency,quoting_currency,quote_factor,bp_factor,rounding,pair_pos_ref_b,spot_days from CURRENCYPAIR ";
+	"select primary_currency,quoting_currency,rounding,pairname,spot_days from CURRENCYPAIR ";
 final static private String SELECT =
-	"select primary_currency,quoting_currency,quote_factor,bp_factor,rounding,pair_pos_ref_b,spot_days from CURRENCYPAIR where quoting_currency =  ?";
- static private String SELECTONE =
-	"select primary_currency,quoting_currency,quote_factor,bp_factor,rounding,pair_pos_ref_b,spot_days from CURRENCYPAIR  where " ;
-
+	"select primary_currency,quoting_currency,pairname,rounding,spot_days from CURRENCYPAIR where quoting_currency =  ?";
+ static private String SELECTWHERE =
+	"select primary_currency,quoting_currency,pairname,rounding,spot_days from CURRENCYPAIR  where primary_currency=?" ;
  
- public static boolean save(CurrencyPair insertCurrencyPair, Connection con) {
+
+ final static private String SQLCOUNT = new StringBuffer(
+			"SELECT count(*) countRows ").append(" FROM CURRENCYPAIR where  ")
+			.toString();
+ 
+
+	private static String getUpdateCurrencyPairSQL(CurrencyPair c) {
+		 String updateSQL = new StringBuffer("UPDATE CURRENCYPAIR  set ")
+					
+					.append("quoting_currency='").append(c.getQuoting_currency())
+					.append("',rounding =").append(c.getRounding()) 
+					.append(",pairname='").append(c.getPairName())
+					.append("',spot_days=").append(c.getSpot_days())
+					 .append("where primary_currency='").append(c.getPrimary_currency()+"'").toString() ;
+		return updateSQL;
+	}
+		/*String updateSQL = "UPDATE c  set " 
+				+"'quoting_currency='"+c.getQuoting_currency() 
+				+"',rounding='"+ c.getRounding()
+				+"',pairname='" +c.getPairName()
+				+"',spot_days='"+c.getSpot_days() 
+			     +"'where primary_currency=" + c.getPrimary_currency();
+		
+		return updateSQL;*/
+		
+	
+ 
+ 
+ public static CurrencyPair save(CurrencyPair insertCurrencyPair, Connection con) {
 	 try {
-         return insert(insertCurrencyPair, con);
+         return (CurrencyPair) insert(insertCurrencyPair, con);
      }catch(Exception e) {
     	 commonUTIL.displayError("CurrencyPairSQL","save",e);
-    	 return false;
+    	 return null;
      }
  }
- public static CurrencyPair update(CurrencyPair updateCurrencyPair, Connection con) {
+ public static boolean update(CurrencyPair updateCurrencyPair, Connection con) {
 	 try {
          return edit(updateCurrencyPair, con);
      }catch(Exception e) {
     	 commonUTIL.displayError("CurrencyPairSQL","update",e);
-    	 return null;
+    	 return false;
      }
  }
  
@@ -60,13 +90,13 @@ final static private String SELECT =
      }
  }
  public static Collection selectALL(Connection con) {
-	 try {
-         return select(con);
-     }catch(Exception e) {
-    	 commonUTIL.displayError("CurrencyPairSQL","selectALL",e);
-    	 return null;
-     }
- }
+		try {
+			return select(con);
+		} catch (Exception e) {
+			commonUTIL.displayError("CurrencyPairSQL", "select", e);
+			return null;
+		}
+	}
  
  public static int selectMaxID(Connection con) {
 	 try {
@@ -77,71 +107,62 @@ final static private String SELECT =
      }
  }
  
- protected static  CurrencyPair edit(CurrencyPair updateCurrencyPair, Connection con ) {
+ protected static  boolean edit(CurrencyPair updatecurrencyPair, Connection con ) {
 	 
-        PreparedStatement stmt = null;
-       
+	 PreparedStatement stmt = null;
+	 String sql = "";
+	 
 	 try {
+		 sql = getUpdateCurrencyPairSQL(updatecurrencyPair);
+		 con.setAutoCommit(false);
+		 stmt = dsSQL.newPreparedStatement(con, sql); 
+         stmt.executeUpdate(sql);
+		 con.commit();
 		 
-		 con.setAutoCommit(false);
-		 int j = 1;
-		 stmt = dsSQL.newPreparedStatement(con, UPDATE_FROM_CURRENCYPAIR);
-            
-		
-           
-            
-		 stmt.setString(1,updateCurrencyPair.getPrimary_currency());
-		 stmt.setString(2,updateCurrencyPair.getQuoting_currency());
-		 stmt.setInt(3,updateCurrencyPair.getQuote_factor());
-		 stmt.setInt(4,updateCurrencyPair.getBp_factor());
-		 stmt.setInt(5,updateCurrencyPair.getRounding());
-		 stmt.setInt(6,updateCurrencyPair.getPair_pos_ref_b());
-		 stmt.setInt(7,updateCurrencyPair.getSpot_days());
-		 stmt.setString(8,updateCurrencyPair.getPrimary_currency());
-            stmt.executeUpdate();
-		 con.commit();
-		 return updateCurrencyPair;
+		 commonUTIL.display("CurrencyPairSQL: edit:", sql);
+		 
 	 } catch (Exception e) {
-		 commonUTIL.displayError("CurrencyPairSQL","edit",e);
-		 return null;
-           
-        }
-        finally {
-           try {
-			stmt.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			commonUTIL.displayError("CurrencyPairSQL","edit "+ UPDATE_FROM_CURRENCYPAIR,e);
-		}
-        }
- }
-
-protected static boolean remove(CurrencyPair deleteCurrencyPair, Connection con ) {
-
-        PreparedStatement stmt = null;
-	 try {
-		 int j = 1;
-		 con.setAutoCommit(false);
-	//	 stmt = dsSQL.newPreparedStatement(con, DELETE_FROM_CurrencyPair);
-      //      stmt.setInt(j++, deleteCurrencyPair.getCurrencyPairno());
-           
-            stmt.executeUpdate();
-		 con.commit();
-	 } catch (Exception e) {
-		 commonUTIL.displayError("CurrencyPairSQL","remove",e);
+		 commonUTIL.displayError("CurrencyPairSQL: insert: "+e.getMessage(),sql,e);
 		 return false;
            
-        }
-        finally {
-           try {
+     } finally {
+    	 try {
 			stmt.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			commonUTIL.displayError("CurrencyPairSQL","remove",e);
-		}
-        }
-        return true;
+         } catch (SQLException e) {					
+        	 commonUTIL.displayError("CurrencyPairSQL: insert: ", sql,e);
+         }
+     }
+    return true;
  }
+
+
+ protected static boolean remove(CurrencyPair deletecurrencyPair, Connection con ) {
+		
+		PreparedStatement stmt = null;
+		try {
+			 
+			con.setAutoCommit(false);
+			stmt = dsSQL.newPreparedStatement(con, DELETE_FROM_CURRENCYPAIR);
+	        stmt.setString(1, deletecurrencyPair.getPrimary_currency());
+	           
+	        stmt.executeUpdate();
+			con.commit();
+			
+			commonUTIL.display("CurrencyPairSQL: remove:", DELETE_FROM_CURRENCYPAIR);
+			 
+		 } catch (Exception e) {
+			 commonUTIL.displayError("CurrencyPairSQL: remove: ", DELETE_FROM_CURRENCYPAIR,e);
+			 return false;
+	    } finally {
+	    	try {
+				stmt.close();
+			} catch (SQLException e) {					
+				commonUTIL.displayError("CurrencyPairSQL: insert: ", DELETE_FROM_CURRENCYPAIR,e);
+			}
+     }
+     return true;
+	 }
+
 
 protected static int selectMax(Connection con ) {
 	 
@@ -171,29 +192,28 @@ protected static int selectMax(Connection con ) {
         return j;
  }
  
- protected static boolean insert(CurrencyPair inserCurrencyPair, Connection con ) {
-		
-        PreparedStatement stmt = null;
+ protected static BaseBean insert(CurrencyPair inserCurrencyPair, Connection con ) {
+		PreparedStatement stmt = null;
+	
 	 try {
-		
+		 con.setAutoCommit(false);
+		   int j = 1;
+			stmt = dsSQL.newPreparedStatement(con, INSERT);
 		 con.setAutoCommit(false);
 	//	 int id = selectMax(con);
-		 int j = 1;
-		 stmt = dsSQL.newPreparedStatement(con, INSERT_FROM_CURRENCYPAIR);
+				 
 		 stmt.setString(1,inserCurrencyPair.getPrimary_currency());
 		 stmt.setString(2,inserCurrencyPair.getQuoting_currency());
-		 stmt.setInt(3,inserCurrencyPair.getQuote_factor());
-		 stmt.setInt(4,inserCurrencyPair.getBp_factor());
-		 stmt.setInt(5,inserCurrencyPair.getRounding());
-		 stmt.setInt(6,inserCurrencyPair.getPair_pos_ref_b());
-		 stmt.setInt(7,inserCurrencyPair.getSpot_days());
+         stmt.setInt(3,inserCurrencyPair.getRounding());
+		 stmt.setString(4,inserCurrencyPair.getPairName());
+		 stmt.setInt(5,inserCurrencyPair.getSpot_days());
           
            
             stmt.executeUpdate();
             con.commit();
 	 } catch (Exception e) {
-		 commonUTIL.displayError("CurrencyPairSQL",INSERT_FROM_CURRENCYPAIR,e);
-		 return false;
+		 commonUTIL.displayError("CurrencyPairSQL",INSERT,e);
+		 return null;
            
         }
         finally {
@@ -201,59 +221,48 @@ protected static int selectMax(Connection con ) {
 			stmt.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			commonUTIL.displayError("CurrencyPairSQL",INSERT_FROM_CURRENCYPAIR,e);
+			commonUTIL.displayError("CurrencyPairSQL",INSERT,e);
 		}
         }
-        return true;
+        return null;
  }
- 
- public static CurrencyPair select(String CurrencyPairIn,Connection con ) {
-	 
-	 int j = 0;
-        PreparedStatement stmt = null;
-        String sql = null;
-   //     Vector CurrencyPairs = new Vector();
-        CurrencyPair currencyPair = null; new CurrencyPair();
-	 try {
-		 con.setAutoCommit(false);
-		  sql = SELECTONE + CurrencyPairIn;
-		 stmt = dsSQL.newPreparedStatement(con,sql );
-         
-         ResultSet rs = stmt.executeQuery();
-         
-         while(rs.next()) {
-        	 currencyPair = new CurrencyPair();
-        	
-        	 currencyPair.setPrimary_currency(rs.getString(1));
-        	 currencyPair.setQuoting_currency(rs.getString(2));
-        
-        	 currencyPair.setQuote_factor(rs.getInt(3));
-        	 currencyPair.setBp_factor(rs.getInt(4));
-        	 currencyPair.setRounding(rs.getInt(5));
-        	 currencyPair.setPair_pos_ref_b(rs.getInt(6));
-        	 currencyPair.setSpot_days(rs.getInt(7));
-       
-        
-      
-    
-         
-         }
-         return currencyPair;
-	 } catch (Exception e) {
-		 commonUTIL.displayError("CurrencyPairSQL","select " +sql,e);
-		   return currencyPair;
-           
-        }
-        finally {
-           try {
-			stmt.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			commonUTIL.displayError("CurrencyPairSQL","select ",e);
-		}
-        }
- }
+ protected static CurrencyPair saveNew(CurrencyPair inserCurrencyPair, Connection con) {
 
+		PreparedStatement stmt = null;
+		//int version_num = 0;
+		try {
+			con.setAutoCommit(false);
+			//version_num = selectMax(con) +1;
+			int j = 1;
+			stmt = dsSQL.newPreparedStatement(con, INSERT);
+					
+			stmt.setString(j++, inserCurrencyPair.getPrimary_currency());
+			 stmt.setString(j++, inserCurrencyPair.getQuoting_currency());
+	         stmt.setInt(j++, inserCurrencyPair.getRounding());
+	         stmt.setString(j++,inserCurrencyPair.getPairName() );
+	         stmt.setInt(j++,inserCurrencyPair.getSpot_days() );
+		
+			
+			
+			stmt.executeUpdate();
+			con.commit();
+			commonUTIL.display("CurrencyPairSQL", "insert" + INSERT);
+		
+			return inserCurrencyPair;
+		} catch (Exception e) {
+			commonUTIL.displayError("CurrencyPairSQL", "insert",  e);
+			return null;
+
+		} finally {
+			try {
+				stmt.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				commonUTIL.displayError("CurrencyPairSQL", "insert", e);
+			}
+		} 
+	}
+ 
  protected static Collection select(Connection con) { 
 	 int j = 0;
      PreparedStatement stmt = null;
@@ -270,12 +279,10 @@ protected static int selectMax(Connection con ) {
      CurrencyPair CurrencyPair = new CurrencyPair();
      CurrencyPair.setPrimary_currency(rs.getString(1));
      CurrencyPair.setQuoting_currency(rs.getString(2));
-     
-     CurrencyPair.setQuote_factor(rs.getInt(3));
-     CurrencyPair.setBp_factor(rs.getInt(4));
-     CurrencyPair.setRounding(rs.getInt(5));
-     CurrencyPair.setPair_pos_ref_b(rs.getInt(6));
-     CurrencyPair.setSpot_days(rs.getInt(7));
+       
+     CurrencyPair.setRounding(rs.getInt(3));
+     CurrencyPair.setPairName(rs.getString(4));
+     CurrencyPair.setSpot_days(rs.getInt(5));
      currencyPair.add(CurrencyPair);
       
       }
@@ -294,36 +301,30 @@ protected static int selectMax(Connection con ) {
      }
      return currencyPair;
  }
- public static Collection selectCurrencyPair(String CurrencyPair,Connection con ) {
-	 int j = 0;
-     PreparedStatement stmt = null;
-     Vector CurrencyPairs = new Vector();
-     String sql = SELECTONE + CurrencyPair;
+ protected static Collection<CurrencyPair> select1 (Connection con) {
+	 PreparedStatement stmt = null;
+     Vector<CurrencyPair> cdv = new Vector<CurrencyPair>();
      
 	 try {
-		 con.setAutoCommit(false);
-		
-		 stmt = dsSQL.newPreparedStatement(con, sql );
-      
+
+	  stmt = dsSQL.newPreparedStatement(con, SELECTALL);		      
       ResultSet rs = stmt.executeQuery();
       
       while(rs.next()) {
-    	  CurrencyPair currencyPair = new CurrencyPair();
-    	  currencyPair.setPrimary_currency(rs.getString(1));
-    	     currencyPair.setQuoting_currency(rs.getString(2));
-    	     
-    	     currencyPair.setQuote_factor(rs.getInt(3));
-    	     currencyPair.setBp_factor(rs.getInt(4));
-    	     currencyPair.setRounding(rs.getInt(5));
-    	     currencyPair.setPair_pos_ref_b(rs.getInt(6));
-    	     currencyPair.setSpot_days(rs.getInt(7));
-     CurrencyPairs.add(currencyPair);
+    	  CurrencyPair cp = new CurrencyPair();
+    	  cp.setPrimary_currency(rs.getString(1));
+    	  cp.setQuoting_currency(rs.getString(2));
+          cp.setRounding(rs.getInt(5));
+    	  cp.setPairName(rs.getString(6));
+    	  cp.setSpot_days(rs.getInt(7));
+    	  cdv.add(cp);
       
       }
-      commonUTIL.display("CurrencyPairSQL","selectCurrencyPair " + sql);
+      commonUTIL.display("CurrencyPairSQL","selectCurrencyPair " + SELECTALL);
 	 } catch (Exception e) {
-		 commonUTIL.displayError("CurrencyPairSQL","selectCurrencyPair " + sql,e);
-		 return CurrencyPairs;
+		 commonUTIL.displayError("CurrencyPairSQL","selectCurrencyPair " + SELECTALL,e);
+		 
+		 return cdv;
         
      }
      finally {
@@ -331,10 +332,160 @@ protected static int selectMax(Connection con ) {
 			stmt.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			commonUTIL.displayError("CurrencyPairSQL","selectMax",e);
+			commonUTIL.displayError("CurrencyPairSQL","selectCurrencyPair" + SELECTALL ,e);
 		}
      }
-     return CurrencyPairs;
+     return cdv;
  }
+ 
+ public static Collection selectLEOnWhereClause(String sql, Connection con) {
+		int j = 0;
+		PreparedStatement stmt = null;
+		Vector CurrencyPair = new Vector();
+		String sql1 = SELECTWHERE +  "primary_currency = '"+ sql+"'";
+		try {
+
+			con.setAutoCommit(false);
+			stmt = dsSQL.newPreparedStatement(con, sql1);
+
+			ResultSet rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				
+				CurrencyPair cp = new CurrencyPair();
+
+				cp.setPrimary_currency(rs.getString(1));
+		    	  cp.setQuoting_currency(rs.getString(2));
+		          cp.setRounding(rs.getInt(5));
+		    	  cp.setPairName(rs.getString(6));
+		    	  cp.setSpot_days(rs.getInt(7));
+		    	  CurrencyPair.add(cp);
+		      
+
+			}
+			commonUTIL.display("CurrencyPairSQL", sql1);
+		} catch (Exception e) {
+			commonUTIL.displayError("CurrencyPairSQL", sql1, e);
+			return CurrencyPair;
+
+		} finally {
+			try {
+				stmt.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				commonUTIL.displayError("LegalEntitySQL", sql1, e);
+			}
+		}
+		return CurrencyPair;
+	}
+ 
+
+	public BaseBean insertSQL(BaseBean sql, Connection con) {
+		// TODO Auto-generated method stub
+		return  (BaseBean) save((CurrencyPair)sql,con);
+	}
+
+	public boolean updateSQL(BaseBean sql, Connection con) {
+		// TODO Auto-generated method stub
+		return update((CurrencyPair) sql, con);
+	}
+
+	public boolean deleteSQL(BaseBean sql, Connection con) {
+		// TODO Auto-generated method stub
+		
+		return delete((CurrencyPair)sql,con);
+	}
+
+ 
+	public Collection selectALLData(Connection con) {
+		// TODO Auto-generated method stub
+		return select(con);
+
+}
+	@Override
+	public BaseBean insertSQL(String sql, Connection con) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public boolean updateSQL(String sql, Connection con) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean deleteSQL(String sql, Connection con) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public BaseBean select(int id, Connection con) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public BaseBean select(String name, Connection con) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Collection selectWhere(String where, Connection con) {
+		// TODO Auto-generated method stub
+		return selectLEOnWhereClause(where,con);
+	}
+	@Override
+	public int count(String sql, Connection con) {
+		// TODO Auto-generated method stub
+				PreparedStatement stmt = null;
+				String sql1 = SQLCOUNT + "primary_currency = '"+sql+"'";
+				int tem=0;
+				
+				try {
+					con.setAutoCommit(true);
+
+					stmt = dsSQL.newPreparedStatement(con, sql1);
+
+					ResultSet rs = stmt.executeQuery();
+					if (rs.next()){
+						CurrencyPair le = new CurrencyPair();
+					tem=rs.getInt(1);
+					
+					}
+					return tem;
+				} catch (Exception e) {
+					commonUTIL.displayError("CurrencyPairSQL", "selectLEOnWhereClause "
+							+ sql1, e);
+
+				} finally {
+					try {
+						stmt.close();
+						// con.close();
+					} catch (SQLException e) {
+						commonUTIL.displayError("CurrencyPairSQL",
+								"selectLEOnWhereClause", e);
+					}
+				}
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+
+
+	@Override
+	public Collection selectKeyColumnsWithWhere(String columnNames, String where, Connection con) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+
+	@Override
+	public Collection selectKeyColumns(String columnNames, Connection con) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
 
 }
