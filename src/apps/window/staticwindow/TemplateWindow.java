@@ -134,7 +134,7 @@ public class TemplateWindow extends BasePanel {
 	@Override
 	public void setWindowActionListener() {
 		try {
-			setEventListener(windowDetails);
+			//setEventListener(windowDetails);
 			setEventListener(templateSearchTextField);
 		} catch (CosmosException e) {
 			e.printStackTrace();
@@ -146,15 +146,15 @@ public class TemplateWindow extends BasePanel {
 	public void addTopLeftSidePanelComponents() {
 		templateSearchTextField.setName(TemplateConstants.SEARCHTEXTBOX);
 		leftTopbuttonsPanel.add(templateLabel);
-		setSearchOnLeftTopPanel(TemplateSearchTextField, null);
-		leftTopbuttonsPanel.add(TemplateSearchTextField);
+	//	setSearchOnLeftTopPanel(TemplateSearchTextField, null);
+		//leftTopbuttonsPanel.add(TemplateSearchTextField);
 	}
 
 	// add righttop panel componenonts
 	@Override
 	public void addTopRigthSidePanelComponents() {
 		rightTopbuttonsPanel.add(windowName);
-		rightTopbuttonsPanel.add(windowDetails);
+	//	rightTopbuttonsPanel.add(windowDetails);
 	}
 
 	// create property proprities.
@@ -180,6 +180,12 @@ public class TemplateWindow extends BasePanel {
 
 	@Override
 	public JPanel createChildPanel(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getWindowName() {
 		// TODO Auto-generated method stub
 		return null;
 	}
