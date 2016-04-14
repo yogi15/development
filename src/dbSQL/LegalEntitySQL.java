@@ -20,29 +20,26 @@ import util.commonUTIL;
 
 public class LegalEntitySQL extends BaseSQL {
 
-	final static private String tableName = "LE";
+		final static private String tableName = "LE";
 	final static private String DELETE = "DELETE FROM " + tableName
 			+ "   where id =? ";
 	final static private String INSERT = "INSERT into " + tableName
-			+ "(id,name,role,status,attributes,alias, contact, country) values(?,?,?,?,?,?,?,?)";
+			+ "(id,name,role,status,attributes,alias, contact, country,HOLIDAYCALENDER,TIMEZONE,ACTIVEINACTIVE) values(?,?,?,?,?,?,?,?,?,?,?)";
 	final static private String UPDATE = "UPDATE " + tableName
 			+ " set name=?,role=?,status=?  where id = ? ";
 	final static private String SELECT_MAX = "SELECT MAX(id) DESC_ID FROM "
 			+ tableName + " ";
-	final static private String SELECTALL = "SELECT id,name,role,status,attributes,alias, contact, country FROM "
+	final static private String SELECTALL = "SELECT id,name,role,status,attributes,alias, contact, country ,HOLIDAYCALENDER,TIMEZONE,ACTIVEINACTIVE FROM "
 			+ tableName + " order by id ";
-	final static private String SELECT = "SELECT id,name,role,status,attributes,alias, contact, country  FROM "
+	final static private String SELECT = "SELECT id,name,role,status,attributes,alias, contact, country ,HOLIDAYCALENDER,TIMEZONE,ACTIVEINACTIVE FROM "
 			+ tableName + " where id =  ?  ";
-	final static private String SELECTWHERE = "SELECT id,name,role,status,attributes,alias, contact, country  FROM "
+	final static private String SELECTWHERE = "SELECT id,name,role,status,attributes,alias, contact, country ,HOLIDAYCALENDER,TIMEZONE,ACTIVEINACTIVE FROM "
 			+ tableName + " where  ";
+	static private String SELECTONE = "SELECT id,name,role,status,attributes,alias, contact, country,HOLIDAYCALENDER,TIMEZONE,ACTIVEINACTIVE FROM "
+			+ tableName + " where id =  ";
 	final static private String SQLCOUNT = new StringBuffer(
 			"SELECT count(*) countRows ").append(" FROM Le where  ")
 			.toString();
-	static private String SELECTONE = "SELECT id,name,role,status,attributes,alias, contact, country FROM "
-			+ tableName + " where id =  ";
-
-
-	
 	private static String getUpdateSQL(LegalEntity le) {
 		
 		String updateSQL = "UPDATE le  set " 
@@ -53,12 +50,14 @@ public class LegalEntitySQL extends BaseSQL {
 				+ "',alias= '" + le.getAlias() 
 				+ "', contact= '"+ le.getContact() 
 				+ "', country= '" + le.getCountry()
+				+"',HOLIDAYCALENDER='"+le.getHOLIDAYCALENDER()
+				+"',TIMEZONE='"+le.getTIMEZONE()
+				+"',ACTIVEINACTIVE='"+le.isACTIVEINACTIVE()
 				+ "'  where id= " + le.getId();
 		
 		return updateSQL;
 		
 	}
-
 	public static LegalEntity save(LegalEntity insertLegalEntity, Connection con) {
 		try {
 			return insertLe(insertLegalEntity, con);
@@ -218,13 +217,13 @@ public class LegalEntitySQL extends BaseSQL {
 			stmt.setString(6, inserLegalEntity.getAlias());
 			stmt.setString(7, inserLegalEntity.getContact());
 			stmt.setString(8, inserLegalEntity.getCountry());
-			
-			
-			
+			stmt.setString(9, inserLegalEntity.getHOLIDAYCALENDER());
+			stmt.setString(10, inserLegalEntity.getTIMEZONE());
+			stmt.setBoolean(11, inserLegalEntity.isACTIVEINACTIVE());
 			stmt.executeUpdate();
 			con.commit();
 			inserLegalEntity.setId(id);
-			insertAttributes(inserLegalEntity.getAttributeContainer(),id,BeanConstants.LegalEntity);
+			insertAttributes(inserLegalEntity.getAttributeContainer(),id,BeanConstants.LEGALENTITY);
 			return  inserLegalEntity;
 			
 			
@@ -260,14 +259,14 @@ public class LegalEntitySQL extends BaseSQL {
 			stmt.setString(6, inserLegalEntity.getAlias());
 			stmt.setString(7, inserLegalEntity.getContact());
 			stmt.setString(8, inserLegalEntity.getCountry());
-			
-			
-			
+			stmt.setString(9, inserLegalEntity.getHOLIDAYCALENDER());
+			stmt.setString(10, inserLegalEntity.getTIMEZONE());
+			stmt.setBoolean(11, inserLegalEntity.isACTIVEINACTIVE());
 			stmt.executeUpdate();
 			con.commit();
 			commonUTIL.display("LESQL", "insert" + INSERT);
 			inserLegalEntity.setId(id);
-			insertAttributes(inserLegalEntity.getAttributeContainer(),id,BeanConstants.LegalEntity);
+			insertAttributes(inserLegalEntity.getAttributeContainer(),id,BeanConstants.LEGALENTITY);
 			
 			return inserLegalEntity;
 		} catch (Exception e) {
@@ -306,7 +305,9 @@ public class LegalEntitySQL extends BaseSQL {
 				LegalEntity.setAlias(rs.getString(6));
 				LegalEntity.setContact(rs.getString(7));
 				LegalEntity.setCountry(rs.getString(8));
-
+				LegalEntity.setHOLIDAYCALENDER(rs.getString(9));
+				LegalEntity.setTIMEZONE(rs.getString(10));
+				LegalEntity.setACTIVEINACTIVE(rs.getBoolean(11));
 				LegalEntitys.add(LegalEntity);
 
 			}
@@ -350,7 +351,10 @@ public class LegalEntitySQL extends BaseSQL {
 				LegalEntity.setAlias(rs.getString(6));
 				LegalEntity.setContact(rs.getString(7));
 				LegalEntity.setCountry(rs.getString(8));
-				
+				LegalEntity.setHOLIDAYCALENDER(rs.getString(9));
+				LegalEntity.setTIMEZONE(rs.getString(10));
+				LegalEntity.setACTIVEINACTIVE(rs.getBoolean(11));
+
 				LegalEntitys.add(LegalEntity);
 
 			}
@@ -396,7 +400,10 @@ public class LegalEntitySQL extends BaseSQL {
 				LegalEntity.setAlias(rs.getString(6));
 				LegalEntity.setContact(rs.getString(7));
 				LegalEntity.setCountry(rs.getString(8));
-				
+				LegalEntity.setHOLIDAYCALENDER(rs.getString(9));
+				LegalEntity.setTIMEZONE(rs.getString(10));
+				LegalEntity.setACTIVEINACTIVE(rs.getBoolean(11));
+
 				LegalEntitys.add(LegalEntity);
 
 			}
@@ -438,6 +445,9 @@ public class LegalEntitySQL extends BaseSQL {
 				LegalEntity.setAlias(rs.getString(6));
 				LegalEntity.setContact(rs.getString(7));
 				LegalEntity.setCountry(rs.getString(8));
+				LegalEntity.setHOLIDAYCALENDER(rs.getString(9));
+				LegalEntity.setTIMEZONE(rs.getString(10));
+				LegalEntity.setACTIVEINACTIVE(rs.getBoolean(11));
 
 				LegalEntitys.add(LegalEntity);
 
@@ -481,7 +491,10 @@ public class LegalEntitySQL extends BaseSQL {
 				LegalEntity.setAlias(rs.getString(6));
 				LegalEntity.setContact(rs.getString(7));
 				LegalEntity.setCountry(rs.getString(8));
-				
+				LegalEntity.setHOLIDAYCALENDER(rs.getString(9));
+				LegalEntity.setTIMEZONE(rs.getString(10));
+				LegalEntity.setACTIVEINACTIVE(rs.getBoolean(11));
+
 				LegalEntitys.add(LegalEntity);
 
 			}
@@ -555,7 +568,7 @@ public class LegalEntitySQL extends BaseSQL {
 	public int count(String sql, Connection con) {
 		// TODO Auto-generated method stub
 		PreparedStatement stmt = null;
-		String sql1 = SQLCOUNT + "name =  " + sql;
+		String sql1 = SQLCOUNT + "name =  '"+sql+"'";
 		int tem=0;
 		
 		try {
@@ -615,6 +628,16 @@ public class LegalEntitySQL extends BaseSQL {
 		att.addAttribute("testing1","sdfg");
 		boo.setAttributeContainer(att);
 		insertLe(boo, dsSQL.getConn());
+	}
+	@Override
+	public Collection selectKeyColumnsWithWhere(String columnNames, String where, Connection con) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Collection selectKeyColumns(String columnNames, Connection con) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	

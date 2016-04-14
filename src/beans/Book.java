@@ -8,30 +8,28 @@ public class Book implements BaseBean {
 	
 	int bookno;
 	int le_id;
-	String book_name;
+	String book_name,timezone, holidaycode, currency ;
+	public String getTimezone() {
+		return timezone;
+	}
+	public void setTimezone(String timezone) {
+		this.timezone = timezone;
+	}
+	public String getHolidaycode() {
+		return holidaycode;
+	}
+	public void setHolidaycode(String holidaycode) {
+		this.holidaycode = holidaycode;
+	}
+	public String getCurrency() {
+		return currency;
+	}
+	public void setCurrency(String currency) {
+		this.currency = currency;
+	}
 	int folderID;
-	
 	AttributeContainer attributeContainer = null;
 	
-	
-/**
-	 * @return the attributeContainer
-	 */
-	public AttributeContainer getAttributeContainer() {
-		return attributeContainer;
-	}
-	/**
-	 * @param attributeContainer the attributeContainer to set
-	 */
-	public void setAttributeContainer(AttributeContainer attributeContainer) {
-		this.attributeContainer = attributeContainer;
-	}
-	/**
-	 * @param attributesData the attributesData to set
-	 */
-	public void setAttributesData(Hashtable<String, String> attributesData) {
-		this.attributesData = attributesData;
-	}
 transient   Hashtable<String, String> attributesData = new Hashtable<String, String>();
 	
 	public Hashtable<String, String> getAttributesData() {
@@ -142,6 +140,15 @@ transient   Hashtable<String, String> attributesData = new Hashtable<String, Str
 	public void setPropertyValue(String propertyPaneColumnName, Object object) {
 		// TODO Auto-generated method stub
 		
+	}
+	public AttributeContainer getAttributeContainer() {
+		return attributeContainer;
+	}
+	public void setAttributeContainer(AttributeContainer attributeContainer) {
+		this.attributeContainer = attributeContainer;
+	}
+	public void setAttributesData(Hashtable<String, String> attributesData) {
+		this.attributesData = attributesData;
 	}
 
 }

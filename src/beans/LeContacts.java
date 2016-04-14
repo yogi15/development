@@ -1,6 +1,6 @@
 package beans;
- 
-import constants.LeContactsConstants; 
+
+
 
 public class LeContacts implements BaseBean {
 
@@ -8,7 +8,7 @@ public class LeContacts implements BaseBean {
 	 int leId = 0;
 	 String leRole = "";
 	 int poId = 0;
-	 String contactCategory = ""; 
+	 String contactType = ""; 
 	 String leFirstName = "";
 	 String leLastName = "";
 	 String leTitle = "";
@@ -16,8 +16,9 @@ public class LeContacts implements BaseBean {
 	 String zipCode = ""; 
 	 String state = ""; 
 	 String country = "" ;
-	 String mailingAddress = "";
-	 String emailAddresss = "";
+	 String mailingAddress1 = "";
+	 String mailingAddress2 = "";
+	 String emailID = "";
 	 String phone = "";
 	 String fax ="";
 	 String telex = "";
@@ -27,6 +28,16 @@ public class LeContacts implements BaseBean {
 	 String effectiveTo = "";
 	 String externalRef = "";
 	 
+	@Override
+	public Object getPropertyValue(String propertyPaneColumnName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public void setPropertyValue(String propertyPaneColumnName, Object object) {
+		// TODO Auto-generated method stub
+		
+	}
 	public int getId() {
 		return id;
 	}
@@ -51,11 +62,11 @@ public class LeContacts implements BaseBean {
 	public void setPoId(int poId) {
 		this.poId = poId;
 	}
-	public String getContactCategory() {
-		return contactCategory;
+	public String getContactType() {
+		return contactType;
 	}
-	public void setContactCategory(String contactCategory) {
-		this.contactCategory = contactCategory;
+	public void setContactType(String contactType) {
+		this.contactType = contactType;
 	}
 	public String getLeFirstName() {
 		return leFirstName;
@@ -99,17 +110,23 @@ public class LeContacts implements BaseBean {
 	public void setCountry(String country) {
 		this.country = country;
 	}
-	public String getMailingAddress() {
-		return mailingAddress;
+	public String getMailingAddress1() {
+		return mailingAddress1;
 	}
-	public void setMailingAddress(String mailingAddress) {
-		this.mailingAddress = mailingAddress;
+	public void setMailingAddress1(String mailingAddress1) {
+		this.mailingAddress1 = mailingAddress1;
 	}
-	public String getEmailAddresss() {
-		return emailAddresss;
+	public String getMailingAddress2() {
+		return mailingAddress2;
 	}
-	public void setEmailAddresss(String emailAddresss) {
-		this.emailAddresss = emailAddresss;
+	public void setMailingAddress2(String mailingAddress2) {
+		this.mailingAddress2 = mailingAddress2;
+	}
+	public String getEmailID() {
+		return emailID;
+	}
+	public void setEmailID(String emailID) {
+		this.emailID = emailID;
 	}
 	public String getPhone() {
 		return phone;
@@ -169,43 +186,6 @@ public class LeContacts implements BaseBean {
 			return getTelex();
 		return null;
 	}
-	String productType;
-	public String getProductType() {
-		// TODO Auto-generated method stub
-		return productType;
-	}
-	public void setProductType(String productType) {
-		// TODO Auto-generated method stub
-		 this.productType = productType;
-	}
-	@Override
-	public Object getPropertyValue(String propertyPaneColumnName) {
-		// TODO Auto-generated method stub
-		Object obj = null;
-		if (propertyPaneColumnName.equalsIgnoreCase(LeContactsConstants.LEID)) {
-			return obj = getLeId();
-		}
-		if (propertyPaneColumnName.equalsIgnoreCase(LeContactsConstants.CONTACTTYPE)) {
-			return obj = getContactCategory();
-		}
-		if (propertyPaneColumnName.equalsIgnoreCase(LeContactsConstants.ADDRESS)) {
-			return obj = getMailingAddress();
-		}
-		return obj;
-	}
-	@Override
-	public void setPropertyValue(String propertyPaneColumnName, Object object) {
-		if (propertyPaneColumnName.equalsIgnoreCase(LeContactsConstants.CONTACTTYPE)) {
-			setContactCategory((String) object);
-		}
-		if (propertyPaneColumnName.equalsIgnoreCase(LeContactsConstants.LEID)) {
-			setLeId((Integer) object);
-		}
-		if (propertyPaneColumnName.equalsIgnoreCase(LeContactsConstants.ADDRESS)) {
-			setMailingAddress((String) object);
-		}
-		
-	}
-	 
-
+	
+	
 }

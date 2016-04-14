@@ -37,20 +37,20 @@ public abstract class BaseSQL {
 	  // this method will go when insert 
 	  public static void insertAttributes(BaseBean bean,int entityID,String entityType)  {
 		  AttributeContainer attributes = (AttributeContainer) bean;
+		 
 		 Vector<Attribute> attributeData = attributes.getAttributes();
 		 if(!commonUTIL.isEmpty(attributeData)) {
 			 
 			//	baseSQL.saveAttribute(attributeData, dsSQL.getConn()  );
-			 saveAttribute(makeSQLObject(entityType),attributeData, dsSQL.getConn());
+			 saveAttribute(makeSQLObject(entityType),attributeData, dsSQL.getConn(),entityID);
 		 }
 	  }
-	  public AttributeContainer getAttributes(int entityID,String entityType)  {
-		  AttributeContainer attributeData = new AttributeContainer();
-		  Vector<Attribute> attributes = new Vector<Attribute>();
-		  String sql = " id = "+entityID+ " and ";
-		//  AttributeSQL.SelectWhere(entityID,)
-		  return attributeData;
-	  }
+	  public static Collection getAttributes(int id,String entityType)  {
+			 
+			 
+			return selectAttribute(  id,makeSQLObject(entityType), dsSQL.getConn());
+		 
+}
 	  public AttributeContainer deleteAttributes(int entityID,String entityType,String attributeName)  {
 		  AttributeContainer attributeData = new AttributeContainer();
 		  Vector<Attribute> attributes = new Vector<Attribute>();
@@ -58,12 +58,15 @@ public abstract class BaseSQL {
 		//  AttributeSQL.SelectWhere(entityID,)
 		  return attributeData;
 	  }
-	  public AttributeContainer updateAttributes(int entityID,String entityType)  {
-		  AttributeContainer attributeData = new AttributeContainer();
-		  Vector<Attribute> attributes = new Vector<Attribute>();
-		  String sql = " id = "+entityID+ " and ";
-		//  AttributeSQL.SelectWhere(entityID,)
-		  return attributeData;
+	  public static void updateAttributes(BaseBean bean,String entityType,int entityID)  {
+		  AttributeContainer attributes = (AttributeContainer) bean;
+			 
+			 Vector<Attribute> attributeData = attributes.getAttributes();
+			 if(!commonUTIL.isEmpty(attributeData)) {
+				 
+				//	baseSQL.saveAttribute(attributeData, dsSQL.getConn()  );
+				 updateAttribute(makeSQLObject(entityType),attributeData,entityID,dsSQL.getConn());
+			 }
 	  }
 	  
 	  static public Hashtable<String, AttributeProvider> sqlCache = new Hashtable<String, AttributeProvider>();
@@ -90,14 +93,14 @@ public abstract class BaseSQL {
 			}
 			return sql;
 		}
-		static public void saveAttribute(AttributeProvider attributeP,Vector attributes,Connection con) {
-			attributeP.saveAttributes(attributes, con);
+		static public void saveAttribute(AttributeProvider attributeP,Vector attributes,Connection con,int entityID) {
+			attributeP.saveAttributes(attributes, con,entityID);
 		}
-		static public void updateAttribute(AttributeProvider attributeP,Vector attributes,Connection con) {
-			attributeP.updateAttributes(attributes, con);
+		static public void updateAttribute(AttributeProvider attributeP,Vector attributes,int entityID,Connection con){
+			attributeP.updateAttributes(attributes, entityID, con);
 		}
-		static public void selectAttribute(AttributeProvider attributeP,Vector attributes,Connection con) {
-			attributeP.updateAttributes(attributes, con);
+		static public Collection selectAttribute(int id,AttributeProvider attributeP,Connection con){
+			return attributeP.selectAttributes( id,con);
 		}
 		 
 		  
