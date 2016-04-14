@@ -23,7 +23,7 @@ import dbSQL.CurrencySplitSQL;
 import dbSQL.DateRuleSQL;
 import dbSQL.FavouritiesSQL;
 import dbSQL.FolderSQL;
-import dbSQL.HolidaySQL;
+import dbSQL.HolidayCodeSQL;
 import dbSQL.JTableMappingSQL;
 import dbSQL.LeContactsSql;
 import dbSQL.LegalEntitySQL;
@@ -53,11 +53,11 @@ import beans.CurrencySplitConfig;
 import beans.DateRule;
 import beans.Favorities;
 import beans.Folder;
-import beans.Holiday;
+import beans.HolidayCode;
 import beans.JTableMapping;
 import beans.LEAttribute;
 import beans.LeContacts;
-import beans.CounterParty;
+import beans.LegalEntity;
 import beans.LiquidationConfig;
 import beans.MenuConfiguration;
 import beans.MessageConfig;
@@ -72,7 +72,7 @@ import beans.WindowTableModelMapping;
 
 public class ReferenceDataImp implements RemoteReferenceData {
 
-	private Vector<LEAttribute> processLEAttribues(CounterParty le, int id) {
+	private Vector<LEAttribute> processLEAttribues(LegalEntity le, int id) {
 
 		Vector<LEAttribute> leAttrVec = new Vector<LEAttribute>();
 
@@ -168,11 +168,11 @@ public class ReferenceDataImp implements RemoteReferenceData {
 	}
 
 	@Override
-	public void removeLe(CounterParty le) throws RemoteException {
+	public void removeLe(LegalEntity le) throws RemoteException {
 		// TODO Auto-generated method stub
 
 		Connection con = dsSQL.getConn();
-		boolean isDeleted = LegalEntitySQL.delete(le, con);
+		boolean isDeleted = false;//LegalEntitySQL.delete(le, con);
 		int i = 0;
 
 		if (isDeleted) {
@@ -215,7 +215,7 @@ public class ReferenceDataImp implements RemoteReferenceData {
 	public int saveBook(Book book) throws RemoteException {
 
 		Connection con = dsSQL.getConn();
-		int id = BookSQL.save(book, con);
+		int id = 0;/// BookSQL.save(book, con);
 
 		if (id > 0 && !book.getAttributes().equals("")) {
 
@@ -234,14 +234,14 @@ public class ReferenceDataImp implements RemoteReferenceData {
 	}
 
 	@Override
-	public int saveLe(CounterParty le) throws RemoteException {
+	public int saveLe(LegalEntity le) throws RemoteException {
 
 		Connection con = dsSQL.getConn();
 		int id = 0;
 
 		if (!isExistLEwithName(le)) {
 
-			id = LegalEntitySQL.save(le, dsSQL.getConn());
+			id = 0;//LegalEntitySQL.save(le, dsSQL.getConn());
 
 		} else {
 
@@ -314,17 +314,17 @@ public class ReferenceDataImp implements RemoteReferenceData {
 	}
 
 	@Override
-	public CounterParty selectLE(int id) throws RemoteException {
+	public LegalEntity selectLE(int id) throws RemoteException {
 
 		Connection con = dsSQL.getConn();
-		CounterParty le = null;
+		LegalEntity le = null;
 
 		Vector legalEntitys = (Vector) LegalEntitySQL
 				.selectLegalEntity(id, con);
 
 		if (legalEntitys != null && legalEntitys.size() > 0) {
 
-			le = (CounterParty) legalEntitys.elementAt(0);
+			le = (LegalEntity) legalEntitys.elementAt(0);
 
 			Collection<LEAttribute> leAttrVec = AttributSQL.selectLEAttribute(
 					le.getId(), con);
@@ -339,7 +339,7 @@ public class ReferenceDataImp implements RemoteReferenceData {
 	}
 
 	@Override
-	public boolean isExistLEwithName(CounterParty le) throws RemoteException {
+	public boolean isExistLEwithName(LegalEntity le) throws RemoteException {
 		boolean flag = false;
 		String sql = " alias = '" + le.getAlias() + "'";
 		Vector vec = (Vector) selectLEonWhereClause(sql);
@@ -382,7 +382,7 @@ public class ReferenceDataImp implements RemoteReferenceData {
 	}
 
 	@Override
-	public boolean updateLe(CounterParty le) throws RemoteException {
+	public boolean updateLe(LegalEntity le) throws RemoteException {
 
 		Connection con = dsSQL.getConn();
 
@@ -476,15 +476,15 @@ public class ReferenceDataImp implements RemoteReferenceData {
 	public Collection selectAllLs() throws RemoteException {
 
 		Connection con = dsSQL.getConn();
-		Vector<CounterParty> returnLE = new Vector<CounterParty>();
+		Vector<LegalEntity> returnLE = new Vector<LegalEntity>();
 
-		Collection<CounterParty> allBooks = LegalEntitySQL.selectALL(con);
+		Collection<LegalEntity> allBooks = LegalEntitySQL.selectALL(con);
 
-		Iterator<CounterParty> itr = allBooks.iterator();
+		Iterator<LegalEntity> itr = allBooks.iterator();
 
 		while (itr.hasNext()) {
 
-			CounterParty element = (CounterParty) itr.next();
+			LegalEntity element = (LegalEntity) itr.next();
 
 			Collection<LEAttribute> leAttrVec = AttributSQL
 					.selectALLLEAttribute(con);
@@ -715,16 +715,16 @@ public class ReferenceDataImp implements RemoteReferenceData {
 			throws RemoteException {
 
 		Connection con = dsSQL.getConn();
-		Vector<CounterParty> returnLE = new Vector<CounterParty>();
+		Vector<LegalEntity> returnLE = new Vector<LegalEntity>();
 
-		Collection<CounterParty> le = LegalEntitySQL.selectLEOnWhereClause(
+		Collection<LegalEntity> le = LegalEntitySQL.selectLEOnWhereClause(
 				whereClause, con);
 
-		Iterator<CounterParty> itr = le.iterator();
+		Iterator<LegalEntity> itr = le.iterator();
 
 		while (itr.hasNext()) {
 
-			CounterParty element = (CounterParty) itr.next();
+			LegalEntity element = (LegalEntity) itr.next();
 
 			Collection<LEAttribute> leAttrVec = AttributSQL
 					.selectALLLEAttribute(con);
@@ -752,12 +752,12 @@ public class ReferenceDataImp implements RemoteReferenceData {
 	}
 
 	@Override
-	public boolean deleteLE(CounterParty deleteLegalEntity)
+	public boolean deleteLE(LegalEntity deleteLegalEntity)
 			throws RemoteException {
 
 		Connection con = dsSQL.getConn();
 
-		boolean isLeDeleted = LegalEntitySQL.delete(deleteLegalEntity, con);
+		boolean isLeDeleted = false;//LegalEntitySQL.delete(deleteLegalEntity, con);
 
 		if (isLeDeleted && !deleteLegalEntity.getAttributes().equals("")) {
 
@@ -864,13 +864,13 @@ public class ReferenceDataImp implements RemoteReferenceData {
 	@Override
 	public boolean saveHoliday(HolidayCode holiday) throws RemoteException {
 		// TODO Auto-generated method stub
-		return HolidaySQL.update(holiday, dsSQL.getConn());
+		return HolidayCodeSQL.update(holiday, dsSQL.getConn());
 	}
 
 	@Override
 	public HolidayCode selectHoliday(HolidayCode holiday) throws RemoteException {
 		// TODO Auto-generated method stub
-		return HolidaySQL.selectHoliday(holiday.getCurrency(), dsSQL.getConn());
+		return HolidayCodeSQL.selectHoliday(holiday.getCurrency(), dsSQL.getConn());
 	}
 
 	@Override
@@ -882,14 +882,14 @@ public class ReferenceDataImp implements RemoteReferenceData {
 	@Override
 	public Collection selectALLHolidays() throws RemoteException {
 		// TODO Auto-generated method stub
-		return HolidaySQL.selectALL(dsSQL.getConn());
+		return HolidayCodeSQL.selectALL(dsSQL.getConn());
 	}
 
 	@Override
 	public int checkHolidayOrWeekend(String currency, String checkDate)
 			throws RemoteException {
 		// TODO Auto-generated method stub
-		return HolidaySQL.checkHolidayOrWeekend(currency, checkDate,
+		return HolidayCodeSQL.checkHolidayOrWeekend(currency, checkDate,
 				dsSQL.getConn());
 	}
 
@@ -1469,14 +1469,14 @@ public class ReferenceDataImp implements RemoteReferenceData {
 	@Override
 	public boolean updateHoliday(HolidayCode holiday) throws RemoteException {
 		// TODO Auto-generated method stub
-		return HolidaySQL.update(holiday, dsSQL.getConn());
+		return HolidayCodeSQL.update(holiday, dsSQL.getConn());
 	}
 
 	@Override
 	public int getHolidayonCurrencyPair(String currencyPair, String date)
 			throws RemoteException {
 		// TODO Auto-generated method stub
-		return HolidaySQL.getHolidaysOnCp(currencyPair, date, dsSQL.getConn());
+		return HolidayCodeSQL.getHolidaysOnCp(currencyPair, date, dsSQL.getConn());
 	}
 
 	@Override
@@ -1703,5 +1703,20 @@ public class ReferenceDataImp implements RemoteReferenceData {
 		}
 		return sql;
 	}
+
+	@Override
+	public Collection selectKeyColumnsWithWhere(String columnNames,
+			String where,  String beanName ) {
+		// TODO Auto-generated method stub
+		return makeSQLObject(beanName).selectKeyColumnsWithWhere(columnNames, where,  dsSQL.getConn());
+	}
+
+	@Override
+	public Collection selectKeyColumns(String columnNames,  String beanName ) {
+		// TODO Auto-generated method stub
+		return makeSQLObject(beanName).selectKeyColumns(columnNames ,  dsSQL.getConn());
+	}
+ 
+
 
 }
