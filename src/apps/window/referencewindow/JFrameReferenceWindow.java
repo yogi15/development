@@ -20,8 +20,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 
-import apps.window.operationwindow.jobpanl.FilterValues;
-import apps.window.reportwindow.JInternalReportFrame;
+import apps.window.operationwindow.jobpanl.FilterValues; 
 import apps.window.staticwindow.BasePanel;
 import beans.StartUPData;
 
