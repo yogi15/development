@@ -14,9 +14,10 @@ import beans.DateRule;
 import beans.Favorities;
 import beans.Folder;
 import beans.Holiday;
+import beans.HolidayCode;
 import beans.JTableMapping;
 import beans.LeContacts;
-import beans.CounterParty;
+import beans.LegalEntity;
 import beans.LiquidationConfig;
 import beans.MenuConfiguration;
 import beans.MessageConfig;
@@ -105,7 +106,7 @@ public interface RemoteReferenceData extends Remote{
 	
 	public int saveNettingConfig(NettingConfig netConfig) throws RemoteException;
 	public boolean updateNettingConfig(NettingConfig netConfig)  throws RemoteException;
-	public Collection getNettingConfigOnCounterParty(int counterPartyId) throws RemoteException;
+	public Collection getNettingConfigOnLegalEntity(int LegalEntityId) throws RemoteException;
 	public Collection getNettingConfigOnWhere(String where) throws RemoteException;
 	public Collection getALLtNettingConfig() throws RemoteException;
 	public boolean saveFavourites(Favorities favourites )throws RemoteException;
@@ -130,7 +131,7 @@ public interface RemoteReferenceData extends Remote{
 	
 	public Collection  getLegalEntityDataOnRole(String role) throws RemoteException;
 	public Collection  getALLExchanges() throws RemoteException;
-	public boolean deleteLE(CounterParty deleteLegalEntity) throws RemoteException;
+	public boolean deleteLE(LegalEntity deleteLegalEntity) throws RemoteException;
 	
 	public boolean saveAttribue(Attribute att)throws RemoteException;
 	public Collection selectAttribute(Attribute att)throws RemoteException;
@@ -182,9 +183,9 @@ public interface RemoteReferenceData extends Remote{
 	public boolean updateWindowSheet(WindowSheet data)throws RemoteException;
 	public void removeWindowSheet(WindowSheet data) throws RemoteException;
 	
-	public int saveLe(CounterParty le)throws RemoteException;
+	public int saveLe(LegalEntity le)throws RemoteException;
 	public int getMAXLEID() throws RemoteException;
-	public CounterParty selectLE(int i)throws RemoteException;
+	public LegalEntity selectLE(int i)throws RemoteException;
 	
 	public int saveLeContacts(LeContacts le)throws RemoteException;
 	public boolean updateLeContacts(LeContacts le) throws RemoteException;
@@ -194,9 +195,9 @@ public interface RemoteReferenceData extends Remote{
 	public Collection getLeContacts(int leid) throws RemoteException;
 	public Collection selectLeContacts(int i)throws RemoteException;
 	
-	public void removeLe(CounterParty le)throws RemoteException;
+	public void removeLe(LegalEntity le)throws RemoteException;
 	
-	public boolean updateLe(CounterParty le)throws RemoteException;
+	public boolean updateLe(LegalEntity le)throws RemoteException;
 	
 	
 	public Sdi saveSDI(Sdi sdi)throws RemoteException;
@@ -225,7 +226,7 @@ public interface RemoteReferenceData extends Remote{
 	public boolean deleteNettingConfig(int id) throws RemoteException;
 	public Vector getSearchCriteria() throws RemoteException;
 	public Vector  getSearchColumn(String type) throws RemoteException;
-	public boolean isExistLEwithName(CounterParty le) throws RemoteException;
+	public boolean isExistLEwithName(LegalEntity le) throws RemoteException;
 	public Vector getBookWhere(String sql) throws RemoteException;
 	public Collection getMessageConfig(String productType, String productSubType,
 			String eventType, int poid) throws RemoteException;
