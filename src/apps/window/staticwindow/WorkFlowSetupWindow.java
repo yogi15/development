@@ -1187,16 +1187,7 @@ public void selectProductWF(String productType,String productSubType,String type
 	   	    
 	   	}   
 	   	    
-	   	    private LegalEntity getLeName(int leID) {
-	   	    	LegalEntity le = null;
-	   	    	try {
-	   				le = remoteRef.selectLE(leID);
-	   			} catch (RemoteException e) {
-	   				// TODO Auto-generated catch block
-	   				e.printStackTrace();
-	   			}
-	   	    	return le;
-	   	    }
+	   	     
 	   	    
 	   	    public void removeALL() {
 	   	    	if(data != null) {
