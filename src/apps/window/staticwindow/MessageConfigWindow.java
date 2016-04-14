@@ -149,7 +149,7 @@ public class MessageConfigWindow extends BasePanel {
 		init();
 		initComponents();
 	}
-	private void init() {
+	public void init() {
 		// TODO Auto-generated method stub
 		de =ServerConnectionUtil.connect("localhost", 1099,commonUTIL.getServerIP());
 	   	 try {
@@ -1286,5 +1286,10 @@ public JPanel createChildPanel(String id) {
 public void setWindowActionListener() {
 	// TODO Auto-generated method stub
 	
+}
+@Override
+public String getWindowName() {
+	// TODO Auto-generated method stub
+	return null;
 }
 }
