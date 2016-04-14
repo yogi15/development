@@ -108,7 +108,7 @@ public class AccountingProperty  extends Property {
 			        
 			        PropertyTableCellRenderer propertyTableCellRenderer = new PropertyTableCellRenderer();
 			        propertyTableCellRenderer.setHorizontalAlignment(SwingConstants.LEFT);
-			        property.setTableCellRenderer(propertyTableCellRenderer);
+			      //  property.setTableCellRenderer(propertyTableCellRenderer);
 			        
 			        return property;
 			}
@@ -133,7 +133,7 @@ public class AccountingProperty  extends Property {
 			        
 			        PropertyTableCellRenderer propertyTableCellRenderer = new PropertyTableCellRenderer();
 			        propertyTableCellRenderer.setHorizontalAlignment(SwingConstants.LEADING);
-			        property.setTableCellRenderer(propertyTableCellRenderer);
+			      //  property.setTableCellRenderer(propertyTableCellRenderer);
 			        
 			        return property;
 			}
