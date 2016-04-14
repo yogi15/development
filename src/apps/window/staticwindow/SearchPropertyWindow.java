@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
+import javax.swing.table.TableModel;
 
 import util.CosmosException;
 import util.commonUTIL;
@@ -31,7 +32,7 @@ public class SearchPropertyWindow extends BasePanel {
 	public String searchType = "Product";
 	public String attributeSearchType;
 	private static final long serialVersionUID = 1L;
-	public SearchPropertyTableModelUtil model = null;
+	public TableModel model = null;
 	public  SwingReportDemo  demo = null;
 	    public PivotReport pReport = null;
 	SearchProperty searchproperty = new SearchProperty(); // / used as a bean
@@ -85,7 +86,7 @@ public class SearchPropertyWindow extends BasePanel {
 		this.searchType = searchType;
 		    pReport =  new PivotReport(null); 
 	    	  demo =  new SwingReportDemo(pReport);
-	    	  demo.run();
+	    	
 		init();
 		setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED, null,
 				null));
@@ -93,8 +94,13 @@ public class SearchPropertyWindow extends BasePanel {
 		// add model to table
 		model = new SearchPropertyTableModelUtil(
 				rightPanelJtableSearchPropertydata);
+	//	model = demo.getTableSortView().getModel();
+		if( demo.getSortTable() != null) {
+		rightSideCenterTable = demo.getSortTable();
+	}
 		//setCornerForScrollPane(model.getCol());
-		setQuickSearchOnTable(model, model.getCol().length);
+		rightSideCenterTable.setModel(model);
+	//setQuickSearchOnTable(model,model.getColumnCount());
 		createSearchSingleSplitPaneLayout(CommonConstants.SPLITWINDOWLOCATION);
 		setSize(SearchPropertyConstants.WINDOWWIDTH, SearchPropertyConstants.WINDOWHIGHT);
 	}
@@ -185,7 +191,12 @@ public class SearchPropertyWindow extends BasePanel {
 	@Override
 	public void addCenterRightSidePanelComponents() {
 		// TODO Auto-generated method stub 
-		centerRightSidePanel.add(demo.getView().getJidePanel(), BorderLayout.CENTER);
+		JPanel	  jPanel1  = demo.run();
+	
+		// setQuickSearchOnTable(rightSideCenterTable.getModel(), rightSideCenterTable.getModel().getColumnCount());
+	 
+		jPanel1.add(rightSideCenterTable, BorderLayout.CENTER);
+		centerRightSidePanel.add(jPanel1, BorderLayout.CENTER);
 	}
 
 	@Override
