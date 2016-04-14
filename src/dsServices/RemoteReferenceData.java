@@ -13,7 +13,6 @@ import beans.CurrencySplitConfig;
 import beans.DateRule;
 import beans.Favorities;
 import beans.Folder;
-import beans.Holiday;
 import beans.HolidayCode;
 import beans.JTableMapping;
 import beans.LeContacts;
@@ -51,7 +50,10 @@ public interface RemoteReferenceData extends Remote{
 	  public BaseBean select( String name  ,String beanName)throws RemoteException;
 	  public Collection selectWhere( String where  ,String beanName)throws RemoteException;
 	  public Collection selectALLData(  String beanName)throws RemoteException;
-	  
+
+	  public   Collection selectKeyColumnsWithWhere(String columnNames,String where, String beanName )throws RemoteException;
+     
+	  public   Collection selectKeyColumns(String columnNames, String beanName)throws RemoteException;
 	  
 	
 	public Collection selectLEContactOnWhereClause(String whereClause) throws RemoteException;
@@ -106,7 +108,7 @@ public interface RemoteReferenceData extends Remote{
 	
 	public int saveNettingConfig(NettingConfig netConfig) throws RemoteException;
 	public boolean updateNettingConfig(NettingConfig netConfig)  throws RemoteException;
-	public Collection getNettingConfigOnLegalEntity(int LegalEntityId) throws RemoteException;
+	public Collection getNettingConfigOnCounterParty(int counterPartyId) throws RemoteException;
 	public Collection getNettingConfigOnWhere(String where) throws RemoteException;
 	public Collection getALLtNettingConfig() throws RemoteException;
 	public boolean saveFavourites(Favorities favourites )throws RemoteException;
