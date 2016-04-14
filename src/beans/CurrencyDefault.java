@@ -2,7 +2,9 @@ package beans;
 
 import java.io.Serializable;
 
-public class CurrencyDefault  implements Serializable {
+import util.commonUTIL;
+
+public class CurrencyDefault  implements  BaseBean{
 	
 	private static final long serialVersionUID = -31434619123380538L;
 	
@@ -29,6 +31,11 @@ public class CurrencyDefault  implements Serializable {
 	int non_deliverable_b =0;
 	String dayCount;
 	int currencyDecimal= 0;
+	String CCIL;
+	String CLS;
+	String BDC;
+	String STATUS;
+	AttributeContainer attributeContainer = null;
 	
 	public String getCurrency_code() {
 		return currency_code;
@@ -168,4 +175,79 @@ public class CurrencyDefault  implements Serializable {
 	public void setCurrencyDecimal(int currencyDecimal) {
 		this.currencyDecimal = currencyDecimal;
 	}
+	
+	public String getCCIL() {
+		return CCIL;
+	}
+	public void setCCIL(String CCIL){
+	this.CCIL=CCIL;
+}
+	
+	public String getCLS() {
+		return CLS;
+	}
+	public void setCLS(String CLS){
+		this.CLS=CLS;
+	}
+	
+	public String getBDC() {
+		return BDC;
+	}
+	public void setBDC(String BDC){
+		this.BDC=BDC;
+	
+	
+	}
+	public String getSTATUS() {
+		return STATUS;
+		}
+	public void setSTATUS(String STATUS){
+		this.STATUS=STATUS;
+	}
+	
+	
+
+	public String getAttributeValue(String attributeDataName) {
+		
+		String attr1 = getAttributes();
+		String attributes [] = attr1.split(";");
+		String value = "";
+		
+		for(int i=0;i<attributes.length;i++) {
+			String attribute = 	attributes[i];
+			
+			if(attribute.contains(attributeDataName)) {
+				value = attribute.substring(attribute.indexOf("=")+1, attribute.length());
+				if(!commonUTIL.isEmpty(value))
+					break;
+			}
+		}
+		
+		return value;
+		
+	}
+	
+	
+	private String getAttributes() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Object getPropertyValue(String propertyPaneColumnName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public void setPropertyValue(String propertyPaneColumnName, Object object) {
+		// TODO Auto-generated method stub
+		
+	}
+	public AttributeContainer getAttributeContainer() {
+		return attributeContainer;
+	}
+	public void setAttributeContainer(AttributeContainer attributeContainer) {
+		this.attributeContainer = attributeContainer;
+	}
+	
+	
 }
