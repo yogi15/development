@@ -2,12 +2,15 @@ package apps.window.util.propertyPane.panel;
  
 
 import java.awt.BorderLayout;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
- 
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
 import apps.window.util.propertyDialog.SearchPropertyDialog;
 import apps.window.util.propertyPane.combox.SearchPropertyComboxBox;
 import apps.window.util.windowUtil.Frame12;
@@ -48,45 +51,67 @@ public class SearchPropertyPanel extends PopupPanel {
 	        setFocusable(true); 
 		
 	}
+	boolean flagtoCloseDiagalBox = false;
+	String name = "";
+public void setName(String name) {
+	this.name = name;
+}
+public String getName() {
+	return name;
+}
 	 private JComponent createSearchPropertyPanel() {
 		 if(_dialog == null)
 			 _dialog = new SearchPropertyDialog(Frame12.getFrame(), false,getSearchType());
 		     JPanel returnPanel = _dialog.getMainPanel(); 
-		     _dialog.sw.propWind.rightSideCenterTable.addMouseListener(new MouseListener() {
-				
+		    
+		     ListSelectionModel rowSM = _dialog.swrapper.propWind.rightSideCenterTable.getSelectionModel();
+		     rowSM.addListSelectionListener(new ListSelectionListener() {
+		    	 protected void newSelection(int minSelectionIndex, int maxSelectionIndex) {
+		    			// TODO Auto-generated method stub
+		    		 int row = _dialog.swrapper.propWind.rightSideCenterTable.getSelectedRow();
+		    	String name = (String) _dialog.swrapper.propWind.rightSideCenterTable.getModel().getValueAt(row, 1);
+		    	setName(name);
+		    	flagtoCloseDiagalBox=true;
+		    		 
+ 
+		            	 
+		    		}
 				@Override
-				public void mouseReleased(MouseEvent e) {
+				public void valueChanged(ListSelectionEvent e) {
 					// TODO Auto-generated method stub
+					  if (e.getValueIsAdjusting()) return;
+		                
+		                ListSelectionModel lsm = (ListSelectionModel)e.getSource();
+		                if (lsm.isSelectionEmpty()) {
+		                    return;
+		                } else {
+		                    newSelection(lsm.getMinSelectionIndex(), lsm.getMaxSelectionIndex());
+		                }
+		                
 					
 				}
-				
-				@Override
-				public void mousePressed(MouseEvent e) {
-					// TODO Auto-generated method stub
-					
-				}
-				
-				@Override
-				public void mouseExited(MouseEvent e) {
-					// TODO Auto-generated method stub
-					
-				}
-				
-				@Override
-				public void mouseEntered(MouseEvent e) {
-					// TODO Auto-generated method stub
-					
-				}
-				
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					// TODO Auto-generated method stub
-					setSelectedObject("testing");
-					
-				}
-			});
+		    	 
+		     });
+		     _dialog.getCancelButton().addActionListener(new ActionListener() {
+		            public void actionPerformed(ActionEvent e) {
+		            	_comboBox.hidePopup();
+		            }
+		        });
+		        _dialog.getClearButton().addActionListener(new ActionListener() {
+		            public void actionPerformed(ActionEvent e) {
+		            	setSelectedObject(null);
+		            }
+		        });
+		        _dialog.getOkButton().addActionListener(new ActionListener() {
+		            public void actionPerformed(ActionEvent e) {
+		            //	String selected = commonUTIL.convertHashTableKeyValuesToString(_dialog.conditionalD);
+		            	 
+		            	setSelectedObject(getName());
+		            }
+		        });
 		     return returnPanel;
 	 }
+	
 	private SearchPropertyDialog _dialog = null;
 	private SearchPropertyComboxBox  _comboBox = null;
 	
