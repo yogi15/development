@@ -21,7 +21,7 @@ public class LeContactsSQL extends BaseSQL {
 			"INSERT into leContacts(")
 			.append(" id,  LE_ID,  LE_ROLE,  CONTACT_TYPE, LE_FIRSTNAME, LE_LAST_NAME, ")
 			.append(" CITY, ZIPCODE, STATE, COUNTRY ,MAILING_ADDRESS1, MAILING_ADDRESS2, EAMILID, ")
-			.append(" PHONE, FAX, SWIFT )  ")
+			.append(" PHONE, FAX, SWIFT,ProductType )  ")
 			.append(" values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)").toString();
 
 	final static private String SELECT_MAX = "SELECT LECONTACTS_SEQ.NEXTVAL AS MAX_ID FROM dual ";
@@ -29,7 +29,7 @@ public class LeContactsSQL extends BaseSQL {
 	final static private String SELECTALL = new StringBuffer("SELECT")
 			.append(" id,  LE_ID,  LE_ROLE,  CONTACT_TYPE, LE_FIRSTNAME, LE_LAST_NAME, ")
 			.append(" CITY, ZIPCODE, STATE, COUNTRY , MAILING_ADDRESS1, MAILING_ADDRESS2, EAMILID, ")
-			.append(" PHONE, FAX, SWIFT  ")
+			.append(" PHONE, FAX, SWIFT, ProductType ")
 			.append("FROM leContacts order by id").toString();
 
 	final static private String SELECT = "SELECT POID FROM leContacts where id =  ?";
@@ -37,20 +37,20 @@ public class LeContactsSQL extends BaseSQL {
 	static private String SELECTONE = new StringBuffer("SELECT")
 			.append(" id,  LE_ID,  LE_ROLE,  CONTACT_TYPE, LE_FIRSTNAME, LE_LAST_NAME, ")
 			.append("CITY, ZIPCODE, STATE, COUNTRY ,  MAILING_ADDRESS1, MAILING_ADDRESS2, EAMILID, ")
-			.append(" PHONE, FAX, SWIFT  ")
+			.append(" PHONE, FAX, SWIFT ProductType ")
 			.append("FROM leContacts order by id").append("where id = ")
 			.toString();
 
 	final static private String SELECTONPO = new StringBuffer("SELECT")
 			.append(" id,  LE_ID,  LE_ROLE,  CONTACT_TYPE, LE_FIRSTNAME, LE_LAST_NAME, ")
 			.append(" CITY, ZIPCODE, STATE, COUNTRY , MAILING_ADDRESS1, MAILING_ADDRESS2, EAMILID, ")
-			.append(" PHONE, FAX, SWIFT  ").append("FROM leContacts ")
+			.append(" PHONE, FAX, SWIFT, ProductType ").append("FROM leContacts ")
 			.append("where le_id = ").toString();
 
 	final static private String SELECTWHERE = new StringBuffer("SELECT")
 			.append(" id,  LE_ID,  LE_ROLE,  CONTACT_TYPE, LE_FIRSTNAME, LE_LAST_NAME, ")
 			.append("CITY, ZIPCODE, STATE, COUNTRY , MAILING_ADDRESS1, MAILING_ADDRESS2, EAMILID, ")
-			.append(" PHONE, FAX, SWIFT  ").append("FROM leContacts ")
+			.append(" PHONE, FAX, SWIFT,ProductType  ").append("FROM leContacts ")
 			.append("where ").toString();
 
 	final static private String SQLCOUNT = new StringBuffer(
@@ -81,7 +81,8 @@ public class LeContactsSQL extends BaseSQL {
 				.append(" EAMILID = '").append(leContacts.getEmailID())
 				.append("',").append("  PHONE = '")
 				.append(leContacts.getPhone()).append("',")
-				.append("  SWIFT = '").append(leContacts.getSwift())
+				.append("  SWIFT = '").append(leContacts.getSwift()).append("',")
+				.append("  ProductType = '").append(leContacts.getProductType())
 				.append("' WHERE LE_ID = ")
 				.append(leContacts.getLeId()).toString();
 
@@ -272,7 +273,7 @@ public class LeContactsSQL extends BaseSQL {
 			stmt.setString(14, inserMessage.getPhone());
 			stmt.setString(15, inserMessage.getFax());
 			stmt.setString(16, inserMessage.getSwift());
-
+			stmt.setString(17, inserMessage.getProductType());
 			if (stmt.executeUpdate() > 0) {
 
 				con.commit();
@@ -327,7 +328,7 @@ public class LeContactsSQL extends BaseSQL {
 				leContacts.setPhone(rs.getString(14));
 				leContacts.setFax(rs.getString(15));
 				leContacts.setSwift(rs.getString(16));
-
+				leContacts.setProductType(rs.getString(17));
 				return leContacts;
 
 			}
@@ -377,6 +378,7 @@ public class LeContactsSQL extends BaseSQL {
 				leContacts.setPhone(rs.getString(14));
 				leContacts.setFax(rs.getString(15));
 				leContacts.setSwift(rs.getString(16));
+				leContacts.setProductType(rs.getString(17));
 				leContactsVec.add(leContacts);
 
 			}
@@ -425,6 +427,7 @@ public class LeContactsSQL extends BaseSQL {
 				leContacts.setPhone(rs.getString(14));
 				leContacts.setFax(rs.getString(15));
 				leContacts.setSwift(rs.getString(16));
+				leContacts.setProductType(rs.getString(17));
 				leContactsVec.add(leContacts);
 
 			}
@@ -475,6 +478,7 @@ public class LeContactsSQL extends BaseSQL {
 				leContacts.setPhone(rs.getString(14));
 				leContacts.setFax(rs.getString(15));
 				leContacts.setSwift(rs.getString(16));
+				leContacts.setProductType(rs.getString(17));
 				leContactsVec.add(leContacts);
 
 			}
@@ -533,6 +537,7 @@ public class LeContactsSQL extends BaseSQL {
 				leContacts.setPhone(rs.getString(14));
 				leContacts.setFax(rs.getString(15));
 				leContacts.setSwift(rs.getString(16));
+				leContacts.setProductType(rs.getString(17));
 				leContactsVec.add(leContacts);
 
 			}
@@ -651,17 +656,5 @@ public class LeContactsSQL extends BaseSQL {
 		}
 		return 0;
 
-	}
-
-	@Override
-	public Collection selectKeyColumnsWithWhere(String columnNames, String where, Connection con) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Collection selectKeyColumns(String columnNames, Connection con) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }
