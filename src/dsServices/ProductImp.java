@@ -14,8 +14,7 @@ import dbSQL.FXOptionProductSQL;
 import dbSQL.FutureContractSQL;
 import dbSQL.FutureContractWiseSQL;
 import dbSQL.ProductSQL;
-import dbSQL.dsSQL;
-
+import dbSQL.dsSQL; 
 import beans.Coupon;
 import beans.FutureContract;
 import beans.FutureProduct;
@@ -29,13 +28,13 @@ public class ProductImp implements RemoteProduct {
 			throws RemoteException {
 		// TODO Auto-generated method stub
 
-		int i = ProductSQL.save(product, dsSQL.getConn());
-		if (i > 0) {
-			coupon.setProductId(i);
+		Product productBean = (Product) ProductSQL.save(product, dsSQL.getConn());
+		if (productBean != null && productBean.getId() > 0) {
+			coupon.setProductId(productBean.getId());
 			CouponSQL.save(coupon, dsSQL.getConn());
 		}
 
-		return i;
+		return productBean.getId();
 	}
 	@Override
 	public Collection getALLFutureProduct()
@@ -137,8 +136,8 @@ public class ProductImp implements RemoteProduct {
 		int id = 0;
 		Product underlyingProduct = futureProduct.getUnderlyingProduct();
 		if(underlyingProduct.getId() == 0) {
-			int underlyingID = ProductSQL.save(underlyingProduct, dsSQL.getConn());
-			futureProduct.setUnderlying_productID(underlyingID);
+		Product product = (Product) ProductSQL.save(underlyingProduct, dsSQL.getConn());
+			futureProduct.setUnderlying_productID(product.getId());
 			id =  FutureContractSQL.save(futureProduct, dsSQL.getConn());
 			
 		}
@@ -238,7 +237,7 @@ public class ProductImp implements RemoteProduct {
 			 
 			
 				product.setName(ProductConstants.FXOPTION+"."+fxOption.getOptionStyle()+"."+fxOption.getOptionType()+"."+fxOption.getExericseType()+"."+fxOption.getCurrencyBase()+"/"+fxOption.getCurrencyQuote()+"."+fxOption.getExpiryDate());
-			 productID = ProductSQL.save(product, dsSQL.getConn());
+				  product = (Product)   ProductSQL.save(product, dsSQL.getConn());
 			if(productID != 0) {
 			    fxOption.setProduct_id(productID);
 			    if(! FXOptionProductSQL.save(fxOption,dsSQL.getConn())) {
