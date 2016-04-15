@@ -18,7 +18,7 @@ public class SearchPropertyComboxBox extends AbstractComboBox {
 	SearchPropertyEditor editor;
 	String searchType = "";
 	 public SearchPropertyComboxBox(SearchPropertyEditor searchPropertyEditor) {
-		 // super(AbstractComboBox.REVERT);
+		  super(AbstractComboBox.DROPDOWN);
 		 
 		 setEditable(true);
 	        initComponent();
@@ -45,19 +45,27 @@ public class SearchPropertyComboxBox extends AbstractComboBox {
 		public PopupPanel createPopupComponent() {
 	        return new SearchPropertyPanel(this);
 	    }
-
+		 @Override
 	    public EditorComponent createEditorComponent() {
-            AbstractComboBox.DefaultTextFieldEditorComponent comp  = 
-                    new AbstractComboBox.DefaultTextFieldEditorComponent(String.class){
-                    public Component getEditorComponent(){
-                        JTextField f = (JTextField)super.getEditorComponent();
-                        f.setEditable(true);
-                        return f;
-                    }
-                }
-                ;
-                return comp;
-            
+	    	return new DefaultTextFieldEditorComponent(String.class) {
+
+				protected String convertElementToString(Object value) {
+
+					String _stringFutCon = null;
+					if (value != null) {
+						if (value instanceof String) {
+							_stringFutCon = (String) value;
+							//setConditionvalue(_stringFutCon);
+						}
+					}
+					if (value == null)
+						return "";
+				 
+					return _stringFutCon;
+				}
+         
+			};
+             
 	    }
 	    
 	    public void showPopupPanelAsPopup(boolean show) {
