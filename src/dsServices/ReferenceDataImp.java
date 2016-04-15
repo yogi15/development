@@ -25,7 +25,7 @@ import dbSQL.FavouritiesSQL;
 import dbSQL.FolderSQL;
 import dbSQL.HolidayCodeSQL;
 import dbSQL.JTableMappingSQL;
-import dbSQL.LeContactsSql;
+import dbSQL.LeContactsSQL;
 import dbSQL.LegalEntitySQL;
 import dbSQL.LiquidationConfigSQL;
 import dbSQL.MenuConfigSQL;
@@ -833,8 +833,8 @@ public class ReferenceDataImp implements RemoteReferenceData {
 	public CurrencyDefault selectCurrencyDefault(CurrencyDefault currencyD)
 			throws RemoteException {
 		// TODO Auto-generated method stub
-		return CurrencyDefaultSQL.selectcurrencyDefault(
-				currencyD.getCurrency_code(), dsSQL.getConn());
+		return null;/*CurrencyDefaultSQL.selectcurrencyDefault(
+				currencyD.getCurrency_code(), dsSQL.getConn()); */
 
 	}
 
@@ -842,8 +842,8 @@ public class ReferenceDataImp implements RemoteReferenceData {
 	public CurrencyDefault selectCurrencyDefault(String currencyISO)
 			throws RemoteException {
 		// TODO Auto-generated method stub
-		return CurrencyDefaultSQL.selectcurrencyDefault(currencyISO,
-				dsSQL.getConn());
+		return  null;/*CurrencyDefaultSQL.selectcurrencyDefault(
+		currencyD.getCurrency_code(), dsSQL.getConn()); */
 
 	}
 
@@ -898,10 +898,10 @@ public class ReferenceDataImp implements RemoteReferenceData {
 		// TODO Auto-generated method stub
 		String sql = " quoting_currency = '" + cp.getQuoting_currency()
 				+ "' and primary_currency = '" + cp.getPrimary_currency() + "'";
-		CurrencyPair cp1 = CurrencyPairSQL.select(sql, dsSQL.getConn());
+		CurrencyPair cp1 = null;//CurrencyPairSQL.select(sql, dsSQL.getConn());
 		if (cp1 != null)
 			return false;
-		return CurrencyPairSQL.save(cp, dsSQL.getConn());
+		return false;//CurrencyPairSQL.save(cp, dsSQL.getConn());
 	}
 
 	@Override
@@ -916,14 +916,14 @@ public class ReferenceDataImp implements RemoteReferenceData {
 		// TODO Auto-generated method stub
 		String sql = "  quoting_currency = '" + secondaryCurrency + "'";
 
-		return CurrencyPairSQL.selectCurrencyPair(sql, dsSQL.getConn());
+		return null;// CurrencyPairSQL.selectCurrencyPair(sql, dsSQL.getConn());
 	}
 
 	@Override
 	public CurrencyPair updateCurrencyPair(CurrencyPair cp)
 			throws RemoteException {
 		// TODO Auto-generated method stub
-		return CurrencyPairSQL.update(cp, dsSQL.getConn());
+		return null;//CurrencyPairSQL.update(cp, dsSQL.getConn());
 	}
 
 	@Override
@@ -932,7 +932,7 @@ public class ReferenceDataImp implements RemoteReferenceData {
 		// TODO Auto-generated method stub
 		String sql = " quoting_currency = '" + cp.getQuoting_currency() + "'";
 
-		return CurrencyPairSQL.selectCurrencyPair(sql, dsSQL.getConn());
+		return null;//CurrencyPairSQL.selectCurrencyPair(sql, dsSQL.getConn());
 	}
 
 	@Override
@@ -1269,31 +1269,31 @@ public class ReferenceDataImp implements RemoteReferenceData {
 	@Override
 	public boolean updateLeContacts(LeContacts le) throws RemoteException {
 		// TODO Auto-generated method stub
-		return LeContactsSql.update(le, dsSQL.getConn());
+		return false;//LeContactsSql.update(le, dsSQL.getConn());
 	}
 
 	@Override
 	public boolean deleteLeContacts(LeContacts le) throws RemoteException {
 		// TODO Auto-generated method stub
-		return LeContactsSql.delete(le, dsSQL.getConn());
+		 return false;// LeContactsSql.delete(le, dsSQL.getConn());
 	}
 
 	@Override
 	public Collection getALLLecontacts() throws RemoteException {
 		// TODO Auto-generated method stub
-		return LeContactsSql.selectALL(dsSQL.getConn());
+		 return null;// LeContactsSql.selectALL(dsSQL.getConn());
 	}
 
 	@Override
 	public Collection getLeContacts(int leid) throws RemoteException {
 		// TODO Auto-generated method stub
-		return LeContactsSql.selectContactsOnLe(leid, dsSQL.getConn());
+		 return null;// LeContactsSql.selectContactsOnLe(leid, dsSQL.getConn());
 	}
 
 	@Override
 	public Collection selectLeContacts(int leid) throws RemoteException {
 		// TODO Auto-generated method stub
-		return LeContactsSql.selectContactsOnLe(leid, dsSQL.getConn());
+		 return null;// LeContactsSql.selectContactsOnLe(leid, dsSQL.getConn());
 	}
 
 	@Override
@@ -1317,7 +1317,7 @@ public class ReferenceDataImp implements RemoteReferenceData {
 	@Override
 	public int saveLeContacts(LeContacts le) throws RemoteException {
 		// TODO Auto-generated method stub
-		return LeContactsSql.save(le, dsSQL.getConn());
+		return 0;//LeContactsSql.save(le, dsSQL.getConn());
 	}
 
 	@Override
@@ -1376,8 +1376,7 @@ public class ReferenceDataImp implements RemoteReferenceData {
 	public Collection selectLEContactOnWhereClause(String whereClause)
 			throws RemoteException {
 		// TODO Auto-generated method stub
-		return LeContactsSql.selectLEContactOnWhereClause(whereClause,
-				dsSQL.getConn());
+		return null;//LeContactsSql.selectLEContactOnWhereClause(whereClause,				dsSQL.getConn());
 	}
 
 	@Override
