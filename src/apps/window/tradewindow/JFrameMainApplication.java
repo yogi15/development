@@ -2,10 +2,13 @@ package apps.window.tradewindow;
 
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.util.Hashtable;
 
@@ -15,18 +18,34 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
-
-import util.commonUTIL;
-import util.cacheUtil.AccessDataCacheUtil;
-import apps.window.referencewindow.JFrameReferenceWindow;
-import apps.window.staticwindow.JFrameStaticWindow;
-import apps.window.staticwindow.Login;
-import beans.Users;
+import javax.swing.UIManager;
 
 import com.jidesoft.plaf.LookAndFeelFactory;
 
+import dsManager.TaskManager;
 import dsServices.ServerConnectionUtil;
+import beans.Users;
+ 
+//import apps.window.adminmonitor.JFrameAdminMonitorWindow;
+import apps.window.limitdashboardpanel.JFrameLimitDashBoard;
+//import apps.window.operationwindow.JFrameJobApplication;
+//import apps.window.operationwindow.JFrameTradeBrowser;
+//import apps.window.operationwindow.SearchTrade;
+import apps.window.operationwindow.jobpanl.JFrameNewJobPanel;
+//import apps.window.positionwindow.JFrameManulPositionLiquidation;
+//import apps.window.positionwindow.JFramePosition;
+//import apps.window.referencewindow.FutureProductWindow;
+//import apps.window.referencewindow.JFrameAccountingWindow;
+import apps.window.referencewindow.JFrameReferenceWindow;
+import apps.window.reportwindow.JFrameNewReport;
+import apps.window.reportwindow.JFrameReportsApplication;
+//import apps.window.staticwindow.FavoritiesWindow; 
+import apps.window.staticwindow.Login;
 //import apps.window.reportwindow.NewJFrame2;
+import apps.window.staticwindow.JFrameStaticWindow;
+import util.ClassInstantiateUtil;
+import util.commonUTIL;
+import util.cacheUtil.AccessDataCacheUtil;
 
 public class JFrameMainApplication extends JFrame {
 
@@ -51,7 +70,8 @@ public class JFrameMainApplication extends JFrame {
 			new JMenuItem("WindowSheet"),
 			new JMenuItem("WindowTableModelMapping"),
 			new JMenuItem("JavaFileGenerator"),
-			new JMenuItem("MenuConfiguration"), new JMenuItem("JavaScript") };
+			new JMenuItem("Contact"),
+			new JMenuItem("MenuConfiguration"), new JMenuItem("JavaScript"),new JMenuItem("SearchConfig"),new JMenuItem("SearchProperty") };
 	private static JMenuItem[] reports = { new JMenuItem("TradeReport"),
 			new JMenuItem("TransferReport"), new JMenuItem("PostingReport"),
 			new JMenuItem("MessageReport"),
@@ -144,7 +164,30 @@ public class JFrameMainApplication extends JFrame {
 							return;
 						}
 						if (productName.equalsIgnoreCase("MoneyMarket"))
-							productName = "MM";  
+							productName = "MM";
+						TradeApplication tradeWindow = new TradeApplication(
+								productName, name);
+						// JFrameTradeWindowApplication tradeWindow = new
+						// JFrameTradeWindowApplication(productName,name);
+						tradeWindow.setUserName(name);
+						// tradeWindow.setResizable(false);
+						tradeWindow.setTitle(arg0.getActionCommand()
+								+ " Trade Window " + name.getUser_name() + " :"
+								+ name.getId());
+						tradeWindow.setIconImage(Toolkit.getDefaultToolkit()
+								.getImage(imgURL));
+						tradeWindow.setVisible(true);
+						if (productName.toString().equalsIgnoreCase("FX")) {
+							tradeWindow.setTitle("CosMos FX Trade Window  "
+									+ name.getUser_name() + ":" + name.getId());
+							tradeWindow.setSize(1340, 740);
+							tradeWindow.setLocation(5, 5);
+							// tradeWindow.setResizable(false);
+						} else {
+							// tradeWindow.setSize(1020,600);
+							tradeWindow.setLocation(5, 0);
+						}
+
 					}
 				});
 			} else {
@@ -182,12 +225,100 @@ public class JFrameMainApplication extends JFrame {
 											+ " Window ");
 							return;
 						}
-						if (arg0.getActionCommand().equalsIgnoreCase("Jobs")) { 
+						if (arg0.getActionCommand().equalsIgnoreCase("Jobs")) {
+							final JFrameNewJobPanel jobs = new JFrameNewJobPanel(
+									"Jobs", name);
+							;
+
+							jobs.setIconImage(Toolkit.getDefaultToolkit()
+									.getImage(imgURL));
+							jobs.setSize(900, 750);
+							jobs.setVisible(true);
+							jobs.setIconImage(Toolkit.getDefaultToolkit()
+									.getImage(imgURL));
+							jobs.setTitle("Jobs Station " + name.getUser_name());
+							jobs.setFocusableWindowState(true);
+							jobs.setUser(name);
+							jobs.addWindowListener(new WindowAdapter() {
+								public void WindowClosed(final ActionEvent act) {
+									// singleInstance.remove("Jobs");
+									jobs.clearALL();
+
+								}
+							});
+
+						} else if (arg0.getActionCommand().equalsIgnoreCase(
+								"Quick Look Up")) {
+
+						/*	SearchTrade searchTrade = new SearchTrade();
+							searchTrade.setIconImage(Toolkit
+									.getDefaultToolkit().getImage(imgURL));
+							searchTrade.setVisible(true);
+							searchTrade.setUser(name);
+							searchTrade.setSize(260, 140);
+							searchTrade.setTitle("TradeSearch");
+							searchTrade.setResizable(false);
+							// login.setFont(new java.awt.Font("Verdana", 0,
+							// 11));
+							searchTrade
+									.setLocationRelativeTo(new SearchTrade()); */
+						} else if (arg0.getActionCommand().equalsIgnoreCase(
+								"Deal Viewer")) {
+
+						/*	JFrameTradeBrowser dealViewer = new JFrameTradeBrowser();
+							dealViewer.setVisible(true);
+							dealViewer.setIconImage(Toolkit.getDefaultToolkit()
+									.getImage(imgURL));
+							// dealViewer.setUser(name);
+							dealViewer.setSize(1250, 750);
+							dealViewer.setTitle("Deal Viewer : "
+									+ name.getUser_name());
+							dealViewer.setResizable(false); */
+
+						}/*
+						 * else if (arg0.getActionCommand().equalsIgnoreCase(
+						 * "PositionManager")) { JFramePosition pm = new
+						 * JFramePosition("Position", name); pm.setSize(900,
+						 * 750); pm.setVisible(true);
+						 * pm.setIconImage(Toolkit.getDefaultToolkit().getImage(
+						 * imgURL)); pm.setTitle("Position" +
+						 * name.getUser_name()); // pm.setUser(name); //
+						 * pm.setAlwaysOnTop(true); //
+						 * jobs.setFocusCycleRoot(true);
+						 * pm.setFocusableWindowState(true); // Thread startPm =
+						 * new Thread(pm); // startPm.start(); }
+						 */else if (arg0.getActionCommand().equalsIgnoreCase(
+								"LimitDashBoard")) {
+							JFrameLimitDashBoard limitDB = new JFrameLimitDashBoard(
+									"LimitDashBoard", name);
+							limitDB.setSize(900, 750);
+							limitDB.setVisible(true);
+							limitDB.setIconImage(Toolkit.getDefaultToolkit()
+									.getImage(imgURL));
+							limitDB.setTitle("LimitDashBoard"
+									+ name.getUser_name());
+							// pm.setUser(name);
+							// pm.setAlwaysOnTop(true);
+							// jobs.setFocusCycleRoot(true);
+							limitDB.setFocusableWindowState(true);
+							// Thread startPm = new Thread(pm);
+							// startPm.start();
 						}
-						}
+					}
 
 				});
-			}  
+			} else {
+				for (int s = 0; s < submenu1.length; s++) {
+					jobs[i].add(submenu1[s]);
+					commonUTIL.setBackGroundColor(jobs[i]);
+				}
+				menu[4].add(jobs[i]);
+
+				menu[4].setFont(Font.decode("SansSerif-12"));
+				jobs[i].setFont(Font.decode("SansSerif-12"));
+				commonUTIL.setBackGroundColor(menu[4]);
+				commonUTIL.setBackGroundColor(menu[4]);
+			}
 
 		}
 
@@ -213,15 +344,26 @@ public class JFrameMainApplication extends JFrame {
 											+ arg0.getActionCommand()
 											+ " Window ");
 							return;
-						} */ 
-						// reports.setVisible(true);
+						} */
+						JFrameNewReport reports = new JFrameNewReport(arg0
+								.getActionCommand(), name);
+						reports.setIconImage(Toolkit.getDefaultToolkit()
+								.getImage(imgURL));
+						reports.setSize(1250, 750);
+						reports.setVisible(true);
+						reports.setTitle(arg0.getActionCommand() + " : "
+								+ name.getUser_name());
+						 reports.setVisible(true);
 						// reports.setUser(name);
 
 					}
 
 				});
 			} else {
-				 
+				for (int s = 0; s < submenu1.length; s++) {
+					reports[i].add(submenu1[s]);
+					commonUTIL.setBackGroundColor(reports[i]);
+				}
 				menu[3].add(reports[i]);
 
 				menu[3].setFont(Font.decode("SansSerif-12"));
@@ -244,7 +386,16 @@ public class JFrameMainApplication extends JFrame {
 								.showAlertMessage("User Access Denied to open "
 										+ arg0.getActionCommand() + " Window ");
 						return;
-					} 
+					}
+				/*	FavoritiesWindow favoritiesWindow = new FavoritiesWindow(
+							arg0.getActionCommand(), us1);
+					favoritiesWindow.setTitle(arg0.getActionCommand()
+							+ "  FavoritiesWindow " + us1.getUser_name());
+					favoritiesWindow.setIconImage(Toolkit.getDefaultToolkit()
+							.getImage(imgURL));
+					// favoritiesWindow.setSize(1200,650);
+					favoritiesWindow.setVisible(true);
+					favoritiesWindow.setLocation(200, 150); */
 
 				}
 
@@ -261,7 +412,15 @@ public class JFrameMainApplication extends JFrame {
 					 * if(!AccessDataCacheUtil.getAccessData().isAccessToWindow(name
 					 * , "AdminMonitor")) {
 					 * commonUTIL.showAlertMessage("User Access Denied to open "
-					 * +"AdminMonitor"+ " Window "); return; } */
+					 * +"AdminMonitor"+ " Window "); return; }
+					 */
+			/*		JFrameAdminMonitorWindow pm = new JFrameAdminMonitorWindow(
+							"AdminMonitor", name);
+					pm.setSize(900, 750);
+					pm.setVisible(true);
+					pm.setIconImage(Toolkit.getDefaultToolkit()
+							.getImage(imgURL));
+					pm.setTitle("Admin Monitor " + name.getUser_name()); */
 				}
 
 			});
@@ -282,7 +441,19 @@ public class JFrameMainApplication extends JFrame {
 									.showAlertMessage("User Access Denied to open "
 											+ "Position" + " Window ");
 							return;
-						} 
+						}
+					/*	JFramePosition pm = new JFramePosition("Position", name);
+						pm.setSize(900, 750);
+						pm.setVisible(true);
+						pm.setIconImage(Toolkit.getDefaultToolkit().getImage(
+								imgURL));
+						pm.setTitle("Position" + name.getUser_name());
+						// pm.setUser(name);
+						// pm.setAlwaysOnTop(true);
+						// jobs.setFocusCycleRoot(true);
+						pm.setFocusableWindowState(true);
+						// Thread startPm = new Thread(pm); */
+						// startPm.start();
 					} else {
 						if (!AccessDataCacheUtil.getAccessData()
 								.isAccessToWindow(name, "ManualLiquidation")) {
@@ -290,7 +461,19 @@ public class JFrameMainApplication extends JFrame {
 									.showAlertMessage("User Access Denied to open "
 											+ "ManualLiquidation" + " Window ");
 							return;
-						} 
+						}
+				/*		JFrameManulPositionLiquidation manualPostion = new JFrameManulPositionLiquidation(
+								"ManualLiquidation", name);
+						manualPostion.setSize(900, 750);
+						manualPostion.setVisible(true);
+						manualPostion.setIconImage(Toolkit.getDefaultToolkit()
+								.getImage(imgURL));
+						manualPostion.setTitle("ManualLiquidationWindow"
+								+ name.getUser_name());
+						// pm.setUser(name);
+						// pm.setAlwaysOnTop(true);
+						// jobs.setFocusCycleRoot(true);
+						manualPostion.setFocusableWindowState(true); */
 					}
 
 				}
@@ -310,7 +493,23 @@ public class JFrameMainApplication extends JFrame {
 								.showAlertMessage("User Access Denied to open "
 										+ productName + " Window ");
 						return;
-					} 
+					}
+					TradeApplication tradeWindow = new TradeApplication(
+							productName, name);
+					// JFrameTradeWindowApplication tradeWindow = new
+					// JFrameTradeWindowApplication(productName,name);
+					tradeWindow.setUserName(name);
+					// tradeWindow.setResizable(false);
+					tradeWindow.setTitle(arg0.getActionCommand()
+							+ " Trade Window " + name.getUser_name() + " :"
+							+ name.getId());
+					tradeWindow.setIconImage(Toolkit.getDefaultToolkit()
+							.getImage(imgURL));
+					tradeWindow.setVisible(true);
+					tradeWindow.setTitle("CosMos productName Trade Window  "
+							+ name.getUser_name() + " : " + name.getId());
+					tradeWindow.setSize(1340, 740);
+					tradeWindow.setLocation(5, 5);
 
 				}
 			});
@@ -328,7 +527,21 @@ public class JFrameMainApplication extends JFrame {
 								.showAlertMessage("User Access Denied to open "
 										+ arg0.getActionCommand() + " Window ");
 						return;
-					} 
+					}
+				/*	JFrameAccountingWindow accountingWindow = new JFrameAccountingWindow(
+							arg0.getActionCommand(), us1);
+					accountingWindow.setTitle(arg0.getActionCommand()
+							+ "  AccountingWindow " + us1.getUser_name());
+					accountingWindow.setIconImage(Toolkit.getDefaultToolkit()
+							.getImage(imgURL));
+					if (arg0.getActionCommand().equalsIgnoreCase(
+							"AccEventConfig"))
+						accountingWindow.setSize(750, 470);
+					else
+						accountingWindow.setSize(750, 600);
+					accountingWindow.setVisible(true);
+					accountingWindow.setLocation(200, 150);
+					accountingWindow.setResizable(false); */
 				}
 			});
 		}
@@ -394,7 +607,16 @@ public class JFrameMainApplication extends JFrame {
 			commonUTIL.setBackGroundColor(derivativeItems[s]);
 			derivativeItems[s].addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
- 
+
+				/*	FutureProductWindow refWindow = new FutureProductWindow();
+					refWindow.setIconImage(Toolkit.getDefaultToolkit()
+							.getImage(imgURL));
+
+					refWindow.setSize(1270, 580);
+
+					refWindow.setLocationRelativeTo(j);
+					refWindow.setVisible(true);
+					refWindow.setLocation(100, 100);*/
 
 				}
 			});
@@ -410,7 +632,15 @@ public class JFrameMainApplication extends JFrame {
 								.showAlertMessage("User Access Denied to open "
 										+ arg0.getActionCommand() + " Window ");
 						return;
-					}*/ 
+					}*/
+					JFrameNewReport reports = new JFrameNewReport(arg0
+							.getActionCommand(), name);
+					reports.setIconImage(Toolkit.getDefaultToolkit().getImage(
+							imgURL));
+					reports.setSize(1250, 750);
+					reports.setVisible(true);
+					reports.setTitle(arg0.getActionCommand() + " : "
+							+ name.getUser_name());
 
 				}
 			});
@@ -428,7 +658,21 @@ public class JFrameMainApplication extends JFrame {
 								.showAlertMessage("User Access Denied to open "
 										+ productName + " Window ");
 						return;
-					} 
+					}
+					TradeApplication tradeWindow = new TradeApplication(
+							productName, name);
+					// JFrameTradeWindowApplication tradeWindow = new
+					// JFrameTradeWindowApplication(productName,name);
+					tradeWindow.setUserName(name);
+					// tradeWindow.setResizable(false);
+					tradeWindow.setTitle(arg0.getActionCommand()
+							+ " Trade Window " + name.getUser_name() + " :"
+							+ name.getId());
+					tradeWindow.setIconImage(Toolkit.getDefaultToolkit()
+							.getImage(imgURL));
+					// tradeWindow.setBackground(getColors());
+					tradeWindow.setVisible(true);
+					tradeWindow.setLocation(5, 0);
 
 				}
 
@@ -508,6 +752,16 @@ public class JFrameMainApplication extends JFrame {
 							staticwindow.setSize(1035, 555);
 						}
 						if (arg0.getActionCommand().toString()
+								.equalsIgnoreCase("Contact")) {
+							staticwindow = new JFrameStaticWindow(arg0
+									.getActionCommand());
+							staticwindow.setIconImage(Toolkit
+									.getDefaultToolkit().getImage(imgURL));
+							staticwindow.setLocation(50, 100);
+							staticwindow.setSize(400, 500);
+						}
+								
+						if (arg0.getActionCommand().toString()
 								.equalsIgnoreCase("WindowSheet")
 								|| arg0.getActionCommand().toString()
 										.equalsIgnoreCase("JavaFileGenerator")
@@ -518,14 +772,24 @@ public class JFrameMainApplication extends JFrame {
 								|| arg0.getActionCommand()
 										.toString()
 										.equalsIgnoreCase(
-												"WindowTableModelMapping")) {
+												"WindowTableModelMapping")|| arg0.getActionCommand()
+												.toString()
+												.equalsIgnoreCase(
+														"SearchConfig") || arg0.getActionCommand()
+														.toString()
+														.equalsIgnoreCase(
+																"SearchProperty"))  {
 
 							staticwindow = new JFrameStaticWindow(arg0
 									.getActionCommand());
 							staticwindow.setIconImage(Toolkit
 									.getDefaultToolkit().getImage(imgURL));
+							if(arg0.getActionCommand().equalsIgnoreCase("SearchProperty")) {
+								staticwindow.setSize(125, 105);
+							} else {
 							staticwindow.setLocation(50, 100);
-							staticwindow.setSize(1035, 555);
+							staticwindow.setSize(1295, 555);
+							}
 						}
 						if (arg0.getActionCommand().toString()
 								.equalsIgnoreCase("Holiday")) {
