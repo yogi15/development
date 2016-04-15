@@ -7,6 +7,7 @@ import javax.swing.CellEditor;
 
 import apps.window.util.propertyPane.editor.DateRulePropertyEditor;
 import apps.window.util.propertyPane.editor.SearchPropertyEditor;
+import beans.Product;
 
 import com.jidesoft.converter.ConverterContext;
 import com.jidesoft.converter.ObjectConverter;
@@ -25,6 +26,7 @@ public class PropertySearchBox extends Property implements
 
 		CellEditorManager.registerEditor(String.class, new CellEditorFactory() {
 			public CellEditor create() {
+				
 				return new SearchPropertyEditor(searchType);
 			}
 		}, new EditorContext(propertyName));
@@ -56,28 +58,33 @@ setEditable(true);
 	@Override
 	public void setValue(Object value) {
 		// d stub
-		//System.out.println("From propertySearchBox " + value);
-		//setValue(value);
+		setValue(value, true);
 
 	}
-
+	public void setValue(Object value, boolean fireEvent) {
+		Object oldValue = setValue;
+		setValue = value;
+		if (oldValue != setValue && fireEvent) {
+			firePropertyChange(PROPERTY_VALUE, oldValue, value);
+		}
+	}
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		// TODO Auto-generated method stub
-		System.out.println(getValue());
+	//	System.out.println(getValue());
 
 	}
 
 }
 
 class SearchPropertyConverter implements ObjectConverter {
-	String p = null;
+	Product p = null;
 
 	public String toString(Object o, ConverterContext converterContext) {
-		if (!(o instanceof String))
+		if (!(o instanceof Product))
 			return "";
-		p = (String) o;
-		return p ;
+		p = (Product) o;
+		return p.getProdcutShortName() ;
 	}
 
 	public boolean supportToString(Object o, ConverterContext converterContext) {
