@@ -4,7 +4,7 @@ import java.rmi.RemoteException;
 import java.util.Collection;
 import java.util.Vector;
 
-import util.ReferenceDataCache;
+import util.cacheUtil.ReferenceDataCache;
 import util.commonUTIL;
 
 import dbSQL.LimitConfigSQL;
