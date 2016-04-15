@@ -338,6 +338,12 @@ public abstract class BasePanel extends JPanel {
 		scrollPane.getViewport().add(rightSideCenterTable);
 	      
 		splitRightPanel.add(centerRightSidePanel, BorderLayout.CENTER);
+        if(rightSideCenterTable != null) {
+		rightSideCenterTable.setRowSelectionAllowed(true);
+		rightSideCenterTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION); 
+		rightSideCenterTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        }
+		
 		if (!isHierarchicalTableSelected) {
 			rightSideCenterTable
 					.setTableStyleProvider(new RowStripeTableStyleProvider(
@@ -363,7 +369,7 @@ public abstract class BasePanel extends JPanel {
 		splitLeftPanel.add(leftBottombuttonsPanel, BorderLayout.SOUTH); 
 		    
 		splitRightPanel.add(rightTopbuttonsPanel, BorderLayout.NORTH);
-		rightSideCenterTable.setModel(_filterField.getDisplayTableModel() );
+	//	rightSideCenterTable.setModel(_filterField.getDisplayTableModel() );
 		createSearchleftBottomsPanel();
 		//setRightPanelTopComp();
 		try {
