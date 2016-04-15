@@ -45,8 +45,7 @@ import dsServices.RemoteBOProcess;
 import dsServices.RemoteReferenceData;
 import dsServices.RemoteTask;
 import dsServices.RemoteTrade;
-
-import apps.window.tradewindow.JFrameTradeWindowApplication;
+ 
 import apps.window.tradewindow.TradeApplication;
 import apps.window.util.windowUtil.JDialogBoxForChoice;
 import apps.window.util.windowUtil.JDialogBoxForDualChoice;
