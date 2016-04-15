@@ -26,13 +26,13 @@ public class HelperLeBean implements HelperBean {
 		leContacts.setLeLastName(record[2]);
 		leContacts.setLeRole(record[4]);
 		leContacts.setPoId(Integer.parseInt(record[5]));
-		leContacts.setContactCategory(record[6]);
+		leContacts.setContactType(record[6]);
 		leContacts.setCity(record[8]);
 		leContacts.setZipCode(record[9]);
 		leContacts.setState(record[10]);
 		leContacts.setCountry(record[11]);
-		leContacts.setMailingAddress(record[12]);
-		leContacts.setEmailAddresss(record[13]);
+		leContacts.setMailingAddress1(record[12]);
+		leContacts.setEmailID(record[13]);
 		leContacts.setPhone(record[14]);
 		leContacts.setFax(record[15]);
 		leContacts.setTelex(record[16]);
@@ -41,7 +41,7 @@ public class HelperLeBean implements HelperBean {
 		leContacts.setEffectiveFrom(record[19]);
 		leContacts.setEffectiveTo(record[20]);
 		leContacts.setExternalRef(record[21]);
-		leContacts.setProductType(record[22]);
+		//leContacts.setProductType(record[22]); // we will require this. 
 		
 		uploaderBean.setLeContactsBean(leContacts);
 		
