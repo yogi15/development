@@ -8,6 +8,7 @@ public class LeContacts implements BaseBean {
 	 int leId = 0;
 	 String leRole = "";
 	 int poId = 0;
+	 String ProductType="";
 	 String contactType = ""; 
 	 String leFirstName = "";
 	 String leLastName = "";
@@ -28,6 +29,12 @@ public class LeContacts implements BaseBean {
 	 String effectiveTo = "";
 	 String externalRef = "";
 	 
+	public String getProductType() {
+		return ProductType;
+	}
+	public void setProductType(String productType) {
+		ProductType = productType;
+	}
 	@Override
 	public Object getPropertyValue(String propertyPaneColumnName) {
 		// TODO Auto-generated method stub
