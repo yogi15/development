@@ -90,7 +90,7 @@ public class PropertyGenerator {
 				 }
 				 if((dataType.equalsIgnoreCase(PropertyPaneConstants.DATE))  ) {
 					 
-						   renumProperty  = createDateProperty(ws.getWindowName(),ws.getFieldName(),ws.getCategory()  );
+						   renumProperty  = createDateProperty(ws.getFieldName(),ws.getFieldName(),ws.getCategory()  );
 					 
 				 }
 				 if((dataType.equalsIgnoreCase(PropertyPaneConstants.BUYSELL))  ) {
