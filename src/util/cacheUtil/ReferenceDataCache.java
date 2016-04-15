@@ -390,7 +390,7 @@ public class ReferenceDataCache extends BaseCache {
 
 	public static LeContacts getLEContact(String role, String date, int leid,
 			String productType, String contactType) {
-		if (singleTonInstance == null)
+	/*	if (singleTonInstance == null)
 			singleTonInstance = getSingleInstatnce();
 		Vector<LeContacts> lecontacts = Lecontacts.get(leid);
 		LeContacts contacts = null;
@@ -408,7 +408,8 @@ public class ReferenceDataCache extends BaseCache {
 			}
 
 		}
-		return contacts;
+		return contacts;*/
+		return null;
 	}
 
 	public static Vector getAttributes(int leid) {
@@ -440,7 +441,7 @@ public class ReferenceDataCache extends BaseCache {
 
 	public static String getSenderMessageCode(String role, int leid,
 			String productType, String addressType, String contactType) {
-		if (singleTonInstance == null)
+	/*	if (singleTonInstance == null)
 			singleTonInstance = getSingleInstatnce();
 		Vector<LeContacts> lecontacts = Lecontacts.get(leid);
 		if (lecontacts == null)
@@ -459,12 +460,13 @@ public class ReferenceDataCache extends BaseCache {
 		}
 		if (contacts == null)
 			return null;
-		return contacts.getAddressCode(addressType);
+		return contacts.getAddressCode(addressType); */
+		return null;
 	}
 
 	public static String getReceiverMessageCode(String role, int leid,
 			String productType, String addressType, String contactType) {
-		if (singleTonInstance == null)
+	/*	if (singleTonInstance == null)
 			singleTonInstance = getSingleInstatnce();
 		Vector<LeContacts> lecontacts = Lecontacts.get(leid);
 		LeContacts contacts = null;
@@ -478,13 +480,14 @@ public class ReferenceDataCache extends BaseCache {
 				break;
 			}
 		}
-		return contacts.getAddressCode(addressType);
+		return contacts.getAddressCode(addressType); */
+		return null;
 	}
 
 	public static LeContacts getLEContact(String role, LegalEntity le,
 			String leContacts, String productType, int poId, Trade trade,
 			Transfer transfer, Message message, Connection ds, Object dbCon) {
-		if (singleTonInstance == null)
+	/*	if (singleTonInstance == null)
 			singleTonInstance = getSingleInstatnce();
 		// TODO Auto-generated method stub
 		Vector<LeContacts> lecontacts = Lecontacts.get(le.getId());
@@ -502,13 +505,15 @@ public class ReferenceDataCache extends BaseCache {
 			}
 
 		}
-		return contacts;
+		return contacts; */
+		return null;
+		
 	}
 
 	public static LeContacts getPartyContact(String role, String contactType,
 			String messageType, String productType, int cpId) {
 		// TODO Auto-generated method stub
-		if (singleTonInstance == null)
+	/*	if (singleTonInstance == null)
 			singleTonInstance = getSingleInstatnce();
 		Vector<LeContacts> lecontacts = Lecontacts.get(cpId);
 		LeContacts contacts = null;
@@ -524,12 +529,13 @@ public class ReferenceDataCache extends BaseCache {
 				break;
 			}
 		}
-		return contacts;
+		return contacts; */
+		return null;
 	}
 
 	public static String getSwiftValue(int cpId, String productType,
 			String role, String messageType, String agentContact) {
-		if (singleTonInstance == null)
+	/*	if (singleTonInstance == null)
 			singleTonInstance = getSingleInstatnce();
 		// TODO Auto-generated method stub
 		// TODO Auto-generated method stub
@@ -550,7 +556,8 @@ public class ReferenceDataCache extends BaseCache {
 		}
 		if (contacts == null)
 			return null;
-		return contacts.getSwift();
+		return contacts.getSwift(); */
+		return null;
 	}
 
 	public static WindowSheet saveWindowSheet(WindowSheet windowSheet) {
