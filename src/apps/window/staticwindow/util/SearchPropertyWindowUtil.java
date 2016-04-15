@@ -111,7 +111,7 @@ public class SearchPropertyWindowUtil extends BaseWindowUtil {
 	}
 
 	private void hierarachicalTableAction() {
-		if (searchpropertyWindow.hierarchicalTable.getSelectedRow() != -1) {
+		/*if (searchpropertyWindow.hierarchicalTable.getSelectedRow() != -1) {
 			searchpropertyWindow.propertyTable
 					.setPropertiesValues(searchpropertyWindow.model
 							.getRow(searchpropertyWindow.hierarchicalTable
@@ -122,7 +122,7 @@ public class SearchPropertyWindowUtil extends BaseWindowUtil {
 			setSearchProperty(searchpropertyWindow.model
 					.getRow(searchpropertyWindow.hierarchicalTable
 							.getSelectedRow()));
-		}
+		}*/
 	}
 
 	private void saveButtonAction() {
@@ -154,7 +154,7 @@ public class SearchPropertyWindowUtil extends BaseWindowUtil {
 
 	private void newButtonAction() {
 		searchpropertyWindow.propertyTable.clearPropertyValues();
-		searchpropertyWindow.model.clear();
+	//	searchpropertyWindow.model.clear();
 		setSearchProperty(null);
 	}
 
@@ -170,7 +170,9 @@ public class SearchPropertyWindowUtil extends BaseWindowUtil {
 					searchpropertyWindow.pReport.setdatatype((Vector) reportData.get(1));
 					searchpropertyWindow.pReport.setData((Vector) reportData.get(2));
 					searchpropertyWindow.demo.setReport(searchpropertyWindow.pReport);
-					searchpropertyWindow.demo.run();
+					  
+					searchpropertyWindow.model =searchpropertyWindow.demo.getSortTable().getModel();
+					 searchpropertyWindow.rightSideCenterTable.setModel(searchpropertyWindow.model);
 				}
 			 
 		}
@@ -186,7 +188,7 @@ public class SearchPropertyWindowUtil extends BaseWindowUtil {
 		if (!commonUTIL.isEmpty(data)) {
 			SearchProperty firstRecord = data.get(0);
 			for (int i = 0; i < data.size(); i++) {
-				searchpropertyWindow.model.addRow((SearchProperty) data.get(i));
+				//searchpropertyWindow.model.addRow((SearchProperty) data.get(i));
 			}
 			searchpropertyWindow.propertyTable.setPropertiesValues(firstRecord);
 			setSearchProperty(firstRecord);
@@ -214,7 +216,7 @@ public class SearchPropertyWindowUtil extends BaseWindowUtil {
 	}
 
 	private void rightSideCenterTableAction() {
-		if (searchpropertyWindow.rightSideCenterTable.getSelectedRow() != -1)
+	/*	if (searchpropertyWindow.rightSideCenterTable.getSelectedRow() != -1)
 			searchpropertyWindow.propertyTable
 					.setPropertiesValues(searchpropertyWindow.model
 							.getRow(searchpropertyWindow.rightSideCenterTable
@@ -224,7 +226,7 @@ public class SearchPropertyWindowUtil extends BaseWindowUtil {
 						.getSelectedRow()));
 		setSearchProperty(searchpropertyWindow.model
 				.getRow(searchpropertyWindow.rightSideCenterTable
-						.getSelectedRow()));
+						.getSelectedRow())); */
 	}
 
 	private void searchTextAction() {
