@@ -28,15 +28,12 @@ import org.dyno.visual.swing.layouts.Leading;
 import org.dyno.visual.swing.layouts.Trailing;
 
 import util.commonUTIL;
-
-import apps.window.referencewindow.DateCellEditor12;
+ 
 
 public class JobDatePanel extends javax.swing.JPanel {
 	public JToolBar jToolBar2;
 	public JLabel jLabel3;
-	public JLabel jLabel4;
-	 final DateCellEditor12 datecel9 = new DateCellEditor12();
-	 final DateCellEditor12 datecel18 = new DateCellEditor12();
+	public JLabel jLabel4; 
 	public  JScrollPane jScrollPane0;
 	private JComboBox jComboBox0;
 	private JTextField jTextField0;
@@ -168,11 +165,11 @@ public class JobDatePanel extends javax.swing.JPanel {
 											public TableCellEditor getCellEditor(int row, int column)	{
 												int modelColumn = convertColumnIndexToModel( column );
 												if (modelColumn == 1 && row ==0)	{
-														TableCellEditor t1 = ((TableCellEditor) datecel9);
+														TableCellEditor t1 = null;//((TableCellEditor) datecel9);
 														return (TableCellEditor)t1;
 												}
 												if (modelColumn == 3 && row ==0) {
-														TableCellEditor t1 = ((TableCellEditor) datecel18);
+														TableCellEditor t1 = null;//((TableCellEditor) datecel18);
 														return (TableCellEditor)t1;
 												}	else{
 													return super.getCellEditor(1, 0);
