@@ -56,7 +56,7 @@ public class WindowTableModelMappingWindow extends BasePanel {
 	// leftTopPanel Data
 	protected JLabel windowName = new JLabel("WindowName");
 	public final JTextField WindowTableModelMappingSearchTextField = new JTextField(
-			"WindowTableModelMappingTextField"); // search textfield in
+			"WindowTableModelMappingTextField",15); // search textfield in
 													// leftTopPanel Data
 	// rightTopPanel Data
 	private JLabel windowtablemodelmappingLabel = new JLabel("Window Name");
@@ -110,13 +110,12 @@ public class WindowTableModelMappingWindow extends BasePanel {
 
 	@Override
 	public ActionMap getHotKeysActionMapper() {
-		ActionMap action = new ActionMap();
-		return action;
+		 return actionMap;
 	}
 
 	@Override
 	public JPanel getHotKeysPanel() {
-		return rightTopbuttonsPanel;
+		return leftBottombuttonsPanel;
 	}
 
 	@Override
