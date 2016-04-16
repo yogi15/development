@@ -3,16 +3,16 @@ import java.util.Vector;
 import com.jidesoft.grid.HierarchicalTableModel;
 import javax.swing.table.AbstractTableModel;
  import beans.LegalEntity;
- public class CounterPartyTableModelUtil extends AbstractTableModel  { 
+ public class CounterPartyTableModelUtil extends AbstractTableModel implements HierarchicalTableModel { 
 		final String[] columnNames;  
-		public  String  col[] ={"Id","Name","Role","     Country","Attributes"} ;
+		 String col[] ={"Id","Name","Role","     Country","Attributes"} ;
+   /**
+  * @return the col
+ */
+public String[] getCol() {
+return col;
+}
  /**
-		 * @return the col
-		 */
-		public String[] getCol() {
-			return col;
-		}
-/**
 	 * @return the data
 	 */
 public Vector<LegalEntity> getData() {
@@ -39,6 +39,22 @@ public Vector<LegalEntity> getData() {
 			 public String getColumnName(int col) {  
 		     return columnNames[col];  
 		 }   
+@Override
+public Object getChildValueAt(int arg0) {
+return null;
+}
+@Override
+public boolean hasChild(int arg0) {
+return true;
+}
+@Override
+public boolean isExpandable(int arg0) {
+return true;
+}
+@Override
+public boolean isHierarchical(int arg0) {
+return true;
+}
  public Object getValueAt(int row, int col) {   
 		     Object value = null;  	 
 		     LegalEntity  counterparty = (LegalEntity) mydata.get(row);	
