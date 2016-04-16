@@ -1212,8 +1212,8 @@ public class JavaScriptWindowUtil extends BaseWindowUtil {
 				hierarachicalModel = "//\n"+hierarachicalModel;
 				hierarachicalModel = hierarachicalModel + "model = new TemplateTableModelUtil(rightPanelJtableTemplatedata); \n";
 				hierarachicalModel = hierarachicalModel + " // adding model  \n";
-				hierarachicalModel = hierarachicalModel + "	setCornerForScrollPane(model.getCol()); \n	setQuickSearchOnTable(model);";
-				hierarachicalModel = hierarachicalModel + " hierarchicalTable = createTable(getFilterModel(),new "+mp.getChildWindowName()+"Window());\n";	
+				hierarachicalModel = hierarachicalModel + "	setCornerForScrollPane(model.getCol()); \n	setQuickSearchOnTable(model,model.getColumnCount());\n";
+				hierarachicalModel = hierarachicalModel + " hierarchicalTable = createTable(model,new "+mp.getChildWindowName()+"Window());\n";	
 				hierarachicalModel = hierarachicalModel + "setEventListener(hierarchicalTable);";
 				 
 			}  
