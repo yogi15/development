@@ -1,17 +1,17 @@
 package apps.window.util.propertyTable;
 import java.beans.PropertyChangeEvent;
 import java.util.List;
-import beans.Book;
+import beans.Product;
 import com.jidesoft.grid.Property;
-public class BookPropertyTable  extends WindowPropertyTable   {
-List<Property> bookProperties = null;
-public Book book ;
+public class ProductPropertyTable  extends WindowPropertyTable   {
+List<Property> productProperties = null;
+public Product product ;
 @Override
 public void propertyChange(PropertyChangeEvent evt) {
 }
-public BookPropertyTable(String name,Book book ) {
+public ProductPropertyTable(String name,Product product ) {
 this.name = name;
-setBook(book);
+setProduct(product);
 }
 @Override
 public List< Property> addListenerToProperty(List<Property> properties) {
@@ -21,15 +21,15 @@ return properties;
 public void addListenerToProperty(final Property property ,final List< Property> properties  ) {
 }
 /**
-* @return the book
+* @return the product
 */
-public Book getBook() {
-return book;
+public Product getProduct() {
+return product;
 }
 	/**
-* @param book the book to set
+* @param product the product to set
 */
-public void setBook(Book bean) {
-this.book = bean;
+public void setProduct(Product bean) {
+this.product = bean;
 }
 }
