@@ -2,10 +2,10 @@ package apps.window.util.tableModelUtil;
 import java.util.Vector;
 import com.jidesoft.grid.HierarchicalTableModel;
 import javax.swing.table.AbstractTableModel;
- import beans.Book;
- public class BookTableModelUtil extends AbstractTableModel  { 
+ import beans.CurrencyPair;
+ public class CurrencyPairTableModelUtil extends AbstractTableModel implements HierarchicalTableModel { 
 		final String[] columnNames;  
-		 String col[] ={"BookName","Cust Name","BookID","Cust Name"," Holiday","TimeZone","Currency"} ;
+		 String col[] ={"Primary Currency","Quoting Currency","Pair Name","Rate Decimal","Spot Days"} ;
    /**
   * @return the col
  */
@@ -15,15 +15,15 @@ return col;
  /**
 	 * @return the data
 	 */
-public Vector<Book> getData() {
+public Vector<CurrencyPair> getData() {
 	return mydata;
 	}
-	final Vector<Book> mydata;   
- public BookTableModelUtil( Vector<Book> data  ) {
+	final Vector<CurrencyPair> mydata;   
+ public CurrencyPairTableModelUtil( Vector<CurrencyPair> data  ) {
 		 	this.columnNames = col;
 		this.mydata = data;   
 	}   
- public BookTableModelUtil( Vector<Book> data ,String [] col ) {  
+ public CurrencyPairTableModelUtil( Vector<CurrencyPair> data ,String [] col ) {  
 	 	this.columnNames = col;
 	this.mydata = data;   
 		}   
@@ -33,35 +33,45 @@ public Vector<Book> getData() {
 		    public int getRowCount() {   
 			     return mydata.size();   
 			 }  
-			 public Book getRow(int i) {   
+			 public CurrencyPair getRow(int i) {   
 			     return mydata.get(i)  ; 
 			 }
 			 public String getColumnName(int col) {  
 		     return columnNames[col];  
 		 }   
+@Override
+public Object getChildValueAt(int arg0) {
+return null;
+}
+@Override
+public boolean hasChild(int arg0) {
+return true;
+}
+@Override
+public boolean isExpandable(int arg0) {
+return true;
+}
+@Override
+public boolean isHierarchical(int arg0) {
+return true;
+}
  public Object getValueAt(int row, int col) {   
 		     Object value = null;  	 
-		     Book  book = (Book) mydata.get(row);	
+		     CurrencyPair  currencypair = (CurrencyPair) mydata.get(row);	
   switch (col) {  case 0:
-value =  book.getLe_id();
+value =  currencypair.getPrimary_currency();
  break; 
  case 1:
-value =  book.getBook_name();
+value =  currencypair.getQuoting_currency();
  break; 
  case 2:
-value =  book.getBookno();
+value =  currencypair.getPairName();
  break; 
  case 3:
-value =  book.getBook_name();
+value =  currencypair.getRounding();
  break; 
  case 4:
-value =  book.getHolidaycode();
- break; 
- case 5:
-value =  book.getTimezone();
- break; 
- case 6:
-value =  book.getCurrency();
+value =  currencypair.getSpot_days();
  break; 
  }
  return value;}   
@@ -73,15 +83,11 @@ value =  book.getCurrency();
  case 1:
  return String.class; 
  case 2:
- return Integer.class; 
+ return String.class; 
  case 3:
- return String.class; 
+ return Integer.class; 
  case 4:
- return String.class; 
- case 5:
- return String.class; 
- case 6:
- return String.class; 
+ return Integer.class; 
   default: 
  return String.class;
  }
@@ -91,8 +97,8 @@ value =  book.getCurrency();
 
 
   public void setValueAt(Object value, int row, int col) {   
-  if(value instanceof Book) {
-	 	 mydata.set(row,(Book ) value) ;
+  if(value instanceof CurrencyPair) {
+	 	 mydata.set(row,(CurrencyPair ) value) ;
 			     this.fireTableDataChanged();      
  }
   }   
@@ -101,7 +107,7 @@ value =  book.getCurrency();
    this.fireTableDataChanged();
 }
  public void addRow(Object value) {  
- mydata.add((Book ) value) ;
+ mydata.add((CurrencyPair ) value) ;
 this.fireTableDataChanged(); 
  }   	
  public void delRow(int row) {   
@@ -109,7 +115,7 @@ this.fireTableDataChanged();
  this.fireTableDataChanged(); 
  }   
 public void udpateValueAt(Object value, int row, int col) {
-	 mydata.set(row,(Book) value) ;
+	 mydata.set(row,(CurrencyPair) value) ;
     fireTableCellUpdated(row, col); 
 } 
 }
