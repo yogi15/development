@@ -16,6 +16,7 @@ import beans.Attribute;
 import beans.BaseBean;
 import beans.Book;
 import beans.Country;
+import beans.CurrencyPair;
 import beans.Folder;
 import beans.LeContacts;
 import beans.LegalEntity;
@@ -390,7 +391,7 @@ public class ReferenceDataCache extends BaseCache {
 
 	public static LeContacts getLEContact(String role, String date, int leid,
 			String productType, String contactType) {
-	/*	if (singleTonInstance == null)
+		if (singleTonInstance == null)
 			singleTonInstance = getSingleInstatnce();
 		Vector<LeContacts> lecontacts = Lecontacts.get(leid);
 		LeContacts contacts = null;
@@ -400,7 +401,7 @@ public class ReferenceDataCache extends BaseCache {
 			LeContacts lecont = lecontacts.get(i);
 			if (lecont.getLeRole().equalsIgnoreCase(role)
 					&& lecont.getProductType().equalsIgnoreCase(productType)
-					&& lecont.getContactCategory()
+					&& lecont.getContactType()
 							.equalsIgnoreCase(contactType)) {
 
 				contacts = lecont;
@@ -408,8 +409,7 @@ public class ReferenceDataCache extends BaseCache {
 			}
 
 		}
-		return contacts;*/
-		return null;
+		return contacts;
 	}
 
 	public static Vector getAttributes(int leid) {
@@ -441,7 +441,7 @@ public class ReferenceDataCache extends BaseCache {
 
 	public static String getSenderMessageCode(String role, int leid,
 			String productType, String addressType, String contactType) {
-	/*	if (singleTonInstance == null)
+		if (singleTonInstance == null)
 			singleTonInstance = getSingleInstatnce();
 		Vector<LeContacts> lecontacts = Lecontacts.get(leid);
 		if (lecontacts == null)
@@ -452,7 +452,7 @@ public class ReferenceDataCache extends BaseCache {
 			LeContacts lecont = lecontacts.get(i);
 			if (lecont.getLeRole().equalsIgnoreCase(role)
 					&& lecont.getProductType().equalsIgnoreCase(productType)
-					&& lecont.getContactCategory()
+					&& lecont.getContactType()
 							.equalsIgnoreCase(contactType)) {
 				contacts = lecont;
 				break;
@@ -460,13 +460,12 @@ public class ReferenceDataCache extends BaseCache {
 		}
 		if (contacts == null)
 			return null;
-		return contacts.getAddressCode(addressType); */
-		return null;
+		return contacts.getAddressCode(addressType);
 	}
 
 	public static String getReceiverMessageCode(String role, int leid,
 			String productType, String addressType, String contactType) {
-	/*	if (singleTonInstance == null)
+		if (singleTonInstance == null)
 			singleTonInstance = getSingleInstatnce();
 		Vector<LeContacts> lecontacts = Lecontacts.get(leid);
 		LeContacts contacts = null;
@@ -474,20 +473,19 @@ public class ReferenceDataCache extends BaseCache {
 			LeContacts lecont = lecontacts.get(i);
 			if (lecont.getLeRole().equalsIgnoreCase(role)
 					&& lecont.getProductType().equalsIgnoreCase(productType)
-					&& lecont.getContactCategory()
+					&& lecont.getContactType()
 							.equalsIgnoreCase(contactType)) {
 				contacts = lecont;
 				break;
 			}
 		}
-		return contacts.getAddressCode(addressType); */
-		return null;
+		return contacts.getAddressCode(addressType);
 	}
 
 	public static LeContacts getLEContact(String role, LegalEntity le,
 			String leContacts, String productType, int poId, Trade trade,
 			Transfer transfer, Message message, Connection ds, Object dbCon) {
-	/*	if (singleTonInstance == null)
+		if (singleTonInstance == null)
 			singleTonInstance = getSingleInstatnce();
 		// TODO Auto-generated method stub
 		Vector<LeContacts> lecontacts = Lecontacts.get(le.getId());
@@ -498,22 +496,20 @@ public class ReferenceDataCache extends BaseCache {
 			LeContacts lecont = lecontacts.get(i);
 			if (lecont.getLeRole().equalsIgnoreCase(role)
 					&& lecont.getProductType().equalsIgnoreCase(productType)
-					&& lecont.getContactCategory().equalsIgnoreCase(leContacts)) {
+					&& lecont.getContactType().equalsIgnoreCase(leContacts)) {
 
 				contacts = lecont;
 				break;
 			}
 
 		}
-		return contacts; */
-		return null;
-		
+		return contacts;
 	}
 
 	public static LeContacts getPartyContact(String role, String contactType,
 			String messageType, String productType, int cpId) {
 		// TODO Auto-generated method stub
-	/*	if (singleTonInstance == null)
+		if (singleTonInstance == null)
 			singleTonInstance = getSingleInstatnce();
 		Vector<LeContacts> lecontacts = Lecontacts.get(cpId);
 		LeContacts contacts = null;
@@ -523,19 +519,18 @@ public class ReferenceDataCache extends BaseCache {
 			LeContacts lecont = lecontacts.get(i);
 			if (lecont.getLeRole().equalsIgnoreCase(role)
 					&& lecont.getProductType().equalsIgnoreCase(productType)
-					&& lecont.getContactCategory()
+					&& lecont.getContactType()
 							.equalsIgnoreCase(contactType)) {
 				contacts = lecont;
 				break;
 			}
 		}
-		return contacts; */
-		return null;
+		return contacts;
 	}
 
 	public static String getSwiftValue(int cpId, String productType,
 			String role, String messageType, String agentContact) {
-	/*	if (singleTonInstance == null)
+		if (singleTonInstance == null)
 			singleTonInstance = getSingleInstatnce();
 		// TODO Auto-generated method stub
 		// TODO Auto-generated method stub
@@ -547,7 +542,7 @@ public class ReferenceDataCache extends BaseCache {
 			LeContacts lecont = lecontacts.get(i);
 			if (lecont.getLeRole().equalsIgnoreCase(role)
 					&& lecont.getProductType().equalsIgnoreCase(productType)
-					&& lecont.getContactCategory().equalsIgnoreCase(
+					&& lecont.getContactType().equalsIgnoreCase(
 							agentContact)) {
 
 				contacts = lecont;
@@ -556,8 +551,7 @@ public class ReferenceDataCache extends BaseCache {
 		}
 		if (contacts == null)
 			return null;
-		return contacts.getSwift(); */
-		return null;
+		return contacts.getSwift();
 	}
 
 	public static WindowSheet saveWindowSheet(WindowSheet windowSheet) {
@@ -892,6 +886,8 @@ public class ReferenceDataCache extends BaseCache {
 			return null;
 		}
 	}
+	
+	
 
 	public static Collection selectKeyColumns(String columnNames,
 			String beanName) {
@@ -902,6 +898,18 @@ public class ReferenceDataCache extends BaseCache {
 			// TODO Auto-generated catch block
 			commonUTIL.displayError("ReferenceDataCache",
 					"selectKeyColumns error " + beanName, e);
+			return null;
+		}
+	}
+
+	public static Vector<CurrencyPair> selectALLCurrencyPairWithContact(	 ) {
+		// TODO Auto-generated method stub
+		try {
+			return remoteBORef.selectALLCurrencyPairWithContact( );
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			commonUTIL.displayError("ReferenceDataCache",
+					"selectALLCurrencyPairWithContact   issue in Getting ALL currencyPair "  , e);
 			return null;
 		}
 	}
