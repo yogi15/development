@@ -36,6 +36,8 @@ final static private String SELECT =
  static private String SELECTWHERE =
 	"select primary_currency,quoting_currency,pairname,rounding,spot_days from CURRENCYPAIR  where primary_currency=?" ;
  
+ final static private String selectKeyColumns = "select primary_currency,quoting_currency order by primary_currency";
+ 
 
  final static private String SQLCOUNT = new StringBuffer(
 			"SELECT count(*) countRows ").append(" FROM CURRENCYPAIR where  ")
@@ -469,7 +471,43 @@ protected static int selectMax(Connection con ) {
 	}
 
 
+   public static Vector< CurrencyPair> selectALLCurrencyPairWithConcat( Connection con) {
+	   String sql = " select primary_currency || '/' || quoting_currency primary_currency from currencypair order by primary_currency desc";
+	   PreparedStatement stmt = null;
+		Vector< CurrencyPair> currencyPair = new Vector< CurrencyPair>();
+	   try {
 
+			con.setAutoCommit(false);
+			stmt = dsSQL.newPreparedStatement(con, sql);
+
+			ResultSet rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				
+				CurrencyPair cp = new CurrencyPair();
+
+				cp.setPrimary_currency(rs.getString(1));
+		    	  
+				currencyPair.add(cp);
+		      
+
+			}
+			commonUTIL.display("CurrencyPairSQL", "selectALLCurrencyPairWithConcat " + sql);
+			return currencyPair;
+		} catch (Exception e) {
+			commonUTIL.displayError("CurrencyPairSQL", sql, e);
+			return currencyPair;
+
+		} finally {
+			try {
+				stmt.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				commonUTIL.displayError("CurrencyPairSQL ","selectALLCurrencyPairWithConcat " +  sql, e);
+			}
+		}
+	   
+   }
 
 	@Override
 	public Collection selectKeyColumnsWithWhere(String columnNames, String where, Connection con) {
