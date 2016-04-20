@@ -37,8 +37,10 @@ import javax.swing.text.JTextComponent;
 
 import util.commonUTIL; 
 import util.cacheUtil.ReferenceDataCache;
+import util.common.CDate;
 
 import beans.AttributeContainer; 
+import beans.CurrencyPair;
 import beans.WindowSheet;
   
 import com.jidesoft.combobox.ListComboBox;
@@ -49,7 +51,9 @@ import com.jidesoft.grid.Property;
 import com.jidesoft.grid.PropertyTable;
 import com.jidesoft.grid.PropertyTableModel;
 
+import constants.BeanConstants;
 import constants.CommonConstants;
+import constants.CurrencyPairConstants;
 import constants.WindowSheetConstants;
  
  
@@ -109,10 +113,10 @@ public class CommonPropertyUtil {
          PropertyBook bookProp = new PropertyBook(name, category, String.class );
          return bookProp;
 }
-	 public static PropertyBook createFolderProperty(String name, String displayName, String category ) {
-         PropertyBook bookProp = new PropertyBook(name, category, String.class );
-         return bookProp;
-}
+	 
+	 
+	 
+	  
 	 public static PropertyEnum  createBuySellProperty(String name, String displayName, String category ) {
 		  Vector<String> values = new Vector<String>();
 		  values.add("SELL");
@@ -120,7 +124,16 @@ public class CommonPropertyUtil {
 		   return createStartUPDataProperty(name, displayName, category, values, PropertyEnum.Style.CLASSIC);
         
 }
-	 
+	 public static Property createCurrencyPairProperty(String windowName,
+				String fieldName, String category,	Vector<String> codeData ) {
+			// TODO Auto-generated method stub
+			 Property renumProperty = null;
+			
+			if(!commonUTIL.isEmpty(codeData)) {
+				   renumProperty  = createStartUPDataProperty(fieldName, fieldName, category, codeData, PropertyEnum.Style.CLASSIC);
+			 }
+			 return renumProperty;
+		}
 	 
 	 public static PropertyDate createDateProperty(String name, String displayName, String category ) {
 		 
@@ -131,6 +144,7 @@ public class CommonPropertyUtil {
 	        };   
 
 		 PropertyDate propertyDate	 = new PropertyDate(  name,     displayName,   category,noHolidays);
+		 propertyDate.setValue(CDate.getNow());
 		 propertyDate.setEditable(true);
 		 propertyDate.setDisplayName(name);
 		 propertyDate.setCategory(category);
@@ -150,7 +164,9 @@ public class CommonPropertyUtil {
      * @return a number property
      */
     public static PropertyNumber createNumberProperty(String name, String displayName, String category, int precision) {
-        return new PropertyNumber(name, displayName, category, precision);
+    	PropertyNumber num =  new PropertyNumber(name, displayName, category, precision);
+    	 num.setPercentDecimals(10);
+    	return num;
     }
    
     
@@ -630,7 +646,7 @@ public static AttributeProperty createAttributeProperty(
 			String attributeName, String attributeName2, String category,
 			AttributeContainer attributebean) {
 		// TODO Auto-generated method stub
-	AttributeProperty attribute = new AttributeProperty(attributeName,category);
+	AttributeProperty attribute = new AttributeProperty(attributeName,"");
 	attribute.showProduct(attributebean);
 		return attribute;
 	}
