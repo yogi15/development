@@ -657,4 +657,16 @@ public class LeContactsSQL extends BaseSQL {
 		return 0;
 
 	}
+
+	@Override
+	public Collection selectKeyColumnsWithWhere(String columnNames, String where, Connection con) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Collection selectKeyColumns(String columnNames, Connection con) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
