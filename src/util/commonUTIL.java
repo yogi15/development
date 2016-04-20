@@ -53,6 +53,7 @@ import apps.newDealInvoker;
 import apps.window.tradewindow.util.StaticDataCacheUtil;
 import beans.Attribute;
 import beans.CurrencyDefault;
+import beans.CurrencyPair;
 import beans.HolidayCode;
 import beans.StartUPData;
 import beans.TransferRule;
@@ -3275,4 +3276,20 @@ public class commonUTIL {
 		return codeData;
 
 	}
+	public static Vector<String> convertCurrencyPairtoString(Vector<CurrencyPair> sData)
+	  {
+Vector<String> codeData = new Vector<String>  ();
+// TODO Auto-generated method stub
+if (!isEmpty(sData)) {
+	for (int i = 0; i < sData.size(); i++) {
+		CurrencyPair att = sData.get(i);
+	 
+		codeData.addElement(att.getPrimary_currency());
+
+	}
+
+}
+return codeData;
+
+}
 }
