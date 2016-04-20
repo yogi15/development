@@ -6,7 +6,7 @@ import beans.WindowTableModelMapping;
 
 public class WindowTableModelMappingTableModelUtil extends AbstractTableModel {
 	final String[] columnNames;
-	String col[] = { "WindowName", "BeanName", "ColumnName", "MethodName" };
+	String col[] = { "WindowName", "BeanName", "ColumnName", "MethodName","DisplayName","ColumnClassType"};
 
 	/**
 	 * @return the col
@@ -68,6 +68,12 @@ public class WindowTableModelMappingTableModelUtil extends AbstractTableModel {
 			break;
 		case 3:
 			value = windowtablemodelmapping.getMethodName();
+			break;
+		case 4:
+			value = windowtablemodelmapping.getColumnDisplayName();
+			break;
+		case 5:
+			value = windowtablemodelmapping.getColumnDataType();
 			break;
 		}
 		return value;
