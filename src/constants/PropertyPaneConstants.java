@@ -18,6 +18,8 @@ public class PropertyPaneConstants {
 	final public static String METHODNAME = "MethodName";
 	final public static String LEGALENTITY = "LegalEntity";
 	final public static String MULTISELECTION = "MultiSelection";
+
+	final public static String CURRENCYPAIR = "CurrencyPair";
 	
 	final public static String FIELDNAMES = "FieldNames";
 	final public static String IsChildField = "IsChildField";
