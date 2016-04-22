@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Map;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -63,22 +64,13 @@ public class BookSelectionPropertyPanel extends PopupPanel {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				// TODO Auto-generated method stub
-				JPanel returnPanel = _dialog.getMainPanel();
-				// _dialog.setVisible(true);
-				// _dialog.show(true);
-				returnPanel.setVisible(true);
+			 
 			}
 
 			@Override
 			public void keyPressed(KeyEvent e) {
 				// TODO Auto-generated method stub
-				// JPanel returnPanel = _dialog.getMainPanel();
-				// _dialog.setVisible(true);
-				JPanel returnPanel = _dialog.getMainPanel();
-				// _dialog.setVisible(true);
-				// _dialog.show(true);
-				returnPanel.setVisible(true);
-				// returnPanel.setVisible(true);
+				 
 
 			}
 		});
@@ -89,12 +81,13 @@ public class BookSelectionPropertyPanel extends PopupPanel {
 		if (_dialog == null)
 			_dialog = new BookSelectionPropertyDialog(Frame12.getFrame(),
 					false, displayableObjectClass);
+		setBookData(_dialog.getBookData());
 		JPanel returnPanel = _dialog.getMainPanel();
-		if (book != null) {
+	/*	if (book == null) {
 			_dialog.getClear();
 			returnPanel.setVisible(false);
 			// return;
-		} else {
+		} else {*/
 			JTable futcontable = _dialog.getBookTable();
 			ListSelectionModel rowSM = futcontable.getSelectionModel();
 			rowSM.addListSelectionListener(new ListSelectionListener() {
@@ -118,14 +111,19 @@ public class BookSelectionPropertyPanel extends PopupPanel {
 					}
 				}
 			});
-		}
+		 
 		// JPanel returnPanel = _dialog.getMainPanel();
 
 		return returnPanel;
 	}
 
+	private void setBookData(Map<Integer, Book> bookData) {
+		// TODO Auto-generated method stub
+		_comboBox.setbookData(bookData);
+	}
+
 	public int getSelectBookID() {
-		return ((Book) getSelectedObject()).getBookno();
+		return ((Book) getSelectedObject()).getID();
 	}
 
 	// private DateRule selectedDateRuleobj = null;
@@ -138,7 +136,7 @@ public class BookSelectionPropertyPanel extends PopupPanel {
 
 	public void reloadKeyPress(String keyTypeD) {
 		// TODO Auto-generated method stub
-		System.out.println(keyTypeD);
+		//System.out.println(keyTypeD);
 
 	}
 

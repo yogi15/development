@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Map;
+import java.util.Vector;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -37,7 +39,9 @@ public class LESelectionPropertyPanel extends PopupPanel {
         _le = le;
         initComponent();
  } 
-       
+       private void setLEData(Map<Integer, LegalEntity> leData) {
+    	   _comboBox.setLeData(leData);
+       }
 	
 	private LESelectionPropertyDialog _dialog = null;
 	
@@ -95,6 +99,7 @@ public class LESelectionPropertyPanel extends PopupPanel {
 		 if(_dialog == null)
 			 _dialog =  new LESelectionPropertyDialog(Frame12.getFrame(), false , displayableObjectClass);
 		        JPanel returnPanel = _dialog.getMainPanel();
+		        setLEData(_dialog.getLeData());
 		        if(_le != null && _le.getRole().equalsIgnoreCase("PO")) {
 		        	_dialog.getClear();
 		        	returnPanel.setVisible(false);
