@@ -269,6 +269,7 @@ public interface RemoteReferenceData extends Remote{
 	public boolean updateMenuConfig(MenuConfiguration menuconfiguration)
 			throws RemoteException;
 	public Vector<MenuConfiguration> selectMenuConfig() throws RemoteException;
+	public  Vector<CurrencyPair>  selectALLCurrencyPairWithContact() throws RemoteException;
 	
 	
 	

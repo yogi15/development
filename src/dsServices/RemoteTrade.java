@@ -22,7 +22,7 @@ public interface RemoteTrade extends Remote {
 	public void isEventExceuted(EventProcessor event) throws RemoteException;
 	
 	public boolean checkLimitOnTrade(Trade trade,String type) throws RemoteException;
-	
+	public Vector<String> getActionsOnTradeCurrentStatus(Trade trade,String productType)  throws RemoteException;
 	public Trade selectTrade(int tradeID)throws RemoteException;
 	public Collection  selectALLTrades() throws RemoteException;
 	public boolean removeTrade(Trade trade) throws RemoteException;
