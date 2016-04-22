@@ -1,5 +1,7 @@
 package apps.window.util.propertyPane.editor;
 
+import java.util.Map;
+
 import apps.window.util.propertyPane.combox.BookSelectionPropertyCombox;
 import apps.window.util.propertyPane.combox.LESelectionPropertyCombox;
 import beans.Book;
@@ -23,7 +25,7 @@ public class BookSelectionCellEditor extends AbstractComboBoxCellEditor {
 	 * @param _le
 	 *            the _le to set
 	 */
-	public void set_le(Book book) {
+	public void set_book(Book book) {
 		this.book = book;
 	}
 
@@ -41,4 +43,14 @@ public class BookSelectionCellEditor extends AbstractComboBoxCellEditor {
 	public AbstractComboBox createAbstractComboBox() {
 		return new BookSelectionPropertyCombox(this);
 	}
+   Map<Integer,Book> books   = null;
+   
+	public Book getBook(int bookID) {
+		// TODO Auto-generated method stub
+		if(books == null)
+			return null;
+	return	books.get(bookID);
+		}
+
+		 
 }

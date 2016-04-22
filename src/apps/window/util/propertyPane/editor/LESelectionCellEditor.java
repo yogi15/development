@@ -2,6 +2,7 @@ package apps.window.util.propertyPane.editor;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Map;
 
 import apps.window.util.propertyPane.combox.ContractSelectorComboBox;
 import apps.window.util.propertyPane.combox.DateRulePropertyCombox;
@@ -46,8 +47,18 @@ public void set_le(LegalEntity _le) {
 	public AbstractComboBox createAbstractComboBox() {
 		return new  LESelectionPropertyCombox(this);
 	}
+	Map<Integer, LegalEntity> leData = null;
+	public void setLE_Data(Map<Integer, LegalEntity> leData) {
+		// TODO Auto-generated method stub
+		this.leData = leData;
+	}
 
-	
+	public LegalEntity  getLegalEntity (int legalEntityID) {
+		// TODO Auto-generated method stub
+		if(leData == null)
+			return null;
+	return	leData.get(legalEntityID);
+	}
 
 	 
 }
