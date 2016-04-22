@@ -1,5 +1,7 @@
 package apps.window.util.propertyPane.combox;
 
+import java.util.Map;
+
 import apps.window.util.propertyPane.editor.LESelectionCellEditor;
 import apps.window.util.propertyPane.panel.LESelectionPropertyPanel;
 import beans.LegalEntity;
@@ -49,6 +51,7 @@ public class LESelectionPropertyCombox    extends AbstractComboBox {
 		_lESelectionCellEditor = leSelectionCellEditor;
 		_selectedObjType = _lESelectionCellEditor.getRole();
 		setLe(_lESelectionCellEditor.get_le());
+		 
 		setEditable(true);
 		initComponent();
 	}
@@ -75,7 +78,7 @@ public class LESelectionPropertyCombox    extends AbstractComboBox {
 				}
 				if(value == null)
 					return "";
-				System.out.println(_stringFutCon);
+				//System.out.println(_stringFutCon);
 			return 	_stringFutCon;
 			}
 			
@@ -106,6 +109,14 @@ public class LESelectionPropertyCombox    extends AbstractComboBox {
 	public PopupPanel createPopupComponent() {
 		
 		return new LESelectionPropertyPanel(this,getRole(),getLe());
+		
+	}
+	
+	Map<Integer, LegalEntity> leData;
+	public void setLeData(Map<Integer, LegalEntity> leData) {
+		// TODO Auto-generated method stub
+		this.leData = leData;
+		_lESelectionCellEditor.setLE_Data(leData);
 		
 	}
 	

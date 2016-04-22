@@ -1,5 +1,7 @@
 package apps.window.util.propertyPane.combox;
 
+import java.util.Map;
+
 import apps.window.util.propertyPane.editor.BookSelectionCellEditor;
 import apps.window.util.propertyPane.panel.BookSelectionPropertyPanel;
 import beans.Book;
@@ -11,11 +13,12 @@ import com.jidesoft.combobox.PopupPanel;
 public class BookSelectionPropertyCombox extends AbstractComboBox {
 	String _selectedObjType = null;
 	Book book = null;
-	BookSelectionCellEditor _lESelectionCellEditor = null;
+	BookSelectionCellEditor _BookSelectionCellEditor = null;
+	private Map<Integer, Book> bookData;
 
 	@Override
 	protected boolean validateValueForNonEditable(Object value) {
-		return value instanceof LegalEntity;
+		return value instanceof Book;
 	}
 
 	/**
@@ -40,12 +43,14 @@ public class BookSelectionPropertyCombox extends AbstractComboBox {
 		initComponent();
 	}
 
+	
+	
 	public BookSelectionPropertyCombox(
 			BookSelectionCellEditor leSelectionCellEditor) {
 		// TODO Auto-generated constructor stub
-		_lESelectionCellEditor = leSelectionCellEditor;
+		_BookSelectionCellEditor = leSelectionCellEditor;
 
-		setBook(_lESelectionCellEditor.getBook());
+		setBook(_BookSelectionCellEditor.getBook());
 		setEditable(true);
 		initComponent();
 	}
@@ -58,16 +63,16 @@ public class BookSelectionPropertyCombox extends AbstractComboBox {
 	@Override
 	public EditorComponent createEditorComponent() {
 
-		return new DefaultTextFieldEditorComponent(LegalEntity.class) {
+		return new DefaultTextFieldEditorComponent(Book.class) {
 
 			protected String convertElementToString(Object value) {
 
 				String _stringFutCon = null;
 				if (value != null) {
-					if (value instanceof LegalEntity) {
+					if (value instanceof Book) {
 						setBook((Book) value);
-						_stringFutCon = String.valueOf(((LegalEntity) value)
-								.getName());
+						_stringFutCon = String.valueOf(((Book) value)
+								.getBookName());
 						if (getBook() != null)
 							return "";
 					}
@@ -108,6 +113,11 @@ public class BookSelectionPropertyCombox extends AbstractComboBox {
 
 		return new BookSelectionPropertyPanel(this, getBook());
 
+	}
+
+	public void setbookData(Map<Integer, Book> bookData) {
+		// TODO Auto-generated method stub
+		this.bookData = bookData;
 	}
 
 }
