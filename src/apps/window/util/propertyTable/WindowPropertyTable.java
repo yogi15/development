@@ -131,6 +131,11 @@ implements  PropertyChangeListener {
 										if(p != null && p.getName().equalsIgnoreCase(prop.get(i).getName())) {
 												int propertyIndex = 	propertyTable.getPropertyTableModel().getPropertyIndex(p); 
 												propertyTable.setValueAt(obj,propertyIndex  , 1);
+												 p.setValue(obj);
+											 	propertyTable.getPropertyTableModel().setValueAt(obj,propertyIndex  , 1);
+												
+												
+												
 											} 
 								}
 						} else {
@@ -182,12 +187,19 @@ implements  PropertyChangeListener {
 
 	// helper method
 	public Property getPropertyName(List<Property> properties, String name) {
+		
 		Property property = null;
+		try {
 		for (int i = 0; i < properties.size(); i++) {
 			property = properties.get(i);
+			if(!property.isCategoryRow())
 			if (property.getName().equalsIgnoreCase(name)) {
 				break;
 			}
+		}
+		}catch(Exception e) {
+			commonUTIL.displayError("WindowPropertyTable ", "getPropertyName" + property.getName() + " issue ", e);
+			return property;
 		}
 		return property;
 	}
