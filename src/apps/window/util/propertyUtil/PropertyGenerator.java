@@ -124,7 +124,7 @@ public class PropertyGenerator {
 								.equalsIgnoreCase(PropertyPaneConstants.BUYSELL))) {
 
 							renumProperty = createBuySellProperty(
-									ws.getWindowName(), ws.getFieldName(),
+									ws.getFieldName(), ws.getFieldName(),
 									ws.getCategory());
 
 						}
@@ -246,14 +246,14 @@ public class PropertyGenerator {
 							renumProperty = createNumberProperty(ws
 									.getFieldName().trim(), ws.getFieldName()
 									.trim(), ws.getCategory().trim(), 10);
-							renumProperty.setValue(0);
+							renumProperty.setValue(0d);
 						}
 						if ((dataType.trim()
 								.equalsIgnoreCase(PropertyPaneConstants.POSITIVENUMBER))) {
 							renumProperty = createPositiveNumberProperty(ws
 									.getFieldName().trim(), ws.getFieldName()
 									.trim(), ws.getCategory().trim(), 10);
-							renumProperty.setValue(0);
+							renumProperty.setValue(0.0);
 						}
 						if ((dataType.trim()
 								.equalsIgnoreCase(PropertyPaneConstants.PASSWORD))) {

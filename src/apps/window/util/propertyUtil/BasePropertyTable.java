@@ -35,7 +35,7 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.text.JTextComponent;
 
 import util.commonUTIL;
- 
+    
 import apps.window.util.propertyTable.PropertyTableBuilder;
 import beans.PropertyCellStyle;
    
@@ -99,7 +99,7 @@ public class BasePropertyTable extends PropertyTable {
 	        propertyTable.setRowSelectionAllowed(true);
 	        propertyTable.setColumnSelectionAllowed(true);
 
-	        final PropertyTableModel model = new EditorStylePropertyTableModel(props);
+	        final PropertyTableModel model = new EditorStylePropertyTableModel(props );
 	        
 	        model.setMiscCategoryName("");
 	      
@@ -457,15 +457,22 @@ public class BasePropertyTable extends PropertyTable {
         static class EditorStylePropertyTableModel<T extends Property> extends
 		PropertyTableModel<T> implements EditorStyleTableModel, StyleModel {
 	private static final long serialVersionUID = -4435995349055070783L;
-
-	public EditorStylePropertyTableModel(List<T> properties) {
+ 
+	 
+     
+ 
+    
+	public EditorStylePropertyTableModel(List<T> properties ) {
 		super(properties);
+		 
 	}
+	
+	
 
 	public int getEditorStyleAt(int rowIndex, int columnIndex) {
 		return _editorStyle;
 	}
-
+	   
 	@Override
 	public ConverterContext getConverterContextAt(int row, int column) {
 		T valueProperty = getPropertyAt(row);

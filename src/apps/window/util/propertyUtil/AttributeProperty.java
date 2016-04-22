@@ -60,7 +60,7 @@ public class AttributeProperty extends PropertyExtended<AttributeContainer>
 	public AttributeProperty(final String attributeName, String category) {
 		super( );
 		setName(attributeName);
-        setCategory("Attributes");
+        setCategory(" ");
 		setType(AttributeContainer.class);
 	//	setDisplayName(attributeName);
 		setEditable(false); // this is important dont make it editable.

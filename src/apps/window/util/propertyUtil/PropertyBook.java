@@ -5,8 +5,12 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.CellEditor;
 
+import util.cacheUtil.ReferenceDataCache;
+
 import apps.window.util.propertyPane.editor.BookSelectionCellEditor;
+import apps.window.util.propertyPane.editor.LESelectionCellEditor;
 import beans.Book;
+import beans.LegalEntity;
 
 import com.jidesoft.converter.ConverterContext;
 import com.jidesoft.converter.ObjectConverter;
@@ -65,8 +69,15 @@ public class PropertyBook extends Property implements PropertyChangeListener {
 
 	@Override
 	public void setValue(Object value) {
-		// d stub
+		 if(value instanceof Integer) {
+		BookSelectionCellEditor bookCellEditor = (BookSelectionCellEditor) this.getCellEditor();
+		 Book book = bookCellEditor.getBook((int) value);
+		 if(book == null) 
+			 book=	 ReferenceDataCache.getBook((int) value);
+		 setValue( book , true);
+		} else {
 		setValue(value, true);
+		}
 
 	}
 
@@ -86,7 +97,7 @@ class BookCodeConverter implements ObjectConverter {
 		if (!(o instanceof Book))
 			return "";
 		p = (Book) o;
-		return p.getBook_name();
+		return p.getBookName();
 	}
 
 	public boolean supportToString(Object o, ConverterContext converterContext) {

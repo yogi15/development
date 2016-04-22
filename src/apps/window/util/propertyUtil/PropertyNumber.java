@@ -47,6 +47,12 @@ public class PropertyNumber extends BaseNumberProperty {
 
     @Override
     public void setValue(Object value) {
+    	
+    	if(value == null) {
+    	
+    		 value = 0.0;
+    			System.out.println(value.getClass());
+    	}
         super.setValue(value);
         notifyCellUpdated(null, 1);
     }

@@ -2,8 +2,11 @@ package apps.window.util.propertyUtil;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.lang.ref.Reference;
 
 import javax.swing.CellEditor;
+
+import util.cacheUtil.ReferenceDataCache;
 
 import com.jidesoft.converter.ConverterContext;
 import com.jidesoft.converter.ObjectConverter;
@@ -18,17 +21,20 @@ import beans.LegalEntity;
 
 public class PropertyLegalEntity extends Property implements
 		PropertyChangeListener {
-
+	 LESelectionCellEditor leSelection = null;
 	public PropertyLegalEntity(String propertyName, String description,
 			Class type, final String role) {
 		super(propertyName, description, type);
-
+		LegalEntity le = new LegalEntity();
+		le.setRole(role);
+		final LESelectionCellEditor leSelection =   new LESelectionCellEditor(le, role);
+	
 		CellEditorManager.registerEditor(String.class, new CellEditorFactory() {
 			public CellEditor create() {
 
-				LegalEntity le = new LegalEntity();
-				le.setRole(role);
-				return new LESelectionCellEditor(le, role);
+				
+			
+				return leSelection;
 			}
 		}, new EditorContext(propertyName));
 		setCategory(description);
@@ -37,7 +43,7 @@ public class PropertyLegalEntity extends Property implements
 		ObjectConverterManager.registerConverter(getType(), converter,
 				getConverterContext());
 		setEditorContext(new EditorContext(propertyName));
-
+		setCellEditor(leSelection);
 		addPropertyChangeListener(PROPERTY_VALUE, new PropertyChangeListener() {
 
 			@Override
@@ -49,7 +55,9 @@ public class PropertyLegalEntity extends Property implements
 		});
 
 	}
-
+public void setCellEditor(LESelectionCellEditor cellEditor) {
+	
+}
 	public void setValue(Object value, boolean fireEvent) {
 		Object oldValue = setValue;
 		setValue = value;
@@ -69,14 +77,22 @@ public class PropertyLegalEntity extends Property implements
 	@Override
 	public void setValue(Object value) {
 		// d stub
+		if(value instanceof Integer) {
+		LESelectionCellEditor leCellEditor = (LESelectionCellEditor) this.getCellEditor();
+		 LegalEntity le = leCellEditor.getLegalEntity((int) value);
+		 if(le == null) 
+			 le =	 ReferenceDataCache.getLegalEntity((int) value);
+		 setValue( le , true);
+		} else {
 		setValue(value, true);
+		}
 
 	}
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		// TODO Auto-generated method stub
-		System.out.println(getValue());
+	//	System.out.println(getValue());
 
 	}
 
