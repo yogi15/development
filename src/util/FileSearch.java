@@ -84,7 +84,7 @@ public class FileSearch {
 	        
 
 	        for(File f: files){
-               
+               if(f.isFile())
 	        	fileNames.add(f.getName().substring(0, f.getName().lastIndexOf(".")));
 
 	        } 

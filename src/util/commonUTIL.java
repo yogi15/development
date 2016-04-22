@@ -265,10 +265,11 @@ public class commonUTIL {
 			return false;
 		}
 		int len = doubleValue.length();
+		
 		for (int i = 0; i < len; ++i) {
-
+			if (!(doubleValue.charAt(i) == '.'))  
 			if (!Character.isDigit(doubleValue.charAt(i))) {
-				if (!(doubleValue.charAt(i) == ',')) {
+				{
 					return false;
 				}
 			}
@@ -481,8 +482,22 @@ public class commonUTIL {
 
 		return Timestamp.valueOf(formats.format(stringToDate(date, true)));
 	}
+	
+	
 
 	static public String getTimeStampToString(Timestamp date) {
+		if (date == null) {
+			commonUTIL
+					.display("CommonUtil",
+							"getTimeStampToString  timestamp getting null <<<<<<<<<<<<<<<<<<<<<<");
+			return "";
+		}
+		String NEW_FORMAT = CommonConstants.SDF_DATE_TIME_FORMAT;
+		SimpleDateFormat formats = new SimpleDateFormat(NEW_FORMAT);
+		String dateF = formats.format(date.getTime());
+		return dateF.toString();
+	}
+	static public String getTimeStampToString(Date date) {
 		if (date == null) {
 			commonUTIL
 					.display("CommonUtil",
@@ -684,6 +699,7 @@ public class commonUTIL {
 	 * = new Date(timeValue); return dateToString(d); }
 	 */
 	static public String convertSQLDatetoString(java.sql.Timestamp ts) {
+	 
 		return getTimeStampToString(ts);
 
 	}
