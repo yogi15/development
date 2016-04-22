@@ -131,7 +131,7 @@ public class ReferenceDataCache extends BaseCache {
 		if (!commonUTIL.isEmpty(books)) {
 			for (int i = 0; i < books.size(); i++) {
 				Book book = (Book) books.get(i);
-				bookCache.put(book.getBookno(), book);
+				bookCache.put(book.getID(), book);
 			}
 		}
 
@@ -202,7 +202,7 @@ public class ReferenceDataCache extends BaseCache {
 			singleTonInstance = getSingleInstatnce();
 
 		Book book = bookCache.get(bookID);
-		return getLegalEntity(book.getLe_id());
+		return getLegalEntity(book.getCustomerID());
 
 	}
 
