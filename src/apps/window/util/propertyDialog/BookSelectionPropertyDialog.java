@@ -31,8 +31,7 @@ public class BookSelectionPropertyDialog extends JDialog {
 	private JTable bookTable = new JTable();
 	private JScrollPane JScrollPane1 = new JScrollPane();
 	private Vector<Book> _vectorLEs = null;
-	private String _displayableObjectClass = "Book";
-	private String role = "";
+	private String _displayableObjectClass = "Book"; 
 	private final int WINDOW_WIDTH = 150;
 	private final int WINDOW_DEPTH = 200;
 
@@ -49,16 +48,19 @@ public class BookSelectionPropertyDialog extends JDialog {
 	public BookSelectionPropertyDialog(Frame parent, boolean modal,
 			Comparator comp, boolean showFilter, boolean isOrderable,
 			String displayableObjectClass) {
-		super(parent, modal);
-		role = displayableObjectClass;
+		super(parent, modal); 
 		init(displayableObjectClass);
 	}
 
 	private Map<Integer, Book> bookAtRow = new HashMap<Integer, Book>(0);
 
+	public Map<Integer, Book> getBookData() {
+		return bookAtRow;
+	}
+	
 	public Book getBookAtRow(int row) {
 		Book book = (Book) bookModel.getData(row);
-		return bookAtRow.get(book.getBookno());
+		return bookAtRow.get(book.getID());
 	}
 
 	void init(String displayableObjectClass) {
@@ -86,12 +88,12 @@ public class BookSelectionPropertyDialog extends JDialog {
 		int id = 0;
 		try {
 			Book b = new Book();
-			b.setBookno(bookID);
+			b.setID(bookID);
 			Book book = (Book) remoteRefeData.selectBook(b);
 			if (book != null) {
-				if (book.getBookno() > 0) {
+				if (book.getID() > 0) {
 					bookModel.addRow(book);
-					bookAtRow.put(book.getBookno(), book);
+					bookAtRow.put(book.getID(), book);
 				}
 			}
 		} catch (Exception e) {
@@ -112,7 +114,7 @@ public class BookSelectionPropertyDialog extends JDialog {
 
 				for (int i = 0; i < _vectorLEs.size(); i++) {
 					Book book = (Book) _vectorLEs.get(i); 
-					bookAtRow.put(book.getBookno(), book);
+					bookAtRow.put(book.getID(), book);
 				}
 			} catch (RemoteException e) {
 				// TODO Auto-generated catch block
@@ -136,13 +138,10 @@ public class BookSelectionPropertyDialog extends JDialog {
 			bookTable.setRowSelectionAllowed(true);
 
 			bookModel = new TableModelUtil(getBookList(), col);
-			bookTable.setModel(bookModel);
-			// _FutureContractSelectorTableModel.setTo(bookTable,true);
-			// _FutureContractSelectorTableModel.refresh();
+			bookTable.setModel(bookModel); 
 			bookTable.getSelectionModel().setSelectionMode(
 					ListSelectionModel.SINGLE_SELECTION);
-			bookTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-			// TableUtil.adjust(bookTable);
+			bookTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF); 
 		} catch (Exception e) {
 			// Log.error(this, e);
 		}
@@ -204,7 +203,7 @@ public Object getData(int row) {
 
 			switch (col) {
 			case 0:
-				value = book.getBook_name();
+				value = book.getBookName();
 
 				break;
 
@@ -219,8 +218,7 @@ public Object getData(int row) {
 		public void setValueAt(Object value, int row, int col) {
 
 			data.set(row, (Book) value);
-			this.fireTableDataChanged();
-			System.out.println("New value of data:");
+			this.fireTableDataChanged(); 
 
 		}
 

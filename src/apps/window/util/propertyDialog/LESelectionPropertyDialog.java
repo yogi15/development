@@ -117,30 +117,13 @@ public class LESelectionPropertyDialog extends JDialog {
 				}catch(Exception e) {
 					
 				}
-			/*   if(_vectorFutureContract == null){ 
-				   _vectorFutureContract = getAllFutureContracts(objType);
-			   }
-			   if(_FutureContractSelectorTableModel !=null)
-				   FutContractJTable.setModel(null);
-				 //  _FutureContractSelectorTableModel.removeFrom(FutContractJTable);
-			   if(_vectorFutureContract!=null)
-				   _FutureContractSelectorTableModel = new ContractSelectorTableModel(_vectorFutureContract,col);
-			   else return;
-			   contractAtRow = new HashMap<Integer, Product>(0);
-			//   _FutureContractSelectorTableModel.notifyOnNewValue(false);
-			   //Here I have all the Futurecontracts in the Vector v
-			//   _FutureContractSelectorTableModel = new ContractSelectorTableModel(myData, col)
-			       
-		    	//   _FutureContractSelectorTableModel.notifyOnNewValue(true);
-			   FutContractJTable.setModel(_FutureContractSelectorTableModel);*/
-		    	 //  _FutureContractSelectorTableModel.setTo(FutContractJTable, true);
-		    	   
-		    	 //  FutContractJTable.removeColumn(FutContractJTable.getColumn(_FutureContractSelectorTableModel.ID));
-		    	 //  _FutureContractSelectorTableModel.refresh();
-		       //    TableUtil.adjust(FutContractJTable);	    	   
+			    
 		   }
 		   
-		   private Map<Integer, LegalEntity> contractAtRow = new HashMap<Integer, LegalEntity>(0);
+		   public Map<Integer, LegalEntity> contractAtRow = new HashMap<Integer, LegalEntity>(0);
+		   public  Map<Integer, LegalEntity> getLeData() {
+			   return contractAtRow;
+		   }
 		   
 		   public LegalEntity getContractAtRow(int row) {
 			   LegalEntity le = (LegalEntity) modelt.getData(row);
@@ -153,22 +136,7 @@ public class LESelectionPropertyDialog extends JDialog {
 	  	   if(_vectorLEs == null){
 	  			   
 	  		  		   
-	  		  			  /* Product e1 = new Product();
-	  		  			   e1.setId(10);
-	  		  			   e1.setName("testing1");
-	  		  			 Product e2 = new Product();
-	  		  			   e2.setId(12);
-	  		  			   e2.setName("testing2");
-	  		  			 Product e3 = new Product();
-	  		  			   e3.setId(13);
-	  		  			   e3.setName("testing3");
-	  		  			_vectorFutureContract = new Vector<Product>();
-	  		  			_vectorFutureContract.add(e2);
-	  		  		contractAtRow.put("testing2",e2);
-	  		  		_vectorFutureContract.add(e3);
-	  		  	contractAtRow.put("testing3",e3);
-	  		  	_vectorFutureContract.add(e1);
-	  			contractAtRow.put("testing1",e1); */
+	  		  			  
 	  			RemoteReferenceData remoteReference = RemoteServiceUtil.getRemoteReferenceDataService();
 				
 				int id = 0;
