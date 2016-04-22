@@ -11,6 +11,15 @@ public class CommonConstants {
 	
 	final public static String BONDPRODUCT = "BOND";
 	
+
+	final public static String BUY = "BUY";
+
+
+	final public static String SELL = "SELL";
+	final public static String BUYSELL = "BUYSELL";
+
+
+	final public static String SELLBUY = "SELLBUY";
 	
 	final public static String PREMIUM_ACCOUNTING_EVENT = "PREMIUM";
 	final public static String DISCOUNT_ACCOUNTING_EVENT = "DISCOUNT";

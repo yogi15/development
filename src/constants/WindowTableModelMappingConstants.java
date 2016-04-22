@@ -31,5 +31,5 @@ public static final String SEARCHTEXTBOX = "WindowTableModelMappingSearchTextBox
 public static final String CUSTOMDATATYPE = "CustomColumnDataType";
 public static final String COMBOXPROPERTIESNAME = "ComboBoxProperty";
 public static final String ISCOMBOX = "IsCombobox"; 
-
+public static final String LOADMETHODSCRIPT = "LoadMethodScript";  
 }

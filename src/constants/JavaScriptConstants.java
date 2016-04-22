@@ -21,6 +21,8 @@ public class JavaScriptConstants {
 	public static final String WINDOWUTIL = "WindowUtil";
 	
 	public static final String WINDOWUTILPATH  = "src/apps/window/staticwindow/util";
+
+	public static final String TRADEWINDOWUTILPATH  = "src/apps/window/tradewindow/util";
 	 
     public static final String STATICWINDOWPATH  = "staticwindow"; 
 
