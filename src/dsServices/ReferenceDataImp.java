@@ -172,7 +172,7 @@ public class ReferenceDataImp implements RemoteReferenceData {
 		// TODO Auto-generated method stub
 
 		Connection con = dsSQL.getConn();
-		boolean isDeleted = false;//LegalEntitySQL.delete(le, con);
+		boolean isDeleted = LegalEntitySQL.deleteLe(le, con);
 		int i = 0;
 
 		if (isDeleted) {
@@ -269,12 +269,12 @@ public class ReferenceDataImp implements RemoteReferenceData {
 	public Book selectBook(Book book) throws RemoteException {
 
 		Connection con = dsSQL.getConn();
-		Book bookObj = BookSQL.selectBook(book.getBookno(), con);
+		Book bookObj = BookSQL.selectBook(book.getID(), con);
 
 		if (bookObj != null) {
 
 			Collection<BookAttribute> bookAttrVec = AttributSQL
-					.selectBookAttribute(bookObj.getBookno(), con);
+					.selectBookAttribute(bookObj.getID(), con);
 
 			String attributes = getBookAttributesString(bookAttrVec);
 
@@ -302,7 +302,7 @@ public class ReferenceDataImp implements RemoteReferenceData {
 			Book element = (Book) itr.next();
 
 			Collection<BookAttribute> bookAttrVec = AttributSQL
-					.selectBookAttribute(element.getBookno(), con);
+					.selectBookAttribute(element.getID(), con);
 
 			attributes = getBookAttributesString(bookAttrVec);
 
@@ -360,10 +360,10 @@ public class ReferenceDataImp implements RemoteReferenceData {
 		if (isBookUpdated && !book.getAttributes().equals("")) {
 
 			Vector<BookAttribute> updateBookAttribute = processBookAttribues(
-					book, book.getBookno());
+					book, book.getID());
 
 			Collection<BookAttribute> isAttributeAlreadySaved = AttributSQL
-					.selectBookAttribute(book.getBookno(), con);
+					.selectBookAttribute(book.getID(), con);
 
 			if (isAttributeAlreadySaved.size() > 0) {
 
@@ -426,7 +426,7 @@ public class ReferenceDataImp implements RemoteReferenceData {
 		if (isBookDeleted) {
 
 			Vector<BookAttribute> deleteBookAttrVec = processBookAttribues(
-					book, book.getBookno());
+					book, book.getID());
 
 			boolean isAttributeDeleted = AttributSQL.deleteBookAttribute(
 					deleteBookAttrVec, con);
@@ -513,7 +513,7 @@ public class ReferenceDataImp implements RemoteReferenceData {
 			Book element = (Book) itr.next();
 
 			Collection<BookAttribute> bookAttrVec = AttributSQL
-					.selectBookAttribute(element.getBookno(), con);
+					.selectBookAttribute(element.getID(), con);
 
 			element.setAttributes(getBookAttributesString(bookAttrVec));
 
@@ -757,7 +757,7 @@ public class ReferenceDataImp implements RemoteReferenceData {
 
 		Connection con = dsSQL.getConn();
 
-		boolean isLeDeleted = false;//LegalEntitySQL.delete(deleteLegalEntity, con);
+		boolean isLeDeleted = LegalEntitySQL.deleteLe(deleteLegalEntity, con);
 
 		if (isLeDeleted && !deleteLegalEntity.getAttributes().equals("")) {
 
@@ -781,7 +781,7 @@ public class ReferenceDataImp implements RemoteReferenceData {
 		if (isBookDeleted && !book.getAttributes().equals("")) {
 
 			Vector<BookAttribute> deleteBookAttrVec = processBookAttribues(
-					book, book.getBookno());
+					book, book.getID());
 
 			boolean isAttributeDeleted = AttributSQL.deleteBookAttribute(
 					deleteBookAttrVec, con);
@@ -833,8 +833,8 @@ public class ReferenceDataImp implements RemoteReferenceData {
 	public CurrencyDefault selectCurrencyDefault(CurrencyDefault currencyD)
 			throws RemoteException {
 		// TODO Auto-generated method stub
-		return null;/*CurrencyDefaultSQL.selectcurrencyDefault(
-				currencyD.getCurrency_code(), dsSQL.getConn()); */
+		return CurrencyDefaultSQL.selectcurrencyDefaultold(
+				currencyD.getCurrency_code(), dsSQL.getConn());
 
 	}
 
@@ -842,8 +842,8 @@ public class ReferenceDataImp implements RemoteReferenceData {
 	public CurrencyDefault selectCurrencyDefault(String currencyISO)
 			throws RemoteException {
 		// TODO Auto-generated method stub
-		return  null;/*CurrencyDefaultSQL.selectcurrencyDefault(
-		currencyD.getCurrency_code(), dsSQL.getConn()); */
+		return CurrencyDefaultSQL.selectcurrencyDefaultold(currencyISO,
+				dsSQL.getConn());
 
 	}
 
@@ -896,12 +896,13 @@ public class ReferenceDataImp implements RemoteReferenceData {
 	@Override
 	public boolean saveCurrencyPair(CurrencyPair cp) throws RemoteException {
 		// TODO Auto-generated method stub
-		String sql = " quoting_currency = '" + cp.getQuoting_currency()
+		return false;
+		/*String sql = " quoting_currency = '" + cp.getQuoting_currency()
 				+ "' and primary_currency = '" + cp.getPrimary_currency() + "'";
-		CurrencyPair cp1 = null;//CurrencyPairSQL.select(sql, dsSQL.getConn());
+		CurrencyPair cp1 = CurrencyPairSQL.select(sql, dsSQL.getConn());
 		if (cp1 != null)
 			return false;
-		return false;//CurrencyPairSQL.save(cp, dsSQL.getConn());
+		return CurrencyPairSQL.save(cp, dsSQL.getConn()); */
 	}
 
 	@Override
@@ -915,15 +916,16 @@ public class ReferenceDataImp implements RemoteReferenceData {
 			throws RemoteException {
 		// TODO Auto-generated method stub
 		String sql = "  quoting_currency = '" + secondaryCurrency + "'";
-
-		return null;// CurrencyPairSQL.selectCurrencyPair(sql, dsSQL.getConn());
+return null;
+	//	return CurrencyPairSQL.selectCurrencyPair(sql, dsSQL.getConn());
 	}
 
 	@Override
 	public CurrencyPair updateCurrencyPair(CurrencyPair cp)
 			throws RemoteException {
+		return null;
 		// TODO Auto-generated method stub
-		return null;//CurrencyPairSQL.update(cp, dsSQL.getConn());
+	//	return CurrencyPairSQL.update(cp, dsSQL.getConn());
 	}
 
 	@Override
@@ -931,8 +933,8 @@ public class ReferenceDataImp implements RemoteReferenceData {
 			throws RemoteException {
 		// TODO Auto-generated method stub
 		String sql = " quoting_currency = '" + cp.getQuoting_currency() + "'";
-
-		return null;//CurrencyPairSQL.selectCurrencyPair(sql, dsSQL.getConn());
+return null;
+		//return CurrencyPairSQL.selectCurrencyPair(sql, dsSQL.getConn());
 	}
 
 	@Override
@@ -941,6 +943,13 @@ public class ReferenceDataImp implements RemoteReferenceData {
 		return CurrencyPairSQL.selectALL(dsSQL.getConn());
 	}
 
+	@Override
+	public Vector<CurrencyPair> selectALLCurrencyPairWithContact() throws RemoteException {
+		// TODO Auto-generated method stub
+		return   CurrencyPairSQL.selectALLCurrencyPairWithConcat(dsSQL.getConn());
+	}
+	
+	
 	@Override
 	public boolean saveFavourites(Favorities favourites) throws RemoteException {
 		// TODO Auto-generated method stub
@@ -1269,31 +1278,31 @@ public class ReferenceDataImp implements RemoteReferenceData {
 	@Override
 	public boolean updateLeContacts(LeContacts le) throws RemoteException {
 		// TODO Auto-generated method stub
-		return false;//LeContactsSql.update(le, dsSQL.getConn());
+		return LeContactsSQL.update(le, dsSQL.getConn());
 	}
 
 	@Override
 	public boolean deleteLeContacts(LeContacts le) throws RemoteException {
 		// TODO Auto-generated method stub
-		 return false;// LeContactsSql.delete(le, dsSQL.getConn());
+		return LeContactsSQL.delete(le, dsSQL.getConn());
 	}
 
 	@Override
 	public Collection getALLLecontacts() throws RemoteException {
 		// TODO Auto-generated method stub
-		 return null;// LeContactsSql.selectALL(dsSQL.getConn());
+		return LeContactsSQL.selectALL(dsSQL.getConn());
 	}
 
 	@Override
 	public Collection getLeContacts(int leid) throws RemoteException {
 		// TODO Auto-generated method stub
-		 return null;// LeContactsSql.selectContactsOnLe(leid, dsSQL.getConn());
+		return LeContactsSQL.selectContactsOnLe(leid, dsSQL.getConn());
 	}
 
 	@Override
 	public Collection selectLeContacts(int leid) throws RemoteException {
 		// TODO Auto-generated method stub
-		 return null;// LeContactsSql.selectContactsOnLe(leid, dsSQL.getConn());
+		return LeContactsSQL.selectContactsOnLe(leid, dsSQL.getConn());
 	}
 
 	@Override
@@ -1317,7 +1326,7 @@ public class ReferenceDataImp implements RemoteReferenceData {
 	@Override
 	public int saveLeContacts(LeContacts le) throws RemoteException {
 		// TODO Auto-generated method stub
-		return 0;//LeContactsSql.save(le, dsSQL.getConn());
+		return 0;//LeContactsSQL.save(le, dsSQL.getConn());
 	}
 
 	@Override
@@ -1376,7 +1385,8 @@ public class ReferenceDataImp implements RemoteReferenceData {
 	public Collection selectLEContactOnWhereClause(String whereClause)
 			throws RemoteException {
 		// TODO Auto-generated method stub
-		return null;//LeContactsSql.selectLEContactOnWhereClause(whereClause,				dsSQL.getConn());
+		return LeContactsSQL.selectLEContactOnWhereClause(whereClause,
+				dsSQL.getConn());
 	}
 
 	@Override
