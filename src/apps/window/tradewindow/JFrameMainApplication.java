@@ -814,15 +814,7 @@ public class JFrameMainApplication extends JFrame {
 
 						refWindow.setSize(1250, 580);
 					} else {
-						if (!AccessDataCacheUtil
-								.getAccessData()
-								.isAccessToWindow(name, arg0.getActionCommand())) {
-							commonUTIL
-									.showAlertMessage("User Access Denied to open "
-											+ arg0.getActionCommand()
-											+ "Window ");
-							return;
-						}
+						 
 						refWindow = new JFrameReferenceWindow(arg0
 								.getActionCommand());
 						refWindow.setSize(1000, 720);
