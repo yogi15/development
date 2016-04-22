@@ -1,11 +1,15 @@
 package apps.window.staticwindow.util;
 
 import java.util.Vector;
+
+import javax.swing.JScrollPane;
+
 import util.commonUTIL;
 import util.cacheUtil.ReferenceDataCache;
 import apps.window.staticwindow.BasePanel;
 import apps.window.staticwindow.WindowTableModelMappingWindow;
 import apps.window.util.tableModelUtil.TableUtils;
+import beans.JavaFileGenerator;
 import beans.WindowTableModelMapping;
 import com.jidesoft.grid.Property;
 
@@ -90,8 +94,41 @@ public class WindowTableModelMappingWindowUtil extends BaseWindowUtil {
 		if (action.equalsIgnoreCase(CommonConstants.SAVEBUTTON)) {
 			saveButtonAction();
 		}
+		if (action.equalsIgnoreCase(WindowTableModelMappingConstants.LOADMETHODSCRIPT)) {
+			saveLoadMethodScriptAction();
+		}
 	}
 
+	private void saveLoadMethodScriptAction() {
+		// TODO Auto-generated method stub
+		String searchText = windowtablemodelmappingWindow.WindowTableModelMappingSearchTextField
+				.getText();
+		Vector<WindowTableModelMapping> data = (Vector<WindowTableModelMapping>) ReferenceDataCache
+				.selectWhere(searchText,BeanConstants.WINDOWTABLEMODELMAPPING);
+	String script = 	createJavaScriptOnGetMethod(data);
+	windowtablemodelmappingWindow.textAreaScrollPane.setVerticalScrollBarPolicy(
+                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		
+	windowtablemodelmappingWindow.textArea.append(script);
+	}
+	// custom code 
+		public String createJavaScriptOnGetMethod(Vector<WindowTableModelMapping> dataForScript) {
+			String script = "public Object getPropertyValue(String propertyPaneColumnName) {\n";
+			script = script + "Object obj =null;\n";
+			for(int i=0;i<dataForScript.size();i++) {
+				WindowTableModelMapping beanData = dataForScript.get(i);
+			script = script + "\n if(propertyPaneColumnName.equalsIgnoreCase("+beanData.getWindowName()+"Constants."+beanData.getMethodName().toUpperCase()+")) { \n";
+			script = script + " return  obj = get"+ beanData.getMethodName() + "() ; \n} \n ";
+			}
+			script = script + "  \n return obj;} \n\n\n public void setPropertyValue(String propertyPaneColumnName, Object object) { \n" ;
+			for(int i=0;i<dataForScript.size();i++) {
+				WindowTableModelMapping beanData = dataForScript.get(i);
+			script = script + " if(propertyPaneColumnName.equalsIgnoreCase("+beanData.getWindowName()+"Constants."+beanData.getMethodName().toUpperCase()+")) { \n";
+			script = script + "   set"+ beanData.getMethodName() + "((String)object) ; \n}  \n";
+			}
+			script = script + " }";
+			return script;
+		 }
 	private void saveButtonAction() {
 		// TODO Auto-generated method stub
 		windowtablemodelmappingWindow.propertyTable
