@@ -157,7 +157,7 @@ public class JFrameStaticWindow  extends DefaultDockableHolder {
 			 }
 			tempalteframe.setToolTipText(name);
 			tempalteframe.setForeground(new Color(160,160,160));
-			
+		 
 			return tempalteframe;
 		}
 		protected DockableFrame createLeftSideCenterFrame(String name) {
@@ -177,7 +177,7 @@ public class JFrameStaticWindow  extends DefaultDockableHolder {
 			frameT.setForeground(new Color(160,160,160));
 			frameT.setBackground(new Color(160,160,160));
 			frameT.setTabBackground(new Color(160,160,160));
-
+			 frameT.setShowTitleBar(false);
 			frameT.setTabForeground(new Color(160,160,160));
 			 
 			return frameT;

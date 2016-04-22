@@ -9,6 +9,9 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 import util.CosmosException;
@@ -56,15 +59,17 @@ public class WindowTableModelMappingWindow extends BasePanel {
 	// leftTopPanel Data
 	protected JLabel windowName = new JLabel("WindowName");
 	public final JTextField WindowTableModelMappingSearchTextField = new JTextField(
-			"WindowTableModelMappingTextField",15); // search textfield in
+			" ",15); // search textfield in
 													// leftTopPanel Data
 	// rightTopPanel Data
+	public   JButton LoadMethodScript = new JButton("LoadMethodScript" ); 
 	private JLabel windowtablemodelmappingLabel = new JLabel("Window Name");
 	protected JButton windowDetails = new JButton("Load WindowDetails");
 	// leftSide PropertyTable
 	public WindowTableModelMappingPropertyTable propertyTable = null;
 	
-
+	public JTextArea textArea = new JTextArea();
+	 public JScrollPane textAreaScrollPane = new JScrollPane(textArea);
 	// Constructor
 	public WindowTableModelMappingWindow() {
 		try {
@@ -79,7 +84,7 @@ public class WindowTableModelMappingWindow extends BasePanel {
 
 	private void initComponents() throws CosmosException {
 		// / init() data required while loading this window.
-		init();
+		init(); 
 		setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED, null,
 				null));
 		setLayout(new BorderLayout());
@@ -110,12 +115,13 @@ public class WindowTableModelMappingWindow extends BasePanel {
 
 	@Override
 	public ActionMap getHotKeysActionMapper() {
-		 return actionMap;
+		ActionMap action = new ActionMap();
+		return action;
 	}
 
 	@Override
 	public JPanel getHotKeysPanel() {
-		return leftBottombuttonsPanel;
+		return rightTopbuttonsPanel;
 	}
 
 	@Override
@@ -140,6 +146,8 @@ public class WindowTableModelMappingWindow extends BasePanel {
 		try {
 			setEventListener(windowDetails);
 			setEventListener(WindowTableModelMappingSearchTextField);
+			setEventListener(LoadMethodScript);
+			
 		} catch (CosmosException e) {
 			e.printStackTrace();
 		}
@@ -160,6 +168,7 @@ public class WindowTableModelMappingWindow extends BasePanel {
 	public void addTopRigthSidePanelComponents() {
 		rightTopbuttonsPanel.add(windowName);
 		rightTopbuttonsPanel.add(windowDetails);
+		rightTopbuttonsPanel.add(LoadMethodScript);
 	}
 
 	// create property proprities.
@@ -172,10 +181,13 @@ public class WindowTableModelMappingWindow extends BasePanel {
 				.getPropertyTable(generateProperty(WindowTableModelMappingConstants.WINDOW_NAME)));
 	}
 
+	  JTabbedPane centerRightSide = new JTabbedPane();
 	@Override
 	public void addCenterRightSidePanelComponents() {
 		// TODO Auto-generated method stub
-		centerRightSidePanel.add(scrollPane, BorderLayout.CENTER);
+		centerRightSide.addTab("FieldDetails",scrollPane);
+		centerRightSide.addTab("GenerateScript",textAreaScrollPane);
+		centerRightSidePanel.add(centerRightSide, BorderLayout.CENTER);
 	}
 
 	@Override

@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.List;
 
+import javax.swing.AbstractAction;
 import javax.swing.AbstractButton;
 import javax.swing.ActionMap;
 import javax.swing.BorderFactory;
@@ -44,6 +45,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import javax.swing.plaf.ActionMapUIResource;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer; 
 import javax.swing.table.TableCellEditor;
@@ -95,7 +97,7 @@ public abstract class BasePanel extends JPanel {
 	HierarchicalTable childWindow = null;  
 	JPanel leftFrame = new JPanel();
     String windowName = "";
-    
+	public ActionMap actionMap =null;
     private QuickTableFilterField _filterField;
 	  private TableModelListener _listener;
 	  JPanel quickSearchPanel = new JPanel(new FlowLayout(FlowLayout.LEADING));
@@ -311,7 +313,7 @@ public abstract class BasePanel extends JPanel {
 	 
 
 		setEventActionListener();
-		
+		createActionMapper();
 	
 		
 		add(splitPane, BorderLayout.CENTER);
@@ -382,7 +384,7 @@ public abstract class BasePanel extends JPanel {
 
 		setEventActionListener();
 		
-	
+		createActionMapper();
 		
 		add(splitPane, BorderLayout.CENTER); 
 	}
@@ -441,6 +443,7 @@ try {
 		rightSideCenterTable.setName(CommonConstants.RIGHTSIDECENTERTABLE);
 		rightSideCenterTable.setRowSelectionAllowed(true);
 		setEventActionListener();
+		createActionMapper();
 		setOpaque(true);
 		// add(splitLeftPanel, BorderLayout.CENTER);
 
@@ -484,6 +487,29 @@ try {
 		}
 
 	}
+	
+	
+	private void createActionMapper() {
+		  actionMap = new ActionMapUIResource();
+		    actionMap.put("action_save", new AbstractAction() {
+		        @Override
+		        public void actionPerformed(ActionEvent event) {
+
+					validationActionUtil.actionMapper(event.getActionCommand());
+		        }
+		    });
+		    actionMap.put("action_saveasnew", new AbstractAction() {
+		        @Override
+		        public void actionPerformed(ActionEvent event) {
+		        	//commonUTIL.showAlertMessage("Save As New action performed.");
+		        	validationActionUtil.actionMapper(event.getActionCommand());
+		        
+		        //	commonUTIL.showAlertMessage("Save As new  action performed.");
+		        }
+		    });
+	}
+	
+	
 
 	protected void createleftBottomsPanel() {
 		JPanel buttonPanel = new ButtonPanel(SwingConstants.RIGHT);
@@ -562,7 +588,7 @@ try {
 					.generateProperty(windowName);
 		} catch (CosmosException e) {
 			// TODO Auto-generated catch block
-			commonUTIL.displayError(getWindowName() , "generateSearchAttributeProperty exception "+ e.getMessage() , e);
+			commonUTIL.displayError(getWindowName() , "generateProperty exception "+ e.getMessage() , e);
 		}
 
 		if (commonUTIL.isEmpty(prope)) {
