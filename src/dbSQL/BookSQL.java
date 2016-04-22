@@ -36,9 +36,9 @@ public class BookSQL extends BaseSQL {
 			.toString();
 
 	private static String getUpdateSQL(Book book) {
-		String updateSQL = "UPDATE book  set " + " LE_ID= " + book.getLe_id() + " ,BOOK_NAME= '" + book.getBook_name()
+		String updateSQL = "UPDATE book  set " + " LE_ID= " + book.getCustomerID() + " ,BOOK_NAME= '" + book.getBookName()
 				+ "' ,FOLDERID= " + book.getFolderID() + ",timezone='" + book.getTimezone() + "', holidaycode='"
-				+ book.getHolidaycode() + "', currency='" + book.getCurrency() + "'  where BOOKNO= " + book.getBookno();
+				+ book.getHolidaycode() + "', currency='" + book.getCurrency() + "'  where BOOKNO= " + book.getID();
 		return updateSQL;
 	}
 
@@ -103,7 +103,7 @@ public class BookSQL extends BaseSQL {
 			int j = 1;
 			con.setAutoCommit(false);
 			stmt = dsSQL.newPreparedStatement(con, DELETE_FROM_BOOK);
-			stmt.setInt(j++, deleteBook.getBookno());
+			stmt.setInt(j++, deleteBook.getID());
 
 			stmt.executeUpdate();
 			con.commit();
@@ -163,9 +163,9 @@ public class BookSQL extends BaseSQL {
 			while (rs.next()) {
 
 				Book book = new Book();
-				book.setBookno(rs.getInt(1));
-				book.setBook_name(rs.getString(3));
-				book.setLe_id(rs.getInt(2));
+				book.setID(rs.getInt(1)); 
+				book.setBookName(rs.getString(3));
+				book.setCustomerID(rs.getInt(2));
 				book.setFolderID(rs.getInt(4));
 
 				book.setTimezone(rs.getString(5));
@@ -173,7 +173,7 @@ public class BookSQL extends BaseSQL {
 				book.setCurrency(rs.getString(7));
 				
 				
-				Vector<Attribute> p =  (Vector<Attribute>) getAttributes(book.getBookno(), BeanConstants.BOOK);
+				Vector<Attribute> p =  (Vector<Attribute>) getAttributes(book.getID(), BeanConstants.BOOK);
 				AttributeContainer ac = new AttributeContainer();
 				ac.setAttributes(p);
 				book.setAttributeContainer(ac);
@@ -215,8 +215,8 @@ public class BookSQL extends BaseSQL {
 			int j = 1;
 			stmt = dsSQL.newPreparedStatement(con, INSERT_FROM_BOOK);
 			stmt.setInt(1, id);
-			stmt.setInt(2, inserbook.getLe_id());
-			stmt.setString(3, inserbook.getBook_name());
+			stmt.setInt(2, inserbook.getCustomerID());
+			stmt.setString(3, inserbook.getBookName());
 			stmt.setInt(4, inserbook.getFolderID());
 			stmt.setString(5, inserbook.getAttributes());
 			stmt.setString(6, inserbook.getTimezone());
@@ -224,7 +224,7 @@ public class BookSQL extends BaseSQL {
 			stmt.setString(8, inserbook.getCurrency());
 			stmt.executeUpdate();
 			con.commit();
-			inserbook.setBookno(id);
+			inserbook.setID(id);
 			insertAttributes(inserbook.getAttributeContainer(), id, BeanConstants.BOOK);
 			return inserbook;
 		} catch (Exception e) {
@@ -284,9 +284,9 @@ public class BookSQL extends BaseSQL {
 
 			while (rs.next()) {
 
-				book.setBookno(rs.getInt(1));
-				book.setBook_name(rs.getString(2));
-				book.setLe_id(rs.getInt(3));
+				book.setID(rs.getInt(1));
+				book.setBookName(rs.getString(2));
+				book.setCustomerID(rs.getInt(3));
 				book.setFolderID(rs.getInt(4));
 				book.setAttributes(rs.getString(5));
 				book.setTimezone(rs.getString(6));
@@ -325,9 +325,9 @@ public class BookSQL extends BaseSQL {
 
 			while (rs.next()) {
 				Book book = new Book();
-				book.setBookno(rs.getInt(1));
-				book.setBook_name(rs.getString(2));
-				book.setLe_id(rs.getInt(3));
+				book.setID(rs.getInt(1));
+				book.setBookName(rs.getString(2));
+				book.setCustomerID(rs.getInt(3));
 				book.setFolderID(rs.getInt(4));
 				book.setAttributes(rs.getString(5));
 				book.setTimezone(rs.getString(6));
@@ -365,10 +365,11 @@ public class BookSQL extends BaseSQL {
 			ResultSet rs = stmt.executeQuery();
 
 			while (rs.next()) {
+			 
 				Book book = new Book();
-				book.setBookno(rs.getInt(1));
-				book.setBook_name(rs.getString(2));
-				book.setLe_id(rs.getInt(3));
+				book.setID(rs.getInt(1));
+				book.setBookName(rs.getString(2));
+				book.setCustomerID(rs.getInt(3));
 				book.setFolderID(rs.getInt(4));
 				book.setAttributes(rs.getString(5));
 				books.add(book);
@@ -484,21 +485,7 @@ public class BookSQL extends BaseSQL {
 	}
 
 	public static void main(String args[]) {
-		Book boo = new Book();
-		boo.setBookno(60);
-		boo.setBook_name("Pppp");
-		boo.setLe_id(3);
-		boo.setFolderID(99);
-
-		AttributeContainer att = new AttributeContainer();
-		att.addAttribute("mesting", "ppqp");
-		boo.setAttributeContainer(att);
-
-		// insert(boo, dsSQL.getConn());
-		// edit(boo, dsSQL.getConn());
-		select(dsSQL.getConn());
-		// JOptionPane.showMessageDialog(null, select( dsSQL.getConn()),
-		// "InfoBox: " , JOptionPane.INFORMATION_MESSAGE);
+	 
 
 	}
 
