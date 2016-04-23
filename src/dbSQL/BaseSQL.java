@@ -31,7 +31,7 @@ public abstract class BaseSQL {
 	  public abstract Collection selectKeyColumnsWithWhere(String columnNames,String where,Connection con);
      
 	  public abstract Collection selectKeyColumns(String columnNames,Connection con);
- 
+	  
 	  
 	  
 	  // this method will go when insert 
@@ -120,5 +120,6 @@ public abstract class BaseSQL {
 			}
 			    return reportObject;
 		  }
+		
 	  
 }

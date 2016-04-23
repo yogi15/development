@@ -42,7 +42,6 @@ public interface RemoteReferenceData extends Remote{
 	public BaseBean insertSQL( String sql  ,String beanName) throws RemoteException;
 	  public boolean updateSQL( String sql  ,String beanName)throws RemoteException;
 	  public boolean deleteSQL( String sql  ,String beanName)throws RemoteException;
-
 	  public BaseBean insertSQL(  BaseBean sql  ,String beanName)throws RemoteException;
 	  public boolean updateSQL( BaseBean sql  ,String beanName)throws RemoteException;
 	  public boolean deleteSQL( BaseBean sql  ,String beanName)throws RemoteException;
@@ -270,6 +269,7 @@ public interface RemoteReferenceData extends Remote{
 			throws RemoteException;
 	public Vector<MenuConfiguration> selectMenuConfig() throws RemoteException;
 	public  Vector<CurrencyPair>  selectALLCurrencyPairWithContact() throws RemoteException;
+	
 	
 	
 	

@@ -3,26 +3,22 @@ package apps.window.util.tableModelUtil;
 import java.util.Vector;
 import com.jidesoft.grid.HierarchicalTableModel;
 import javax.swing.table.AbstractTableModel;
+
 import beans.Book;
 
-public class BookTableModelUtil extends AbstractTableModel {
-	final String[] columnNames;
-	String col[] = { " BookNo", "BookName", "LegalEntity", "Currency",
-			"HolidayCode", "TimeZone" };
-
-	/**
-	 * @return the col
-	 */
-	public String[] getCol() {
-		return col;
-	}
-
-	/**
+public class BookTableModelUtil extends AbstractTableModel  { 
+		final String[] columnNames;  
+		 String col[] ={"Book No","Book Name","Country","TimeZone","Currency"} ;
+   /**
+  * @return the col
+ */
+public String[] getCol() {
+return col;
+}
+ /**
 	 * @return the data
 	 */
-	public Vector<Book> getData() {
-		return mydata;
-	}
+
 
 	final Vector<Book> mydata;
 
@@ -63,7 +59,7 @@ public class BookTableModelUtil extends AbstractTableModel {
 			value = book.getBookName();
 			break;
 		case 2:
-			value = book.getCustomerID();
+			value = book.getCountry();
 			break;
 		case 3:
 			value = book.getCurrency();

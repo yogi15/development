@@ -801,6 +801,7 @@ public class ReferenceDataCache extends BaseCache {
 		}
 	}
 
+	
 	public static boolean updateSQL(BaseBean bean, String beanName) {
 		try {
 			// TODO Auto-generated method stub

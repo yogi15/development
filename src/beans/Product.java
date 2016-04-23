@@ -5,6 +5,9 @@ import java.io.Serializable;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
+import constants.BookConstants;
+import constants.ProductConstants;
+import beans.Coupon;
 
 public class Product implements BaseBean{
 
@@ -57,8 +60,152 @@ public class Product implements BaseBean{
 	String MATURITYDATE;
 	String CURRENCY;
 	AttributeContainer attributeContainer = null;
+	Coupon c=new Coupon();
+	@Override
+	public Object getPropertyValue(String propertyPaneColumnName) {
+		Object obj = null;
+		if (propertyPaneColumnName.equalsIgnoreCase(ProductConstants.UNDERLYINGID)) {
+			
+			return obj = getId();
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(ProductConstants.UNDERLYINGNAME)) {
+			return obj = getName();
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(ProductConstants.ASSETTYPE)) {
+			return obj = c.get();
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(ProductConstants.COUNTRY)) {
+			return obj = getCountry();
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(ProductConstants.STATUS)) {
+			return obj = getSTATUS();
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(ProductConstants.EXCHANGE)) {
+			return obj = getEXCHANGE();
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(ProductConstants.CURRENCY)) {
+			return obj = getCurrency();
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(ProductConstants.FACEVALUE)) {
+			
+			return obj = getFaceValue();
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(ProductConstants.ISSUEDATE)) {
+			return obj = getIssueDate();
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(ProductConstants.DATEDDATE)) {
+			return obj = getDateDate();
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(ProductConstants.MATURITYDATE)) {
+			return obj = getMATURITYDATE();
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(ProductConstants.FIXEDRATE)) {
+			return obj = getf();
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(ProductConstants.RATEINDEX)) {
+			return obj = getrate();
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(ProductConstants.DAYCOUNT)) {
+			return obj = getda();
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(ProductConstants.BUSINESSDAYCONVENTION)) {
+			
+			return obj = getbu();
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(ProductConstants.WITHHOLDTAX)) {
+			return obj = getwith();
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(ProductConstants.ROLLDATE)) {
+			return obj = getrol();
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(ProductConstants.PERIODADJUSTED)) {
+			return obj = getCountry();
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(ProductConstants.HOLIDAYCODE)) {
+			return obj = getHolidaycode();
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(ProductConstants.TIMEZONE)) {
+			return obj = getTimezone();
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(ProductConstants.CURRENCY)) {
+			return obj = getCurrency();
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(ProductConstants.CURRENCY)) {
+			return obj = getCurrency();
+		}
+	}
+	@Override
+	public void setPropertyValue(String propertyPaneColumnName, Object object) {
+		if (propertyPaneColumnName.equalsIgnoreCase(ProductConstants.LEID)) {
+			setLe_id((Integer) object);
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(ProductConstants.BOOKNO)) {
+			setBookno((Integer) object);
+		}		
+		if (propertyPaneColumnName.equalsIgnoreCase(ProductConstants.BOOKNAME)) {
+			setBook_name((String) object);
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(ProductConstants.COUNTRY)) {
+			setCountry((String) object);
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(ProductConstants.HOLIDAYCODE)) {
+			setHolidaycode((String) object);
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(ProductConstants.TIMEZONE)) {
+			setTimezone((String) object);
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(ProductConstants.CURRENCY)) {
+			setCurrency((String) object);
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(ProductConstants.LEID)) {
+			setLe_id((Integer) object);
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(ProductConstants.BOOKNO)) {
+			setBookno((Integer) object);
+		}		
+		if (propertyPaneColumnName.equalsIgnoreCase(ProductConstants.BOOKNAME)) {
+			setBook_name((String) object);
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(ProductConstants.COUNTRY)) {
+			setCountry((String) object);
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(ProductConstants.HOLIDAYCODE)) {
+			setHolidaycode((String) object);
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(ProductConstants.TIMEZONE)) {
+			setTimezone((String) object);
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(ProductConstants.CURRENCY)) {
+			setCurrency((String) object);
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(ProductConstants.LEID)) {
+			setLe_id((Integer) object);
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(ProductConstants.BOOKNO)) {
+			setBookno((Integer) object);
+		}		
+		if (propertyPaneColumnName.equalsIgnoreCase(ProductConstants.BOOKNAME)) {
+			setBook_name((String) object);
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(ProductConstants.COUNTRY)) {
+			setCountry((String) object);
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(ProductConstants.HOLIDAYCODE)) {
+			setHolidaycode((String) object);
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(ProductConstants.TIMEZONE)) {
+			setTimezone((String) object);
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(ProductConstants.CURRENCY)) {
+			setCurrency((String) object);
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(ProductConstants.CURRENCY)) {
+			setCurrency((String) object);
+		}
+		
+		
+	}
 	
-
 	public AttributeContainer getAttributeContainer() {
 		return attributeContainer;
 	}
@@ -418,17 +565,7 @@ public class Product implements BaseBean{
 		this.currency = currency;
 	}
 
-	@Override
-	public Object getPropertyValue(String propertyPaneColumnName) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setPropertyValue(String propertyPaneColumnName, Object object) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 	
 transient   Hashtable<String, String> attributesData = new Hashtable<String, String>();
 	

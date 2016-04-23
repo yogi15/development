@@ -4,14 +4,88 @@ import java.io.Serializable;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
+
 import constants.BookConstants;
+
  
+
 
 public class Book implements BaseBean {
 
-	int id;
-	int customerID;
-	String bookName, timezone, holidaycode, currency;
+	
+	int bookno;
+	int le_id;
+	String book_name,timezone, holidaycode, currency,country ;
+
+	int folderID;
+	AttributeContainer attributeContainer = null;
+	String attributes;
+	
+	public String getCountry() {
+		return country;
+	}
+	public void setCountry(String country) {
+		this.country = country;
+	}
+	
+	@Override
+	public Object getPropertyValue(String propertyPaneColumnName) {
+		
+		Object obj = null;
+		if (propertyPaneColumnName.equalsIgnoreCase(BookConstants.LEID)) {
+			
+			return obj = getCustomerID();
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(BookConstants.BOOKNO)) {
+			return obj = getID();
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(BookConstants.BOOKNAME)) {
+			return obj = getBookName();
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(BookConstants.COUNTRY)) {
+			return obj = getCountry();
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(BookConstants.HOLIDAYCODE)) {
+			return obj = getHolidaycode();
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(BookConstants.TIMEZONE)) {
+			return obj = getTimezone();
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(BookConstants.CURRENCY)) {
+			return obj = getCurrency();
+		}
+		
+				
+		return obj;
+	}
+	@Override
+	public void setPropertyValue(String propertyPaneColumnName, Object object) {
+		
+		if (propertyPaneColumnName.equalsIgnoreCase(BookConstants.LEID)) {
+			setCustomerID((Integer) object);
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(BookConstants.BOOKNO)) {
+			setID((Integer) object);
+		}		
+		if (propertyPaneColumnName.equalsIgnoreCase(BookConstants.BOOKNAME)) {
+			setBookName((String) object);
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(BookConstants.COUNTRY)) {
+			setCountry((String) object);
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(BookConstants.HOLIDAYCODE)) {
+			setHolidaycode((String) object);
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(BookConstants.TIMEZONE)) {
+			setTimezone((String) object);
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(BookConstants.CURRENCY)) {
+			setCurrency((String) object);
+		}
+		
+		
+	}
+	
 
 	public String getTimezone() {
 		return timezone;
@@ -37,8 +111,6 @@ public class Book implements BaseBean {
 		this.currency = currency;
 	}
 
-	int folderID;
-	AttributeContainer attributeContainer = null;
 
 	transient Hashtable<String, String> attributesData = new Hashtable<String, String>();
 
@@ -66,30 +138,30 @@ public class Book implements BaseBean {
 		this.attributes = attributes;
 	}
 
-	String attributes;
+	
 
 	public int getID() {
-		return id;
+		return bookno;
 	}
 
 	public void setID(int bookno) {
-		this.id = bookno;
+		this.bookno = bookno;
 	}
 
 	public int getCustomerID() {
-		return customerID;
+		return le_id;
 	}
 
 	public void setCustomerID(int le_id) {
-		this.customerID= le_id;
+		this.le_id= le_id;
 	}
 
 	public String getBookName() {
-		return bookName;
+		return book_name;
 	}
 
 	public void setBookName(String book_name) {
-		this.bookName = book_name;
+		this.book_name = book_name;
 	}
 
 	public String getAttributeValue(String key) {
@@ -148,25 +220,6 @@ public class Book implements BaseBean {
 		this.attributes = getALLAttributesData();
 	}
 
-	@Override
-	public Object getPropertyValue(String propertyPaneColumnName) {
-		Object obj =null;
-		if(propertyPaneColumnName.equalsIgnoreCase(BookConstants.ID)) {
-			return obj = getID();
-		}
-		 
-		 return obj;
-		 } 
-
-	@Override
-	public void setPropertyValue(String propertyPaneColumnName, Object object) {
-		// TODO Auto-generated method stub
-
-		 
-		  
-		 
-
-	}
 
 	public AttributeContainer getAttributeContainer() {
 		return attributeContainer;

@@ -833,8 +833,8 @@ public class ReferenceDataImp implements RemoteReferenceData {
 	public CurrencyDefault selectCurrencyDefault(CurrencyDefault currencyD)
 			throws RemoteException {
 		// TODO Auto-generated method stub
-		return CurrencyDefaultSQL.selectcurrencyDefaultold(
-				currencyD.getCurrency_code(), dsSQL.getConn());
+		return null;/* CurrencyDefaultSQL.selectcurrencyDefaultold(
+				currencyD.getCurrency_code(), dsSQL.getConn());*/
 
 	}
 
@@ -842,8 +842,8 @@ public class ReferenceDataImp implements RemoteReferenceData {
 	public CurrencyDefault selectCurrencyDefault(String currencyISO)
 			throws RemoteException {
 		// TODO Auto-generated method stub
-		return CurrencyDefaultSQL.selectcurrencyDefaultold(currencyISO,
-				dsSQL.getConn());
+		return null;/*CurrencyDefaultSQL.selectcurrencyDefaultold(currencyISO,
+				dsSQL.getConn());*/
 
 	}
 
@@ -1725,7 +1725,7 @@ return null;
 		// TODO Auto-generated method stub
 		return makeSQLObject(beanName).selectKeyColumns(columnNames ,  dsSQL.getConn());
 	}
- 
 
+	
 
 }

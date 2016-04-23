@@ -22,7 +22,7 @@ public class LeContactsSQL extends BaseSQL {
 			.append(" id,  LE_ID,  LE_ROLE,  CONTACT_TYPE, LE_FIRSTNAME, LE_LAST_NAME, ")
 			.append(" CITY, ZIPCODE, STATE, COUNTRY ,MAILING_ADDRESS1, MAILING_ADDRESS2, EAMILID, ")
 			.append(" PHONE, FAX, SWIFT,ProductType )  ")
-			.append(" values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)").toString();
+			.append(" values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)").toString();
 
 	final static private String SELECT_MAX = "SELECT LECONTACTS_SEQ.NEXTVAL AS MAX_ID FROM dual ";
 
@@ -168,7 +168,7 @@ public class LeContactsSQL extends BaseSQL {
 			}
 
 		} catch (Exception e) {
-			commonUTIL.displayError("LeContactsSql ", "edit " + sql, e);
+			commonUTIL.displayError("LeContactsSql ", "edit " + sql  + e.getMessage(), e);
 			return false;
 
 		} finally {
@@ -202,7 +202,7 @@ public class LeContactsSQL extends BaseSQL {
 			}
 
 		} catch (Exception e) {
-			commonUTIL.displayError("LeContactsSql", "remove", e);
+			commonUTIL.displayError("LeContactsSql", "remove" + e.getMessage(), e);
 			return false;
 
 		} finally {
@@ -210,7 +210,7 @@ public class LeContactsSQL extends BaseSQL {
 				stmt.close();
 				// con.close();
 			} catch (SQLException e) {
-				commonUTIL.displayError("LeContactsSql", "remove", e);
+				commonUTIL.displayError("LeContactsSql", "remove" + e.getMessage(), e);
 			}
 		}
 		return hasDeleted;
@@ -282,7 +282,7 @@ public class LeContactsSQL extends BaseSQL {
 			}
 
 		} catch (Exception e) {
-			commonUTIL.displayError("LeContactsSql", INSERT_FROM_message, e);
+			commonUTIL.displayError("LeContactsSql", INSERT_FROM_message + e.getMessage(), e);
 			return null;
 
 		} finally {
@@ -292,7 +292,7 @@ public class LeContactsSQL extends BaseSQL {
 			} catch (SQLException e) {
 
 				commonUTIL
-						.displayError("LeContactsSql", INSERT_FROM_message, e);
+						.displayError("LeContactsSql", INSERT_FROM_message + e.getMessage(), e);
 			}
 		}
 		return null;
@@ -383,7 +383,7 @@ public class LeContactsSQL extends BaseSQL {
 
 			}
 		} catch (Exception e) {
-			commonUTIL.displayError("messageSQL", SELECTALL, e);
+			commonUTIL.displayError("messageSQL", SELECTALL + e.getMessage(), e);
 			return leContactsVec;
 
 		} finally {
@@ -391,7 +391,7 @@ public class LeContactsSQL extends BaseSQL {
 				stmt.close();
 				// con.close();
 			} catch (SQLException e) {
-				commonUTIL.displayError("LeContactsSql", SELECTALL, e);
+				commonUTIL.displayError("LeContactsSql", SELECTALL + e.getMessage(), e);
 			}
 		}
 		return leContactsVec;
@@ -432,7 +432,7 @@ public class LeContactsSQL extends BaseSQL {
 
 			}
 		} catch (Exception e) {
-			commonUTIL.displayError("LeContactsSql", "selectmessage", e);
+			commonUTIL.displayError("LeContactsSql", "selectmessage" + e.getMessage(), e);
 			return leContactsVec;
 
 		} finally {
@@ -440,7 +440,7 @@ public class LeContactsSQL extends BaseSQL {
 				stmt.close();
 				// con.close();
 			} catch (SQLException e) {
-				commonUTIL.displayError("LeContactsSql", "selectMax", e);
+				commonUTIL.displayError("LeContactsSql", "selectMax" + e.getMessage(), e);
 			}
 		}
 		return leContactsVec;
@@ -485,7 +485,7 @@ public class LeContactsSQL extends BaseSQL {
 			commonUTIL.display("LeContactsSql", sql);
 		} catch (Exception e) {
 			commonUTIL.displayError("LeContactsSql", "selectContactsOnLe "
-					+ sql, e);
+					+ sql + e.getMessage(), e);
 			return leContactsVec;
 
 		} finally {
@@ -494,7 +494,7 @@ public class LeContactsSQL extends BaseSQL {
 				// con.close();
 			} catch (SQLException e) {
 				commonUTIL.displayError("LeContactsSql",
-						"selectmessageOnProduct", e);
+						"selectmessageOnProduct" + e.getMessage(), e);
 			}
 		}
 		return leContactsVec;
@@ -545,7 +545,7 @@ public class LeContactsSQL extends BaseSQL {
 			commonUTIL.display("LeContactsSql", sql);
 		} catch (Exception e) {
 			commonUTIL.displayError("LeContactsSql", "selectLEOnWhereClause "
-					+ sql, e);
+					+ sql + e.getMessage(), e);
 			return leContactsVec;
 
 		} finally {

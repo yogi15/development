@@ -2,12 +2,24 @@ package beans;
 
 import java.io.Serializable;
 
-public class Attribute implements Serializable {
+public class Attribute implements BaseBean {
 	
 	int id;
 	String attributeName;
 	String type;
 	String attributeValue;
+	
+	@Override
+	public Object getPropertyValue(String propertyPaneColumnName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public void setPropertyValue(String propertyPaneColumnName, Object object) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	public Attribute() {
 		
 	}
@@ -39,10 +51,6 @@ public class Attribute implements Serializable {
 	public void setValue(String value) {
 		this.attributeValue = value;
 	}
-	
-	
-	
-	
 	
 
 }

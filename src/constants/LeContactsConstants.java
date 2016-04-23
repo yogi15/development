@@ -3,7 +3,8 @@ package constants;
  public class LeContactsConstants { 
 
  final public static String WINDOW_NAME  = "Contact";
- final public static String ID   = "ID";
+ final public static String ID   = "id";
+ final public static String LEID   = "leid";
  final public static String ENTITYNAME   = "Entity Name";
  final public static String ROLE   = "Role";
  final public static String CONTACTTYPE   = "ContactType";
@@ -26,4 +27,5 @@ package constants;
  final public static int WINDOWHIGHT =480 ;
 public static final String SEARCHTEXTBOX = "LeContactsSearch";
 public static final String LOADALLLECONTACTS = " Load LeContactsDetails";
+final public static String SQL_ID = " ID = ";
 }

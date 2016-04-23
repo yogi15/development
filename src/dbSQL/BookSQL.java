@@ -24,13 +24,13 @@ import util.commonUTIL;
 public class BookSQL extends BaseSQL {
 
 	final static private String DELETE_FROM_BOOK = "DELETE FROM BOOK where BOOKNO =? ";
-	final static private String INSERT_FROM_BOOK = "INSERT into BOOK(BOOKNO,LE_ID,BOOK_NAME,FOLDERID,timezone, holidaycode, currency ) values(?,?,?,?)";
-	final static private String UPDATE_FROM_BOOK = "UPDATE BOOK set LE_ID=?,BOOK_NAME=? ,timezone, holidaycode, currency where BOOKNO = ? ";
+	final static private String INSERT_FROM_BOOK = "INSERT into BOOK(BOOKNO,LE_ID,BOOK_NAME,FOLDERID,timezone, holidaycode, currency,country ) values(?,?,?,?,?,?,?,?)";
+	final static private String UPDATE_FROM_BOOK = "UPDATE BOOK set LE_ID=?,BOOK_NAME=? ,timezone, holidaycode, currency,country where BOOKNO = ? ";
 	final static private String SELECT_MAX = "SELECT MAX(bookno) DESC_ID FROM BOOK ";
-	final static private String SELECTALL = "SELECT BOOKNO,LE_ID,BOOK_NAME,FOLDERID,HOLIDAYCODE,TIMEZONE,CURRENCY FROM BOOK order by BOOKNO";
+	final static private String SELECTALL = "SELECT BOOKNO,LE_ID,BOOK_NAME,FOLDERID,HOLIDAYCODE,TIMEZONE,CURRENCY,country FROM BOOK order by BOOKNO";
 	final static private String SELECT = "SELECT title FROM BOOK where bookno =  ?";
-	static private String SELECTONE = "SELECT BOOKNO,LE_ID,BOOK_NAME,FOLDERID,timezone, holidaycode, currency  FROM book where BOOKNO =  ";
-	static private String SELECTWHERE = "SELECT BOOKNO,LE_ID,BOOK_NAME,FOLDERID,timezone, holidaycode, currency  FROM book where   ";
+	static private String SELECTONE = "SELECT BOOKNO,LE_ID,BOOK_NAME,FOLDERID,timezone, holidaycode, currency,country  FROM book where BOOKNO =  ";
+	static private String SELECTWHERE = "SELECT BOOKNO,LE_ID,BOOK_NAME,FOLDERID,timezone, holidaycode, currency,country  FROM book where   ";
 
 	final static private String SQLCOUNT = new StringBuffer("SELECT count(*) countRows ").append(" FROM BOOK where  ")
 			.toString();
@@ -38,7 +38,9 @@ public class BookSQL extends BaseSQL {
 	private static String getUpdateSQL(Book book) {
 		String updateSQL = "UPDATE book  set " + " LE_ID= " + book.getCustomerID() + " ,BOOK_NAME= '" + book.getBookName()
 				+ "' ,FOLDERID= " + book.getFolderID() + ",timezone='" + book.getTimezone() + "', holidaycode='"
-				+ book.getHolidaycode() + "', currency='" + book.getCurrency() + "'  where BOOKNO= " + book.getID();
+				+ book.getHolidaycode() + "', currency='" + book.getCurrency() + "', country='" + book.getCountry() + "'  where BOOKNO= " + book.getID();
+
+
 		return updateSQL;
 	}
 
@@ -171,7 +173,7 @@ public class BookSQL extends BaseSQL {
 				book.setTimezone(rs.getString(5));
 				book.setHolidaycode(rs.getString(6));
 				book.setCurrency(rs.getString(7));
-				
+				book.setCountry(rs.getString(8));
 				
 				Vector<Attribute> p =  (Vector<Attribute>) getAttributes(book.getID(), BeanConstants.BOOK);
 				AttributeContainer ac = new AttributeContainer();
@@ -218,10 +220,10 @@ public class BookSQL extends BaseSQL {
 			stmt.setInt(2, inserbook.getCustomerID());
 			stmt.setString(3, inserbook.getBookName());
 			stmt.setInt(4, inserbook.getFolderID());
-			stmt.setString(5, inserbook.getAttributes());
-			stmt.setString(6, inserbook.getTimezone());
-			stmt.setString(7, inserbook.getHolidaycode());
-			stmt.setString(8, inserbook.getCurrency());
+			stmt.setString(5, inserbook.getTimezone());
+			stmt.setString(6, inserbook.getHolidaycode());
+			stmt.setString(7, inserbook.getCurrency());
+			stmt.setString(8, inserbook.getCountry());
 			stmt.executeUpdate();
 			con.commit();
 			inserbook.setID(id);
@@ -292,7 +294,7 @@ public class BookSQL extends BaseSQL {
 				book.setTimezone(rs.getString(6));
 				book.setHolidaycode(rs.getString(7));
 				book.setCurrency(rs.getString(8));
-
+				book.setCountry(rs.getString(9));
 				return book;
 
 			}
@@ -333,7 +335,7 @@ public class BookSQL extends BaseSQL {
 				book.setTimezone(rs.getString(6));
 				book.setHolidaycode(rs.getString(7));
 				book.setCurrency(rs.getString(8));
-
+				book.setCountry(rs.getString(9));
 				books.add(book);
 
 			}
@@ -372,6 +374,10 @@ public class BookSQL extends BaseSQL {
 				book.setCustomerID(rs.getInt(3));
 				book.setFolderID(rs.getInt(4));
 				book.setAttributes(rs.getString(5));
+				book.setTimezone(rs.getString(6));
+				book.setHolidaycode(rs.getString(7));
+				book.setCurrency(rs.getString(8));
+				book.setCountry(rs.getString(9));
 				books.add(book);
 
 			}
@@ -484,10 +490,10 @@ public class BookSQL extends BaseSQL {
 		return 0;
 	}
 
-	public static void main(String args[]) {
+	/*public static void main(String args[]) {
 	 
 
-	}
+	}*/
 
 	@Override
 	public Collection selectKeyColumnsWithWhere(String columnNames, String where, Connection con) {
@@ -500,4 +506,5 @@ public class BookSQL extends BaseSQL {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 }
