@@ -141,7 +141,10 @@ public abstract class BasePanel extends JPanel {
 	public void setParentRow(int parentRow) {
 		this.parentRow = parentRow;
 	}
-
+	public void setParentRow(String  parentRow) {
+		this.parentR = parentRow;
+	}
+	String parentR = "";
 	/**
 	 * @return the hierarchicalTable
 	 */
@@ -718,12 +721,16 @@ try {
 							public void valueChanged(ListSelectionEvent e) {
 								if (hierarchicalTable.getSelectedRow() != -1) {
 
-									parentRow = ((Integer) hierarchicalTable
-											.getModel().getValueAt(
-													hierarchicalTable
-															.getSelectedRow(),
-													0)).intValue();
-									setParentRow(parentRow);
+									 Object obj =			 hierarchicalTable.getModel().getValueAt(hierarchicalTable.getSelectedRow(),0);
+								     if(obj instanceof Integer) {
+								    	 parentRow = ((Integer)obj ).intValue();
+								    	 setParentRow(parentRow);
+								     }
+								     if(obj instanceof String) {
+								    	 
+								    	 setParentRow((String) obj);
+								     }	
+
 
 								}
 							}
