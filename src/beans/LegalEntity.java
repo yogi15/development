@@ -16,6 +16,7 @@ import util.commonUTIL;
 public class LegalEntity implements BaseBean {
 
 	int id;
+	
 	String Status = null;
 	String name, HOLIDAYCALENDER, TIMEZONE;
 	boolean ACTIVEINACTIVE;
@@ -39,6 +40,12 @@ public class LegalEntity implements BaseBean {
 		if (propertyPaneColumnName.equalsIgnoreCase(CounterPartyConstants.COUNTRY)) {
 			return obj = getCountry();
 		}
+		if (propertyPaneColumnName.equalsIgnoreCase(CounterPartyConstants.STATUS)) {
+			return obj = isACTIVEINACTIVE();
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(CounterPartyConstants.TIMEZONE)) {
+			return obj = getTIMEZONE();
+		}
 		if (propertyPaneColumnName.equalsIgnoreCase(CounterPartyConstants.ATTRIBUTES)) {
 			AttributeContainer at= new AttributeContainer();
 			
@@ -55,7 +62,7 @@ public class LegalEntity implements BaseBean {
 
 	@Override
 	public void setPropertyValue(String propertyPaneColumnName, Object object) {
-		if (propertyPaneColumnName.equalsIgnoreCase(CounterPartyConstants.NAME)) {
+ 		if (propertyPaneColumnName.equalsIgnoreCase(CounterPartyConstants.NAME)) {
 			setName((String) object);
 		}
 		if (propertyPaneColumnName.equalsIgnoreCase(CounterPartyConstants.ID)) {
@@ -64,7 +71,13 @@ public class LegalEntity implements BaseBean {
 		if (propertyPaneColumnName.equalsIgnoreCase(CounterPartyConstants.COUNTRY)) {
 			setCountry((String) object);
 		}
-		if (propertyPaneColumnName.equalsIgnoreCase(CounterPartyConstants.ATTRIBUTES)) {
+		if (propertyPaneColumnName.equalsIgnoreCase(CounterPartyConstants.STATUS)) {
+			setACTIVEINACTIVE((Boolean) object);
+		}
+		if (propertyPaneColumnName.equalsIgnoreCase(CounterPartyConstants.TIMEZONE)) {
+			setTIMEZONE((String) object);
+		}
+ 		if (propertyPaneColumnName.equalsIgnoreCase(CounterPartyConstants.ATTRIBUTES)) {
 			//setAttributes((String) object);
 			AttributeContainer at= new AttributeContainer();
 			at.setAttributes((Vector<Attribute>) object);
@@ -72,9 +85,17 @@ public class LegalEntity implements BaseBean {
 		if (propertyPaneColumnName.equalsIgnoreCase(CounterPartyConstants.ALIAS)) {
 			setAlias((String) object);
 		}
-		if (propertyPaneColumnName.equalsIgnoreCase(CounterPartyConstants.ROLES)) {
-			Selection<String> s = (Selection<String>) object;
-			setRole(commonUTIL.collectionToString(s.getItems()));
+		if ( propertyPaneColumnName.equalsIgnoreCase( CounterPartyConstants.ROLES)) {
+			Selection<String> s= new Selection<String>();
+			if(s instanceof Selection<?> == true  )
+			{  
+				s = (Selection<String>) object;
+				setRole(commonUTIL.collectionToString(s.getItems()));
+			}
+			else
+			{
+				setRole((String) object);
+			}
 		}
 	}
 	

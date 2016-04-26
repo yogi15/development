@@ -7,6 +7,7 @@ public class LeContacts implements BaseBean {
 
 	int id = 0;
 	int leId = 0;
+	
 	String leRole = "";
 	int poId = 0;
 	String ProductType = "";
