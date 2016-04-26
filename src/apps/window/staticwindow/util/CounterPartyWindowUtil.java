@@ -144,7 +144,7 @@ public class CounterPartyWindowUtil extends BaseWindowUtil {
 		newButtonAction();
 		String searchText = counterpartyWindow.counterpartySearchTextField.getText();
 
-		if (commonUTIL.isEmpty(searchText)) {
+		if (!commonUTIL.isEmpty(searchText.trim())) {
 			Vector<LegalEntity> data = (Vector<LegalEntity>) ReferenceDataCache.selectWhere(searchText, BeanConstants.LEGALENTITY);
 
 			counterpartyWindow.model.clear();
