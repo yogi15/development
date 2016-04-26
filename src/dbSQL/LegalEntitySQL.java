@@ -30,7 +30,7 @@ public class LegalEntitySQL extends BaseSQL {
 	final static private String SELECT_MAX = "SELECT MAX(id) DESC_ID FROM "
 			+ tableName + " ";
 	final static private String SELECTALL = "SELECT id,name,role,status,attributes,alias, contact, country ,HOLIDAYCALENDER,TIMEZONE,ACTIVEINACTIVE FROM "
-			+ tableName + " order by id ";
+			+ tableName + "  order by id ";
 	final static private String SELECT = "SELECT id,name,role,status,attributes,alias, contact, country ,HOLIDAYCALENDER,TIMEZONE,ACTIVEINACTIVE FROM "
 			+ tableName + " where id =  ?  ";
 	final static private String SELECTWHERE = "SELECT id,name,role,status,attributes,alias, contact, country ,HOLIDAYCALENDER,TIMEZONE,ACTIVEINACTIVE FROM "
@@ -307,13 +307,17 @@ public class LegalEntitySQL extends BaseSQL {
 				LegalEntity.setCountry(rs.getString(8));
 				LegalEntity.setHOLIDAYCALENDER(rs.getString(9));
 				LegalEntity.setTIMEZONE(rs.getString(10));
-				LegalEntity.setACTIVEINACTIVE(rs.getBoolean(11));
+				if(rs.getString(11).equalsIgnoreCase("True"))
+				{LegalEntity.setACTIVEINACTIVE(rs.getBoolean("True"));}
+				if(rs.getString(11).equalsIgnoreCase("false"))
+					{LegalEntity.setACTIVEINACTIVE(rs.getBoolean("false"));}
 				LegalEntitys.add(LegalEntity);
 
 			}
 		} catch (Exception e) {
 			commonUTIL.displayError("LegalEntitySQL",
-					SELECTONE + LegalEntityID, e);
+					SELECTONE + LegalEntityID
+					+ e.getMessage(), e);
 			return LegalEntitys;
 
 		} finally {
@@ -353,15 +357,16 @@ public class LegalEntitySQL extends BaseSQL {
 				LegalEntity.setCountry(rs.getString(8));
 				LegalEntity.setHOLIDAYCALENDER(rs.getString(9));
 				LegalEntity.setTIMEZONE(rs.getString(10));
-				LegalEntity.setACTIVEINACTIVE(rs.getBoolean(11));
-
+				if(!commonUTIL.isEmpty(rs.getString(11)) && rs.getString(11).equalsIgnoreCase("true"))
+				LegalEntity.setACTIVEINACTIVE(true);
+				LegalEntity.setACTIVEINACTIVE(false);
 				LegalEntitys.add(LegalEntity);
 
 			}
 			commonUTIL.display("LegalEntitySQL", SELECTALL);
 			
 		} catch (Exception e) {
-			commonUTIL.displayError("LegalEntitySQL", SELECTALL, e);
+			commonUTIL.displayError("LegalEntitySQL", SELECTALL +e.getMessage(), e);
 			return LegalEntitys;
 
 		} finally {
@@ -369,7 +374,7 @@ public class LegalEntitySQL extends BaseSQL {
 				stmt.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				commonUTIL.displayError("LegalEntitySQL", "SELECTALL", e);
+				commonUTIL.displayError("LegalEntitySQL", "SELECTALL" +e.getMessage(), e);
 			}
 		}
 		return LegalEntitys;
@@ -612,7 +617,7 @@ public class LegalEntitySQL extends BaseSQL {
 		return selectALL(con);
 	}
 
-	public static void main(String args[]) {
+	/*public static void main(String args[]) {
 		LegalEntity boo = new LegalEntity();
 	    boo.setId(106);
 		boo.setName("Pppp");
@@ -628,7 +633,7 @@ public class LegalEntitySQL extends BaseSQL {
 		att.addAttribute("testing1","sdfg");
 		boo.setAttributeContainer(att);
 		insertLe(boo, dsSQL.getConn());
-	}
+	}*/
 	@Override
 	public Collection selectKeyColumnsWithWhere(String columnNames, String where, Connection con) {
 		// TODO Auto-generated method stub
