@@ -24,5 +24,6 @@ package constants;
  final public static int WINDOWWIDTH = 1227;
  final public static int WINDOWHIGHT =480 ;
 public static final String SEARCHTEXTBOX = "CurrencyDefaultSearch";
-public static final String LOADALLCURRENCYDEFAULT = " Load CurrencyDefaultDetails";
+public static final String LOADALLCURRENCYDEFAULT = "Load CurrencyDefaultDetails";
+//public static final String CURRENCY_CODE = "Currency Code";
 }

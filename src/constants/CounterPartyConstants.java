@@ -6,6 +6,8 @@ package constants;
  final public static String ID   = "ID";
  final public static String SHORTNAME   = "ShortName";
  final public static String ROLES   = "Roles";
+ final public static String STATUS   = "ACTIVEINACTIVE";
+ final public static String TIMEZONE   = "TIMEZONE";
  final public static String MAPJAVAOBJECT   = "MapJavaObject";
  final public static String NAME   = "Name";
  final public static String COUNTRY   = "Country";
