@@ -1,4 +1,5 @@
 package apps.window.util.tableModelUtil;
+import java.util.Date;
 import java.util.Vector;
 import com.jidesoft.grid.HierarchicalTableModel;
 import javax.swing.table.AbstractTableModel;
@@ -125,19 +126,19 @@ value =  currencydefault.getSTATUS();
  case 7:
  return Boolean.class; 
  case 8:
- return Integer.class; 
+ return Boolean.class; 
  case 9:
  return Boolean.class; 
  case 10:
  return Boolean.class; 
  case 11:
- return Boolean.class; 
+ return String.class; 
  case 12:
  return String.class; 
  case 13:
  return String.class; 
  case 14:
- return Boolean.class; 
+ return String.class; 
   default: 
  return String.class;
  }
